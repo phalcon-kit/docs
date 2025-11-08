@@ -1,0 +1,1 @@
+podman run -e CD=true --rm -it -v ${PWD}:/docs phalcon-kit-mkdocs build
