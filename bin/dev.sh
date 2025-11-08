@@ -1,0 +1,1 @@
+podman run -e CI=true --rm -it -p 8000:8000 -v ${PWD}:/docs phalcon-kit-mkdocs

@@ -104,7 +104,7 @@ new Config([
 
 !!! info "Models Service Provider"
     Models Service Provider (`models`):
-    [`\Zemit\Provider\Models\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Models/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Models\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Models/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

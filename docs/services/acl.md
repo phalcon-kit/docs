@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Acl Service Provider"
     Acl Service Provider (`acl`):
-    [`\Zemit\Provider\Acl\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Acl/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Acl\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Acl/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -36,7 +36,7 @@ new Config([
 
 !!! info "Url Service Provider"
     Url Service Provider (`url`):
-    [`\Zemit\Provider\Url\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Url/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Url\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Url/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Helper Service Provider"
     Helper Service Provider (`helper`):
-    [`\Zemit\Provider\Helper\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Helper/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Helper\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Helper/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

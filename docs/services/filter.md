@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Filter Service Provider"
     Filter Service Provider (`filter`):
-    [`\Zemit\Provider\Filter\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Filter/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Filter\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Filter/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

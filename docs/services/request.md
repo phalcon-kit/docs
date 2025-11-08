@@ -14,7 +14,7 @@ PROVIDER_REQUEST=\Zemit\Provider\Request\ServiceProvider
 
 !!! info "Request Service Provider"
     Request Service Provider (`request`):
-    [`\Zemit\Provider\Request\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Request/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Request\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Request/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

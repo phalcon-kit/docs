@@ -27,7 +27,7 @@ new Config([
 
 !!! info "Version Service Provider"
     Version Service Provider (`version`):
-    [`\Zemit\Provider\Version\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Version/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Version\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Version/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

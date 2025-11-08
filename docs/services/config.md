@@ -52,7 +52,7 @@ new Config([
 
 !!! info "Config Service Provider"
     Config Service Provider (`config`):
-    [`\Zemit\Provider\Config\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Config/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Config\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Config/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

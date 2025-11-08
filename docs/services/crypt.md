@@ -65,7 +65,7 @@ new Config([
 
 !!! info "Crypt Service Provider"
     Crypt Service Provider (`crypt`):
-    [`\Zemit\Provider\Crypt\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Crypt/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Crypt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Crypt/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

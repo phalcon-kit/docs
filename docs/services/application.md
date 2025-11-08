@@ -38,7 +38,7 @@ PROVIDER_APPLICATION=\Zemit\Provider\Application\ServiceProvider
 
 !!! info "Application Service Provider"
     Application Service Provider (`application`):
-    [`\Zemit\Provider\Application\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Application/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Application\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Application/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

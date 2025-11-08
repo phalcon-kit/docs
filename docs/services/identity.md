@@ -6,7 +6,7 @@
 IDENTITY_AUTHORIZATION_HEADER=Authorization
 IDENTITY_ADAPTER=session
 IDENTITY_SESSION_MODE=jwt
-IDENTITY_SESSION_KEY=zemit-identity
+IDENTITY_SESSION_KEY=phalcon-kit-identity
 IDENTITY_SESSION_FALLBACK=false
 IDENTITY_TOKEN_EXPIRATION=+1 day
 IDENTITY_REFRESH_TOKEN_EXPIRATION=+7 days
@@ -30,7 +30,7 @@ new Config([
         'authorizationHeader' => Env::get('IDENTITY_AUTHORIZATION_HEADER', 'Authorization'),
         'adapter' => Env::get('IDENTITY_ADAPTER', 'session'), // session | database
         'mode' => Env::get('IDENTITY_SESSION_MODE', 'jwt'), // jwt | string
-        'sessionKey' => Env::get('IDENTITY_SESSION_KEY', 'zemit-identity'),
+        'sessionKey' => Env::get('IDENTITY_SESSION_KEY', 'phalcon-kit-identity'),
         'sessionFallback' => Env::get('IDENTITY_SESSION_FALLBACK', false),
         'token' => [
             'expiration' => $this->getDateTime(Env::get('IDENTITY_TOKEN_EXPIRATION', '+1 day'), $now)->getTimestamp(),
@@ -46,7 +46,7 @@ new Config([
 
 !!! info "Identity Service Provider"
     Identity Service Provider (`identity`):
-    [`\Zemit\Provider\Identity\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Identity/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Identity\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Identity/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

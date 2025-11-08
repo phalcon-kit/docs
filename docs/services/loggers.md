@@ -108,7 +108,7 @@ new Config([
 
 !!! info "Loggers Service Provider"
     Loggers Service Provider (`loggers`):
-    [`\Zemit\Provider\Loggers\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Loggers/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Loggers\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Loggers/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

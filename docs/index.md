@@ -16,11 +16,11 @@ Feeling like an eager beaver? Jump in to the quick start docs and get making you
 
     ---
 
-    Install [`zemit-cms`](https://github.com/zemit-cms/){:target="_blank"}
+    Install [`phalcon-kit`](https://github.com/phalcon-kit/){:target="_blank"}
     with [`composer`](https://getcomposer.org){:target="_blank"} and get up
     and running in minutes
 
-    [:octicons-arrow-right-24: Getting Started](zemit/getting-started.md)
+    [:octicons-arrow-right-24: Getting Started](phalcon-kit/getting-started.md)
 
 
 -   :material-circle-outline:{ .lg .middle } **Core Components**
@@ -81,8 +81,8 @@ Feeling like an eager beaver? Jump in to the quick start docs and get making you
 
     ---
 
-    Zemit is licensed under the **BSD 3-Clause** License and is available on [GitHub](https://github.com/zemit-cms/core).
+    Zemit is licensed under the **BSD 3-Clause** License and is available on [GitHub](https://github.com/phalcon-kit/core).
 
-    [:octicons-arrow-right-24: License](zemit/license.md)
+    [:octicons-arrow-right-24: License](phalcon-kit/license.md)
 
 </div>

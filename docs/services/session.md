@@ -5,8 +5,8 @@
 ### Global Session Configurations
 
 ```ini
-SESSION_PREFIX=zemit_session_
-SESSION_UNIQUE_ID=zemit_
+SESSION_PREFIX=phalcon_kit_session_
+SESSION_UNIQUE_ID=phalcon_kit_
 SESSION_LIFETIME=3600
 ```
 
@@ -107,7 +107,7 @@ SESSION_SID_LENGTH=32
 SESSION_SID_BITS_PER_CHARACTER=4
 SESSION_UPLOAD_PROGRESS_ENABLED=1
 SESSION_UPLOAD_PROGRESS_CLEANUP=1
-SESSION_UPLOAD_PROGRESS_PREFIX=zemit_upload_progress_
+SESSION_UPLOAD_PROGRESS_PREFIX=phalcon_kit_upload_progress_
 SESSION_UPLOAD_PROGRESS_NAME=PHP_SESSION_UPLOAD_PROGRESS
 SESSION_UPLOAD_PROGRESS_FREQ=1%
 SESSION_UPLOAD_PROGRESS_MIN_FREQ=1
@@ -158,8 +158,8 @@ new Config([
             ],
         ],
         'default' => [
-            'prefix' => Env::get('SESSION_PREFIX', Env::get('GLOBAL_PREFIX', 'zemit_') . 'session_'),
-            'uniqueId' => Env::get('SESSION_UNIQUE_ID', Env::get('GLOBAL_PREFIX', 'zemit_')),
+            'prefix' => Env::get('SESSION_PREFIX', Env::get('GLOBAL_PREFIX', 'phalcon_kit_') . 'session_'),
+            'uniqueId' => Env::get('SESSION_UNIQUE_ID', Env::get('GLOBAL_PREFIX', 'phalcon_kit_')),
             'lifetime' => Env::get('SESSION_LIFETIME', 3600),
         ],
         'ini' => [
@@ -190,7 +190,7 @@ new Config([
             'session.sid_bits_per_character' => Env::get('SESSION_SID_BITS_PER_CHARACTER', '4'),
             'session.upload_progress.enabled' => Env::get('SESSION_UPLOAD_PROGRESS_ENABLED', '1'),
             'session.upload_progress.cleanup' => Env::get('SESSION_UPLOAD_PROGRESS_CLEANUP', '1'),
-            'session.upload_progress.prefix' => Env::get('SESSION_UPLOAD_PROGRESS_PREFIX', Env::get('GLOBAL_PREFIX', 'zemit_') . 'upload_progress_'),
+            'session.upload_progress.prefix' => Env::get('SESSION_UPLOAD_PROGRESS_PREFIX', Env::get('GLOBAL_PREFIX', 'phalcon_kit_') . 'upload_progress_'),
             'session.upload_progress.name' => Env::get('SESSION_UPLOAD_PROGRESS_NAME', 'PHP_SESSION_UPLOAD_PROGRESS'),
             'session.upload_progress.freq' => Env::get('SESSION_UPLOAD_PROGRESS_FREQ', '1%'),
             'session.upload_progress.min_freq' => Env::get('SESSION_UPLOAD_PROGRESS_MIN_FREQ', '1'),
@@ -208,7 +208,7 @@ new Config([
 
 !!! info "Session Service Provider"
     Session Service Provider (`session`):
-    [`\Zemit\Provider\Session\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Session/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Session\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Session/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

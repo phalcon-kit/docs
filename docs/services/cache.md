@@ -37,7 +37,7 @@ CACHE_REDIS_PERSISTENT=
 CACHE_REDIS_SOCKET=
 
 # Global
-CACHE_PREFIX=zemit_cache_
+CACHE_PREFIX=phalcon_kit_cache_
 CACHE_LIFETIME=86400
 CACHE_DEFAULT_SERIALIZER=Php
 ```
@@ -94,7 +94,7 @@ new Config([
             ],
         ],
         'default' => [
-            'prefix' => Env::get('CACHE_PREFIX', Env::get('GLOBAL_PREFIX', 'zemit_') . 'cache_'),
+            'prefix' => Env::get('CACHE_PREFIX', Env::get('GLOBAL_PREFIX', 'phalcon_kit_') . 'cache_'),
             'lifetime' => Env::get('CACHE_LIFETIME', 86400),
             'defaultSerializer' => Env::get('CACHE_DEFAULT_SERIALIZER', 'Php'),
         ],
@@ -106,7 +106,7 @@ new Config([
 
 !!! info "Cache Service Provider"
     Cache Service Provider (`cache`):
-    [`\Zemit\Provider\Cache\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Cache/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Cache\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Cache/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

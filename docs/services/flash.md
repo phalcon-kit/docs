@@ -69,7 +69,7 @@ new Config([
 
 !!! info "Flash Service Provider"
     Flash Service Provider (`flash`):
-    [`\Zemit\Provider\Flash\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Flash/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Flash\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Flash/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

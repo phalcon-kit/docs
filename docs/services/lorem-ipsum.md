@@ -23,7 +23,7 @@ new Config([
 
 !!! info "Lorem Service Provider"
     Lorem Service Provider (`loremIpsum`):
-    [`\Zemit\Provider\Lorem\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/LoremIpsum/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Lorem\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/LoremIpsum/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

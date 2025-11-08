@@ -136,7 +136,7 @@ new Config([
 ## Database Service (`db`)
 
 !!! info "Database Service Provider"
-Database Service Provider (`db`): [`\Zemit\Provider\Database\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Database/ServiceProvider.php){:target="_blank"}
+Database Service Provider (`db`): [`\Zemit\Provider\Database\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Database/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

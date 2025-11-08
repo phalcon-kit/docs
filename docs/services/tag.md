@@ -29,7 +29,7 @@ new Config([
 
 !!! info "Tag Service Provider"
     Tag Service Provider (`tag`):
-    [`\Zemit\Provider\Tag\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Tag/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Tag\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Tag/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -28,7 +28,7 @@ new Config([
 
 !!! info "Utils Service Provider"
     Utils Service Provider (`utils`):
-    [`\Zemit\Provider\Utils\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Utils/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Utils\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Utils/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

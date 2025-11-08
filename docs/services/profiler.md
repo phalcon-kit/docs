@@ -29,7 +29,7 @@ new Config([
 
 !!! info "Profiler Service Provider"
     Profiler Service Provider (`profiler`):
-    [`\Zemit\Provider\Profiler\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Profiler/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Profiler\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Profiler/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

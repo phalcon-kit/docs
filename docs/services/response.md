@@ -56,7 +56,7 @@ new Config([
 
 !!! info "Response Service Provider"
     Response Service Provider (`response`):
-    [`\Zemit\Provider\Response\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Response/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Response\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Response/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

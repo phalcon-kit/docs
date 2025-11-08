@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Escaper Service Provider"
     Escaper Service Provider (`escaper`):
-    [`\Zemit\Provider\Escaper\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Escaper/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Escaper\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Escaper/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

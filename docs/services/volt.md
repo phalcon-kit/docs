@@ -44,7 +44,7 @@ new Config([
 
 !!! info "Volt Service Provider"
     Volt Service Provider (`volt`):
-    [`\Zemit\Provider\Volt\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Volt/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Volt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Volt/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -29,7 +29,7 @@ new Config([
 
 !!! info "Image Service Provider"
     Image Service Provider (`image`):
-    [`\Zemit\Provider\Image\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Image/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Image\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Image/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

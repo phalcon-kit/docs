@@ -50,7 +50,7 @@ new Config([
 
 !!! info "Security Service Provider"
     Security Service Provider (`security`):
-    [`\Zemit\Provider\Security\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Security/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Security\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Security/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

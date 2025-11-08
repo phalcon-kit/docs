@@ -90,7 +90,7 @@ new Config([
 
 !!! info "File Service Provider"
     File Service Provider (`fileSystem`):
-    [`\Zemit\Provider\File\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/FileSystem/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\File\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/FileSystem/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

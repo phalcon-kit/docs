@@ -48,7 +48,7 @@ PROVIDER_CONSOLE=\Zemit\Provider\Console\ServiceProvider
 
 !!! info "Console Service Provider"
     Console Service Provider (`console`):
-    [`\Zemit\Provider\Console\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Console/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Console\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Console/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

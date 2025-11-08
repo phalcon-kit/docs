@@ -39,7 +39,7 @@ new Config([
 
 !!! info "View Service Provider"
     View Service Provider (`view`):
-    [`\Zemit\Provider\View\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/View/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\View\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/View/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

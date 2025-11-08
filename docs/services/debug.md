@@ -69,7 +69,7 @@ new Config([
 
 !!! info "Debug Service Provider"
     Debug Service Provider (`debug`):
-    [`\Zemit\Provider\Debug\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Debug/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Debug\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Debug/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

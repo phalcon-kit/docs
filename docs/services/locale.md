@@ -7,7 +7,7 @@
 ```ini
 LOCALE_DEFAULT=en
 LOCALE_ALLOWED=en,fr
-LOCALE_SESSION_KEY=zemit-locale
+LOCALE_SESSION_KEY=phalcon-kit-locale
 LOCALE_MODE=default
 ```
 
@@ -28,7 +28,7 @@ new Config([
     'locale' => [
         'default' => Env::get('LOCALE_DEFAULT', 'en'),
         'allowed' => explode(',', Env::get('LOCALE_ALLOWED', 'en')),
-        'sessionKey' => Env::get('LOCALE_SESSION_KEY', 'zemit-locale'),
+        'sessionKey' => Env::get('LOCALE_SESSION_KEY', 'phalcon-kit-locale'),
         'mode' => Env::get('LOCALE_MODE', Locale::MODE_DEFAULT),
     ],
 ]);
@@ -38,7 +38,7 @@ new Config([
 
 !!! info "Locale Service Provider"
     Locale Service Provider (`locale`):
-    [`\Zemit\Provider\Locale\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Locale/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Locale\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Locale/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

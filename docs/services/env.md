@@ -23,7 +23,7 @@ new Config([
 
 !!! info "Env Service Provider"
     Env Service Provider (`env`):
-    [`\Zemit\Provider\Env\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Env/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Env\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Env/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -282,11 +282,11 @@ $config = new Config([
     // Define your router hostnames
     'router' => [
         'hostnames' => [
-            'api.zemit.com' => [
+            'api.example.com' => [
                 'namespace' => 'App\\Modules\\Api\\Controllers',
                 'module' => 'api',
             ],
-            '(www.|)website.zemit.com' => [
+            '(www.|)website.example.com' => [
                 'namespace' => 'App\\Modules\\Website\\Controllers',
                 'module' => 'website',
             ],

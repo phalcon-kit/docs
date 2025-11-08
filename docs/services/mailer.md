@@ -15,8 +15,8 @@ MAILER_SMTP_PASSWORD=
 MAILER_CHARSET=utf-8
 MAILER_VIEWS_DIR=./app/Modules/Frontend/Views/
 MAILER_BASE_URI=
-MAILER_FROM_EMAIL=zemit@localhost
-MAILER_FROM_NAME=Zemit
+MAILER_FROM_EMAIL=no-reply@localhost
+MAILER_FROM_NAME=Phalcon Kit
 MAILER_TO_EMAIL=
 MAILER_CC_EMAIL=
 MAILER_BCC_EMAIL=
@@ -61,8 +61,8 @@ new Config([
             'baseUri' => Env::get('MAILER_BASE_URI', null),
         ],
         'from' => [
-            'email' => Env::get('MAILER_FROM_EMAIL', 'zemit@localhost'),
-            'name' => Env::get('MAILER_FROM_NAME', 'Zemit'),
+            'email' => Env::get('MAILER_FROM_EMAIL', 'no-reply@localhost'),
+            'name' => Env::get('MAILER_FROM_NAME', 'Phalcon Kit'),
         ],
         'to' => [...explode(',', Env::get('MAILER_TO_EMAIL', ''))],
         'cc' => [...explode(',', Env::get('MAILER_CC_EMAIL', ''))],
@@ -75,7 +75,7 @@ new Config([
 
 !!! info "Mailer Service Provider"
     Mailer Service Provider (`mailer`):
-    [`\Zemit\Provider\Mailer\ServiceProvider`](https://github.com/zemit-cms/core/blob/master/src/Provider/Mailer/ServiceProvider.php){:target="_blank"}
+    [`\Zemit\Provider\Mailer\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Mailer/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php
