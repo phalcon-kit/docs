@@ -10,7 +10,7 @@
 ### Acl Service Provider
 
 ```ini
-PROVIDER_ACL=\Zemit\Provider\Acl\ServiceProvider
+PROVIDER_ACL=\PhalconKit\Provider\Acl\ServiceProvider
 ```
 
 ### Acl Configurations Object
@@ -19,7 +19,7 @@ PROVIDER_ACL=\Zemit\Provider\Acl\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Acl\ServiceProvider::class => Env::get('PROVIDER_ACL', \Zemit\Provider\Acl\ServiceProvider::class),
+        \PhalconKit\Provider\Acl\ServiceProvider::class => Env::get('PROVIDER_ACL', \PhalconKit\Provider\Acl\ServiceProvider::class),
     ],
     'acl' => [
     ],
@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Acl Service Provider"
     Acl Service Provider (`acl`):
-    [`\Zemit\Provider\Acl\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Acl/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Acl\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Acl/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

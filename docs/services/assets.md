@@ -7,7 +7,7 @@ The `assets` service uses the [Phalcon Assets Manager Component](https://docs.ph
 ### Assets Service Provider
 
 ```ini
-PROVIDER_ASSETS=\Zemit\Provider\Assets\ServiceProvider
+PROVIDER_ASSETS=\PhalconKit\Provider\Assets\ServiceProvider
 ```
 
 ### Assets Configurations Object
@@ -16,7 +16,7 @@ PROVIDER_ASSETS=\Zemit\Provider\Assets\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Assets\ServiceProvider::class => Env::get('PROVIDER_ASSETS', \Zemit\Provider\Assets\ServiceProvider::class),
+        \PhalconKit\Provider\Assets\ServiceProvider::class => Env::get('PROVIDER_ASSETS', \PhalconKit\Provider\Assets\ServiceProvider::class),
     ],
 ]);
 ```
@@ -25,7 +25,7 @@ new Config([
 
 !!! info "Assets Service Provider"
     Assets Service Provider (`assets`):
-    [`\Zemit\Provider\Assets\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Assets/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Assets\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Assets/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -1,6 +1,6 @@
 # Bootstrap Component
 
-The Bootstrap feature in Zemit Core is responsible for setting up and handling the 
+The Bootstrap feature in Phalcon Kit is responsible for setting up and handling the 
 application using the Mvc design pattern or the Cli (console). It follows a series 
 of steps to ensure that the application is properly initialized and configured. 
 
@@ -12,8 +12,8 @@ The Bootstrap also prepares and loads the different modules of the application b
 finally handling it. By using the Bootstrap, you can easily set up and manage your application.
 
 ## Quick Start
-To create a customized bootstrap with the Zemit Core framework, you will need to create
-a new class that extends from the `\Zemit\Bootstrap` class. This will allow you to personalize
+To create a customized bootstrap with the Phalcon Kit, you will need to create
+a new class that extends from the `\PhalconKit\Bootstrap` class. This will allow you to personalize
 the bootstrap to your needs by overriding any of its methods as desired. For example, you
 may want to initialize the configuration with your own class. Keep in mind that you are 
 free to customize the bootstrap to fit your specific requirements and workflow.
@@ -24,7 +24,7 @@ free to customize the bootstrap to fit your specific requirements and workflow.
 ```php title="index.php"
 <?php
 
-use Zemit\Bootstrap;
+use PhalconKit\Bootstrap;
 
 $bootstrap = new Bootstrap();
 
@@ -34,9 +34,9 @@ echo $bootstrap->run();
 ### Customizable approach
 ```php title="index.php"
 <?php
-use Zemit\Bootstrap;
-use Zemit\Bootstrap\Config;
-use Zemit\Bootstrap\Router;
+use PhalconKit\Bootstrap;
+use PhalconKit\Bootstrap\Config;
+use PhalconKit\Bootstrap\Router;
 
 $config = new Config();
 $config->set('debug', true);
@@ -53,7 +53,7 @@ echo $bootstrap->run();
 
 ## Method #2: Extending
 
-Extending the `Zemit\Bootstrap` class will give you the most flexibility
+Extending the `PhalconKit\Bootstrap` class will give you the most flexibility
 because you can modify default behaviors at your convenience. There is mainly
 two phases that you can inject your own core components and services:
 The `initialization` phase and then the `registration` phase.
@@ -71,11 +71,11 @@ phase of the bootstrap.
 <?php
 namespace App;
 
-use Zemit\Bootstrap;
+use PhalconKit\Bootstrap;
 use App\Bootstrap\Config;
 use App\Bootstrap\Router;
 
-class Bootstrap extends \Zemit\Bootstrap
+class Bootstrap extends \PhalconKit\Bootstrap
 {
     public function initialize(): void
     {
@@ -103,7 +103,7 @@ echo (new Bootstrap())->run();
 ### Registration phase
 
 The registration phases are called after the `initialize()` method.
-This approach is considered more advanced and only needed if you want to keep the native Zemit
+This approach is considered more advanced and only needed if you want to keep the native Phalcon Kit
 behavior and allow sub-applications to initialize their own components and then add more business logic to it.
 
 ```php title="./app/Bootstrap.php"
@@ -111,9 +111,9 @@ behavior and allow sub-applications to initialize their own components and then 
 namespace App;
 
 use App\Provider\Config\ServiceProvider as ConfigServiceProvider;
-use Zemit\Config\ConfigInterface;
+use PhalconKit\Config\ConfigInterface;
 
-class Bootstrap extends \Zemit\Bootstrap
+class Bootstrap extends \PhalconKit\Bootstrap
 {
     public function registerConfig(): void
     {

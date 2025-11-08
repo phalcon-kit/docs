@@ -1,10 +1,10 @@
 # REST System
 
-The REST System in Zemit forms the backbone of custom API development. Built upon
-[`\Zemit\Mvc\Controller\Rest`](/api/classes/Zemit/Mvc/Controller/Rest.md), which
-itself extends [`\Zemit\Mvc\Controller`](/api/classes/Zemit/Mvc/Controller.md), this system inherits all functionalities
-of the Zemit Controller base. For an
-in-depth understanding of the controller's capabilities, please refer to the Zemit MVC Controller component
+The REST System in Phalcon Kit forms the backbone of custom API development. Built upon
+[`\PhalconKit\Mvc\Controller\Rest`](/api/classes/PhalconKit/Mvc/Controller/Rest.md), which
+itself extends [`\PhalconKit\Mvc\Controller`](/api/classes/PhalconKit/Mvc/Controller.md), this system inherits all functionalities
+of the Phalcon Kit Controller base. For an
+in-depth understanding of the controller's capabilities, please refer to the Phalcon Kit MVC Controller component
 documentation.
 
 Unlike the RESTful System, which focuses on CRUD operations with models, the REST System provides a foundation for APIs
@@ -34,7 +34,7 @@ choice for unique and sophisticated API functionalities.
 
 ### Behavior System
 
-The Behavior System in Zemit offers a seamless way to integrate custom events and behaviors aligned with your business
+The Behavior System in Phalcon Kit offers a seamless way to integrate custom events and behaviors aligned with your business
 rules into your application.
 
 #### Automated Attachment of Behaviors
@@ -63,7 +63,7 @@ user interactions and system changes.
 
 ### Fractal System
 
-The Fractal system in Zemit streamlines the process of tailoring data before it becomes part of the final response.
+The Fractal system in Phalcon Kit streamlines the process of tailoring data before it becomes part of the final response.
 Acting as a high-speed transformer, it offers you complete control over how data is presented and delivered.
 
 #### Transforming Data Efficiently
@@ -91,7 +91,7 @@ efficient.
 
 #### Automatic Parameter Sanitization
 
-Zemit seamlessly handles parameter retrieval:
+Phalcon Kit seamlessly handles parameter retrieval:
 
 - **Automatic Search**: It first attempts to find and sanitize parameters from the `request`. If not found, it falls
   back to the `dispatcher` service.
@@ -101,7 +101,7 @@ Zemit seamlessly handles parameter retrieval:
 #### Custom Sanitizers
 
 You can define your own [preset sanitizers](https://docs.phalcon.io/latest/request/#preset-sanitizers){:target="_blank"}
-using `setParameterFilters()`, and Zemit will apply them automatically.
+using `setParameterFilters()`, and Phalcon Kit will apply them automatically.
 
 ```php
 <?php
@@ -128,23 +128,23 @@ $params = $this->getParams(
 );
 ```
 
-Zemit's parameter retrieval system is designed to make your data handling both safe and efficient, ensuring that you
+ Phalcon kit's parameter retrieval system is designed to make your data handling both safe and efficient, ensuring that you
 receive clean and validated data for your application's needs.
 
 ### Standardized Response
 
-The response service in Zemit plays a role in shaping the final output of your API. It ensures that every response sent
+The response service in Phalcon Kit plays a role in shaping the final output of your API. It ensures that every response sent
 back to the client is well-structured, consistent, and aligns with REST standards.
 
 #### Automated Response Structuring
 
-**Automatic Detection and Injection**: When you return a value from your controller, Zemit intelligently incorporates
+**Automatic Detection and Injection**: When you return a value from your controller, Phalcon Kit intelligently incorporates
 this
 value into a standardized response object. This process takes place during the `afterExecuteRoute` phase, simplifying
 the
 response-building process.
 
-**Flexibility in Response Creation**: If you prefer to have complete control over the response, you can bypass Zemit’s
+**Flexibility in Response Creation**: If you prefer to have complete control over the response, you can bypass Phalcon Kit’s
 automation by returning your own `Response` instance. This flexibility allows for customized response handling as
 needed.
 
@@ -154,7 +154,7 @@ needed.
 craft
 error responses with customized codes, statuses, and body content.
 
-**Prepared Response Utility**: For a more guided approach, use `setRestResponse()`. This method lets Zemit prepare the
+**Prepared Response Utility**: For a more guided approach, use `setRestResponse()`. This method lets Phalcon Kit prepare the
 `Response` instance, ensuring that your response adheres to RESTful standards while still catering to your application's
 specific needs.
 
@@ -164,5 +164,5 @@ specific needs.
 giving
 you the freedom to modify and enhance how responses are handled and structured in your application.
 
-By utilizing Zemit's response services, you gain the advantage of standardized, clear, and REST-compliant responses,
+By utilizing Phalcon Kit's response services, you gain the advantage of standardized, clear, and REST-compliant responses,
 coupled with the flexibility to adapt and customize as your application requires.

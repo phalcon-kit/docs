@@ -7,15 +7,15 @@ criteria like file names, class names, and namespaces. One notable advantage of
 is its implementation in C, which ensures minimal overhead during the setup process. This inherent
 efficiency contributes to a performance boost for your application.
 
-Zemit Loader extends the native
+Phalcon Kit Loader extends the native
 [`\Phalcon\Autoload\Loader`](https://docs.phalcon.io/latest/api/phalcon_autoload/){:target="_blank"}.
-To further optimize speed, Zemit Loader has disabled the
+To further optimize speed, Phalcon Kit Loader has disabled the
 [file checking callback](https://docs.phalcon.io/latest/autoload/#file-checking-callback){:target="_blank"}
 used in Phalcon's native component, ensuring quicker response times.
 
 ## Constants
 
-This set of constants facilitate the loading process and form the backbone of the default Zemit configuration.
+This set of constants facilitate the loading process and form the backbone of the default Phalcon Kit configuration.
 These constants can be tailored to suit the specific needs of your project.
 
 | Constant      | Default Value | Description                                                          |
@@ -40,7 +40,7 @@ Below is the typical structure for `loader.php`, illustrating how to register th
 ```php title="./loader.php"
 <?php
 
-use Zemit\Autoload\Loader;
+use PhalconKit\Autoload\Loader;
 
 // Define the main constants used across the application
 const APP_NAMESPACE = 'App';
@@ -48,7 +48,7 @@ const ROOT_PATH = __DIR__;
 const VENDOR_PATH = ROOT_PATH . '/vendor/';
 const APP_PATH = ROOT_PATH . '/app/';
 
-// Initialize the Zemit Loader
+// Initialize the Phalcon Kit Loader
 $loader = new Loader();
 
 // Register the Composer autoload file and the application namespace
@@ -66,7 +66,7 @@ This script ensures that all necessary files and namespaces are correctly autolo
 
 ### Global Entry Point
 
-The `./index.php` file acts as the global entry point for your Zemit application.
+The `./index.php` file acts as the global entry point for your Phalcon Kit application.
 It's strategically placed in the root of the project not for direct web server access, 
 but as a security measure to safeguard the application's root directory. 
 This setup is designed to prevent unauthorized directory listing or exposure 
@@ -81,7 +81,7 @@ Here's the typical implementation of the global entry point:
 ```php title="./index.php"
 <?php
 
-use Zemit\Bootstrap;
+use PhalconKit\Bootstrap;
 
 // Load the global autoloader
 $loader = require 'loader.php';
@@ -93,13 +93,13 @@ echo (new Bootstrap())->run();
 In this script:
 
 - We include the global loader.php to initialize the autoloading process.
-- An instance of Zemit\Bootstrap is created and executed, which kickstarts the application. This approach encapsulates 
+- An instance of PhalconKit\Bootstrap is created and executed, which kickstarts the application. This approach encapsulates 
 the initialization and routing in a structured manner, enhancing maintainability and security.
 
 ### Public Entry Point
 
 The `./public/index.php` file is designated as the primary entry point for **web server**
-interactions with your Zemit application. This file should reside in the `public` directory
+interactions with your Phalcon Kit application. This file should reside in the `public` directory
 of your project. The purpose of this configuration is to enhance security by restricting web
 server access solely to the `public` directory, thereby shielding the rest of your
 application's structure and critical files from direct exposure.

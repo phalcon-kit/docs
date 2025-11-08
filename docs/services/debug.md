@@ -18,7 +18,7 @@ DEBUG_BLACKLIST=
 ### Debug Service Provider
 
 ```ini
-PROVIDER_DEBUG=\Zemit\Provider\Debug\ServiceProvider
+PROVIDER_DEBUG=\PhalconKit\Provider\Debug\ServiceProvider
 ```
 
 ### Debug Configurations Object
@@ -27,7 +27,7 @@ PROVIDER_DEBUG=\Zemit\Provider\Debug\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Debug\ServiceProvider::class => Env::get('PROVIDER_DEBUG', \Zemit\Provider\Debug\ServiceProvider::class),
+        \PhalconKit\Provider\Debug\ServiceProvider::class => Env::get('PROVIDER_DEBUG', \PhalconKit\Provider\Debug\ServiceProvider::class),
     ],
     'debug' => [
         'enable' => Env::get('DEBUG_ENABLE', false),
@@ -69,7 +69,7 @@ new Config([
 
 !!! info "Debug Service Provider"
     Debug Service Provider (`debug`):
-    [`\Zemit\Provider\Debug\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Debug/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Debug\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Debug/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

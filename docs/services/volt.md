@@ -17,7 +17,7 @@ VOLT_STAT=
 ### Volt Service Provider
 
 ```ini
-PROVIDER_VOLT=\Zemit\Provider\Volt\ServiceProvider
+PROVIDER_VOLT=\PhalconKit\Provider\Volt\ServiceProvider
 ```
 
 ### Volt Configurations Object
@@ -26,7 +26,7 @@ PROVIDER_VOLT=\Zemit\Provider\Volt\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Volt\ServiceProvider::class => Env::get('PROVIDER_VOLT', \Zemit\Provider\Volt\ServiceProvider::class),
+        \PhalconKit\Provider\Volt\ServiceProvider::class => Env::get('PROVIDER_VOLT', \PhalconKit\Provider\Volt\ServiceProvider::class),
     ],
    'volt' => [
         'autoescape' => Env::get('VOLT_AUTOESCAPE', false),
@@ -44,7 +44,7 @@ new Config([
 
 !!! info "Volt Service Provider"
     Volt Service Provider (`volt`):
-    [`\Zemit\Provider\Volt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Volt/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Volt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Volt/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

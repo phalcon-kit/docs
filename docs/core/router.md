@@ -2,20 +2,20 @@
 
 ## Introduction
 
-In the Zemit framework, the Router component plays a role in directing incoming requests to the appropriate handlers.
+In the Phalcon Kit, the Router component plays a role in directing incoming requests to the appropriate handlers.
 It acts as a traffic director, analyzing requests and determining which parts of your application should respond.
-Zemit enhances this functionality by offering two distinct types of routers: the CLI Router and the MVC Router.
+Phalcon Kit enhances this functionality by offering two distinct types of routers: the CLI Router and the MVC Router.
 This dual-router approach ensures seamless handling of different request types, catering to the specific needs of web
 and command-line environments.
 
-Both routers implement the `\Zemit\Router\RouterInterface`, ensuring a consistent interface while allowing
-for their specialized behaviors. The Zemit Bootstrap intelligently registers the correct router based on
+Both routers implement the `\PhalconKit\Router\RouterInterface`, ensuring a consistent interface while allowing
+for their specialized behaviors. The Phalcon Kit Bootstrap intelligently registers the correct router based on
 the application's context:
 
 - If the application is loaded via the CLI or SAPI, it utilizes the CLI Router.
 - For standard web requests, the MVC Router is employed.
 
-This dual-router design in Zemit ensures that your application can efficiently handle and respond to a wide range of
+This dual-router design in Phalcon Kit ensures that your application can efficiently handle and respond to a wide range of
 interaction modes, whether they come from a web browser or a terminal.
 
 ### MVC Router
@@ -45,18 +45,18 @@ tailoring it for command-line specific functionalities.
 
 ## Default Routes
 
-In Zemit, a set of default routes is automatically added to streamline the development process. These routes follow a
-similar approach to Phalcon's default routing but are further enhanced for modular functionality in Zemit. You have the
+In Phalcon Kit, a set of default routes is automatically added to streamline the development process. These routes follow a
+similar approach to Phalcon's default routing but are further enhanced for modular functionality in Phalcon Kit. You have the
 option to disable these default routes, if necessary, by passing `false` during the router instantiation.
 
-### Implementation in Zemit
+### Implementation in Phalcon Kit
 
-- The default routes in Zemit are defined using `\Zemit\Mvc\Router\ModuleRoute`.
+- The default routes in Phalcon Kit are defined using `\PhalconKit\Mvc\Router\ModuleRoute`.
 - This approach groups the routes by module, allowing for efficient routing.
 
 ### Overview of Default MVC Routes
 
-Zemit's default MVC routes provide a foundational set of paths, handling common routing patterns:
+ Phalcon kit's default MVC routes provide a foundational set of paths, handling common routing patterns:
 
 | **Route name**                   | **Route path**               | **Description**                                             |
 |----------------------------------|------------------------------|-------------------------------------------------------------|
@@ -71,13 +71,13 @@ requirements.
 
 ### Localized MVC Routes
 
-In addition to the standard default routes, Zemit also provides localized MVC routes. These routes incorporate
+In addition to the standard default routes, Phalcon Kit also provides localized MVC routes. These routes incorporate
 localization settings, allowing for the dynamic inclusion of locale information in the URL structure. This feature is
 particularly useful for applications catering to a multi-lingual audience.
 
 #### Handling Locale in Routes
 
-- Zemit's routing system intelligently loops through the allowed locales to create localized versions of the default
+- Phalcon Kit's routing system intelligently loops through the allowed locales to create localized versions of the default
   routes.
 - The `:locale` placeholder in these routes is actually a regular expression pattern (
   e.g., `{locale:(en|en_CA|fr|fr_CA)}`), which includes all allowed locales defined in the application's configuration.
@@ -88,7 +88,7 @@ particularly useful for applications catering to a multi-lingual audience.
 
 #### Overview of Localized Routes
 
-Below is a table outlining the structure of Zemit's localized MVC routes, accommodating different locales:
+Below is a table outlining the structure of Phalcon Kit's localized MVC routes, accommodating different locales:
 
 | **Route name**                  | **Route path**                       | **Description**                                                        |
 |---------------------------------|--------------------------------------|------------------------------------------------------------------------|
@@ -97,13 +97,13 @@ Below is a table outlining the structure of Zemit's localized MVC routes, accomm
 | locale-controller-action        | /:locale/:controller/:action         | Directs to a specific action in a controller for the specified locale. |
 | locale-controller-action-params | /:locale/:controller/:action/:params | Includes parameters for actions within a controller for a locale.      |
 
-With these localized routes, Zemit supports multi-language routing, allowing each locale to have its own set of named
+With these localized routes, Phalcon Kit supports multi-language routing, allowing each locale to have its own set of named
 routes. For example, if you configure the allowed locales as `en`, `en_CA`, `fr`, `fr_CA`, each of these locales will
 have its respective routes, ensuring a seamless multi-lingual user experience.
 
 #### Examples: Localized Routes for Different Locales
 
-Zemit allows for the creation of locale-specific routes, tailoring the routing paths to different language or regional settings. Here are examples of how these localized routes are defined for various locales:
+Phalcon Kit allows for the creation of locale-specific routes, tailoring the routing paths to different language or regional settings. Here are examples of how these localized routes are defined for various locales:
 
 === "Locale: `en`"
 
@@ -154,7 +154,7 @@ ensuring that your application can serve a diverse user base effectively.
 
 ### Modules MVC Routes
 
-Zemit's routing system is also capable of handling module-specific routes, allowing for a structured and organized
+ Phalcon kit's routing system is also capable of handling module-specific routes, allowing for a structured and organized
 approach to routing within different segments of your application. The default MVC Routes dynamically generate routes
 for each registered module, facilitating modularity and scalability.
 
@@ -164,7 +164,7 @@ Each of these routes is tailored to the specific module, ensuring that the routi
 and intuitive. Localized routes add an extra layer of flexibility, allowing each module to respond to different language
 settings in a seamless manner.
 
-For the each module, the following routes illustrate how Zemit configures both standard and localized routes for a
+For the each module, the following routes illustrate how Phalcon Kit configures both standard and localized routes for a
 specific module:
 
 === "Module: `frontend`"
@@ -229,7 +229,7 @@ specific module:
 
 ### Hostname MVC Routes
 
-Zemit provides the capability to bind specific hostnames to modules within your MVC application. This feature allows
+Phalcon Kit provides the capability to bind specific hostnames to modules within your MVC application. This feature allows
 different modules to be invoked based on the hostname used to access the application, facilitating the creation of
 multi-site architectures with ease.
 
@@ -256,13 +256,13 @@ multi-site architectures with ease.
   broader application context, each catering to a specific site or domain.
 
 By leveraging hostname MVC routes, you create a versatile and scalable application structure, where each module operates
-contextually based on the accessed hostname, yet remains integrated within the overall Zemit framework.
+contextually based on the accessed hostname, yet remains integrated within the overall Phalcon Kit.
 
 #### Configuration Example
 
 ```php
 <?php
-use \Zemit\Bootstrap\Config;
+use \PhalconKit\Bootstrap\Config;
 
 $config = new Config([
 
@@ -312,15 +312,15 @@ return $config;
 
 ## Creating your own Router
 
-Developing a custom Router within the Zemit framework can be beneficial for extending or overriding the native 
-functionalities provided by Phalcon or Zemit. This approach allows you to introduce specific routing behaviors 
+Developing a custom Router within the Phalcon Kit can be beneficial for extending or overriding the native 
+functionalities provided by Phalcon or Phalcon Kit. This approach allows you to introduce specific routing behaviors 
 or features that are uniquely tailored to the needs of your application, while still maintaining a well-organized 
 and structured codebase.
 
 #### Why Create a Custom Router?
 
 - **Custom Functionality**: If your application requires specialized routing logic that goes beyond the capabilities of
-  the standard Phalcon or Zemit routers, a custom Router is the way to go.
+  the standard Phalcon or Phalcon Kit routers, a custom Router is the way to go.
 
 - **Enhanced Flexibility**: With a custom Router, you gain the flexibility to implement complex routing rules, handle
   requests in a specific manner, or integrate with other systems in ways that the default routers might not support.
@@ -329,7 +329,7 @@ and structured codebase.
   approach to handling requests, ensuring that your routing logic aligns seamlessly with the rest of your application's
   architecture.
 
-Creating your own Router involves subclassing the existing Phalcon or Zemit Router classes and then implementing the
+Creating your own Router involves subclassing the existing Phalcon or Phalcon Kit Router classes and then implementing the
 additional functionalities as required. This custom Router can then be registered with the application, replacing or
 supplementing the default routing mechanism.
 
@@ -340,9 +340,9 @@ supplementing the default routing mechanism.
 
 namespace App\Bootstrap;
 
-use Zemit\Config\ConfigInterface;
+use PhalconKit\Config\ConfigInterface;
 
-class MvcRouter extends \Zemit\Bootstrap\Router implements \Zemit\Mvc\RouterInterface
+class MvcRouter extends \PhalconKit\Bootstrap\Router implements \PhalconKit\Mvc\RouterInterface
 {
     public function __construct(bool $defaultRoutes = true, ?ConfigInterface $config = null)
     {
@@ -362,7 +362,7 @@ class MvcRouter extends \Zemit\Bootstrap\Router implements \Zemit\Mvc\RouterInte
 
 namespace App\Bootstrap;
 
-class CliRouter extends \Zemit\Cli\Router implements \Zemit\Cli\RouterInterface
+class CliRouter extends \PhalconKit\Cli\Router implements \PhalconKit\Cli\RouterInterface
 {
     public function __construct(bool $defaultRoutes = true)
     {
@@ -376,8 +376,8 @@ class CliRouter extends \Zemit\Cli\Router implements \Zemit\Cli\RouterInterface
 
 ### Adding Your Custom Routers
 
-Once you have created your custom routers in Zemit, the next step is to integrate them into your application. This is
-done during the initialization phase of the bootstrap component. By setting up your custom routers here, Zemit will
+Once you have created your custom routers in Phalcon Kit, the next step is to integrate them into your application. This is
+done during the initialization phase of the bootstrap component. By setting up your custom routers here, Phalcon Kit will
 utilize them when the router service is loaded from the Dependency Injection (DI) container, ensuring that your
 application's routing is handled as per your custom logic.
 
@@ -396,7 +396,7 @@ namespace App;
 use App\Bootstrap\CliRouter;
 use App\Bootstrap\MvcRouter;
 
-class Bootstrap extends \Zemit\Bootstrap
+class Bootstrap extends \PhalconKit\Bootstrap
 {    
     public function initialize(): void
     {
@@ -412,18 +412,18 @@ class Bootstrap extends \Zemit\Bootstrap
 
 ### Overriding Router Service
 
-Zemit's **Router Service Provider** is registered in the later stages of the application's bootstrap process.
-When this service is loaded, specific Zemit business logic is applied to ensure smooth routing functionality.
-However, there might be scenarios where the default routing behavior of Zemit does not align with the specific
+ Phalcon kit's **Router Service Provider** is registered in the later stages of the application's bootstrap process.
+When this service is loaded, specific Phalcon Kit business logic is applied to ensure smooth routing functionality.
+However, there might be scenarios where the default routing behavior of Phalcon Kit does not align with the specific
 requirements of your application. In such cases, customizing the Router Service becomes essential.
 
 To override the default Router Service with your custom implementation, you need to modify the service provider
-configuration within Zemit. This allows you to introduce your custom routing logic or modify how the application
+configuration within Phalcon Kit. This allows you to introduce your custom routing logic or modify how the application
 handles routing processes. Here’s how you can achieve this:
 
 - **Custom Service Provider**: Create a custom Service Provider that defines your desired routing behavior. This provider should manage the instantiation and configuration of your router, tailoring it to the specific needs of your application.
 
-- **Update Configuration**: In your application's configuration file, update the service provider mapping to reference your custom Router Service Provider. This tells Zemit to use your custom provider instead of the default one when setting up the routing service.
+- **Update Configuration**: In your application's configuration file, update the service provider mapping to reference your custom Router Service Provider. This tells Phalcon Kit to use your custom provider instead of the default one when setting up the routing service.
 
 
 ```ini title=".env"
@@ -434,12 +434,12 @@ PROVIDER_ROUTER=\App\Provider\Router\ServiceProvider
 <?php
 namespace App\Provider\Router;
 
-use Zemit\Bootstrap;
+use PhalconKit\Bootstrap;
 use Phalcon\Di\DiInterface;
 use App\Bootstrap\MvcRouter;
 use App\Bootstrap\CliRouter;
 
-class ServiceProvider extends \Zemit\Provider\AbstractServiceProvider
+class ServiceProvider extends \PhalconKit\Provider\AbstractServiceProvider
 {
     protected string $serviceName = 'router';
     

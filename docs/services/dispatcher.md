@@ -7,14 +7,14 @@
 ### Changing the Dispatcher Service Provider
 
 ```ini
-PROVIDER_DISPATCHER=\Zemit\Provider\Dispatcher\ServiceProvider
+PROVIDER_DISPATCHER=\PhalconKit\Provider\Dispatcher\ServiceProvider
 ```
 
 ## Dispatcher Service (`dispatcher`)
 
 !!! info "Dispatcher Service Provider"
     Dispatcher Service Provider (`dispatcher`):
-    [`\Zemit\Provider\Dispatcher\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Dispatcher/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Dispatcher\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Dispatcher/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

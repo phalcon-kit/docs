@@ -7,7 +7,7 @@
 === "Defaults"
 
     ```ini
-    ROUTER_DEFAULT_NAMESPACE=Zemit\\Modules\\Frontend\\Controllers
+    ROUTER_DEFAULT_NAMESPACE=PhalconKit\\Modules\\Frontend\\Controllers
     ROUTER_DEFAULT_MODULE=frontend
     ROUTER_DEFAULT_CONTROLLER=index
     ROUTER_DEFAULT_ACTION=index
@@ -16,7 +16,7 @@
 === "Cli"
 
     ```ini
-    ROUTER_CLI_DEFAULT_NAMESPACE=Zemit\\Modules\\Cli\\Tasks
+    ROUTER_CLI_DEFAULT_NAMESPACE=PhalconKit\\Modules\\Cli\\Tasks
     ROUTER_CLI_DEFAULT_MODULE=cli
     ROUTER_CLI_DEFAULT_TASK=help
     ROUTER_CLI_DEFAULT_ACTION=main
@@ -85,14 +85,14 @@
 ### Changing the Router Service Provider
 
 ```ini
-PROVIDER_ROUTER=\Zemit\Provider\Router\ServiceProvider
+PROVIDER_ROUTER=\PhalconKit\Provider\Router\ServiceProvider
 ```
 
 ## Router Service (`router`)
 
 !!! info "Router Service Provider"
     Router Service Provider (`router`):
-    [`\Zemit\Provider\Router\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Router/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Router\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Router/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -14,7 +14,7 @@ TRANSLATE_DEFAULT_PATH=./resources/translations/
 ### Translate Service Provider
 
 ```ini
-PROVIDER_TRANSLATE=\Zemit\Provider\Translate\ServiceProvider
+PROVIDER_TRANSLATE=\PhalconKit\Provider\Translate\ServiceProvider
 ```
 
 ### Translate Configurations Object
@@ -23,7 +23,7 @@ PROVIDER_TRANSLATE=\Zemit\Provider\Translate\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Translate\ServiceProvider::class => Env::get('PROVIDER_TRANSLATE', \Zemit\Provider\Translate\ServiceProvider::class),
+        \PhalconKit\Provider\Translate\ServiceProvider::class => Env::get('PROVIDER_TRANSLATE', \PhalconKit\Provider\Translate\ServiceProvider::class),
     ],
     'translate' => [
         'locale' => explode(',', Env::get('TRANSLATE_LOCALE', 'en_CA.UTF-8')),
@@ -38,7 +38,7 @@ new Config([
 
 !!! info "Translate Service Provider"
     Translate Service Provider (`translate`):
-    [`\Zemit\Provider\Translate\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Translate/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Translate\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Translate/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

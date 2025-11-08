@@ -1,10 +1,10 @@
-# Welcome to Zemit
+# Welcome to Phalcon Kit
 
-Welcome to the documentation for Zemit, a framework built on top of Phalcon PHP that simplifies the usage of Phalcon and
-allows for consistent, standard coding across multiple projects. With Zemit, you can take advantage of shared features
+Welcome to the documentation for Phalcon Kit, a framework built on top of Phalcon PHP that simplifies the usage of Phalcon and
+allows for consistent, standard coding across multiple projects. With Phalcon Kit, you can take advantage of shared features
 and avoid having to recreate the same code in different projects.
 
-This documentation will guide you through the various components and features of Zemit Core, helping you get up and
+This documentation will guide you through the various components and features of Phalcon Kit, helping you get up and
 running with the framework quickly and easily.
 
 ## Jump right in
@@ -27,7 +27,7 @@ Feeling like an eager beaver? Jump in to the quick start docs and get making you
 
     ---
 
-    Explore Zemit's additional core tools built on top of Phalcon PHP.
+    Explore Phalcon Kit's additional core tools built on top of Phalcon PHP.
 
     [:octicons-arrow-right-24: Components](core.md)
 
@@ -54,7 +54,7 @@ Feeling like an eager beaver? Jump in to the quick start docs and get making you
 
     ---
 
-    Explore Zemit's pre-built endpoints and extend your own business logics.
+    Explore Phalcon Kit's pre-built endpoints and extend your own business logics.
 
     [:octicons-arrow-right-24: Endpoints](endpoints.md)
 
@@ -68,11 +68,11 @@ Feeling like an eager beaver? Jump in to the quick start docs and get making you
     [:octicons-arrow-right-24: Build APIs](rest.md)
 
 
--   :material-code-tags:{ .lg .middle } **Zemit Core API**
+-   :material-code-tags:{ .lg .middle } **Phalcon Kit API**
 
     ---
 
-    Dive deeper into the code references of Zemit for efficient development.
+    Dive deeper into the code references of Phalcon Kit for efficient development.
 
     [:octicons-arrow-right-24: References](api/Home.md)
 
@@ -81,7 +81,7 @@ Feeling like an eager beaver? Jump in to the quick start docs and get making you
 
     ---
 
-    Zemit is licensed under the **BSD 3-Clause** License and is available on [GitHub](https://github.com/phalcon-kit/core).
+    Phalcon Kit is licensed under the **BSD 3-Clause** License and is available on [GitHub](https://github.com/phalcon-kit/core).
 
     [:octicons-arrow-right-24: License](phalcon-kit/license.md)
 

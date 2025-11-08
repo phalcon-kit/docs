@@ -11,7 +11,7 @@ The `helper` service uses the [Phalcon Helper Component](https://docs.phalcon.io
 ### Helper Service Provider
 
 ```ini
-PROVIDER_HELPER=\Zemit\Provider\Helper\ServiceProvider
+PROVIDER_HELPER=\PhalconKit\Provider\Helper\ServiceProvider
 ```
 
 ### Helper Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_HELPER=\Zemit\Provider\Helper\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Helper\ServiceProvider::class => Env::get('PROVIDER_HELPER', \Zemit\Provider\Helper\ServiceProvider::class),
+        \PhalconKit\Provider\Helper\ServiceProvider::class => Env::get('PROVIDER_HELPER', \PhalconKit\Provider\Helper\ServiceProvider::class),
     ],
     'helpers' => [
         // add your own helpers here
@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Helper Service Provider"
     Helper Service Provider (`helper`):
-    [`\Zemit\Provider\Helper\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Helper/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Helper\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Helper/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

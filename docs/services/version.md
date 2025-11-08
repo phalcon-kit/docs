@@ -9,7 +9,7 @@ APP_VERSION=1.0.0
 ### Version Service Provider
 
 ```ini
-PROVIDER_VERSION=\Zemit\Provider\Version\ServiceProvider
+PROVIDER_VERSION=\PhalconKit\Provider\Version\ServiceProvider
 ```
 
 ### Version Configurations Object
@@ -18,7 +18,7 @@ PROVIDER_VERSION=\Zemit\Provider\Version\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Version\ServiceProvider::class => Env::get('PROVIDER_VERSION', \Zemit\Provider\Version\ServiceProvider::class),
+        \PhalconKit\Provider\Version\ServiceProvider::class => Env::get('PROVIDER_VERSION', \PhalconKit\Provider\Version\ServiceProvider::class),
     ],
 ]);
 ```
@@ -27,7 +27,7 @@ new Config([
 
 !!! info "Version Service Provider"
     Version Service Provider (`version`):
-    [`\Zemit\Provider\Version\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Version/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Version\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Version/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -25,7 +25,7 @@ RESPONSE_HEADER_ACCESS_CONTROL_MAX_AGE=600
 ### Response Service Provider
 
 ```ini
-PROVIDER_RESPONSE=\Zemit\Provider\Response\ServiceProvider
+PROVIDER_RESPONSE=\PhalconKit\Provider\Response\ServiceProvider
 ```
 
 ### Response Configuration Object
@@ -56,7 +56,7 @@ new Config([
 
 !!! info "Response Service Provider"
     Response Service Provider (`response`):
-    [`\Zemit\Provider\Response\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Response/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Response\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Response/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

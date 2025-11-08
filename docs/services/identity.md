@@ -15,7 +15,7 @@ IDENTITY_REFRESH_TOKEN_EXPIRATION=+7 days
 ### Identity Service Provider
 
 ```ini
-PROVIDER_IDENTITY=\Zemit\Provider\Identity\ServiceProvider
+PROVIDER_IDENTITY=\PhalconKit\Provider\Identity\ServiceProvider
 ```
 
 ### Identity Configurations Object
@@ -24,7 +24,7 @@ PROVIDER_IDENTITY=\Zemit\Provider\Identity\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Identity\ServiceProvider::class => Env::get('PROVIDER_IDENTITY', \Zemit\Provider\Identity\ServiceProvider::class),
+        \PhalconKit\Provider\Identity\ServiceProvider::class => Env::get('PROVIDER_IDENTITY', \PhalconKit\Provider\Identity\ServiceProvider::class),
     ],
     'identity' => [
         'authorizationHeader' => Env::get('IDENTITY_AUTHORIZATION_HEADER', 'Authorization'),
@@ -46,7 +46,7 @@ new Config([
 
 !!! info "Identity Service Provider"
     Identity Service Provider (`identity`):
-    [`\Zemit\Provider\Identity\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Identity/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Identity\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Identity/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

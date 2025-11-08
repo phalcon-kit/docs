@@ -9,7 +9,7 @@
 ### Loggers Service Provider
 
 ```ini
-PROVIDER_LOGGERS=\Zemit\Provider\Loggers\ServiceProvider
+PROVIDER_LOGGERS=\PhalconKit\Provider\Loggers\ServiceProvider
 ```
 
 ### Loggers Configurations Object
@@ -18,7 +18,7 @@ PROVIDER_LOGGERS=\Zemit\Provider\Loggers\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Loggers\ServiceProvider::class => Env::get('PROVIDER_LOGGERS', \Zemit\Provider\Loggers\ServiceProvider::class),
+        \PhalconKit\Provider\Loggers\ServiceProvider::class => Env::get('PROVIDER_LOGGERS', \PhalconKit\Provider\Loggers\ServiceProvider::class),
     ],
     'loggers' => [
         'error' => [
@@ -108,7 +108,7 @@ new Config([
 
 !!! info "Loggers Service Provider"
     Loggers Service Provider (`loggers`):
-    [`\Zemit\Provider\Loggers\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Loggers/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Loggers\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Loggers/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

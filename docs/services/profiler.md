@@ -11,7 +11,7 @@ The `profiler` service uses the [Phalcon Profiler Component](https://docs.phalco
 ### Profiler Service Provider
 
 ```ini
-PROVIDER_PROFILER=\Zemit\Provider\Profiler\ServiceProvider
+PROVIDER_PROFILER=\PhalconKit\Provider\Profiler\ServiceProvider
 ```
 
 ### Profiler Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_PROFILER=\Zemit\Provider\Profiler\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Profiler\ServiceProvider::class => Env::get('PROVIDER_PROFILER', \Zemit\Provider\Profiler\ServiceProvider::class),
+        \PhalconKit\Provider\Profiler\ServiceProvider::class => Env::get('PROVIDER_PROFILER', \PhalconKit\Provider\Profiler\ServiceProvider::class),
     ],
 ]);
 ```
@@ -29,7 +29,7 @@ new Config([
 
 !!! info "Profiler Service Provider"
     Profiler Service Provider (`profiler`):
-    [`\Zemit\Provider\Profiler\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Profiler/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Profiler\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Profiler/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

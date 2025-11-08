@@ -1,6 +1,6 @@
 site_name: Phalcon Kit Documentation
 site_description: Explore the essentials of Phalcon Kit, a comprehensive guide to creating advanced and efficient web applications.
-site_url: https://github.com/phalcon-kit/docs
+site_url: https://phalcon-kit.github.io/docs/
 copyright: Copyright &copy; 2017 - present Phalcon Kit
 repo_url: https://github.com/phalcon-kit/core
 repo_name: phalcon-kit/core

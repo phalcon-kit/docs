@@ -23,7 +23,7 @@ new Config([
 
 !!! info "Cookies Service Provider"
     Cookies Service Provider (`cookies`):
-    [`\Zemit\Provider\Cookies\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Cookies/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Cookies\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Cookies/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

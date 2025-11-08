@@ -36,7 +36,7 @@ CRYPT_KEY = T4\xb1\x8d\xa9\x98\x05\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3
 ### Crypt Service Provider
 
 ```ini
-PROVIDER_CRYPT = \Zemit\Provider\Crypt\ServiceProvider
+PROVIDER_CRYPT = \PhalconKit\Provider\Crypt\ServiceProvider
 ```
 
 ### Crypt Configurations Object
@@ -45,7 +45,7 @@ PROVIDER_CRYPT = \Zemit\Provider\Crypt\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Crypt\ServiceProvider::class => Env::get('PROVIDER_CRYPT', \Zemit\Provider\Crypt\ServiceProvider::class),
+        \PhalconKit\Provider\Crypt\ServiceProvider::class => Env::get('PROVIDER_CRYPT', \PhalconKit\Provider\Crypt\ServiceProvider::class),
     ],
     'crypt' => [
         'paddingFactory' => Env::get('CRYPT_PAD_FACTORY', \Phalcon\Encryption\Crypt\PadFactory::class),
@@ -65,7 +65,7 @@ new Config([
 
 !!! info "Crypt Service Provider"
     Crypt Service Provider (`crypt`):
-    [`\Zemit\Provider\Crypt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Crypt/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Crypt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Crypt/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

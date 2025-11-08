@@ -14,7 +14,7 @@ PHP_INI_ZEND_EXCEPTION_IGNORE_ARGS=On
 ### Php Service Provider
 
 ```ini
-PROVIDER_PHP=\Zemit\Provider\Php\ServiceProvider
+PROVIDER_PHP=\PhalconKit\Provider\Php\ServiceProvider
 ```
 
 ### Php Configurations Object
@@ -23,7 +23,7 @@ PROVIDER_PHP=\Zemit\Provider\Php\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Php\ServiceProvider::class => Env::get('PROVIDER_PHP', \Zemit\Provider\Php\ServiceProvider::class),
+        \PhalconKit\Provider\Php\ServiceProvider::class => Env::get('PROVIDER_PHP', \PhalconKit\Provider\Php\ServiceProvider::class),
     ],
     'php' => [
         'locale' => [
@@ -44,7 +44,7 @@ new Config([
 
 !!! info "Php Service Provider"
     Php Service Provider (`php`):
-    [`\Zemit\Provider\Php\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Php/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Php\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Php/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

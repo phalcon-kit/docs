@@ -1,9 +1,9 @@
 # Basic Configuration
 
-The Configuration component in Zemit Core is a flexible and powerful tool for managing and accessing your application's configuration settings. It provides a default class with predefined values that can be customized to fit your needs, and also allows you to load environment variables from a .env file. The Configuration component is decoupled into multiple sections, making it easy to organize and manage your settings. With the Configuration component, you can easily control and adjust your application's configuration within the Zemit Core framework.
+The Configuration component in Phalcon Kit is a flexible and powerful tool for managing and accessing your application's configuration settings. It provides a default class with predefined values that can be customized to fit your needs, and also allows you to load environment variables from a .env file. The Configuration component is decoupled into multiple sections, making it easy to organize and manage your settings. With the Configuration component, you can easily control and adjust your application's configuration within the Phalcon Kit.
 
 !!! info "Good to know"
-    `\Zemit\Support\Env` is using _vlucas Dotenv_ library behind the scene to load and prepare environment variables from the .env file, please refer yourself to the official [Dotenv documentation](https://github.com/vlucas/phpdotenv){:target="_blank"}.
+    `\PhalconKit\Support\Env` is using _vlucas Dotenv_ library behind the scene to load and prepare environment variables from the .env file, please refer yourself to the official [Dotenv documentation](https://github.com/vlucas/phpdotenv){:target="_blank"}.
 
 ## Basic `.env` example
 
@@ -71,7 +71,7 @@ Create a new `Config` class that should look similar to this below:
 
 ```php
 <?php
-use \Zemit\Bootstrap\Config;
+use \PhalconKit\Bootstrap\Config;
 
 $config = Config([
     'app' => [
@@ -87,8 +87,8 @@ return $config;
 
 ```php
 <?php
-use \Zemit\Bootstrap\Config;
-use \Zemit\Support\Env;
+use \PhalconKit\Bootstrap\Config;
+use \PhalconKit\Support\Env;
 
 $config = Config([
     'app' => [
@@ -111,9 +111,9 @@ return $config;
 <?php
 namespace App\Config;
 
-use Zemit\Utils\Env;
+use PhalconKit\Utils\Env;
 
-class Config extends Zemit\Bootstrap\Config
+class Config extends PhalconKit\Bootstrap\Config
 {
     public function __construct(array $data = [], bool $insensitive = true)
     {

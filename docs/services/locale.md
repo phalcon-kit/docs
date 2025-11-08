@@ -14,7 +14,7 @@ LOCALE_MODE=default
 ### Locale Service Provider
 
 ```ini
-PROVIDER_LOCALE=\Zemit\Provider\Locale\ServiceProvider
+PROVIDER_LOCALE=\PhalconKit\Provider\Locale\ServiceProvider
 ```
 
 ### Locale Configurations Object
@@ -23,7 +23,7 @@ PROVIDER_LOCALE=\Zemit\Provider\Locale\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Locale\ServiceProvider::class => Env::get('PROVIDER_LOCALE', \Zemit\Provider\Locale\ServiceProvider::class),
+        \PhalconKit\Provider\Locale\ServiceProvider::class => Env::get('PROVIDER_LOCALE', \PhalconKit\Provider\Locale\ServiceProvider::class),
     ],
     'locale' => [
         'default' => Env::get('LOCALE_DEFAULT', 'en'),
@@ -38,7 +38,7 @@ new Config([
 
 !!! info "Locale Service Provider"
     Locale Service Provider (`locale`):
-    [`\Zemit\Provider\Locale\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Locale/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Locale\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Locale/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

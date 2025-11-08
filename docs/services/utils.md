@@ -10,7 +10,7 @@
 ### Utils Service Provider
 
 ```ini
-PROVIDER_UTILS=\Zemit\Provider\Utils\ServiceProvider
+PROVIDER_UTILS=\PhalconKit\Provider\Utils\ServiceProvider
 ```
 
 ### Utils Configurations Object
@@ -19,7 +19,7 @@ PROVIDER_UTILS=\Zemit\Provider\Utils\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Utils\ServiceProvider::class => Env::get('PROVIDER_UTILS', \Zemit\Provider\Utils\ServiceProvider::class),
+        \PhalconKit\Provider\Utils\ServiceProvider::class => Env::get('PROVIDER_UTILS', \PhalconKit\Provider\Utils\ServiceProvider::class),
     ],
 ]);
 ```
@@ -28,7 +28,7 @@ new Config([
 
 !!! info "Utils Service Provider"
     Utils Service Provider (`utils`):
-    [`\Zemit\Provider\Utils\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Utils/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Utils\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Utils/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -7,14 +7,14 @@
 ### Changing the Request Service Provider
 
 ```ini
-PROVIDER_REQUEST=\Zemit\Provider\Request\ServiceProvider
+PROVIDER_REQUEST=\PhalconKit\Provider\Request\ServiceProvider
 ```
 
 ## Request Service (`request`)
 
 !!! info "Request Service Provider"
     Request Service Provider (`request`):
-    [`\Zemit\Provider\Request\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Request/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Request\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Request/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

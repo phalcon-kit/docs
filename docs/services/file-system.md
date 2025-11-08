@@ -9,7 +9,7 @@
 ### Changing the File System Service Provider
 
 ```ini
-PROVIDER_FILE_SYSTEM=\Zemit\Provider\FileSystem\ServiceProvider
+PROVIDER_FILE_SYSTEM=\PhalconKit\Provider\FileSystem\ServiceProvider
 ```
 
 ### FileSystem Configurations Object
@@ -18,7 +18,7 @@ PROVIDER_FILE_SYSTEM=\Zemit\Provider\FileSystem\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\FileSystem\ServiceProvider::class => Env::get('PROVIDER_FILE_SYSTEM', \Zemit\Provider\FileSystem\ServiceProvider::class),
+        \PhalconKit\Provider\FileSystem\ServiceProvider::class => Env::get('PROVIDER_FILE_SYSTEM', \PhalconKit\Provider\FileSystem\ServiceProvider::class),
     ],
     'fileSystem' => [
         'driver' => Env::get('FILE_SYSTEM_DRIVER', 'local'),
@@ -90,7 +90,7 @@ new Config([
 
 !!! info "File Service Provider"
     File Service Provider (`fileSystem`):
-    [`\Zemit\Provider\File\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/FileSystem/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\File\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/FileSystem/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

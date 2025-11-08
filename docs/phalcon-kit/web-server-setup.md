@@ -12,7 +12,7 @@ php -S 0.0.0.0:8000 ./public/index.php
 ```
 
 This command will serve your application on http://localhost:8000, 
-allowing you to access the Zemit Core Frontend module directly from your browser. Keep in mind:
+allowing you to access the Phalcon Kit Frontend module directly from your browser. Keep in mind:
 
 - The PHP built-in server handles only one request at a time, operating in a single-threaded mode. This means that if one request is blocked, other requests will have to wait.
 - For comprehensive details and best practices about using PHP's built-in web server, please consult the [Official PHP documentation](https://www.php.net/manual/en/features.commandline.webserver.php){:target="_blank"}.
@@ -31,9 +31,9 @@ please refer to the [Phalcon Webserver Documentation](https://docs.phalcon.io/la
 This resource provides comprehensive instructions and best practices for various server configurations.
 
 #### Option 1: Configuring Apache
-Here's a basic configuration example for setting up your Zemit application with Apache 2.4 and PHP-FPM 8.2:
+Here's a basic configuration example for setting up your Phalcon Kit application with Apache 2.4 and PHP-FPM 8.2:
 
-- Your Apache virtual host needs to be configured to point to the /public/ directory of your Zemit project.
+- Your Apache virtual host needs to be configured to point to the /public/ directory of your Phalcon Kit project.
 - Customize the `ServerName`, `ServerAlias`, `DocumentRoot` and other directives to align with your needs.
 
 ```apacheconf
@@ -78,13 +78,13 @@ If you're using PHP-FPM, you may need additional configuration specific to your 
 
 ##### Url Rewriting
 
-To ensure that your Zemit application routes requests correctly, it's essential to set up URL rewriting 
+To ensure that your Phalcon Kit application routes requests correctly, it's essential to set up URL rewriting 
 rules in Apache. This involves creating .htaccess files in both the root directory of your application
 and the public subdirectory.
 
 **Root Directory .htaccess**
 
-In the root directory of your Zemit application, create an .htaccess file with the following content. 
+In the root directory of your Phalcon Kit application, create an .htaccess file with the following content. 
 This configuration redirects all traffic to the public folder, maintaining a clean URL structure and 
 enhancing security by hiding the internal directory structure.
 
@@ -96,13 +96,13 @@ enhancing security by hiding the internal directory structure.
 </IfModule>
 ```
 
-This file should be placed at the root of your Zemit application (/path/to/app/.htaccess).
+This file should be placed at the root of your Phalcon Kit application (/path/to/app/.htaccess).
 
 **Public Directory .htaccess**
 
 In the public directory, where your frontend files reside, you'll need another .htaccess file. 
 This file rewrites URLs to route requests through the index.php entry script, enabling friendly 
-URLs and routing functionality provided by Zemit and Phalcon.
+URLs and routing functionality provided by Phalcon Kit and Phalcon.
 
 ```apacheconf title="/path/to/app/public/.htaccess"
 <IfModule mod_rewrite.c>
@@ -114,24 +114,24 @@ URLs and routing functionality provided by Zemit and Phalcon.
 ```
 
 Place this file inside the public directory (/path/to/app/public/.htaccess). It ensures that non-existing 
-file or directory requests are correctly passed to index.php, allowing Zemit to handle the routing.
+file or directory requests are correctly passed to index.php, allowing Phalcon Kit to handle the routing.
 
 !!! note "Important Notes"
     - Ensure that the `mod_rewrite` module is enabled in your Apache configuration. This module is required for URL rewriting to work.
-    - The use of `.htaccess` files requires that the `AllowOverride` directive in your main Apache configuration is set to `All` for the directory where your Zemit application resides.
+    - The use of `.htaccess` files requires that the `AllowOverride` directive in your main Apache configuration is set to `All` for the directory where your Phalcon Kit application resides.
 
 These rewriting rules are crucial for the correct functioning of your application, especially
 if you are using SEO-friendly URLs or routing beyond the basic setup.
 
 By configuring these `.htaccess` files correctly, you enhance both the functionality and security
-of your Zemit application when hosted on an Apache server.
+of your Phalcon Kit application when hosted on an Apache server.
 
 This example offers a starting point. Depending on your server environment and specific requirements,
 additional configuration might be necessary.
 
 #### Option 2: Configuring Nginx
 
-Below is a basic Nginx configuration example for hosting a Zemit project. This configuration assumes 
+Below is a basic Nginx configuration example for hosting a Phalcon Kit project. This configuration assumes 
 you are using PHP-FPM to process PHP files. Modify the server_name and root directives to suit your
 domain and project directory.
 
@@ -191,7 +191,7 @@ server {
 ```
 
 Make sure to replace `domain.tld` with your actual domain and `/path/to/app/public` with the correct path 
-to your Zemit project's public directory. The `fastcgi_pass` directive should be adjusted according to your PHP-FPM setup.
+to your Phalcon Kit project's public directory. The `fastcgi_pass` directive should be adjusted according to your PHP-FPM setup.
 
 This example provides a basic starting point for Nginx configuration. Depending on your server environment,
 additional tweaks or settings might be necessary for optimal performance and security. Always consult the

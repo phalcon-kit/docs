@@ -2,16 +2,16 @@
 
 ## Overview
 
-The Dispatcher component in Zemit is a dynamic and essential element that acts as a liaison between the routing layer
+The Dispatcher component in Phalcon Kit is a dynamic and essential element that acts as a liaison between the routing layer
 and the application's execution logic. Its primary function is to interpret and process requests as directed by the
 Router, ensuring each request is handled by the correct module, controller, task, or action, accompanied by relevant
-parameters. To cater to different operational environments, Zemit employs two specialized types of dispatchers:
+parameters. To cater to different operational environments, Phalcon Kit employs two specialized types of dispatchers:
 
-- **`\Zemit\Cli\Dispatcher`**: This dispatcher is specifically designed for handling command-line interfaces (CLI) and
+- **`\PhalconKit\Cli\Dispatcher`**: This dispatcher is specifically designed for handling command-line interfaces (CLI) and
   Server API (SAPI) interactions. It extends the functionality
   of [`\Phalcon\Cli\Dispatcher`](https://docs.phalcon.io/latest/api/phalcon_cli/#clidispatcher){:target="_blank"},
   providing a tailored experience for non-web-based applications.
-- **`\Zemit\Mvc\Dispatcher`**: Focused on web-based applications, this dispatcher manages web requests by
+- **`\PhalconKit\Mvc\Dispatcher`**: Focused on web-based applications, this dispatcher manages web requests by
   extending [`\Phalcon\Mvc\Dispatcher`](https://docs.phalcon.io/latest/api/phalcon_mvc/#mvcdispatcher){:target="_
   blank"}. It ensures that web requests are routed to the appropriate controllers and actions within the MVC framework.
 
@@ -27,9 +27,9 @@ For an in-depth understanding of the underlying concepts and capabilities, explo
     The issue arises from the potential mixing of parameter order, which can render the method parameters unreliable in
     various scenarios and use cases.
 
-!!! danger "Zemit's Approach to Parameter Passing"
-    To ensure stability and predictability in handling method parameters, Zemit modifies this behavior. Only parameters with
-    integer keys are passed to the action method parameters in Zemit's dispatcher. This approach mitigates the risk of
+!!! danger " Phalcon kit's Approach to Parameter Passing"
+    To ensure stability and predictability in handling method parameters, Phalcon Kit modifies this behavior. Only parameters with
+    integer keys are passed to the action method parameters in Phalcon Kit's dispatcher. This approach mitigates the risk of
     parameter order mix-up, enhancing the reliability of your application's routing and parameter handling mechanisms.
 
 ### Dispatching Process
@@ -42,28 +42,28 @@ At its core, dispatching in an MVC application, as facilitated by `\Phalcon\Mvc\
 3. **Controller Instantiation**: The corresponding controller is instantiated based on the extracted information.
 4. **Action Execution**: The designated action within the controller is executed, handling the request as intended.
 
-Zemit's Dispatcher enhances this process by integrating it seamlessly with the framework's architecture, ensuring
+ Phalcon kit's Dispatcher enhances this process by integrating it seamlessly with the framework's architecture, ensuring
 efficient and effective handling of both web and CLI requests.
 
 ## Benefits and Features
 
-By extending Phalcon's native dispatchers, Zemit inherits all the flexibility, performance, and features of the Phalcon
+By extending Phalcon's native dispatchers, Phalcon Kit inherits all the flexibility, performance, and features of the Phalcon
 framework while adding significant enhancements:
 
 ### Cyclic Routing Prevention
 
 A common issue in dispatching is "_Dispatcher has detected a cyclic routing causing
-stability problems._" This happens when there's an endless forwarding loop in the application. Zemit's Dispatcher can
+stability problems._" This happens when there's an endless forwarding loop in the application. Phalcon Kit's Dispatcher can
 automatically detect and prevent such single-hop cyclic routing issues, enhancing application stability. However, it's
 important to note that it doesn’t resolve multiple-hop cycling issues, as these often involve complex scenarios that
 require developer intervention.
 
-### Business Rule Implementation in Zemit Dispatcher
+### Business Rule Implementation in Phalcon Kit Dispatcher
 
-The Zemit Dispatcher Service Provider is designed to automate and handle several vital aspects of application management
+The Phalcon Kit Dispatcher Service Provider is designed to automate and handle several vital aspects of application management
 and routing. This configuration not only streamlines the development process but also ensures consistent and secure
 application behavior across different environments. Here's a breakdown of the key business rules automatically managed
-by the Zemit Dispatcher:
+by the Phalcon Kit Dispatcher:
 
 - **CORS and Preflight Requests**: The dispatcher is equipped to handle Cross-Origin Resource Sharing (CORS) and
   preflight requests, ensuring that your application can safely interact with resources from different domains as per
@@ -81,7 +81,7 @@ by the Zemit Dispatcher:
   debugging and monitoring. The dispatcher logs these events, providing valuable insights into the application's routing
   behavior and performance.
 
-- **Support for HMVC Architecture**: Zemit's dispatcher supports forwarding in multi-module architectures, making it
+- **Support for HMVC Architecture**: Phalcon Kit's dispatcher supports forwarding in multi-module architectures, making it
   ideal for applications following a Hierarchical Model-View-Controller (HMVC) pattern. This capability allows modules
   to request actions from other modules, fostering a highly modular and flexible application structure.
 
@@ -93,7 +93,7 @@ by the Zemit Dispatcher:
   by allowing default namespace settings. This feature streamlines the organization of controllers and models within
   various modules, enhancing the structure and readability of the codebase.
 
-The Zemit Dispatcher's automated approach to managing crucial business rules significantly enhances the application's
+The Phalcon Kit Dispatcher's automated approach to managing crucial business rules significantly enhances the application's
 architecture on multiple fronts:
 
 - **Simplified Development**: By automating complex processes like CORS handling, security enforcement, and maintenance
@@ -112,8 +112,8 @@ architecture on multiple fronts:
   reduces overhead and enhances efficiency. This efficiency is particularly beneficial in applications with complex
   routing needs, where minimizing performance bottlenecks is crucial.
 
-Incorporating these advanced features, Zemit’s Dispatcher not only makes request handling more efficient but also plays
+Incorporating these advanced features, Phalcon Kit’s Dispatcher not only makes request handling more efficient but also plays
 a vital role in reducing the complexity typically associated with routing and dispatching in web applications.
-Developers leveraging Zemit can expect a more intuitive, secure, and manageable routing process, enabling them to build
+Developers leveraging Phalcon Kit can expect a more intuitive, secure, and manageable routing process, enabling them to build
 sophisticated web solutions with ease.
 

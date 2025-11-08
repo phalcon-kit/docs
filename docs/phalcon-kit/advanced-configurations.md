@@ -4,7 +4,7 @@
 
 ### Database Settings (Master & Slave)
 
-Zemit currently only support MySQL/MariaDB database driver. There is no plan on adapting new databases adapters in the future. Since Phalcon does support many database adapters, nothing stops you from defining your own from your own configuration file.
+Phalcon Kit currently only support MySQL/MariaDB database driver. There is no plan on adapting new databases adapters in the future. Since Phalcon does support many database adapters, nothing stops you from defining your own from your own configuration file.
 
 !!! info "Good to know"
     The Slave Database is only used as a read-only server and will automatically extend the master settings if they are not explicitly defined.

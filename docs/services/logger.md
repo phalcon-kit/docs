@@ -27,7 +27,7 @@ LOGGER_FILENAME=default
 ### Logger Service Provider
 
 ```ini
-PROVIDER_LOGGER=\Zemit\Provider\Logger\ServiceProvider
+PROVIDER_LOGGER=\PhalconKit\Provider\Logger\ServiceProvider
 ```
 
 ### Logger Configurations Object
@@ -36,7 +36,7 @@ PROVIDER_LOGGER=\Zemit\Provider\Logger\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Logger\ServiceProvider::class => Env::get('PROVIDER_LOGGER', \Zemit\Provider\Logger\ServiceProvider::class),
+        \PhalconKit\Provider\Logger\ServiceProvider::class => Env::get('PROVIDER_LOGGER', \PhalconKit\Provider\Logger\ServiceProvider::class),
     ],
     'logger' => [
         'enable' => Env::get('LOGGER_ENABLE', Env::get('LOGGER', false)),
@@ -66,7 +66,7 @@ new Config([
 
 !!! info "Logger Service Provider"
     Logger Service Provider (`logger`):
-    [`\Zemit\Provider\Logger\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Logger/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Logger\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Logger/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

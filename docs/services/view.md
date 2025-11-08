@@ -11,7 +11,7 @@ VIEW_MINIFY=false
 ### View Service Provider
 
 ```ini
-PROVIDER_VIEW=\Zemit\Provider\View\ServiceProvider
+PROVIDER_VIEW=\PhalconKit\Provider\View\ServiceProvider
 ```
 
 ### View Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_VIEW=\Zemit\Provider\View\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\View\ServiceProvider::class => Env::get('PROVIDER_VIEW', \Zemit\Provider\View\ServiceProvider::class),
+        \PhalconKit\Provider\View\ServiceProvider::class => Env::get('PROVIDER_VIEW', \PhalconKit\Provider\View\ServiceProvider::class),
     ],
     'view' => [
         'minify' => Env::get('VIEW_MINIFY', false),
@@ -39,7 +39,7 @@ new Config([
 
 !!! info "View Service Provider"
     View Service Provider (`view`):
-    [`\Zemit\Provider\View\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/View/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\View\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/View/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -13,7 +13,7 @@ URL_BASE_PATH=/
 ### Url Service Provider
 
 ```ini
-PROVIDER_URL=\Zemit\Provider\Url\ServiceProvider
+PROVIDER_URL=\PhalconKit\Provider\Url\ServiceProvider
 ```
 
 ### Url Configurations Object
@@ -22,7 +22,7 @@ PROVIDER_URL=\Zemit\Provider\Url\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Url\ServiceProvider::class => Env::get('PROVIDER_URL', \Zemit\Provider\Url\ServiceProvider::class),
+        \PhalconKit\Provider\Url\ServiceProvider::class => Env::get('PROVIDER_URL', \PhalconKit\Provider\Url\ServiceProvider::class),
     ],
     'url' => [
         'staticBaseUri' => Env::get('URL_STATIC_BASE_URI', null),
@@ -36,7 +36,7 @@ new Config([
 
 !!! info "Url Service Provider"
     Url Service Provider (`url`):
-    [`\Zemit\Provider\Url\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Url/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Url\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Url/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -29,7 +29,7 @@ FLASH_CSS_ICON_CLASS_WARNING=
 ### Flash Service Provider
 
 ```ini
-PROVIDER_FLASH=\Zemit\Provider\Flash\ServiceProvider
+PROVIDER_FLASH=\PhalconKit\Provider\Flash\ServiceProvider
 ```
 
 ### Flash Configurations Object
@@ -38,7 +38,7 @@ PROVIDER_FLASH=\Zemit\Provider\Flash\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Flash\ServiceProvider::class => Env::get('PROVIDER_FLASH', \Zemit\Provider\Flash\ServiceProvider::class),
+        \PhalconKit\Provider\Flash\ServiceProvider::class => Env::get('PROVIDER_FLASH', \PhalconKit\Provider\Flash\ServiceProvider::class),
     ],
     'flash' => [
         'driver' => Env::get('FLASH_DRIVER', 'direct'),
@@ -69,7 +69,7 @@ new Config([
 
 !!! info "Flash Service Provider"
     Flash Service Provider (`flash`):
-    [`\Zemit\Provider\Flash\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Flash/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Flash\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Flash/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

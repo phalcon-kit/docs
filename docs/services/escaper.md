@@ -11,7 +11,7 @@ The `escaper` service uses the [Phalcon Escaper Component](https://docs.phalcon.
 ### Escaper Service Provider
 
 ```ini
-PROVIDER_ESCAPER=\Zemit\Provider\Escaper\ServiceProvider
+PROVIDER_ESCAPER=\PhalconKit\Provider\Escaper\ServiceProvider
 ```
 
 ### Escaper Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_ESCAPER=\Zemit\Provider\Escaper\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Escaper\ServiceProvider::class => Env::get('PROVIDER_ESCAPER', \Zemit\Provider\Escaper\ServiceProvider::class),
+        \PhalconKit\Provider\Escaper\ServiceProvider::class => Env::get('PROVIDER_ESCAPER', \PhalconKit\Provider\Escaper\ServiceProvider::class),
     ],
     'escapers' => [
         // add your own escapers here
@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Escaper Service Provider"
     Escaper Service Provider (`escaper`):
-    [`\Zemit\Provider\Escaper\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Escaper/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Escaper\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Escaper/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

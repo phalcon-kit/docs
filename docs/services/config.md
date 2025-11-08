@@ -5,7 +5,7 @@
 ### Config Service Provider
 
 ```ini
-PROVIDER_CONFIG=\Zemit\Provider\Config\ServiceProvider
+PROVIDER_CONFIG=\PhalconKit\Provider\Config\ServiceProvider
 ```
 
 ### Config Configurations Object
@@ -52,7 +52,7 @@ new Config([
 
 !!! info "Config Service Provider"
     Config Service Provider (`config`):
-    [`\Zemit\Provider\Config\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Config/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Config\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Config/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

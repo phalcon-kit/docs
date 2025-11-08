@@ -35,7 +35,7 @@ IMAP_ATTACHMENT_FILENAME_MODE=false
 ### Imap Service Provider
 
 ```ini
-PROVIDER_IMAP = \Zemit\Provider\Imap\ServiceProvider
+PROVIDER_IMAP = \PhalconKit\Provider\Imap\ServiceProvider
 ```
 
 ### Imap Configurations Object
@@ -44,7 +44,7 @@ PROVIDER_IMAP = \Zemit\Provider\Imap\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Imap\ServiceProvider::class => Env::get('PROVIDER_IMAP', \Zemit\Provider\Imap\ServiceProvider::class),
+        \PhalconKit\Provider\Imap\ServiceProvider::class => Env::get('PROVIDER_IMAP', \PhalconKit\Provider\Imap\ServiceProvider::class),
     ],
     'imap' => [
         'path' => Env::get('IMAP_PATH'), // IMAP server and mailbox folder
@@ -62,7 +62,7 @@ new Config([
 
 !!! info "Imap Service Provider"
     Imap Service Provider (`imap`):
-    [`\Zemit\Provider\Imap\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Imap/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Imap\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Imap/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

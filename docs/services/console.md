@@ -2,19 +2,19 @@
 
 ## Overview
 
-The Console Service in Zemit plays a role in managing Command Line Interface (CLI) interactions within the framework. It
+The Console Service in Phalcon Kit plays a role in managing Command Line Interface (CLI) interactions within the framework. It
 serves as the backbone for executing console commands, scripts, and background tasks, which are essential for both
 development and production environments.
 
 ### Importance in CLI Operations
 
 In modern web development, CLI operations are indispensable for a range of tasks such as migrations, batch processing,
-and automation scripts. The Zemit Console Service provides the necessary tools and structure to execute these operations
+and automation scripts. The Phalcon Kit Console Service provides the necessary tools and structure to execute these operations
 effectively and efficiently.
 
 ### Integration with the Core Console Component
 
-The core of this service is the Console Component (`\Zemit\Core\Console`), which is seamlessly integrated into Zemit's
+The core of this service is the Console Component (`\PhalconKit\Core\Console`), which is seamlessly integrated into Phalcon Kit's
 architecture. This integration allows for a streamlined approach to handling CLI commands, ensuring they are processed
 accurately and reliably.
 
@@ -27,12 +27,12 @@ The Console Service is designed to offer a robust set of features for CLI-based 
 - **Automation Support**: The service is ideal for setting up automated tasks, such as cron jobs, essential for routine
   application maintenance and operations.
 - **Enhanced Script Execution**: It provides a structured environment for executing scripts, ensuring they run smoothly
-  within the Zemit framework.
+  within the Phalcon Kit.
 
 ### Accessing the Core Console Component
 
 For detailed information about the functionalities, structure, and implementation of the Core Console Component in the
-Console Service, visit the [Zemit Core Console Component documentation](../../core/console/). This resource offers
+Console Service, visit the [Phalcon Kit Console Component documentation](../../core/console/). This resource offers
 in-depth guidance on leveraging the Console Service for CLI operations, enhancing your application's capabilities in
 handling background tasks and command-line scripts.
 
@@ -41,14 +41,14 @@ handling background tasks and command-line scripts.
 ### Changing the Console Service Provider
 
 ```ini
-PROVIDER_CONSOLE=\Zemit\Provider\Console\ServiceProvider
+PROVIDER_CONSOLE=\PhalconKit\Provider\Console\ServiceProvider
 ```
 
 ## Console Service (`console`)
 
 !!! info "Console Service Provider"
     Console Service Provider (`console`):
-    [`\Zemit\Provider\Console\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Console/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Console\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Console/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -25,7 +25,7 @@ MAILER_BCC_EMAIL=
 ### Mailer Service Provider
 
 ```ini
-PROVIDER_MAILER=\Zemit\Provider\Mailer\ServiceProvider
+PROVIDER_MAILER=\PhalconKit\Provider\Mailer\ServiceProvider
 ```
 
 ### Mailer Configurations Object
@@ -34,7 +34,7 @@ PROVIDER_MAILER=\Zemit\Provider\Mailer\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Mailer\ServiceProvider::class => Env::get('PROVIDER_MAILER', \Zemit\Provider\Mailer\ServiceProvider::class),
+        \PhalconKit\Provider\Mailer\ServiceProvider::class => Env::get('PROVIDER_MAILER', \PhalconKit\Provider\Mailer\ServiceProvider::class),
     ],
     'mailer' => [
         'driver' => Env::get('MAILER_DRIVER', 'sendmail'),
@@ -75,7 +75,7 @@ new Config([
 
 !!! info "Mailer Service Provider"
     Mailer Service Provider (`mailer`):
-    [`\Zemit\Provider\Mailer\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Mailer/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Mailer\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Mailer/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

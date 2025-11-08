@@ -19,7 +19,7 @@
     - **QueryBuilder Integration**: v2 will leverage a query builder mechanism, enhancing the adaptability of data handling and retrieval.
     - **Optimized Data Structure**: The relationships and meta-data will be segregated from the main dataset. This strategic separation is aimed at boosting processing speed and reducing the payload size, thereby optimizing overall performance.
     
-    Stay tuned for the upcoming launch of the RESTful v2 system, set to redefine data management efficiency in Zemit.
+    Stay tuned for the upcoming launch of the RESTful v2 system, set to redefine data management efficiency in Phalcon Kit.
 
 ## Default RESTful Parameters
 
@@ -74,7 +74,7 @@ The default RESTful actions provide comprehensive coverage for most data handlin
 
 ### Forwards: `indexAction()`
 
-Zemit's RESTful System provides a standardized approach to handling HTTP requests and mapping them to specific actions
+ Phalcon kit's RESTful System provides a standardized approach to handling HTTP requests and mapping them to specific actions
 within controllers. This system ensures efficient and logical routing for CRUD operations and other RESTful
 interactions.
 

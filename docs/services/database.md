@@ -40,8 +40,8 @@ DATABASE_USE_BUFFERED_QUERY=true
 ### Database Adapter / Dialect
 ```ini
 # Optional, you can set your own adapter and dialect classes
-DATABASE_MYSQL_ADAPTER=\Zemit\Db\Adapter\Pdo\Mysql
-DATABASE_MYSQL_DIALECT=\Zemit\Db\Dialect\Mysql
+DATABASE_MYSQL_ADAPTER=\PhalconKit\Db\Adapter\Pdo\Mysql
+DATABASE_MYSQL_DIALECT=\PhalconKit\Db\Dialect\Mysql
 ```
 
 ### Database Driver
@@ -57,7 +57,7 @@ DATABASE_MYSQL_DIALECT=\Zemit\Db\Dialect\Mysql
     
     ```ini
     # Database Driver to "postgresql"
-    # Not officially supported by Zemit
+    # Not officially supported by Phalcon Kit
     DATABASE_DRIVER=postgresql
     ```
 
@@ -65,7 +65,7 @@ DATABASE_MYSQL_DIALECT=\Zemit\Db\Dialect\Mysql
     
     ```ini
     # Database Driver to "sqlite"
-    # Not officially supported by Zemit
+    # Not officially supported by Phalcon Kit
     DATABASE_DRIVER=sqlite
     ```
 
@@ -86,8 +86,8 @@ DATABASE_READONLY_CHARSET=utf8
 
 ### Database Service Provider
 ```ini
-PROVIDER_DATABASE=\Zemit\Provider\Database\ServiceProvider
-PROVIDER_DATABASE_READ_ONLY=\Zemit\Provider\DatabaseReadOnly\ServiceProvider
+PROVIDER_DATABASE=\PhalconKit\Provider\Database\ServiceProvider
+PROVIDER_DATABASE_READ_ONLY=\PhalconKit\Provider\DatabaseReadOnly\ServiceProvider
 ```
 
 ### Database Configuration Object
@@ -95,15 +95,15 @@ PROVIDER_DATABASE_READ_ONLY=\Zemit\Provider\DatabaseReadOnly\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Database\ServiceProvider::class => Env::get('PROVIDER_DATABASE', \Zemit\Provider\Database\ServiceProvider::class),
-        \Zemit\Provider\DatabaseReadOnly\ServiceProvider::class => Env::get('PROVIDER_DATABASE_READ_ONLY', \Zemit\Provider\DatabaseReadOnly\ServiceProvider::class),
+        \PhalconKit\Provider\Database\ServiceProvider::class => Env::get('PROVIDER_DATABASE', \PhalconKit\Provider\Database\ServiceProvider::class),
+        \PhalconKit\Provider\DatabaseReadOnly\ServiceProvider::class => Env::get('PROVIDER_DATABASE_READ_ONLY', \PhalconKit\Provider\DatabaseReadOnly\ServiceProvider::class),
     ],
     'database' => [
         'default' => Env::get('DATABASE_ADAPTER', 'mysql'),
         'drivers' => [
             'mysql' => [
-                'adapter' => Env::get('DATABASE_MYSQL_ADAPTER', \Zemit\Db\Adapter\Pdo\Mysql::class),
-                'dialectClass' => Env::get('DATABASE_MYSQL_DIALECT', \Zemit\Db\Dialect\Mysql::class),
+                'adapter' => Env::get('DATABASE_MYSQL_ADAPTER', \PhalconKit\Db\Adapter\Pdo\Mysql::class),
+                'dialectClass' => Env::get('DATABASE_MYSQL_DIALECT', \PhalconKit\Db\Dialect\Mysql::class),
                 'host' => Env::get('DATABASE_HOST', 'localhost'),
                 'port' => Env::get('DATABASE_PORT', 3306),
                 'dbname' => Env::get('DATABASE_DBNAME', ''),
@@ -136,7 +136,7 @@ new Config([
 ## Database Service (`db`)
 
 !!! info "Database Service Provider"
-Database Service Provider (`db`): [`\Zemit\Provider\Database\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Database/ServiceProvider.php){:target="_blank"}
+Database Service Provider (`db`): [`\PhalconKit\Provider\Database\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Database/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

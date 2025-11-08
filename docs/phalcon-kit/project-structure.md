@@ -1,12 +1,12 @@
 # Project Structure
 
-#### Standard Zemit Apps directory structured
+#### Standard Phalcon Kit Apps directory structured
 
 One of the key features of Phalcon is that it is loosely coupled. Because of that, you can use any directory structure that is convenient to you. In this example below, we will use a standard directory structure, commonly used in modular MVC applications.
 
 ## Standard Modular HMVC Structure
 
-Hierarchical Model-View-Controller (HMVC) is a design pattern that is an extension of the traditional Model-View-Controller (MVC) design pattern. It introduces a hierarchical structure to applications, allowing for increased modularity, reusability, and separation of concerns. Zemit Core recommends the HMVC project structure for the following reasons:
+Hierarchical Model-View-Controller (HMVC) is a design pattern that is an extension of the traditional Model-View-Controller (MVC) design pattern. It introduces a hierarchical structure to applications, allowing for increased modularity, reusability, and separation of concerns. Phalcon Kit recommends the HMVC project structure for the following reasons:
 
 1. **Nested Components**: In HMVC, components are structured hierarchically, allowing components to be nested within each other. This makes it possible to create complex pages in a manageable way, as each component can focus on a specific task.
 2. **Modularity and Reusability**: HMVC enhances the modularity and reusability seen in MVC. Components in HMVC are self-contained and can be plugged into any part of the application without concern for dependencies. This reduces code redundancy and facilitates code reuse, making the application more maintainable and scalable.
@@ -15,7 +15,7 @@ Hierarchical Model-View-Controller (HMVC) is a design pattern that is an extensi
 5. **Improved Performance**: HMVC can potentially improve the performance of your application. For instance, if a certain module is slow, it won't slow down the entire application, only the specific section where the module is used.
 6. **Framework Compatibility**: As HMVC is a well-recognized pattern, many frameworks, libraries, and tools are designed to work with it. Your project can take advantage of a wide range of resources by following the HMVC structure.
 
-By using the HMVC structure in your Zemit Core project, you'll be able to build complex applications that remain maintainable, scalable, and efficient.
+By using the HMVC structure in your Phalcon Kit project, you'll be able to build complex applications that remain maintainable, scalable, and efficient.
 
 ```text
 .

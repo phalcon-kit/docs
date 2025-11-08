@@ -5,49 +5,49 @@ The `models` service uses the [Phalcon Models Component](https://docs.phalcon.io
 ## Configurations
 
 ```ini
-MODEL_BACKUP=\Zemit\Models\Backup
-MODEL_AUDIT=\Zemit\Models\Audit
-MODEL_AUDIT_DETAIL=\Zemit\Models\AuditDetail
-MODEL_LOG=\Zemit\Models\Log
-MODEL_EMAIL=\Zemit\Models\Email
-MODEL_JOB=\Zemit\Models\Job
-MODEL_FILE=\Zemit\Models\File
-MODEL_SESSION=\Zemit\Models\Session
-MODEL_FLAG=\Zemit\Models\Flag
-MODEL_SETTING=\Zemit\Models\Setting
-MODEL_LANG=\Zemit\Models\Lang
-MODEL_TRANSLATE=\Zemit\Models\Translate
-MODEL_TRANSLATE_FIELD=\Zemit\Models\TranslateField
-MODEL_TRANSLATE_TABLE=\Zemit\Models\TranslateTable
-MODEL_WORKSPACE=\Zemit\Models\Workspace
-MODEL_WORKSPACE_LANG=\Zemit\Models\WorkspaceLang
-MODEL_PAGE=\Zemit\Models\Page
-MODEL_POST=\Zemit\Models\Post
-MODEL_TEMPLATE=\Zemit\Models\Template
-MODEL_TABLE=\Zemit\Models\Table
-MODEL_FIELD=\Zemit\Models\Field
-MODEL_OAUTH_2=\Zemit\Models\Oauth2
-MODEL_PROFILE=\Zemit\Models\Profile
-MODEL_USER=\Zemit\Models\User
-MODEL_USER_TYPE=\Zemit\Models\UserType
-MODEL_USER_GROUP=\Zemit\Models\UserGroup
-MODEL_USER_ROLE=\Zemit\Models\UserRole
-MODEL_USER_FEATURE=\Zemit\Models\UserFeature
-MODEL_ROLE=\Zemit\Models\Role
-MODEL_ROLE_ROLE=\Zemit\Models\RoleRole
-MODEL_ROLE_FEATURE=\Zemit\Models\RoleFeature
-MODEL_GROUP=\Zemit\Models\Group
-MODEL_GROUP_ROLE=\Zemit\Models\GroupRole
-MODEL_GROUP_TYPE=\Zemit\Models\GroupType
-MODEL_GROUP_FEATURE=\Zemit\Models\GroupFeature
-MODEL_TYPE=\Zemit\Models\Type
-MODEL_FEATURE=\Zemit\Models\Feature
+MODEL_BACKUP=\PhalconKit\Models\Backup
+MODEL_AUDIT=\PhalconKit\Models\Audit
+MODEL_AUDIT_DETAIL=\PhalconKit\Models\AuditDetail
+MODEL_LOG=\PhalconKit\Models\Log
+MODEL_EMAIL=\PhalconKit\Models\Email
+MODEL_JOB=\PhalconKit\Models\Job
+MODEL_FILE=\PhalconKit\Models\File
+MODEL_SESSION=\PhalconKit\Models\Session
+MODEL_FLAG=\PhalconKit\Models\Flag
+MODEL_SETTING=\PhalconKit\Models\Setting
+MODEL_LANG=\PhalconKit\Models\Lang
+MODEL_TRANSLATE=\PhalconKit\Models\Translate
+MODEL_TRANSLATE_FIELD=\PhalconKit\Models\TranslateField
+MODEL_TRANSLATE_TABLE=\PhalconKit\Models\TranslateTable
+MODEL_WORKSPACE=\PhalconKit\Models\Workspace
+MODEL_WORKSPACE_LANG=\PhalconKit\Models\WorkspaceLang
+MODEL_PAGE=\PhalconKit\Models\Page
+MODEL_POST=\PhalconKit\Models\Post
+MODEL_TEMPLATE=\PhalconKit\Models\Template
+MODEL_TABLE=\PhalconKit\Models\Table
+MODEL_FIELD=\PhalconKit\Models\Field
+MODEL_OAUTH_2=\PhalconKit\Models\Oauth2
+MODEL_PROFILE=\PhalconKit\Models\Profile
+MODEL_USER=\PhalconKit\Models\User
+MODEL_USER_TYPE=\PhalconKit\Models\UserType
+MODEL_USER_GROUP=\PhalconKit\Models\UserGroup
+MODEL_USER_ROLE=\PhalconKit\Models\UserRole
+MODEL_USER_FEATURE=\PhalconKit\Models\UserFeature
+MODEL_ROLE=\PhalconKit\Models\Role
+MODEL_ROLE_ROLE=\PhalconKit\Models\RoleRole
+MODEL_ROLE_FEATURE=\PhalconKit\Models\RoleFeature
+MODEL_GROUP=\PhalconKit\Models\Group
+MODEL_GROUP_ROLE=\PhalconKit\Models\GroupRole
+MODEL_GROUP_TYPE=\PhalconKit\Models\GroupType
+MODEL_GROUP_FEATURE=\PhalconKit\Models\GroupFeature
+MODEL_TYPE=\PhalconKit\Models\Type
+MODEL_FEATURE=\PhalconKit\Models\Feature
 ```
 
 ### Models Service Provider
 
 ```ini
-PROVIDER_MODELS=\Zemit\Provider\Models\ServiceProvider
+PROVIDER_MODELS=\PhalconKit\Provider\Models\ServiceProvider
 ```
 
 ### Models Configurations Object
@@ -56,46 +56,46 @@ PROVIDER_MODELS=\Zemit\Provider\Models\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Models\ServiceProvider::class => Env::get('PROVIDER_MODELS', \Zemit\Provider\Models\ServiceProvider::class),
+        \PhalconKit\Provider\Models\ServiceProvider::class => Env::get('PROVIDER_MODELS', \PhalconKit\Provider\Models\ServiceProvider::class),
     ],
     'models' => [
-        \Zemit\Models\Backup::class => Env::get('MODEL_BACKUP', \Zemit\Models\Backup::class),
-        \Zemit\Models\Audit::class => Env::get('MODEL_AUDIT', \Zemit\Models\Audit::class),
-        \Zemit\Models\AuditDetail::class => Env::get('MODEL_AUDIT_DETAIL', \Zemit\Models\AuditDetail::class),
-        \Zemit\Models\Log::class => Env::get('MODEL_LOG', \Zemit\Models\Log::class),
-        \Zemit\Models\Email::class => Env::get('MODEL_EMAIL', \Zemit\Models\Email::class),
-        \Zemit\Models\Job::class => Env::get('MODEL_JOB', \Zemit\Models\Job::class),
-        \Zemit\Models\File::class => Env::get('MODEL_FILE', \Zemit\Models\File::class),
-        \Zemit\Models\Session::class => Env::get('MODEL_SESSION', \Zemit\Models\Session::class),
-        \Zemit\Models\Flag::class => Env::get('MODEL_FLAG', \Zemit\Models\Flag::class),
-        \Zemit\Models\Setting::class => Env::get('MODEL_SETTING', \Zemit\Models\Setting::class),
-        \Zemit\Models\Lang::class => Env::get('MODEL_LANG', \Zemit\Models\Lang::class),
-        \Zemit\Models\Translate::class => Env::get('MODEL_TRANSLATE', \Zemit\Models\Translate::class),
-        \Zemit\Models\TranslateField::class => Env::get('MODEL_TRANSLATE_FIELD', \Zemit\Models\TranslateField::class),
-        \Zemit\Models\TranslateTable::class => Env::get('MODEL_TRANSLATE_TABLE', \Zemit\Models\TranslateTable::class),
-        \Zemit\Models\Workspace::class => Env::get('MODEL_WORKSPACE', \Zemit\Models\Workspace::class),
-        \Zemit\Models\WorkspaceLang::class => Env::get('MODEL_WORKSPACE_LANG', \Zemit\Models\WorkspaceLang::class),
-        \Zemit\Models\Page::class => Env::get('MODEL_PAGE', \Zemit\Models\Page::class),
-        \Zemit\Models\Post::class => Env::get('MODEL_POST', \Zemit\Models\Post::class),
-        \Zemit\Models\Template::class => Env::get('MODEL_TEMPLATE', \Zemit\Models\Template::class),
-        \Zemit\Models\Table::class => Env::get('MODEL_TABLE', \Zemit\Models\Table::class),
-        \Zemit\Models\Field::class => Env::get('MODEL_FIELD', \Zemit\Models\Field::class),
-        \Zemit\Models\Oauth2::class => Env::get('MODEL_OAUTH_2', \Zemit\Models\Oauth2::class),
-        \Zemit\Models\Profile::class => Env::get('MODEL_PROFILE', \Zemit\Models\Profile::class),
-        \Zemit\Models\User::class => Env::get('MODEL_USER', \Zemit\Models\User::class),
-        \Zemit\Models\UserType::class => Env::get('MODEL_USER_TYPE', \Zemit\Models\UserType::class),
-        \Zemit\Models\UserGroup::class => Env::get('MODEL_USER_GROUP', \Zemit\Models\UserGroup::class),
-        \Zemit\Models\UserRole::class => Env::get('MODEL_USER_ROLE', \Zemit\Models\UserRole::class),
-        \Zemit\Models\UserFeature::class => Env::get('MODEL_USER_FEATURE', \Zemit\Models\UserFeature::class),
-        \Zemit\Models\Role::class => Env::get('MODEL_ROLE', \Zemit\Models\Role::class),
-        \Zemit\Models\RoleRole::class => Env::get('MODEL_ROLE_ROLE', \Zemit\Models\RoleRole::class),
-        \Zemit\Models\RoleFeature::class => Env::get('MODEL_ROLE_FEATURE', \Zemit\Models\RoleFeature::class),
-        \Zemit\Models\Group::class => Env::get('MODEL_GROUP', \Zemit\Models\Group::class),
-        \Zemit\Models\GroupRole::class => Env::get('MODEL_GROUP_ROLE', \Zemit\Models\GroupRole::class),
-        \Zemit\Models\GroupType::class => Env::get('MODEL_GROUP_TYPE', \Zemit\Models\GroupType::class),
-        \Zemit\Models\GroupFeature::class => Env::get('MODEL_GROUP_FEATURE', \Zemit\Models\GroupFeature::class),
-        \Zemit\Models\Type::class => Env::get('MODEL_TYPE', \Zemit\Models\Type::class),
-        \Zemit\Models\Feature::class => Env::get('MODEL_FEATURE', \Zemit\Models\Feature::class),
+        \PhalconKit\Models\Backup::class => Env::get('MODEL_BACKUP', \PhalconKit\Models\Backup::class),
+        \PhalconKit\Models\Audit::class => Env::get('MODEL_AUDIT', \PhalconKit\Models\Audit::class),
+        \PhalconKit\Models\AuditDetail::class => Env::get('MODEL_AUDIT_DETAIL', \PhalconKit\Models\AuditDetail::class),
+        \PhalconKit\Models\Log::class => Env::get('MODEL_LOG', \PhalconKit\Models\Log::class),
+        \PhalconKit\Models\Email::class => Env::get('MODEL_EMAIL', \PhalconKit\Models\Email::class),
+        \PhalconKit\Models\Job::class => Env::get('MODEL_JOB', \PhalconKit\Models\Job::class),
+        \PhalconKit\Models\File::class => Env::get('MODEL_FILE', \PhalconKit\Models\File::class),
+        \PhalconKit\Models\Session::class => Env::get('MODEL_SESSION', \PhalconKit\Models\Session::class),
+        \PhalconKit\Models\Flag::class => Env::get('MODEL_FLAG', \PhalconKit\Models\Flag::class),
+        \PhalconKit\Models\Setting::class => Env::get('MODEL_SETTING', \PhalconKit\Models\Setting::class),
+        \PhalconKit\Models\Lang::class => Env::get('MODEL_LANG', \PhalconKit\Models\Lang::class),
+        \PhalconKit\Models\Translate::class => Env::get('MODEL_TRANSLATE', \PhalconKit\Models\Translate::class),
+        \PhalconKit\Models\TranslateField::class => Env::get('MODEL_TRANSLATE_FIELD', \PhalconKit\Models\TranslateField::class),
+        \PhalconKit\Models\TranslateTable::class => Env::get('MODEL_TRANSLATE_TABLE', \PhalconKit\Models\TranslateTable::class),
+        \PhalconKit\Models\Workspace::class => Env::get('MODEL_WORKSPACE', \PhalconKit\Models\Workspace::class),
+        \PhalconKit\Models\WorkspaceLang::class => Env::get('MODEL_WORKSPACE_LANG', \PhalconKit\Models\WorkspaceLang::class),
+        \PhalconKit\Models\Page::class => Env::get('MODEL_PAGE', \PhalconKit\Models\Page::class),
+        \PhalconKit\Models\Post::class => Env::get('MODEL_POST', \PhalconKit\Models\Post::class),
+        \PhalconKit\Models\Template::class => Env::get('MODEL_TEMPLATE', \PhalconKit\Models\Template::class),
+        \PhalconKit\Models\Table::class => Env::get('MODEL_TABLE', \PhalconKit\Models\Table::class),
+        \PhalconKit\Models\Field::class => Env::get('MODEL_FIELD', \PhalconKit\Models\Field::class),
+        \PhalconKit\Models\Oauth2::class => Env::get('MODEL_OAUTH_2', \PhalconKit\Models\Oauth2::class),
+        \PhalconKit\Models\Profile::class => Env::get('MODEL_PROFILE', \PhalconKit\Models\Profile::class),
+        \PhalconKit\Models\User::class => Env::get('MODEL_USER', \PhalconKit\Models\User::class),
+        \PhalconKit\Models\UserType::class => Env::get('MODEL_USER_TYPE', \PhalconKit\Models\UserType::class),
+        \PhalconKit\Models\UserGroup::class => Env::get('MODEL_USER_GROUP', \PhalconKit\Models\UserGroup::class),
+        \PhalconKit\Models\UserRole::class => Env::get('MODEL_USER_ROLE', \PhalconKit\Models\UserRole::class),
+        \PhalconKit\Models\UserFeature::class => Env::get('MODEL_USER_FEATURE', \PhalconKit\Models\UserFeature::class),
+        \PhalconKit\Models\Role::class => Env::get('MODEL_ROLE', \PhalconKit\Models\Role::class),
+        \PhalconKit\Models\RoleRole::class => Env::get('MODEL_ROLE_ROLE', \PhalconKit\Models\RoleRole::class),
+        \PhalconKit\Models\RoleFeature::class => Env::get('MODEL_ROLE_FEATURE', \PhalconKit\Models\RoleFeature::class),
+        \PhalconKit\Models\Group::class => Env::get('MODEL_GROUP', \PhalconKit\Models\Group::class),
+        \PhalconKit\Models\GroupRole::class => Env::get('MODEL_GROUP_ROLE', \PhalconKit\Models\GroupRole::class),
+        \PhalconKit\Models\GroupType::class => Env::get('MODEL_GROUP_TYPE', \PhalconKit\Models\GroupType::class),
+        \PhalconKit\Models\GroupFeature::class => Env::get('MODEL_GROUP_FEATURE', \PhalconKit\Models\GroupFeature::class),
+        \PhalconKit\Models\Type::class => Env::get('MODEL_TYPE', \PhalconKit\Models\Type::class),
+        \PhalconKit\Models\Feature::class => Env::get('MODEL_FEATURE', \PhalconKit\Models\Feature::class),
     ],
 ]);
 ```
@@ -104,7 +104,7 @@ new Config([
 
 !!! info "Models Service Provider"
     Models Service Provider (`models`):
-    [`\Zemit\Provider\Models\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Models/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Models\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Models/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

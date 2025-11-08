@@ -5,7 +5,7 @@
 ### Changing the Lorem Ipsum Service Provider
 
 ```ini
-PROVIDER_LOREM_IPSUM=\Zemit\Provider\LoremIpsum\ServiceProvider
+PROVIDER_LOREM_IPSUM=\PhalconKit\Provider\LoremIpsum\ServiceProvider
 ```
 
 ### LoremIpsum Configurations Object
@@ -14,7 +14,7 @@ PROVIDER_LOREM_IPSUM=\Zemit\Provider\LoremIpsum\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\LoremIpsum\ServiceProvider::class => Env::get('PROVIDER_LOREM_IPSUM', \Zemit\Provider\LoremIpsum\ServiceProvider::class),
+        \PhalconKit\Provider\LoremIpsum\ServiceProvider::class => Env::get('PROVIDER_LOREM_IPSUM', \PhalconKit\Provider\LoremIpsum\ServiceProvider::class),
     ],
 ]);
 ```
@@ -23,7 +23,7 @@ new Config([
 
 !!! info "Lorem Service Provider"
     Lorem Service Provider (`loremIpsum`):
-    [`\Zemit\Provider\Lorem\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/LoremIpsum/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Lorem\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/LoremIpsum/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

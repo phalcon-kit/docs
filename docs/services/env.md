@@ -5,7 +5,7 @@
 ### Env Service Provider
 
 ```ini
-PROVIDER_ENV=\Zemit\Provider\Env\ServiceProvider
+PROVIDER_ENV=\PhalconKit\Provider\Env\ServiceProvider
 ```
 
 ### Env Configurations Object
@@ -14,7 +14,7 @@ PROVIDER_ENV=\Zemit\Provider\Env\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Env\ServiceProvider::class => Env::get('PROVIDER_ENV', \Zemit\Provider\Env\ServiceProvider::class),
+        \PhalconKit\Provider\Env\ServiceProvider::class => Env::get('PROVIDER_ENV', \PhalconKit\Provider\Env\ServiceProvider::class),
     ],
 ]);
 ```
@@ -23,7 +23,7 @@ new Config([
 
 !!! info "Env Service Provider"
     Env Service Provider (`env`):
-    [`\Zemit\Provider\Env\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Env/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Env\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Env/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

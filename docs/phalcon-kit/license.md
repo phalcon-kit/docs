@@ -2,7 +2,7 @@
 
 ## BSD 3-Clause License
 
-Zemit is open-source software, distributed under the New BSD License.
+Phalcon Kit is open-source software, distributed under the New BSD License.
 This license grants broad permissions, allowing both personal and commercial use,
 modification, and distribution of the software, under the following terms.
 
@@ -42,4 +42,4 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ---
 
-This license ensures your freedom to use Zemit as you see fit while respecting the conditions laid out above. For more details, refer to the LICENSE.txt file distributed with Zemit's source code.
+This license ensures your freedom to use Phalcon Kit as you see fit while respecting the conditions laid out above. For more details, refer to the LICENSE.txt file distributed with Phalcon Kit's source code.

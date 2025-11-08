@@ -11,7 +11,7 @@ The `image` service uses the [Phalcon Image Component](https://docs.phalcon.io/l
 ### Image Service Provider
 
 ```ini
-PROVIDER_IMAGE=\Zemit\Provider\Image\ServiceProvider
+PROVIDER_IMAGE=\PhalconKit\Provider\Image\ServiceProvider
 ```
 
 ### Image Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_IMAGE=\Zemit\Provider\Image\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Image\ServiceProvider::class => Env::get('PROVIDER_IMAGE', \Zemit\Provider\Image\ServiceProvider::class),
+        \PhalconKit\Provider\Image\ServiceProvider::class => Env::get('PROVIDER_IMAGE', \PhalconKit\Provider\Image\ServiceProvider::class),
     ],
 ]);
 ```
@@ -29,7 +29,7 @@ new Config([
 
 !!! info "Image Service Provider"
     Image Service Provider (`image`):
-    [`\Zemit\Provider\Image\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Image/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Image\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Image/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

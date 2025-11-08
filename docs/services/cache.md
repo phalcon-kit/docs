@@ -45,7 +45,7 @@ CACHE_DEFAULT_SERIALIZER=Php
 ### Cache Service Provider
 
 ```ini
-PROVIDER_CACHE=\Zemit\Provider\Cache\ServiceProvider
+PROVIDER_CACHE=\PhalconKit\Provider\Cache\ServiceProvider
 ```
 
 ### Cache Configurations Object
@@ -54,7 +54,7 @@ PROVIDER_CACHE=\Zemit\Provider\Cache\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Cache\ServiceProvider::class => Env::get('PROVIDER_CACHE', \Zemit\Provider\Cache\ServiceProvider::class),
+        \PhalconKit\Provider\Cache\ServiceProvider::class => Env::get('PROVIDER_CACHE', \PhalconKit\Provider\Cache\ServiceProvider::class),
     ],
     'cache' => [
         'cli' => Env::get('CACHE_DRIVER_CLI', 'memory'),
@@ -106,7 +106,7 @@ new Config([
 
 !!! info "Cache Service Provider"
     Cache Service Provider (`cache`):
-    [`\Zemit\Provider\Cache\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Cache/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Cache\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Cache/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

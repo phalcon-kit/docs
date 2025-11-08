@@ -11,7 +11,7 @@ The `tag` service uses the [Phalcon Tag Component](https://docs.phalcon.io/lates
 ### Tag Service Provider
 
 ```ini
-PROVIDER_TAG=\Zemit\Provider\Tag\ServiceProvider
+PROVIDER_TAG=\PhalconKit\Provider\Tag\ServiceProvider
 ```
 
 ### Tag Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_TAG=\Zemit\Provider\Tag\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Tag\ServiceProvider::class => Env::get('PROVIDER_TAG', \Zemit\Provider\Tag\ServiceProvider::class),
+        \PhalconKit\Provider\Tag\ServiceProvider::class => Env::get('PROVIDER_TAG', \PhalconKit\Provider\Tag\ServiceProvider::class),
     ],
 ]);
 ```
@@ -29,7 +29,7 @@ new Config([
 
 !!! info "Tag Service Provider"
     Tag Service Provider (`tag`):
-    [`\Zemit\Provider\Tag\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Tag/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Tag\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Tag/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

@@ -22,7 +22,7 @@ SECURITY_SALT=>mY.Db5fR?k%~<ZWf\}Zh35_IFC]#0Xx
 ### Security Service Provider
 
 ```ini
-PROVIDER_SECURITY=\Zemit\Provider\Security\ServiceProvider
+PROVIDER_SECURITY=\PhalconKit\Provider\Security\ServiceProvider
 ```
 
 ### Security Configurations Object
@@ -31,7 +31,7 @@ PROVIDER_SECURITY=\Zemit\Provider\Security\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Security\ServiceProvider::class => Env::get('PROVIDER_SECURITY', \Zemit\Provider\Security\ServiceProvider::class),
+        \PhalconKit\Provider\Security\ServiceProvider::class => Env::get('PROVIDER_SECURITY', \PhalconKit\Provider\Security\ServiceProvider::class),
     ],
     'security' => [ // phalcon security config
         'workFactor' => Env::get('SECURITY_WORK_FACTOR', 12), // workfactor for the phalcon security service
@@ -50,7 +50,7 @@ new Config([
 
 !!! info "Security Service Provider"
     Security Service Provider (`security`):
-    [`\Zemit\Provider\Security\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Security/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Security\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Security/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

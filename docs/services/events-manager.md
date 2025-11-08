@@ -7,14 +7,14 @@
 ### Changing the Events Manager Service Provider
 
 ```ini
-PROVIDER_EVENTS=\Zemit\Provider\EventsManager\ServiceProvider
+PROVIDER_EVENTS=\PhalconKit\Provider\EventsManager\ServiceProvider
 ```
 
 ## Events Manager Service (`eventsManager`)
 
 !!! info "Events Service Provider"
     Events Service Provider (`eventsManager`):
-    [`\Zemit\Provider\Events\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/EventsManager/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Events\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/EventsManager/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

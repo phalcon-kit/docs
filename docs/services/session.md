@@ -208,7 +208,7 @@ new Config([
 
 !!! info "Session Service Provider"
     Session Service Provider (`session`):
-    [`\Zemit\Provider\Session\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Session/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Session\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Session/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

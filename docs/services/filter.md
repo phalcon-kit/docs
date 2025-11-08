@@ -11,7 +11,7 @@ The `filter` service uses the [Phalcon Filter Component](https://docs.phalcon.io
 ### Filter Service Provider
 
 ```ini
-PROVIDER_FILTER=\Zemit\Provider\Filter\ServiceProvider
+PROVIDER_FILTER=\PhalconKit\Provider\Filter\ServiceProvider
 ```
 
 ### Filter Configurations Object
@@ -20,7 +20,7 @@ PROVIDER_FILTER=\Zemit\Provider\Filter\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Filter\ServiceProvider::class => Env::get('PROVIDER_FILTER', \Zemit\Provider\Filter\ServiceProvider::class),
+        \PhalconKit\Provider\Filter\ServiceProvider::class => Env::get('PROVIDER_FILTER', \PhalconKit\Provider\Filter\ServiceProvider::class),
     ],
     'filters' => [
         // add your own filters here
@@ -32,7 +32,7 @@ new Config([
 
 !!! info "Filter Service Provider"
     Filter Service Provider (`filter`):
-    [`\Zemit\Provider\Filter\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Filter/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Filter\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Filter/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php

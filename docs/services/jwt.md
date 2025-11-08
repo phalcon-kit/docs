@@ -60,7 +60,7 @@ SECURITY_JWT_ALGO = sha512
 ### JWT Service Provider
 
 ```ini
-PROVIDER_JWT = \Zemit\Provider\Jwt\ServiceProvider
+PROVIDER_JWT = \PhalconKit\Provider\Jwt\ServiceProvider
 ```
 
 ### JWT Configurations Object
@@ -69,7 +69,7 @@ PROVIDER_JWT = \Zemit\Provider\Jwt\ServiceProvider
 <?php
 new Config([
     'providers' => [
-        \Zemit\Provider\Jwt\ServiceProvider::class => Env::get('PROVIDER_JWT', \Zemit\Provider\Jwt\ServiceProvider::class),
+        \PhalconKit\Provider\Jwt\ServiceProvider::class => Env::get('PROVIDER_JWT', \PhalconKit\Provider\Jwt\ServiceProvider::class),
     ],
     'security' => [
         // ...
@@ -94,7 +94,7 @@ new Config([
 
 !!! info "JWT Service Provider"
     Jwt Service Provider (`jwt`):
-    [`\Zemit\Provider\Jwt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Jwt/ServiceProvider.php){:target="_blank"}
+    [`\PhalconKit\Provider\Jwt\ServiceProvider`](https://github.com/phalcon-kit/core/blob/master/src/Provider/Jwt/ServiceProvider.php){:target="_blank"}
 
 ```php
 <?php
