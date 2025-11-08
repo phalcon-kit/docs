@@ -1,0 +1,887 @@
+      - \:
+          - array_unset_recursive(): api/functions/array_unset_recursive.md
+          - dump(): api/functions/dump.md
+          - exit_500(): api/functions/exit_500.md
+          - dd(): api/functions/dd.md
+          - vdd(): api/functions/vdd.md
+          - implode_sprintf(): api/functions/implode_sprintf.md
+          - implode_mb_sprintf(): api/functions/implode_mb_sprintf.md
+          - sprintfn(): api/functions/sprintfn.md
+          - mb_sprintf(): api/functions/mb_sprintf.md
+          - mb_vsprintf(): api/functions/mb_vsprintf.md
+      - \PhalconKit:
+          - Bootstrap: api/classes/PhalconKit/Bootstrap.md
+          - Exception: api/classes/PhalconKit/Exception.md
+          - Locale: api/classes/PhalconKit/Locale.md
+          - Tag: api/classes/PhalconKit/Tag.md
+      - \PhalconKit\Acl:
+          - Acl: api/classes/PhalconKit/Acl/Acl.md
+          - AclInterface: api/classes/PhalconKit/Acl/AclInterface.md
+      - \PhalconKit\Assets:
+          - Manager: api/classes/PhalconKit/Assets/Manager.md
+      - \PhalconKit\Autoload:
+          - Loader: api/classes/PhalconKit/Autoload/Loader.md
+      - \PhalconKit\Bootstrap:
+          - Config: api/classes/PhalconKit/Bootstrap/Config.md
+          - Deployment: api/classes/PhalconKit/Bootstrap/Deployment.md
+          - Devtools: api/classes/PhalconKit/Bootstrap/Devtools.md
+          - Router: api/classes/PhalconKit/Bootstrap/Router.md
+      - \PhalconKit\Bootstrap\Permissions:
+          - ColumnConfig: api/classes/PhalconKit/Bootstrap/Permissions/ColumnConfig.md
+          - DynamicConfig: api/classes/PhalconKit/Bootstrap/Permissions/DynamicConfig.md
+          - RecordConfig: api/classes/PhalconKit/Bootstrap/Permissions/RecordConfig.md
+          - TableConfig: api/classes/PhalconKit/Bootstrap/Permissions/TableConfig.md
+          - TemplateConfig: api/classes/PhalconKit/Bootstrap/Permissions/TemplateConfig.md
+          - WorkspaceConfig: api/classes/PhalconKit/Bootstrap/Permissions/WorkspaceConfig.md
+      - \PhalconKit\Cache:
+          - Cache: api/classes/PhalconKit/Cache/Cache.md
+      - \PhalconKit\Cli:
+          - Console: api/classes/PhalconKit/Cli/Console.md
+          - Dispatcher: api/classes/PhalconKit/Cli/Dispatcher.md
+          - ExceptionHandler: api/classes/PhalconKit/Cli/ExceptionHandler.md
+          - Module: api/classes/PhalconKit/Cli/Module.md
+          - Router: api/classes/PhalconKit/Cli/Router.md
+          - Task: api/classes/PhalconKit/Cli/Task.md
+          - DispatcherInterface: api/classes/PhalconKit/Cli/DispatcherInterface.md
+          - TaskInterface: api/classes/PhalconKit/Cli/TaskInterface.md
+      - \PhalconKit\Config:
+          - Config: api/classes/PhalconKit/Config/Config.md
+          - ConfigInterface: api/classes/PhalconKit/Config/ConfigInterface.md
+      - \PhalconKit\Db:
+          - Column: api/classes/PhalconKit/Db/Column.md
+          - Profiler: api/classes/PhalconKit/Db/Profiler.md
+      - \PhalconKit\Db\Adapter\Pdo:
+          - Mysql: api/classes/PhalconKit/Db/Adapter/Pdo/Mysql.md
+      - \PhalconKit\Db\Dialect:
+          - Mysql: api/classes/PhalconKit/Db/Dialect/Mysql.md
+      - \PhalconKit\Db\Events:
+          - Logger: api/classes/PhalconKit/Db/Events/Logger.md
+          - Profiler: api/classes/PhalconKit/Db/Events/Profiler.md
+      - \PhalconKit\Di:
+          - Injectable: api/classes/PhalconKit/Di/Injectable.md
+          - AbstractInjectable: api/classes/PhalconKit/Di/AbstractInjectable.md
+          - InjectableProperties: api/classes/PhalconKit/Di/InjectableProperties.md
+          - InjectableTrait: api/classes/PhalconKit/Di/InjectableTrait.md
+      - \PhalconKit\Dispatcher:
+          - AbstractDispatcher: api/classes/PhalconKit/Dispatcher/AbstractDispatcher.md
+          - DispatcherTrait: api/classes/PhalconKit/Dispatcher/DispatcherTrait.md
+          - DispatcherInterface: api/classes/PhalconKit/Dispatcher/DispatcherInterface.md
+      - \PhalconKit\Encryption:
+          - Security: api/classes/PhalconKit/Encryption/Security.md
+      - \PhalconKit\Encryption\Security:
+          - Random: api/classes/PhalconKit/Encryption/Security/Random.md
+      - \PhalconKit\Events:
+          - EventsAwareTrait: api/classes/PhalconKit/Events/EventsAwareTrait.md
+      - \PhalconKit\Exception:
+          - CliException: api/classes/PhalconKit/Exception/CliException.md
+          - HttpException: api/classes/PhalconKit/Exception/HttpException.md
+          - WsException: api/classes/PhalconKit/Exception/WsException.md
+      - \PhalconKit\Filter:
+          - Filter: api/classes/PhalconKit/Filter/Filter.md
+          - FilterFactory: api/classes/PhalconKit/Filter/FilterFactory.md
+          - Validation: api/classes/PhalconKit/Filter/Validation.md
+      - \PhalconKit\Filter\Sanitize:
+          - IPv4: api/classes/PhalconKit/Filter/Sanitize/IPv4.md
+          - IPv6: api/classes/PhalconKit/Filter/Sanitize/IPv6.md
+          - Json: api/classes/PhalconKit/Filter/Sanitize/Json.md
+          - Md5: api/classes/PhalconKit/Filter/Sanitize/Md5.md
+      - \PhalconKit\Filter\Validation\Validator:
+          - Color: api/classes/PhalconKit/Filter/Validation/Validator/Color.md
+          - Json: api/classes/PhalconKit/Filter/Validation/Validator/Json.md
+      - \PhalconKit\Fractal:
+          - Manager: api/classes/PhalconKit/Fractal/Manager.md
+          - ModelTransformer: api/classes/PhalconKit/Fractal/ModelTransformer.md
+          - Transformer: api/classes/PhalconKit/Fractal/Transformer.md
+      - \PhalconKit\Fractal\Serializer:
+          - RawArraySerializer: api/classes/PhalconKit/Fractal/Serializer/RawArraySerializer.md
+      - \PhalconKit\Html:
+          - Escaper: api/classes/PhalconKit/Html/Escaper.md
+          - TagFactory: api/classes/PhalconKit/Html/TagFactory.md
+      - \PhalconKit\Html\Escaper:
+          - EscaperInterface: api/classes/PhalconKit/Html/Escaper/EscaperInterface.md
+      - \PhalconKit\Http:
+          - Request: api/classes/PhalconKit/Http/Request.md
+          - Response: api/classes/PhalconKit/Http/Response.md
+          - StatusCode: api/classes/PhalconKit/Http/StatusCode.md
+          - RequestInterface: api/classes/PhalconKit/Http/RequestInterface.md
+          - ResponseInterface: api/classes/PhalconKit/Http/ResponseInterface.md
+      - \PhalconKit\Identity:
+          - Manager: api/classes/PhalconKit/Identity/Manager.md
+          - ManagerInterface: api/classes/PhalconKit/Identity/ManagerInterface.md
+      - \PhalconKit\Identity\Traits:
+          - Acl: api/classes/PhalconKit/Identity/Traits/Acl.md
+          - Impersonation: api/classes/PhalconKit/Identity/Traits/Impersonation.md
+          - Jwt: api/classes/PhalconKit/Identity/Traits/Jwt.md
+          - Oauth2: api/classes/PhalconKit/Identity/Traits/Oauth2.md
+          - Role: api/classes/PhalconKit/Identity/Traits/Role.md
+          - Session: api/classes/PhalconKit/Identity/Traits/Session.md
+          - User: api/classes/PhalconKit/Identity/Traits/User.md
+      - \PhalconKit\Identity\Traits\Abstracts:
+          - AbstractAcl: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractAcl.md
+          - AbstractImpersonation: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractImpersonation.md
+          - AbstractJwt: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractJwt.md
+          - AbstractOauth2: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractOauth2.md
+          - AbstractRole: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractRole.md
+          - AbstractSession: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractSession.md
+          - AbstractUser: api/classes/PhalconKit/Identity/Traits/Abstracts/AbstractUser.md
+      - \PhalconKit\Identity\Traits\Interfaces:
+          - AclInterface: api/classes/PhalconKit/Identity/Traits/Interfaces/AclInterface.md
+          - ImpersonationInterface: api/classes/PhalconKit/Identity/Traits/Interfaces/ImpersonationInterface.md
+          - JwtInterface: api/classes/PhalconKit/Identity/Traits/Interfaces/JwtInterface.md
+          - Oauth2Interface: api/classes/PhalconKit/Identity/Traits/Interfaces/Oauth2Interface.md
+          - RoleInterface: api/classes/PhalconKit/Identity/Traits/Interfaces/RoleInterface.md
+          - SessionInterface: api/classes/PhalconKit/Identity/Traits/Interfaces/SessionInterface.md
+          - UserInterface: api/classes/PhalconKit/Identity/Traits/Interfaces/UserInterface.md
+      - \PhalconKit\Locales:
+          - En: api/classes/PhalconKit/Locales/En.md
+          - Fr: api/classes/PhalconKit/Locales/Fr.md
+      - \PhalconKit\Logger:
+          - Loggers: api/classes/PhalconKit/Logger/Loggers.md
+      - \PhalconKit\Models:
+          - AbstractModel: api/classes/PhalconKit/Models/AbstractModel.md
+          - Audit: api/classes/PhalconKit/Models/Audit.md
+          - AuditDetail: api/classes/PhalconKit/Models/AuditDetail.md
+          - Backup: api/classes/PhalconKit/Models/Backup.md
+          - Category: api/classes/PhalconKit/Models/Category.md
+          - Column: api/classes/PhalconKit/Models/Column.md
+          - Data: api/classes/PhalconKit/Models/Data.md
+          - Email: api/classes/PhalconKit/Models/Email.md
+          - EmailFile: api/classes/PhalconKit/Models/EmailFile.md
+          - Feature: api/classes/PhalconKit/Models/Feature.md
+          - File: api/classes/PhalconKit/Models/File.md
+          - FileRelation: api/classes/PhalconKit/Models/FileRelation.md
+          - Flag: api/classes/PhalconKit/Models/Flag.md
+          - Group: api/classes/PhalconKit/Models/Group.md
+          - GroupFeature: api/classes/PhalconKit/Models/GroupFeature.md
+          - GroupRole: api/classes/PhalconKit/Models/GroupRole.md
+          - GroupType: api/classes/PhalconKit/Models/GroupType.md
+          - Job: api/classes/PhalconKit/Models/Job.md
+          - JobScheduler: api/classes/PhalconKit/Models/JobScheduler.md
+          - Lang: api/classes/PhalconKit/Models/Lang.md
+          - Log: api/classes/PhalconKit/Models/Log.md
+          - Menu: api/classes/PhalconKit/Models/Menu.md
+          - Meta: api/classes/PhalconKit/Models/Meta.md
+          - Oauth2: api/classes/PhalconKit/Models/Oauth2.md
+          - Page: api/classes/PhalconKit/Models/Page.md
+          - PhalconMigrations: api/classes/PhalconKit/Models/PhalconMigrations.md
+          - Post: api/classes/PhalconKit/Models/Post.md
+          - PostCategory: api/classes/PhalconKit/Models/PostCategory.md
+          - Profile: api/classes/PhalconKit/Models/Profile.md
+          - Record: api/classes/PhalconKit/Models/Record.md
+          - Role: api/classes/PhalconKit/Models/Role.md
+          - RoleFeature: api/classes/PhalconKit/Models/RoleFeature.md
+          - RoleRole: api/classes/PhalconKit/Models/RoleRole.md
+          - Session: api/classes/PhalconKit/Models/Session.md
+          - Setting: api/classes/PhalconKit/Models/Setting.md
+          - Site: api/classes/PhalconKit/Models/Site.md
+          - SiteLang: api/classes/PhalconKit/Models/SiteLang.md
+          - Table: api/classes/PhalconKit/Models/Table.md
+          - Template: api/classes/PhalconKit/Models/Template.md
+          - Translate: api/classes/PhalconKit/Models/Translate.md
+          - Type: api/classes/PhalconKit/Models/Type.md
+          - User: api/classes/PhalconKit/Models/User.md
+          - UserFeature: api/classes/PhalconKit/Models/UserFeature.md
+          - UserGroup: api/classes/PhalconKit/Models/UserGroup.md
+          - UserRole: api/classes/PhalconKit/Models/UserRole.md
+          - UserType: api/classes/PhalconKit/Models/UserType.md
+          - Validator: api/classes/PhalconKit/Models/Validator.md
+          - Workspace: api/classes/PhalconKit/Models/Workspace.md
+          - WorkspaceLang: api/classes/PhalconKit/Models/WorkspaceLang.md
+      - \PhalconKit\Models\Abstracts:
+          - AuditAbstract: api/classes/PhalconKit/Models/Abstracts/AuditAbstract.md
+          - AuditDetailAbstract: api/classes/PhalconKit/Models/Abstracts/AuditDetailAbstract.md
+          - BackupAbstract: api/classes/PhalconKit/Models/Abstracts/BackupAbstract.md
+          - CategoryAbstract: api/classes/PhalconKit/Models/Abstracts/CategoryAbstract.md
+          - ColumnAbstract: api/classes/PhalconKit/Models/Abstracts/ColumnAbstract.md
+          - DataAbstract: api/classes/PhalconKit/Models/Abstracts/DataAbstract.md
+          - EmailAbstract: api/classes/PhalconKit/Models/Abstracts/EmailAbstract.md
+          - EmailFileAbstract: api/classes/PhalconKit/Models/Abstracts/EmailFileAbstract.md
+          - FeatureAbstract: api/classes/PhalconKit/Models/Abstracts/FeatureAbstract.md
+          - FileAbstract: api/classes/PhalconKit/Models/Abstracts/FileAbstract.md
+          - FileRelationAbstract: api/classes/PhalconKit/Models/Abstracts/FileRelationAbstract.md
+          - FlagAbstract: api/classes/PhalconKit/Models/Abstracts/FlagAbstract.md
+          - GroupAbstract: api/classes/PhalconKit/Models/Abstracts/GroupAbstract.md
+          - GroupFeatureAbstract: api/classes/PhalconKit/Models/Abstracts/GroupFeatureAbstract.md
+          - GroupRoleAbstract: api/classes/PhalconKit/Models/Abstracts/GroupRoleAbstract.md
+          - GroupTypeAbstract: api/classes/PhalconKit/Models/Abstracts/GroupTypeAbstract.md
+          - JobAbstract: api/classes/PhalconKit/Models/Abstracts/JobAbstract.md
+          - JobSchedulerAbstract: api/classes/PhalconKit/Models/Abstracts/JobSchedulerAbstract.md
+          - LangAbstract: api/classes/PhalconKit/Models/Abstracts/LangAbstract.md
+          - LogAbstract: api/classes/PhalconKit/Models/Abstracts/LogAbstract.md
+          - MenuAbstract: api/classes/PhalconKit/Models/Abstracts/MenuAbstract.md
+          - MetaAbstract: api/classes/PhalconKit/Models/Abstracts/MetaAbstract.md
+          - Oauth2Abstract: api/classes/PhalconKit/Models/Abstracts/Oauth2Abstract.md
+          - PageAbstract: api/classes/PhalconKit/Models/Abstracts/PageAbstract.md
+          - PhalconMigrationsAbstract: api/classes/PhalconKit/Models/Abstracts/PhalconMigrationsAbstract.md
+          - PostAbstract: api/classes/PhalconKit/Models/Abstracts/PostAbstract.md
+          - PostCategoryAbstract: api/classes/PhalconKit/Models/Abstracts/PostCategoryAbstract.md
+          - ProfileAbstract: api/classes/PhalconKit/Models/Abstracts/ProfileAbstract.md
+          - RecordAbstract: api/classes/PhalconKit/Models/Abstracts/RecordAbstract.md
+          - RoleAbstract: api/classes/PhalconKit/Models/Abstracts/RoleAbstract.md
+          - RoleFeatureAbstract: api/classes/PhalconKit/Models/Abstracts/RoleFeatureAbstract.md
+          - RoleRoleAbstract: api/classes/PhalconKit/Models/Abstracts/RoleRoleAbstract.md
+          - SessionAbstract: api/classes/PhalconKit/Models/Abstracts/SessionAbstract.md
+          - SettingAbstract: api/classes/PhalconKit/Models/Abstracts/SettingAbstract.md
+          - SiteAbstract: api/classes/PhalconKit/Models/Abstracts/SiteAbstract.md
+          - SiteLangAbstract: api/classes/PhalconKit/Models/Abstracts/SiteLangAbstract.md
+          - TableAbstract: api/classes/PhalconKit/Models/Abstracts/TableAbstract.md
+          - TemplateAbstract: api/classes/PhalconKit/Models/Abstracts/TemplateAbstract.md
+          - TranslateAbstract: api/classes/PhalconKit/Models/Abstracts/TranslateAbstract.md
+          - TypeAbstract: api/classes/PhalconKit/Models/Abstracts/TypeAbstract.md
+          - UserAbstract: api/classes/PhalconKit/Models/Abstracts/UserAbstract.md
+          - UserFeatureAbstract: api/classes/PhalconKit/Models/Abstracts/UserFeatureAbstract.md
+          - UserGroupAbstract: api/classes/PhalconKit/Models/Abstracts/UserGroupAbstract.md
+          - UserRoleAbstract: api/classes/PhalconKit/Models/Abstracts/UserRoleAbstract.md
+          - UserTypeAbstract: api/classes/PhalconKit/Models/Abstracts/UserTypeAbstract.md
+          - ValidatorAbstract: api/classes/PhalconKit/Models/Abstracts/ValidatorAbstract.md
+          - WorkspaceAbstract: api/classes/PhalconKit/Models/Abstracts/WorkspaceAbstract.md
+          - WorkspaceLangAbstract: api/classes/PhalconKit/Models/Abstracts/WorkspaceLangAbstract.md
+      - \PhalconKit\Models\Abstracts\Interfaces:
+          - AuditAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/AuditAbstractInterface.md
+          - AuditDetailAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/AuditDetailAbstractInterface.md
+          - BackupAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/BackupAbstractInterface.md
+          - CategoryAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/CategoryAbstractInterface.md
+          - ColumnAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/ColumnAbstractInterface.md
+          - DataAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/DataAbstractInterface.md
+          - EmailAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/EmailAbstractInterface.md
+          - EmailFileAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/EmailFileAbstractInterface.md
+          - FeatureAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/FeatureAbstractInterface.md
+          - FileAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/FileAbstractInterface.md
+          - FileRelationAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/FileRelationAbstractInterface.md
+          - FlagAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/FlagAbstractInterface.md
+          - GroupAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/GroupAbstractInterface.md
+          - GroupFeatureAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/GroupFeatureAbstractInterface.md
+          - GroupRoleAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/GroupRoleAbstractInterface.md
+          - GroupTypeAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/GroupTypeAbstractInterface.md
+          - JobAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/JobAbstractInterface.md
+          - JobSchedulerAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/JobSchedulerAbstractInterface.md
+          - LangAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/LangAbstractInterface.md
+          - LogAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/LogAbstractInterface.md
+          - MenuAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/MenuAbstractInterface.md
+          - MetaAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/MetaAbstractInterface.md
+          - Oauth2AbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/Oauth2AbstractInterface.md
+          - PageAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/PageAbstractInterface.md
+          - PhalconMigrationsAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/PhalconMigrationsAbstractInterface.md
+          - PostAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/PostAbstractInterface.md
+          - PostCategoryAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/PostCategoryAbstractInterface.md
+          - ProfileAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/ProfileAbstractInterface.md
+          - RecordAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/RecordAbstractInterface.md
+          - RoleAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/RoleAbstractInterface.md
+          - RoleFeatureAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/RoleFeatureAbstractInterface.md
+          - RoleRoleAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/RoleRoleAbstractInterface.md
+          - SessionAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/SessionAbstractInterface.md
+          - SettingAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/SettingAbstractInterface.md
+          - SiteAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/SiteAbstractInterface.md
+          - SiteLangAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/SiteLangAbstractInterface.md
+          - TableAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/TableAbstractInterface.md
+          - TemplateAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/TemplateAbstractInterface.md
+          - TranslateAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/TranslateAbstractInterface.md
+          - TypeAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/TypeAbstractInterface.md
+          - UserAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/UserAbstractInterface.md
+          - UserFeatureAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/UserFeatureAbstractInterface.md
+          - UserGroupAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/UserGroupAbstractInterface.md
+          - UserRoleAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/UserRoleAbstractInterface.md
+          - UserTypeAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/UserTypeAbstractInterface.md
+          - ValidatorAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/ValidatorAbstractInterface.md
+          - WorkspaceAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/WorkspaceAbstractInterface.md
+          - WorkspaceLangAbstractInterface: api/classes/PhalconKit/Models/Abstracts/Interfaces/WorkspaceLangAbstractInterface.md
+      - \PhalconKit\Models\Behaviors:
+          - BlameableInterface: api/classes/PhalconKit/Models/Behaviors/BlameableInterface.md
+          - SoftDeleteInterface: api/classes/PhalconKit/Models/Behaviors/SoftDeleteInterface.md
+      - \PhalconKit\Models\Behaviors\Blameable:
+          - CreatedInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/CreatedInterface.md
+          - DeletedInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/DeletedInterface.md
+          - RestoredInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/RestoredInterface.md
+          - UpdateInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/UpdateInterface.md
+      - \PhalconKit\Models\Interfaces:
+          - AuditDetailInterface: api/classes/PhalconKit/Models/Interfaces/AuditDetailInterface.md
+          - AuditInterface: api/classes/PhalconKit/Models/Interfaces/AuditInterface.md
+          - BackupInterface: api/classes/PhalconKit/Models/Interfaces/BackupInterface.md
+          - CategoryInterface: api/classes/PhalconKit/Models/Interfaces/CategoryInterface.md
+          - ColumnInterface: api/classes/PhalconKit/Models/Interfaces/ColumnInterface.md
+          - DataInterface: api/classes/PhalconKit/Models/Interfaces/DataInterface.md
+          - EmailFileInterface: api/classes/PhalconKit/Models/Interfaces/EmailFileInterface.md
+          - EmailInterface: api/classes/PhalconKit/Models/Interfaces/EmailInterface.md
+          - FeatureInterface: api/classes/PhalconKit/Models/Interfaces/FeatureInterface.md
+          - FileInterface: api/classes/PhalconKit/Models/Interfaces/FileInterface.md
+          - FileRelationInterface: api/classes/PhalconKit/Models/Interfaces/FileRelationInterface.md
+          - FlagInterface: api/classes/PhalconKit/Models/Interfaces/FlagInterface.md
+          - GroupFeatureInterface: api/classes/PhalconKit/Models/Interfaces/GroupFeatureInterface.md
+          - GroupInterface: api/classes/PhalconKit/Models/Interfaces/GroupInterface.md
+          - GroupRoleInterface: api/classes/PhalconKit/Models/Interfaces/GroupRoleInterface.md
+          - GroupTypeInterface: api/classes/PhalconKit/Models/Interfaces/GroupTypeInterface.md
+          - JobInterface: api/classes/PhalconKit/Models/Interfaces/JobInterface.md
+          - JobSchedulerInterface: api/classes/PhalconKit/Models/Interfaces/JobSchedulerInterface.md
+          - LangInterface: api/classes/PhalconKit/Models/Interfaces/LangInterface.md
+          - LogInterface: api/classes/PhalconKit/Models/Interfaces/LogInterface.md
+          - MenuInterface: api/classes/PhalconKit/Models/Interfaces/MenuInterface.md
+          - MetaInterface: api/classes/PhalconKit/Models/Interfaces/MetaInterface.md
+          - Oauth2Interface: api/classes/PhalconKit/Models/Interfaces/Oauth2Interface.md
+          - PageInterface: api/classes/PhalconKit/Models/Interfaces/PageInterface.md
+          - PhalconMigrationsInterface: api/classes/PhalconKit/Models/Interfaces/PhalconMigrationsInterface.md
+          - PostCategoryInterface: api/classes/PhalconKit/Models/Interfaces/PostCategoryInterface.md
+          - PostInterface: api/classes/PhalconKit/Models/Interfaces/PostInterface.md
+          - ProfileInterface: api/classes/PhalconKit/Models/Interfaces/ProfileInterface.md
+          - RecordInterface: api/classes/PhalconKit/Models/Interfaces/RecordInterface.md
+          - RoleFeatureInterface: api/classes/PhalconKit/Models/Interfaces/RoleFeatureInterface.md
+          - RoleInterface: api/classes/PhalconKit/Models/Interfaces/RoleInterface.md
+          - RoleRoleInterface: api/classes/PhalconKit/Models/Interfaces/RoleRoleInterface.md
+          - SessionInterface: api/classes/PhalconKit/Models/Interfaces/SessionInterface.md
+          - SettingInterface: api/classes/PhalconKit/Models/Interfaces/SettingInterface.md
+          - SiteInterface: api/classes/PhalconKit/Models/Interfaces/SiteInterface.md
+          - SiteLangInterface: api/classes/PhalconKit/Models/Interfaces/SiteLangInterface.md
+          - TableInterface: api/classes/PhalconKit/Models/Interfaces/TableInterface.md
+          - TemplateInterface: api/classes/PhalconKit/Models/Interfaces/TemplateInterface.md
+          - TranslateInterface: api/classes/PhalconKit/Models/Interfaces/TranslateInterface.md
+          - TypeInterface: api/classes/PhalconKit/Models/Interfaces/TypeInterface.md
+          - UserFeatureInterface: api/classes/PhalconKit/Models/Interfaces/UserFeatureInterface.md
+          - UserGroupInterface: api/classes/PhalconKit/Models/Interfaces/UserGroupInterface.md
+          - UserInterface: api/classes/PhalconKit/Models/Interfaces/UserInterface.md
+          - UserRoleInterface: api/classes/PhalconKit/Models/Interfaces/UserRoleInterface.md
+          - UserTypeInterface: api/classes/PhalconKit/Models/Interfaces/UserTypeInterface.md
+          - ValidatorInterface: api/classes/PhalconKit/Models/Interfaces/ValidatorInterface.md
+          - WorkspaceInterface: api/classes/PhalconKit/Models/Interfaces/WorkspaceInterface.md
+          - WorkspaceLangInterface: api/classes/PhalconKit/Models/Interfaces/WorkspaceLangInterface.md
+      - \PhalconKit\Modules\Admin:
+          - Controller: api/classes/PhalconKit/Modules/Admin/Controller.md
+          - Module: api/classes/PhalconKit/Modules/Admin/Module.md
+      - \PhalconKit\Modules\Admin\Controllers:
+          - AbstractController: api/classes/PhalconKit/Modules/Admin/Controllers/AbstractController.md
+          - ErrorController: api/classes/PhalconKit/Modules/Admin/Controllers/ErrorController.md
+          - IndexController: api/classes/PhalconKit/Modules/Admin/Controllers/IndexController.md
+      - \PhalconKit\Modules\Api:
+          - Controller: api/classes/PhalconKit/Modules/Api/Controller.md
+          - Module: api/classes/PhalconKit/Modules/Api/Module.md
+      - \PhalconKit\Modules\Api\Controllers:
+          - AbstractController: api/classes/PhalconKit/Modules/Api/Controllers/AbstractController.md
+          - AuditController: api/classes/PhalconKit/Modules/Api/Controllers/AuditController.md
+          - AuditDetailController: api/classes/PhalconKit/Modules/Api/Controllers/AuditDetailController.md
+          - AuthController: api/classes/PhalconKit/Modules/Api/Controllers/AuthController.md
+          - CategoryController: api/classes/PhalconKit/Modules/Api/Controllers/CategoryController.md
+          - ClamavController: api/classes/PhalconKit/Modules/Api/Controllers/ClamavController.md
+          - ColumnController: api/classes/PhalconKit/Modules/Api/Controllers/ColumnController.md
+          - DataController: api/classes/PhalconKit/Modules/Api/Controllers/DataController.md
+          - EmailController: api/classes/PhalconKit/Modules/Api/Controllers/EmailController.md
+          - ErrorController: api/classes/PhalconKit/Modules/Api/Controllers/ErrorController.md
+          - FieldController: api/classes/PhalconKit/Modules/Api/Controllers/FieldController.md
+          - FileController: api/classes/PhalconKit/Modules/Api/Controllers/FileController.md
+          - FlagController: api/classes/PhalconKit/Modules/Api/Controllers/FlagController.md
+          - GroupController: api/classes/PhalconKit/Modules/Api/Controllers/GroupController.md
+          - IndexController: api/classes/PhalconKit/Modules/Api/Controllers/IndexController.md
+          - LangController: api/classes/PhalconKit/Modules/Api/Controllers/LangController.md
+          - LogController: api/classes/PhalconKit/Modules/Api/Controllers/LogController.md
+          - MenuController: api/classes/PhalconKit/Modules/Api/Controllers/MenuController.md
+          - MetaController: api/classes/PhalconKit/Modules/Api/Controllers/MetaController.md
+          - PageController: api/classes/PhalconKit/Modules/Api/Controllers/PageController.md
+          - PhalconMigrationsController: api/classes/PhalconKit/Modules/Api/Controllers/PhalconMigrationsController.md
+          - PostController: api/classes/PhalconKit/Modules/Api/Controllers/PostController.md
+          - ProfileController: api/classes/PhalconKit/Modules/Api/Controllers/ProfileController.md
+          - RecordController: api/classes/PhalconKit/Modules/Api/Controllers/RecordController.md
+          - RoleController: api/classes/PhalconKit/Modules/Api/Controllers/RoleController.md
+          - SessionController: api/classes/PhalconKit/Modules/Api/Controllers/SessionController.md
+          - SettingController: api/classes/PhalconKit/Modules/Api/Controllers/SettingController.md
+          - TableController: api/classes/PhalconKit/Modules/Api/Controllers/TableController.md
+          - TemplateController: api/classes/PhalconKit/Modules/Api/Controllers/TemplateController.md
+          - TestController: api/classes/PhalconKit/Modules/Api/Controllers/TestController.md
+          - TranslateController: api/classes/PhalconKit/Modules/Api/Controllers/TranslateController.md
+          - TranslateFieldController: api/classes/PhalconKit/Modules/Api/Controllers/TranslateFieldController.md
+          - TranslateTableController: api/classes/PhalconKit/Modules/Api/Controllers/TranslateTableController.md
+          - TypeController: api/classes/PhalconKit/Modules/Api/Controllers/TypeController.md
+          - UserController: api/classes/PhalconKit/Modules/Api/Controllers/UserController.md
+          - WorkspaceController: api/classes/PhalconKit/Modules/Api/Controllers/WorkspaceController.md
+      - \PhalconKit\Modules\Api\Transformers:
+          - RecordTransformer: api/classes/PhalconKit/Modules/Api/Transformers/RecordTransformer.md
+      - \PhalconKit\Modules\Cli:
+          - Module: api/classes/PhalconKit/Modules/Cli/Module.md
+          - Task: api/classes/PhalconKit/Modules/Cli/Task.md
+      - \PhalconKit\Modules\Cli\Tasks:
+          - AbstractTask: api/classes/PhalconKit/Modules/Cli/Tasks/AbstractTask.md
+          - CacheTask: api/classes/PhalconKit/Modules/Cli/Tasks/CacheTask.md
+          - CronTask: api/classes/PhalconKit/Modules/Cli/Tasks/CronTask.md
+          - DatabaseTask: api/classes/PhalconKit/Modules/Cli/Tasks/DatabaseTask.md
+          - DataLifeCycleTask: api/classes/PhalconKit/Modules/Cli/Tasks/DataLifeCycleTask.md
+          - ErrorTask: api/classes/PhalconKit/Modules/Cli/Tasks/ErrorTask.md
+          - FakerTask: api/classes/PhalconKit/Modules/Cli/Tasks/FakerTask.md
+          - HelpTask: api/classes/PhalconKit/Modules/Cli/Tasks/HelpTask.md
+          - ScaffoldTask: api/classes/PhalconKit/Modules/Cli/Tasks/ScaffoldTask.md
+          - TsScaffoldTask: api/classes/PhalconKit/Modules/Cli/Tasks/TsScaffoldTask.md
+          - UserTask: api/classes/PhalconKit/Modules/Cli/Tasks/UserTask.md
+      - \PhalconKit\Modules\Cli\Tasks\Traits:
+          - DatabaseTrait: api/classes/PhalconKit/Modules/Cli/Tasks/Traits/DatabaseTrait.md
+          - DescribesTrait: api/classes/PhalconKit/Modules/Cli/Tasks/Traits/DescribesTrait.md
+          - ScaffoldTrait: api/classes/PhalconKit/Modules/Cli/Tasks/Traits/ScaffoldTrait.md
+          - UserTrait: api/classes/PhalconKit/Modules/Cli/Tasks/Traits/UserTrait.md
+      - \PhalconKit\Modules\Frontend:
+          - Controller: api/classes/PhalconKit/Modules/Frontend/Controller.md
+          - Module: api/classes/PhalconKit/Modules/Frontend/Module.md
+      - \PhalconKit\Modules\Frontend\Controllers:
+          - AbstractController: api/classes/PhalconKit/Modules/Frontend/Controllers/AbstractController.md
+          - ErrorController: api/classes/PhalconKit/Modules/Frontend/Controllers/ErrorController.md
+          - IndexController: api/classes/PhalconKit/Modules/Frontend/Controllers/IndexController.md
+      - \PhalconKit\Modules\Oauth2:
+          - Controller: api/classes/PhalconKit/Modules/Oauth2/Controller.md
+          - Module: api/classes/PhalconKit/Modules/Oauth2/Module.md
+      - \PhalconKit\Modules\Oauth2\Controllers:
+          - AbstractController: api/classes/PhalconKit/Modules/Oauth2/Controllers/AbstractController.md
+          - ClientController: api/classes/PhalconKit/Modules/Oauth2/Controllers/ClientController.md
+          - FacebookController: api/classes/PhalconKit/Modules/Oauth2/Controllers/FacebookController.md
+          - GithubController: api/classes/PhalconKit/Modules/Oauth2/Controllers/GithubController.md
+          - GoogleController: api/classes/PhalconKit/Modules/Oauth2/Controllers/GoogleController.md
+          - InstagramController: api/classes/PhalconKit/Modules/Oauth2/Controllers/InstagramController.md
+          - LinkedinController: api/classes/PhalconKit/Modules/Oauth2/Controllers/LinkedinController.md
+      - \PhalconKit\Modules\Ws:
+          - Module: api/classes/PhalconKit/Modules/Ws/Module.md
+          - Task: api/classes/PhalconKit/Modules/Ws/Task.md
+      - \PhalconKit\Modules\Ws\Tasks:
+          - AbstractTask: api/classes/PhalconKit/Modules/Ws/Tasks/AbstractTask.md
+          - ErrorTask: api/classes/PhalconKit/Modules/Ws/Tasks/ErrorTask.md
+      - \PhalconKit\Mvc:
+          - Application: api/classes/PhalconKit/Mvc/Application.md
+          - Controller: api/classes/PhalconKit/Mvc/Controller.md
+          - Dispatcher: api/classes/PhalconKit/Mvc/Dispatcher.md
+          - Model: api/classes/PhalconKit/Mvc/Model.md
+          - Module: api/classes/PhalconKit/Mvc/Module.md
+          - Router: api/classes/PhalconKit/Mvc/Router.md
+          - Url: api/classes/PhalconKit/Mvc/Url.md
+          - View: api/classes/PhalconKit/Mvc/View.md
+          - ModelInterface: api/classes/PhalconKit/Mvc/ModelInterface.md
+      - \PhalconKit\Mvc\Controller:
+          - Error: api/classes/PhalconKit/Mvc/Controller/Error.md
+          - Rest: api/classes/PhalconKit/Mvc/Controller/Rest.md
+          - Restful: api/classes/PhalconKit/Mvc/Controller/Restful.md
+          - RestfulInterface: api/classes/PhalconKit/Mvc/Controller/RestfulInterface.md
+          - RestInterface: api/classes/PhalconKit/Mvc/Controller/RestInterface.md
+      - \PhalconKit\Mvc\Controller\Behavior\Model:
+          - Create: api/classes/PhalconKit/Mvc/Controller/Behavior/Model/Create.md
+          - Delete: api/classes/PhalconKit/Mvc/Controller/Behavior/Model/Delete.md
+          - Restore: api/classes/PhalconKit/Mvc/Controller/Behavior/Model/Restore.md
+          - Update: api/classes/PhalconKit/Mvc/Controller/Behavior/Model/Update.md
+      - \PhalconKit\Mvc\Controller\Behavior\Query:
+          - RemoveBind: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveBind.md
+          - RemoveCacheConfig: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveCacheConfig.md
+          - RemoveColumn: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveColumn.md
+          - RemoveConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveConditions.md
+          - RemoveDefaultLimit: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveDefaultLimit.md
+          - RemoveDistinct: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveDistinct.md
+          - RemoveGroup: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveGroup.md
+          - RemoveHaving: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveHaving.md
+          - RemoveJoins: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveJoins.md
+          - RemoveLimit: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveLimit.md
+          - RemoveMaxLimit: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveMaxLimit.md
+          - RemoveOffset: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveOffset.md
+          - RemoveWith: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/RemoveWith.md
+      - \PhalconKit\Mvc\Controller\Behavior\Query\Conditions:
+          - RemoveDefaultFilterCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveDefaultFilterCondition.md
+          - RemoveDefaultIdentityCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveDefaultIdentityCondition.md
+          - RemoveDefaultPermissionCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveDefaultPermissionCondition.md
+          - RemoveDefaultSearchCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveDefaultSearchCondition.md
+          - RemoveDefaultSoftDeleteCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveDefaultSoftDeleteCondition.md
+          - RemoveDefaultSoftDeleteConditionWhileFiltering: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveDefaultSoftDeleteConditionWhileFiltering.md
+          - RemoveFilterConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveFilterConditions.md
+          - RemoveIdentityConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveIdentityConditions.md
+          - RemovePermissionConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemovePermissionConditions.md
+          - RemoveSearchConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveSearchConditions.md
+          - RemoveSoftDeleteConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveSoftDeleteConditions.md
+          - RemoveSoftDeleteConditionsWhileFiltering: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Conditions/RemoveSoftDeleteConditionsWhileFiltering.md
+      - \PhalconKit\Mvc\Controller\Behavior\Query\Fields:
+          - RemoveExposeFields: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Fields/RemoveExposeFields.md
+          - RemoveFilterFields: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Fields/RemoveFilterFields.md
+          - RemoveMapFields: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Fields/RemoveMapFields.md
+          - RemoveSaveFields: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Fields/RemoveSaveFields.md
+          - RemoveSearchFields: api/classes/PhalconKit/Mvc/Controller/Behavior/Query/Fields/RemoveSearchFields.md
+      - \PhalconKit\Mvc\Controller\Behavior\Skip:
+          - SkipBind: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipBind.md
+          - SkipBindTypes: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipBindTypes.md
+          - SkipCache: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipCache.md
+          - SkipColumns: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipColumns.md
+          - SkipConditions: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipConditions.md
+          - SkipDistinct: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipDistinct.md
+          - SkipFilterCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipFilterCondition.md
+          - SkipGroup: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipGroup.md
+          - SkipHaving: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipHaving.md
+          - SkipIdentityCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipIdentityCondition.md
+          - SkipJoins: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipJoins.md
+          - SkipLimit: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipLimit.md
+          - SkipOffset: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipOffset.md
+          - SkipOrder: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipOrder.md
+          - SkipPermissionCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipPermissionCondition.md
+          - SkipSearchCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipSearchCondition.md
+          - SkipSoftDeleteCondition: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipSoftDeleteCondition.md
+          - SkipWhiteList: api/classes/PhalconKit/Mvc/Controller/Behavior/Skip/SkipWhiteList.md
+      - \PhalconKit\Mvc\Controller\Traits:
+          - Behavior: api/classes/PhalconKit/Mvc/Controller/Traits/Behavior.md
+          - Debug: api/classes/PhalconKit/Mvc/Controller/Traits/Debug.md
+          - DynamicJoins: api/classes/PhalconKit/Mvc/Controller/Traits/DynamicJoins.md
+          - Export: api/classes/PhalconKit/Mvc/Controller/Traits/Export.md
+          - Expose: api/classes/PhalconKit/Mvc/Controller/Traits/Expose.md
+          - Fractal: api/classes/PhalconKit/Mvc/Controller/Traits/Fractal.md
+          - Model: api/classes/PhalconKit/Mvc/Controller/Traits/Model.md
+          - Params: api/classes/PhalconKit/Mvc/Controller/Traits/Params.md
+          - Query: api/classes/PhalconKit/Mvc/Controller/Traits/Query.md
+          - RestResponse: api/classes/PhalconKit/Mvc/Controller/Traits/RestResponse.md
+          - StatusCode: api/classes/PhalconKit/Mvc/Controller/Traits/StatusCode.md
+      - \PhalconKit\Mvc\Controller\Traits\Abstracts:
+          - AbstractBehavior: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractBehavior.md
+          - AbstractDebug: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractDebug.md
+          - AbstractExport: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractExport.md
+          - AbstractExpose: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractExpose.md
+          - AbstractFractal: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractFractal.md
+          - AbstractInjectable: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractInjectable.md
+          - AbstractModel: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractModel.md
+          - AbstractParams: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractParams.md
+          - AbstractQuery: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractQuery.md
+          - AbstractRestResponse: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractRestResponse.md
+          - AbstractStatusCode: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/AbstractStatusCode.md
+      - \PhalconKit\Mvc\Controller\Traits\Abstracts\Query:
+          - AbstractBind: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractBind.md
+          - AbstractCache: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractCache.md
+          - AbstractColumn: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractColumn.md
+          - AbstractConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractConditions.md
+          - AbstractDistinct: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractDistinct.md
+          - AbstractFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractFields.md
+          - AbstractGroup: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractGroup.md
+          - AbstractHaving: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractHaving.md
+          - AbstractJoins: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractJoins.md
+          - AbstractLimit: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractLimit.md
+          - AbstractOffset: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractOffset.md
+          - AbstractOrder: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractOrder.md
+          - AbstractSave: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractSave.md
+          - AbstractWith: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/AbstractWith.md
+      - \PhalconKit\Mvc\Controller\Traits\Abstracts\Query\Conditions:
+          - AbstractFilterConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Conditions/AbstractFilterConditions.md
+          - AbstractIdentityConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Conditions/AbstractIdentityConditions.md
+          - AbstractPermissionConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Conditions/AbstractPermissionConditions.md
+          - AbstractSearchConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Conditions/AbstractSearchConditions.md
+          - AbstractSoftDeleteConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Conditions/AbstractSoftDeleteConditions.md
+      - \PhalconKit\Mvc\Controller\Traits\Abstracts\Query\Fields:
+          - AbstractExposeFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractExposeFields.md
+          - AbstractFilterFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractFilterFields.md
+          - AbstractMapFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractMapFields.md
+          - AbstractSaveFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractSaveFields.md
+          - AbstractSearchFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractSearchFields.md
+      - \PhalconKit\Mvc\Controller\Traits\Actions:
+          - AuthActions: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/AuthActions.md
+          - ClamavActions: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/ClamavActions.md
+          - ErrorActions: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/ErrorActions.md
+          - RestActions: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/RestActions.md
+      - \PhalconKit\Mvc\Controller\Traits\Actions\Rest:
+          - AverageAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/AverageAction.md
+          - CountAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/CountAction.md
+          - DeleteAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/DeleteAction.md
+          - DistinctAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/DistinctAction.md
+          - ExportAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/ExportAction.md
+          - FindAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/FindAction.md
+          - FindFirstAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/FindFirstAction.md
+          - IndexAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/IndexAction.md
+          - MaximumAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/MaximumAction.md
+          - MinimumAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/MinimumAction.md
+          - NewAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/NewAction.md
+          - ReorderAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/ReorderAction.md
+          - RestoreAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/RestoreAction.md
+          - SaveAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/SaveAction.md
+          - SumAction: api/classes/PhalconKit/Mvc/Controller/Traits/Actions/Rest/SumAction.md
+      - \PhalconKit\Mvc\Controller\Traits\Interfaces:
+          - BehaviorInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/BehaviorInterface.md
+          - CacheInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/CacheInterface.md
+          - DebugInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/DebugInterface.md
+          - ExportInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/ExportInterface.md
+          - ExposeInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/ExposeInterface.md
+          - FractalInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/FractalInterface.md
+          - ModelInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/ModelInterface.md
+          - ParamsInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/ParamsInterface.md
+          - RestResponseInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/RestResponseInterface.md
+          - StatusCodeInterface: api/classes/PhalconKit/Mvc/Controller/Traits/Interfaces/StatusCodeInterface.md
+      - \PhalconKit\Mvc\Controller\Traits\Query:
+          - Bind: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Bind.md
+          - Cache: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Cache.md
+          - Column: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Column.md
+          - Conditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions.md
+          - Distinct: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Distinct.md
+          - Fields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields.md
+          - Group: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Group.md
+          - Having: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Having.md
+          - Joins: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Joins.md
+          - Limit: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Limit.md
+          - Offset: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Offset.md
+          - Order: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Order.md
+          - Save: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Save.md
+          - With: api/classes/PhalconKit/Mvc/Controller/Traits/Query/With.md
+      - \PhalconKit\Mvc\Controller\Traits\Query\Conditions:
+          - FilterConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/FilterConditions.md
+          - IdentityConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/IdentityConditions.md
+          - PermissionConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/PermissionConditions.md
+          - SearchConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/SearchConditions.md
+          - SoftDeleteConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/SoftDeleteConditions.md
+      - \PhalconKit\Mvc\Controller\Traits\Query\Fields:
+          - ExposeFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/ExposeFields.md
+          - FilterFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/FilterFields.md
+          - MapFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/MapFields.md
+          - SaveFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/SaveFields.md
+          - SearchFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/SearchFields.md
+      - \PhalconKit\Mvc\Dispatcher:
+          - Camelize: api/classes/PhalconKit/Mvc/Dispatcher/Camelize.md
+          - Error: api/classes/PhalconKit/Mvc/Dispatcher/Error.md
+          - Logger: api/classes/PhalconKit/Mvc/Dispatcher/Logger.md
+          - Maintenance: api/classes/PhalconKit/Mvc/Dispatcher/Maintenance.md
+          - Module: api/classes/PhalconKit/Mvc/Dispatcher/Module.md
+          - Preflight: api/classes/PhalconKit/Mvc/Dispatcher/Preflight.md
+          - Rest: api/classes/PhalconKit/Mvc/Dispatcher/Rest.md
+          - Security: api/classes/PhalconKit/Mvc/Dispatcher/Security.md
+      - \PhalconKit\Mvc\Model:
+          - Manager: api/classes/PhalconKit/Mvc/Model/Manager.md
+          - ManagerInterface: api/classes/PhalconKit/Mvc/Model/ManagerInterface.md
+      - \PhalconKit\Mvc\Model\Behavior:
+          - Action: api/classes/PhalconKit/Mvc/Model/Behavior/Action.md
+          - Blameable: api/classes/PhalconKit/Mvc/Model/Behavior/Blameable.md
+          - Conditional: api/classes/PhalconKit/Mvc/Model/Behavior/Conditional.md
+          - Position: api/classes/PhalconKit/Mvc/Model/Behavior/Position.md
+          - Security: api/classes/PhalconKit/Mvc/Model/Behavior/Security.md
+          - Snapshot: api/classes/PhalconKit/Mvc/Model/Behavior/Snapshot.md
+          - SoftDelete: api/classes/PhalconKit/Mvc/Model/Behavior/SoftDelete.md
+          - Transformable: api/classes/PhalconKit/Mvc/Model/Behavior/Transformable.md
+      - \PhalconKit\Mvc\Model\Behavior\Traits:
+          - ProgressTrait: api/classes/PhalconKit/Mvc/Model/Behavior/Traits/ProgressTrait.md
+          - SkippableTrait: api/classes/PhalconKit/Mvc/Model/Behavior/Traits/SkippableTrait.md
+      - \PhalconKit\Mvc\Model\EagerLoading:
+          - EagerLoad: api/classes/PhalconKit/Mvc/Model/EagerLoading/EagerLoad.md
+          - Loader: api/classes/PhalconKit/Mvc/Model/EagerLoading/Loader.md
+          - QueryBuilder: api/classes/PhalconKit/Mvc/Model/EagerLoading/QueryBuilder.md
+      - \PhalconKit\Mvc\Model\Interfaces:
+          - AttributeInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/AttributeInterface.md
+          - BehaviorInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/BehaviorInterface.md
+          - BlameableInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/BlameableInterface.md
+          - EagerLoadInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/EagerLoadInterface.md
+          - ExposeInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/ExposeInterface.md
+          - HashInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/HashInterface.md
+          - IdentityInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/IdentityInterface.md
+          - InstanceInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/InstanceInterface.md
+          - JsonInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/JsonInterface.md
+          - LocaleInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/LocaleInterface.md
+          - MetaDataInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/MetaDataInterface.md
+          - OptionsInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/OptionsInterface.md
+          - PositionInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/PositionInterface.md
+          - RelationshipInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/RelationshipInterface.md
+          - ReplicationInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/ReplicationInterface.md
+          - SecurityInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/SecurityInterface.md
+          - SlugInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/SlugInterface.md
+          - SnapshotInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/SnapshotInterface.md
+          - SoftDeleteInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/SoftDeleteInterface.md
+          - ValidateInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/ValidateInterface.md
+      - \PhalconKit\Mvc\Model\Interfaces\Blameable:
+          - BlameAtInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/Blameable/BlameAtInterface.md
+          - CreatedInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/Blameable/CreatedInterface.md
+          - DeletedInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/Blameable/DeletedInterface.md
+          - RestoredInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/Blameable/RestoredInterface.md
+          - UpdatedInterface: api/classes/PhalconKit/Mvc/Model/Interfaces/Blameable/UpdatedInterface.md
+      - \PhalconKit\Mvc\Model\Traits:
+          - Attribute: api/classes/PhalconKit/Mvc/Model/Traits/Attribute.md
+          - Behavior: api/classes/PhalconKit/Mvc/Model/Traits/Behavior.md
+          - Blameable: api/classes/PhalconKit/Mvc/Model/Traits/Blameable.md
+          - Cache: api/classes/PhalconKit/Mvc/Model/Traits/Cache.md
+          - Count: api/classes/PhalconKit/Mvc/Model/Traits/Count.md
+          - EagerLoad: api/classes/PhalconKit/Mvc/Model/Traits/EagerLoad.md
+          - Events: api/classes/PhalconKit/Mvc/Model/Traits/Events.md
+          - Expose: api/classes/PhalconKit/Mvc/Model/Traits/Expose.md
+          - FindIn: api/classes/PhalconKit/Mvc/Model/Traits/FindIn.md
+          - Hash: api/classes/PhalconKit/Mvc/Model/Traits/Hash.md
+          - Identity: api/classes/PhalconKit/Mvc/Model/Traits/Identity.md
+          - Instance: api/classes/PhalconKit/Mvc/Model/Traits/Instance.md
+          - Json: api/classes/PhalconKit/Mvc/Model/Traits/Json.md
+          - LifeCycle: api/classes/PhalconKit/Mvc/Model/Traits/LifeCycle.md
+          - Locale: api/classes/PhalconKit/Mvc/Model/Traits/Locale.md
+          - MetaData: api/classes/PhalconKit/Mvc/Model/Traits/MetaData.md
+          - Options: api/classes/PhalconKit/Mvc/Model/Traits/Options.md
+          - Position: api/classes/PhalconKit/Mvc/Model/Traits/Position.md
+          - Relationship: api/classes/PhalconKit/Mvc/Model/Traits/Relationship.md
+          - Replication: api/classes/PhalconKit/Mvc/Model/Traits/Replication.md
+          - Security: api/classes/PhalconKit/Mvc/Model/Traits/Security.md
+          - Slug: api/classes/PhalconKit/Mvc/Model/Traits/Slug.md
+          - Snapshot: api/classes/PhalconKit/Mvc/Model/Traits/Snapshot.md
+          - SoftDelete: api/classes/PhalconKit/Mvc/Model/Traits/SoftDelete.md
+          - Uuid: api/classes/PhalconKit/Mvc/Model/Traits/Uuid.md
+          - Validate: api/classes/PhalconKit/Mvc/Model/Traits/Validate.md
+      - \PhalconKit\Mvc\Model\Traits\Abstracts:
+          - AbstractBehavior: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractBehavior.md
+          - AbstractBlameable: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractBlameable.md
+          - AbstractEntity: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractEntity.md
+          - AbstractEventsManager: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractEventsManager.md
+          - AbstractIdentity: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractIdentity.md
+          - AbstractInjectable: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractInjectable.md
+          - AbstractInstance: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractInstance.md
+          - AbstractLocale: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractLocale.md
+          - AbstractMetaData: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractMetaData.md
+          - AbstractModelsCache: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractModelsCache.md
+          - AbstractModelsManager: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractModelsManager.md
+          - AbstractOptions: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractOptions.md
+          - AbstractSave: api/classes/PhalconKit/Mvc/Model/Traits/Abstracts/AbstractSave.md
+      - \PhalconKit\Mvc\Model\Traits\Blameable:
+          - BlameAt: api/classes/PhalconKit/Mvc/Model/Traits/Blameable/BlameAt.md
+          - Created: api/classes/PhalconKit/Mvc/Model/Traits/Blameable/Created.md
+          - Deleted: api/classes/PhalconKit/Mvc/Model/Traits/Blameable/Deleted.md
+          - Restored: api/classes/PhalconKit/Mvc/Model/Traits/Blameable/Restored.md
+          - Updated: api/classes/PhalconKit/Mvc/Model/Traits/Blameable/Updated.md
+      - \PhalconKit\Mvc\Router:
+          - ModuleRoute: api/classes/PhalconKit/Mvc/Router/ModuleRoute.md
+      - \PhalconKit\Mvc\View:
+          - Error: api/classes/PhalconKit/Mvc/View/Error.md
+      - \PhalconKit\Provider:
+          - AbstractServiceProvider: api/classes/PhalconKit/Provider/AbstractServiceProvider.md
+          - ServiceProviderInterface: api/classes/PhalconKit/Provider/ServiceProviderInterface.md
+      - \PhalconKit\Provider\Acl:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Acl/ServiceProvider.md
+      - \PhalconKit\Provider\Annotations:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Annotations/ServiceProvider.md
+      - \PhalconKit\Provider\Application:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Application/ServiceProvider.md
+      - \PhalconKit\Provider\Assets:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Assets/ServiceProvider.md
+      - \PhalconKit\Provider\Aws:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Aws/ServiceProvider.md
+      - \PhalconKit\Provider\Cache:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Cache/ServiceProvider.md
+      - \PhalconKit\Provider\Clamav:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Clamav/ServiceProvider.md
+      - \PhalconKit\Provider\Config:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Config/ServiceProvider.md
+      - \PhalconKit\Provider\Console:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Console/ServiceProvider.md
+      - \PhalconKit\Provider\Cookies:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Cookies/ServiceProvider.md
+      - \PhalconKit\Provider\Crypt:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Crypt/ServiceProvider.md
+      - \PhalconKit\Provider\Database:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Database/ServiceProvider.md
+      - \PhalconKit\Provider\DatabaseDynamic:
+          - ServiceProvider: api/classes/PhalconKit/Provider/DatabaseDynamic/ServiceProvider.md
+      - \PhalconKit\Provider\DatabaseReadOnly:
+          - ServiceProvider: api/classes/PhalconKit/Provider/DatabaseReadOnly/ServiceProvider.md
+      - \PhalconKit\Provider\Debug:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Debug/ServiceProvider.md
+      - \PhalconKit\Provider\Dispatcher:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Dispatcher/ServiceProvider.md
+      - \PhalconKit\Provider\Env:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Env/ServiceProvider.md
+      - \PhalconKit\Provider\Escaper:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Escaper/ServiceProvider.md
+      - \PhalconKit\Provider\EventsManager:
+          - ServiceProvider: api/classes/PhalconKit/Provider/EventsManager/ServiceProvider.md
+      - \PhalconKit\Provider\FileSystem:
+          - ServiceProvider: api/classes/PhalconKit/Provider/FileSystem/ServiceProvider.md
+      - \PhalconKit\Provider\Filter:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Filter/ServiceProvider.md
+      - \PhalconKit\Provider\Flash:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Flash/ServiceProvider.md
+      - \PhalconKit\Provider\Gravatar:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Gravatar/ServiceProvider.md
+      - \PhalconKit\Provider\Helper:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Helper/ServiceProvider.md
+      - \PhalconKit\Provider\Identity:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Identity/ServiceProvider.md
+      - \PhalconKit\Provider\Imap:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Imap/ServiceProvider.md
+      - \PhalconKit\Provider\Jwt:
+          - Jwt: api/classes/PhalconKit/Provider/Jwt/Jwt.md
+          - ServiceProvider: api/classes/PhalconKit/Provider/Jwt/ServiceProvider.md
+      - \PhalconKit\Provider\Locale:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Locale/ServiceProvider.md
+      - \PhalconKit\Provider\Logger:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Logger/ServiceProvider.md
+      - \PhalconKit\Provider\Loggers:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Loggers/ServiceProvider.md
+      - \PhalconKit\Provider\LoremIpsum:
+          - ServiceProvider: api/classes/PhalconKit/Provider/LoremIpsum/ServiceProvider.md
+      - \PhalconKit\Provider\Mailer:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Mailer/ServiceProvider.md
+      - \PhalconKit\Provider\Models:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Models/ServiceProvider.md
+      - \PhalconKit\Provider\ModelsCache:
+          - ServiceProvider: api/classes/PhalconKit/Provider/ModelsCache/ServiceProvider.md
+      - \PhalconKit\Provider\ModelsManager:
+          - ServiceProvider: api/classes/PhalconKit/Provider/ModelsManager/ServiceProvider.md
+      - \PhalconKit\Provider\ModelsMetadata:
+          - ServiceProvider: api/classes/PhalconKit/Provider/ModelsMetadata/ServiceProvider.md
+      - \PhalconKit\Provider\OCR:
+          - ServiceProvider: api/classes/PhalconKit/Provider/OCR/ServiceProvider.md
+      - \PhalconKit\Provider\Oauth2Client:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Oauth2Client/ServiceProvider.md
+      - \PhalconKit\Provider\Oauth2Facebook:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Oauth2Facebook/ServiceProvider.md
+      - \PhalconKit\Provider\Oauth2Google:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Oauth2Google/ServiceProvider.md
+      - \PhalconKit\Provider\OpenAi:
+          - ServiceProvider: api/classes/PhalconKit/Provider/OpenAi/ServiceProvider.md
+      - \PhalconKit\Provider\Profiler:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Profiler/ServiceProvider.md
+      - \PhalconKit\Provider\ReCaptcha:
+          - ServiceProvider: api/classes/PhalconKit/Provider/ReCaptcha/ServiceProvider.md
+      - \PhalconKit\Provider\Redis:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Redis/ServiceProvider.md
+      - \PhalconKit\Provider\Request:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Request/ServiceProvider.md
+      - \PhalconKit\Provider\Response:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Response/ServiceProvider.md
+      - \PhalconKit\Provider\Router:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Router/ServiceProvider.md
+      - \PhalconKit\Provider\Security:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Security/ServiceProvider.md
+      - \PhalconKit\Provider\Session:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Session/ServiceProvider.md
+      - \PhalconKit\Provider\Swoole:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Swoole/ServiceProvider.md
+      - \PhalconKit\Provider\Tag:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Tag/ServiceProvider.md
+      - \PhalconKit\Provider\Translate:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Translate/ServiceProvider.md
+      - \PhalconKit\Provider\Url:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Url/ServiceProvider.md
+      - \PhalconKit\Provider\Utils:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Utils/ServiceProvider.md
+      - \PhalconKit\Provider\Version:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Version/ServiceProvider.md
+      - \PhalconKit\Provider\View:
+          - ServiceProvider: api/classes/PhalconKit/Provider/View/ServiceProvider.md
+      - \PhalconKit\Provider\Volt:
+          - ServiceProvider: api/classes/PhalconKit/Provider/Volt/ServiceProvider.md
+      - \PhalconKit\Provider\WebSocket:
+          - ServiceProvider: api/classes/PhalconKit/Provider/WebSocket/ServiceProvider.md
+      - \PhalconKit\Router:
+          - RouterInterface: api/classes/PhalconKit/Router/RouterInterface.md
+      - \PhalconKit\Support:
+          - Debug: api/classes/PhalconKit/Support/Debug.md
+          - Env: api/classes/PhalconKit/Support/Env.md
+          - Helper: api/classes/PhalconKit/Support/Helper.md
+          - HelperFactory: api/classes/PhalconKit/Support/HelperFactory.md
+          - Models: api/classes/PhalconKit/Support/Models.md
+          - Php: api/classes/PhalconKit/Support/Php.md
+          - Slug: api/classes/PhalconKit/Support/Slug.md
+          - Utils: api/classes/PhalconKit/Support/Utils.md
+          - Version: api/classes/PhalconKit/Support/Version.md
+          - ModelsMap: api/classes/PhalconKit/Support/ModelsMap.md
+      - \PhalconKit\Support\Exposer:
+          - Builder: api/classes/PhalconKit/Support/Exposer/Builder.md
+          - Exposer: api/classes/PhalconKit/Support/Exposer/Exposer.md
+          - BuilderInterface: api/classes/PhalconKit/Support/Exposer/BuilderInterface.md
+      - \PhalconKit\Support\Helper\Arr:
+          - FlattenKeys: api/classes/PhalconKit/Support/Helper/Arr/FlattenKeys.md
+          - RecursiveMap: api/classes/PhalconKit/Support/Helper/Arr/RecursiveMap.md
+          - RecursiveStrReplace: api/classes/PhalconKit/Support/Helper/Arr/RecursiveStrReplace.md
+      - \PhalconKit\Support\Helper\Str:
+          - NormalizeLineBreaks: api/classes/PhalconKit/Support/Helper/Str/NormalizeLineBreaks.md
+          - RemoveNonPrintable: api/classes/PhalconKit/Support/Helper/Str/RemoveNonPrintable.md
+          - SanitizeUTF8: api/classes/PhalconKit/Support/Helper/Str/SanitizeUTF8.md
+          - Slugify: api/classes/PhalconKit/Support/Helper/Str/Slugify.md
+      - \PhalconKit\Support\Options:
+          - Manager: api/classes/PhalconKit/Support/Options/Manager.md
+          - Options: api/classes/PhalconKit/Support/Options/Options.md
+          - ManagerInterface: api/classes/PhalconKit/Support/Options/ManagerInterface.md
+          - OptionsInterface: api/classes/PhalconKit/Support/Options/OptionsInterface.md
+      - \PhalconKit\Translate\Adapter:
+          - NestedNativeArray: api/classes/PhalconKit/Translate/Adapter/NestedNativeArray.md
+      - \PhalconKit\Ws:
+          - Dispatcher: api/classes/PhalconKit/Ws/Dispatcher.md
+          - Module: api/classes/PhalconKit/Ws/Module.md
+          - Router: api/classes/PhalconKit/Ws/Router.md
+          - Task: api/classes/PhalconKit/Ws/Task.md
+          - WebSocket: api/classes/PhalconKit/Ws/WebSocket.md
+          - DispatcherInterface: api/classes/PhalconKit/Ws/DispatcherInterface.md
+          - TaskInterface: api/classes/PhalconKit/Ws/TaskInterface.md
