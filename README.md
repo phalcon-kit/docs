@@ -8,8 +8,9 @@ The maintained documentation has two sources:
 - Narrative guides synchronized from the core repository.
 - API reference generated from the current core source with phpDocumentor.
 
-The current published baseline is Phalcon Kit Core 3.9.0 on PHP 8.5 and
-Phalcon 5.18.2.
+The site is rolling documentation for the latest stable Phalcon Kit release.
+Runtime and dependency requirements come from the current core package rather
+than being duplicated as version labels throughout the site.
 
 ## Build Locally
 

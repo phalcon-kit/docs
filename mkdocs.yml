@@ -177,31 +177,32 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 nav:
-  - Home: index.md
-  - Start:
+  - Phalcon Kit:
+      - Overview: index.md
       - Guide Index: guides/README.md
       - Getting Started: guides/getting-started.md
       - Architecture: guides/architecture.md
       - Configuration: guides/configuration.md
-  - Build REST APIs:
+  - REST APIs:
       - First REST Resource: guides/first-rest-resource.md
       - Resource Walkthrough: guides/resource-walkthrough.md
       - REST Controllers: guides/rest-api.md
+  - Data And Models:
+      - Database And Scaffolding: guides/database-scaffolding.md
       - Models And Eager Loading: guides/models-and-eager-loading.md
       - Identity And Permissions: guides/identity-and-permissions.md
-  - Database And Runtime:
-      - Database And Scaffolding: guides/database-scaffolding.md
+  - Runtime:
       - Web Server And WebSocket: guides/web-server-and-websocket.md
       - Phalcon Runtime Upgrades: guides/phalcon-runtime-upgrades.md
   - Migration:
       - From zemit-cms/core: guides/migration-from-zemit.md
       - RESTful 0.x To 1.x: guides/migration-restful-0x-to-1x.md
-  - Maintainers:
+  - Contribute:
       - Quality And Maintenance: guides/quality-and-maintenance.md
       - Testing Strategy: guides/testing-roadmap.md
       - Open Design Questions: guides/to-be-discussed.md
       - Release Process: guides/release.md
-  - API:
+  - API Reference:
       - Home: api/Home.md
       - \:
           - array_unset_recursive(): api/functions/array_unset_recursive.md
