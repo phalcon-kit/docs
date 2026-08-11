@@ -1,5 +1,8 @@
 
-Dump variables and terminate execution with an error 500.
+Dump values and terminate execution as an error.
+
+This is the framework's dump-and-die helper. It uses `dump()` for output
+formatting, then delegates to `exit_500()` for web response/error status.
 
 ***
 
@@ -8,9 +11,9 @@ Dump variables and terminate execution with an error 500.
 
 ## Parameters
 
-| Parameter | Type      | Description                 |
-|-----------|-----------|-----------------------------|
-| `$params` | **mixed** | The variables to be dumped. |
+| Parameter | Type      | Description                           |
+|-----------|-----------|---------------------------------------|
+| `$params` | **mixed** | Values to inspect before termination. |
 
 ## Return Value
 

@@ -1,7 +1,10 @@
 
-HelperFactory Class
+Helper factory with PhalconKit-specific array/string helpers.
 
-This class extends the Phalcon\Support\HelperFactory class and provides additional helper services.
+The factory preserves native Phalcon helper services and adds helpers used by
+framework exposure, scaffolding, slug, and text-normalization code. The
+`@method` annotations document the magic helper surface exposed through both
+this factory and `PhalconKit\Support\Helper`.
 
 ***
 
@@ -12,10 +15,10 @@ This class extends the Phalcon\Support\HelperFactory class and provides addition
 
 ### getServices
 
-Returns the available adapters
+Return native Phalcon helpers plus PhalconKit helper services.
 
 ```php
-protected getServices(): string[]
+protected getServices(): array<string,class-string>
 ```
 
 ***

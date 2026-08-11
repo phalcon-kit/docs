@@ -1,6 +1,10 @@
 
-PhalconKit\Exception
-All Phalcon Kit exceptions should use or extend this exception
+Raised for HTTP/request-level failures handled by PhalconKit controllers.
+
+Use this exception for invalid REST query parameters, unsupported content
+types, authorization failures represented as HTTP status codes, and other
+request validation errors. The exception code should carry the HTTP status
+when one is available.
 
 ***
 

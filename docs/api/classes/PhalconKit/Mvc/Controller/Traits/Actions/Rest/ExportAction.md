@@ -7,19 +7,22 @@
 
 ### exportAction
 
-Export the data and end the script execution.
+Export records matching the prepared REST query.
 
 ```php
 public exportAction(): \Phalcon\Http\ResponseInterface
 ```
 
-This method retrieves the data by calling the `find` method and then
-exposes it using the `exportExpose` method. If the data is successfully
-exported using the `export` method, the script execution is ended by
-calling `exit` with a status code of 0.
+The action finds the result set, applies the export exposure rules, and
+delegates response generation to the export trait. Content negotiation and
+supported export formats are owned by `export()`.
 
 **Throws:**
 
-- [`Exception`](../../../../../../Exception.md)
+When the requested export content type is not
+supported.
+- [`HttpException`](../../../../../Exception/HttpException.md)
+When CSV generation fails.
+- [`Exception`](https://csv.thephpleague.com/){:target="_blank"}
 
 ***

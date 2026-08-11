@@ -31,8 +31,10 @@ offset parameter is provided.
 
 **Throws:**
 
+When Phalcon rejects the configured offset filter.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-- [`Exception`](../../../../../Exception.md)
+When the resulting offset violates controller policy.
+- [`HttpException`](../../../../Exception/HttpException.md)
 
 ***
 ### setOffset
@@ -52,7 +54,7 @@ public setOffset(int|null $offset): void
 **Throws:**
 
 If the specified offset value is less than 0.
-- [`Exception`](../../../../../Exception.md)
+- [`HttpException`](../../../../Exception/HttpException.md)
 
 ***
 ### getOffset

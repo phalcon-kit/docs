@@ -1,4 +1,6 @@
 
+Contract for setting HTTP status codes on controller responses.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Interfaces\StatusCodeInterface`
@@ -7,15 +9,17 @@
 
 ### setStatusCode
 
+Set the current response status code.
+
 ```php
-public setStatusCode(int $code = 200, ?string $message = null): \Phalcon\Http\ResponseInterface
+public setStatusCode(int $code = 200, string|null $message = null): \Phalcon\Http\ResponseInterface
 ```
 
 **Parameters:**
 
-| Parameter  | Type        | Description |
-|------------|-------------|-------------|
-| `$code`    | **int**     |             |
-| `$message` | **?string** |             |
+| Parameter  | Type             | Description                  |
+|------------|------------------|------------------------------|
+| `$code`    | **int**          | HTTP status code.            |
+| `$message` | **string\|null** | Optional HTTP reason phrase. |
 
 ***

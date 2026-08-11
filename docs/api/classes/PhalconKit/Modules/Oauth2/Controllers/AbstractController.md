@@ -1,5 +1,5 @@
 
-Class Controller
+Base MVC controller for PhalconKit applications.
 
 ***
 
@@ -9,14 +9,14 @@ Class Controller
 
 ## Constants
 
-| Constant             | Visibility | Type | Value       |
-|----------------------|------------|------|-------------|
-| `PROVIDER_CLIENT`    | public     |      | 'client'    |
-| `PROVIDER_FACEBOOK`  | public     |      | 'facebook'  |
-| `PROVIDER_GITHUB`    | public     |      | 'github'    |
-| `PROVIDER_GOOGLE`    | public     |      | 'google'    |
-| `PROVIDER_INSTAGRAM` | public     |      | 'instagram' |
-| `PROVIDER_LINKEDIN`  | public     |      | 'linkedin'  |
+| Constant             | Visibility | Type   | Value       |
+|----------------------|------------|--------|-------------|
+| `PROVIDER_CLIENT`    | public     | string | 'client'    |
+| `PROVIDER_FACEBOOK`  | public     | string | 'facebook'  |
+| `PROVIDER_GITHUB`    | public     | string | 'github'    |
+| `PROVIDER_GOOGLE`    | public     | string | 'google'    |
+| `PROVIDER_INSTAGRAM` | public     | string | 'instagram' |
+| `PROVIDER_LINKEDIN`  | public     | string | 'linkedin'  |
 
 ## Properties
 

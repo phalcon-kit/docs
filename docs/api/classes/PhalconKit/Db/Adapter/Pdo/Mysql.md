@@ -11,7 +11,7 @@
 Overrides the executePrepared method to rewrite duplicate placeholders.
 
 ```php
-public executePrepared(\PDOStatement $statement, array $placeholders, array $dataTypes): \PDOStatement
+public executePrepared(\PDOStatement $statement, array $placeholders, array $dataTypes = []): \PDOStatement
 ```
 
 **Parameters:**

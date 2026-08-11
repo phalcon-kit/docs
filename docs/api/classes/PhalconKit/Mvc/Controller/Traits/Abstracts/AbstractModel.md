@@ -86,6 +86,21 @@ public loadModel(?string $modelName = null): \Phalcon\Mvc\ModelInterface
 | `$modelName` | **?string** |             |
 
 ***
+### modelHasColumn
+
+```php
+public modelHasColumn(string $column, ?string $modelName = null): bool
+```
+
+* This method is **abstract**.
+**Parameters:**
+
+| Parameter    | Type        | Description |
+|--------------|-------------|-------------|
+| `$column`    | **string**  |             |
+| `$modelName` | **?string** |             |
+
+***
 ### appendModelName
 
 ```php

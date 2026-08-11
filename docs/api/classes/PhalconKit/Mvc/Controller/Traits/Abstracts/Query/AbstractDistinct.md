@@ -1,4 +1,6 @@
 
+Abstract contract for SELECT DISTINCT configuration.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractDistinct`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeDistinct
+
+Initialize distinct-field configuration.
 
 ```php
 public initializeDistinct(): void
@@ -15,19 +19,23 @@ public initializeDistinct(): void
 ***
 ### setDistinct
 
+Replace distinct-field configuration.
+
 ```php
-public setDistinct(?\Phalcon\Support\Collection $distinct): void
+public setDistinct(array|\Phalcon\Support\Collection|null $distinct): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter   | Type                             | Description |
-|-------------|----------------------------------|-------------|
-| `$distinct` | **?\Phalcon\Support\Collection** |             |
+| Parameter   | Type                                         | Description |
+|-------------|----------------------------------------------|-------------|
+| `$distinct` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getDistinct
+
+Return distinct-field configuration.
 
 ```php
 public getDistinct(): ?\Phalcon\Support\Collection

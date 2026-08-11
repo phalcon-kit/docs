@@ -77,7 +77,7 @@ public exportXml(array $list, ?string $filename = null, ?array $params = null): 
 ### exportJson
 
 ```php
-public exportJson(mixed $list, ?string $filename = null, int $flags = JSON_PRETTY_PRINT, int $depth = 2048): \Phalcon\Http\ResponseInterface
+public exportJson(mixed $list, ?string $filename = null, int $flags = \PhalconKit\Mvc\Controller\Traits\Abstracts\JSON_PRETTY_PRINT, int $depth = 2048): \Phalcon\Http\ResponseInterface
 ```
 
 * This method is **abstract**.

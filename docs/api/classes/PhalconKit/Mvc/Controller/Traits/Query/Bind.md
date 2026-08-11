@@ -49,14 +49,14 @@ This method is responsible for initializing the necessary bind types for the que
 Sets the fields for binding data.
 
 ```php
-public setBind(\Phalcon\Support\Collection|null $bind): void
+public setBind(array|\Phalcon\Support\Collection|null $bind): void
 ```
 
 **Parameters:**
 
-| Parameter | Type                                  | Description                                                                |
-|-----------|---------------------------------------|----------------------------------------------------------------------------|
-| `$bind`   | **\Phalcon\Support\Collection\|null** | The collection of field bindings.
+| Parameter | Type                                         | Description                                                                |
+|-----------|----------------------------------------------|----------------------------------------------------------------------------|
+| `$bind`   | **array\|\Phalcon\Support\Collection\|null** | The collection of field bindings.
 Pass null to disable the field bindings. |
 
 ***
@@ -79,19 +79,34 @@ Note: The bind fields are the fields that are allowed to be used within database
 The collection of bindings or null if binding is disabled.
 
 ***
+### mergeBind
+
+Merges the provided bind collection with the current bind property.
+
+```php
+public mergeBind(array|\Phalcon\Support\Collection $bind): void
+```
+
+**Parameters:**
+
+| Parameter | Type                                   | Description                                                         |
+|-----------|----------------------------------------|---------------------------------------------------------------------|
+| `$bind`   | **array\|\Phalcon\Support\Collection** | The collection of expose fields to merge with the current property. |
+
+***
 ### setBindTypes
 
 Sets the fields for binding data.
 
 ```php
-public setBindTypes(\Phalcon\Support\Collection|null $bindTypes): void
+public setBindTypes(array|\Phalcon\Support\Collection|null $bindTypes): void
 ```
 
 **Parameters:**
 
-| Parameter    | Type                                  | Description                                                              |
-|--------------|---------------------------------------|--------------------------------------------------------------------------|
-| `$bindTypes` | **\Phalcon\Support\Collection\|null** | The collection of binding types.
+| Parameter    | Type                                         | Description                                                              |
+|--------------|----------------------------------------------|--------------------------------------------------------------------------|
+| `$bindTypes` | **array\|\Phalcon\Support\Collection\|null** | The collection of binding types.
 Pass null to disable the binding types. |
 
 ***
@@ -112,5 +127,20 @@ Note: The binding types are the types for the fields used within database querie
 **Return Value:**
 
 The collection of bindings or null if binding types is disabled.
+
+***
+### mergeBindTypes
+
+Merges the provided bindTypes collection with the current bindTypes property.
+
+```php
+public mergeBindTypes(array|\Phalcon\Support\Collection $bindTypes): void
+```
+
+**Parameters:**
+
+| Parameter    | Type                                   | Description                                                     |
+|--------------|----------------------------------------|-----------------------------------------------------------------|
+| `$bindTypes` | **array\|\Phalcon\Support\Collection** | The collection of bindTypes to merge with the current property. |
 
 ***

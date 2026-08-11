@@ -1,4 +1,11 @@
 
+Base class for PhalconKit CLI tasks.
+
+Extend this class for framework/application CLI tasks that need Phalcon's
+native task lifecycle plus PhalconKit injectable service annotations. The
+class does not add task behavior itself; action methods remain normal
+Phalcon CLI task methods.
+
 ***
 
 * Full name: `\PhalconKit\Modules\Cli\Tasks\ScaffoldTask`
@@ -101,7 +108,7 @@ The generated abstract interface output as a string.
 Generates an abstract class output for the given definitions, table, columns, and tables.
 
 ```php
-public createAbstractOutput(array $definitions, array $columns, array $relationships): string
+public createAbstractOutput(array $definitions, array $columns, array $relationships, array $indexes): string
 ```
 
 **Parameters:**
@@ -111,6 +118,7 @@ public createAbstractOutput(array $definitions, array $columns, array $relations
 | `$definitions`   | **array** | The definitions for the abstract output. |
 | `$columns`       | **array** | The columns.                             |
 | `$relationships` | **array** | The relationship items.                  |
+| `$indexes`       | **array** |                                          |
 
 **Return Value:**
 
@@ -187,7 +195,7 @@ public getModelClassComments(array $definitions): string
 Generates a string containing validation items for each column in the provided array.
 
 ```php
-public getValidationItems(array $columns): string
+public getValidationItems(array $columns, array $indexes): string
 ```
 
 **Parameters:**
@@ -195,6 +203,7 @@ public getValidationItems(array $columns): string
 | Parameter  | Type      | Description                          |
 |------------|-----------|--------------------------------------|
 | `$columns` | **array** | An array of ColumnInterface objects. |
+| `$indexes` | **array** | An array of IndexInterface objects.  |
 
 **Return Value:**
 
@@ -221,6 +230,95 @@ public getRelationshipItems(string $table, array $columns, array $tables): array
 **Return Value:**
 
 An array containing the generated relationship items.
+
+***
+
+### getManyToManyRelationshipAlias
+
+Select a stable alias for generated many-to-many relationships.
+
+```php
+private getManyToManyRelationshipAlias(string $table, string $intermediateTable, string $targetTable, string $intermediateName, string $targetName, array $directRelationshipAliases, array<string,bool> $relationshipAliases): string
+```
+
+Short target aliases such as `RightList` are reserved for canonical
+two-table junctions like `left_right` or `right_left`. Contextual
+intermediate tables, such as `communication_update_user`, keep the
+intermediate model in the alias so they cannot shadow a direct relation.
+
+**Parameters:**
+
+| Parameter                    | Type                   | Description |
+|------------------------------|------------------------|-------------|
+| `$table`                     | **string**             |             |
+| `$intermediateTable`         | **string**             |             |
+| `$targetTable`               | **string**             |             |
+| `$intermediateName`          | **string**             |             |
+| `$targetName`                | **string**             |             |
+| `$directRelationshipAliases` | **array**              |             |
+| `$relationshipAliases`       | **array<string,bool>** |             |
+
+***
+
+### getDirectHasManyRelationshipAliases
+
+```php
+private getDirectHasManyRelationshipAliases(string $table, array<int,\Phalcon\Db\ColumnInterface> $columns, array<int,string> $tables): array<string,bool>
+```
+
+**Parameters:**
+
+| Parameter  | Type                                       | Description |
+|------------|--------------------------------------------|-------------|
+| `$table`   | **string**                                 |             |
+| `$columns` | **array<int,\Phalcon\Db\ColumnInterface>** |             |
+| `$tables`  | **array<int,string>**                      |             |
+
+***
+
+### isCanonicalManyToManyTable
+
+```php
+private isCanonicalManyToManyTable(string $table, string $intermediateTable, string $targetTable): bool
+```
+
+**Parameters:**
+
+| Parameter            | Type       | Description |
+|----------------------|------------|-------------|
+| `$table`             | **string** |             |
+| `$intermediateTable` | **string** |             |
+| `$targetTable`       | **string** |             |
+
+***
+
+### reserveRelationshipAlias
+
+```php
+private reserveRelationshipAlias(array<string,bool>& $relationshipAliases, string $alias): bool
+```
+
+**Parameters:**
+
+| Parameter              | Type                   | Description |
+|------------------------|------------------------|-------------|
+| `$relationshipAliases` | **array<string,bool>** |             |
+| `$alias`               | **string**             |             |
+
+***
+
+### hasRelationshipAlias
+
+```php
+private hasRelationshipAlias(array<string,bool> $relationshipAliases, string $alias): bool
+```
+
+**Parameters:**
+
+| Parameter              | Type                   | Description |
+|------------------------|------------------------|-------------|
+| `$relationshipAliases` | **array<string,bool>** |             |
+| `$alias`               | **string**             |             |
 
 ***
 
@@ -453,6 +551,43 @@ public afterExecuteRoute(\Phalcon\Cli\Dispatcher $dispatcher): void
 
 ***
 
+### normalizeCliPayload
+
+Normalize values before CLI output serializers see them.
+
+```php
+protected normalizeCliPayload(mixed $payload): mixed
+```
+
+Phalcon message objects are useful inside the framework but are opaque for
+JSON automation. This helper recursively converts them into scalar arrays
+while leaving other payload values unchanged.
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$payload` | **mixed** |             |
+
+***
+
+### normalizeCliMessages
+
+Normalize a list of model messages and optionally add a fallback entry.
+
+```php
+protected normalizeCliMessages(iterable $messages, ?string $fallbackMessage = null): list<array{message: string, field: string|null, type: string|null, code: int|null}>
+```
+
+**Parameters:**
+
+| Parameter          | Type         | Description                                |
+|--------------------|--------------|--------------------------------------------|
+| `$messages`        | **iterable** | Messages returned by a model or resultset. |
+| `$fallbackMessage` | **?string**  |                                            |
+
+***
+
 ### describeColumns
 
 Retrieves the columns of a given table.
@@ -618,6 +753,52 @@ Returns the table name with the first letter capitalized and all other letters u
 
 ***
 
+### wrapIdentifier
+
+Wraps a property name in square brackets if certain conditions are met.
+
+```php
+public wrapIdentifier(string $name, bool $always = false): string
+```
+
+Note: fields that are already wrapped will not be wrapped again.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                                                                   |
+|-----------|------------|-----------------------------------------------------------------------------------------------|
+| `$name`   | **string** | The name of the property to be wrapped.                                                       |
+| `$always` | **bool**   | Indicates whether the property name should always be wrapped, regardless of other conditions. |
+
+**Return Value:**
+
+The property name, optionally wrapped in square brackets.
+
+***
+
+### requiresWrapping
+
+Determines whether a property name should be wrapped based on specific conditions.
+
+```php
+public requiresWrapping(string $name, bool $always = false): bool
+```
+
+Reasoning: Phalcon PHQL parser has a bug with function names starting with 'not'.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                                              |
+|-----------|------------|--------------------------------------------------------------------------|
+| `$name`   | **string** | The property name to check for wrapping.                                 |
+| `$always` | **bool**   | Whether to always wrap the property name regardless of other conditions. |
+
+**Return Value:**
+
+True if the property name should be wrapped, otherwise false.
+
+***
+
 ### getLicenseStamp
 
 Retrieves the license stamp.
@@ -643,6 +824,25 @@ public getStrictTypes(): string|null
 **Return Value:**
 
 The value of the 'strictTypes' property, or null if the 'no-strict-types' parameter is set.
+
+***
+
+### getPhpFileHeader
+
+Builds the normalized opening PHP header for scaffolded files.
+
+```php
+public getPhpFileHeader(): string
+```
+
+Optional fragments, such as the license stamp and strict-types
+declaration, are trimmed before joining so disabled fragments do not
+leave extra blank lines in generated files.
+
+**Return Value:**
+
+Header text ending with exactly one blank line before the
+next top-level statement, typically a namespace declaration.
 
 ***
 
@@ -722,6 +922,14 @@ public isNoModels(): bool
 
 ```php
 public isNoEnums(): bool
+```
+
+***
+
+### isNoTests
+
+```php
+public isNoTests(): bool
 ```
 
 ***

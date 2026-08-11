@@ -1,4 +1,6 @@
 
+Abstract contract for query result cache options.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractCache`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeCacheConfig
+
+Initialize the full cache option collection.
 
 ```php
 public initializeCacheConfig(): void
@@ -15,6 +19,8 @@ public initializeCacheConfig(): void
 ***
 ### initializeCacheKey
 
+Initialize the cache key for the current query.
+
 ```php
 public initializeCacheKey(): void
 ```
@@ -23,6 +29,8 @@ public initializeCacheKey(): void
 ***
 ### initializeCacheLifetime
 
+Initialize the cache lifetime for the current query.
+
 ```php
 public initializeCacheLifetime(): void
 ```
@@ -30,6 +38,8 @@ public initializeCacheLifetime(): void
 * This method is **abstract**.
 ***
 ### setCacheKey
+
+Replace the computed cache key.
 
 ```php
 public setCacheKey(?string $cacheKey): void
@@ -45,6 +55,8 @@ public setCacheKey(?string $cacheKey): void
 ***
 ### getCacheKey
 
+Return the computed cache key.
+
 ```php
 public getCacheKey(): ?string
 ```
@@ -52,6 +64,8 @@ public getCacheKey(): ?string
 * This method is **abstract**.
 ***
 ### setCacheLifetime
+
+Replace the cache lifetime, in seconds.
 
 ```php
 public setCacheLifetime(?int $cacheLifetime): void
@@ -67,6 +81,8 @@ public setCacheLifetime(?int $cacheLifetime): void
 ***
 ### getCacheLifetime
 
+Return the cache lifetime, in seconds.
+
 ```php
 public getCacheLifetime(): ?int
 ```
@@ -75,19 +91,23 @@ public getCacheLifetime(): ?int
 ***
 ### setCacheConfig
 
+Replace the Phalcon `cache` find-option collection.
+
 ```php
-public setCacheConfig(?\Phalcon\Support\Collection $cacheConfig): void
+public setCacheConfig(array|\Phalcon\Support\Collection|null $cacheConfig): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter      | Type                             | Description |
-|----------------|----------------------------------|-------------|
-| `$cacheConfig` | **?\Phalcon\Support\Collection** |             |
+| Parameter      | Type                                         | Description |
+|----------------|----------------------------------------------|-------------|
+| `$cacheConfig` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getCacheConfig
+
+Return the Phalcon `cache` find-option collection.
 
 ```php
 public getCacheConfig(): ?\Phalcon\Support\Collection

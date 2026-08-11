@@ -1,5 +1,14 @@
 
-Class AbstractServiceProvider
+Registers a configured PDO database connection.
+
+The provider resolves the active driver from `database.default` or from a
+subclass-specific `$driverName`. Driver definitions can extend one or more
+other driver definitions through `extends`, allowing applications to keep
+shared connection options in one place and override only the values that
+differ per connection.
+
+Core database logger and profiler listeners are attached to the shared events
+manager before the connection is returned.
 
 ***
 
@@ -10,23 +19,35 @@ Class AbstractServiceProvider
 
 ### driverName
 
+Optional configured driver name forced by a specialized provider.
+
 ```php
 protected ?string $driverName
 ```
+
+Null means the provider uses `database.default`. Subclasses such as the
+read-only and dynamic database providers set this value to select a named
+driver while reusing the base connection-building logic.
 
 ***
 
 ### serviceName
 
-The Service name.
+Stable DI service name managed by this provider.
 
 ```php
 protected string $serviceName
 ```
 
+This value is part of the provider contract because controllers, tasks,
+other injectables, and replacement providers resolve services by name.
+Concrete providers must set it to a non-empty value.
+
 ***
 
 ### attachedEvents
+
+Tracks whether database listeners were attached during this PHP process.
 
 ```php
 protected static bool $attachedEvents
@@ -40,17 +61,28 @@ protected static bool $attachedEvents
 
 ### register
 
-Register application service.
+Register the shared database service.
 
 ```php
-public register(\Phalcon\Di\DiInterface $di): void
+public register(\PhalconKit\Di\DiInterface $di): void
 ```
+
+Supported driver options include `adapter`, `dialectClass`, connection
+descriptor values accepted by the selected adapter, and control keys such
+as `extends`/`enable` that are removed before adapter construction.
 
 **Parameters:**
 
-| Parameter | Type                        | Description |
-|-----------|-----------------------------|-------------|
-| `$di`     | **\Phalcon\Di\DiInterface** |             |
+| Parameter | Type                           | Description |
+|-----------|--------------------------------|-------------|
+| `$di`     | **\PhalconKit\Di\DiInterface** |             |
+
+**Throws:**
+
+When driver options are invalid, adapter or
+dialect classes do not exist, or the adapter does not extend Phalcon's
+PDO adapter base class.
+- [`ConfigurationException`](../../Exception/ConfigurationException.md)
 
 ***
 
@@ -58,23 +90,33 @@ public register(\Phalcon\Di\DiInterface $di): void
 
 ### __construct
 
-Set DI and run configure();
+Stores the DI container and prepares the provider for registration.
 
 ```php
-public __construct(\Phalcon\Di\DiInterface $di): mixed
+public __construct(\PhalconKit\Di\DiInterface $di): mixed
 ```
+
+The constructor intentionally requires `PhalconKit\Di\DiInterface` so
+providers can rely on typed service helpers during configuration and
+registration.
 
 **Parameters:**
 
-| Parameter | Type                        | Description |
-|-----------|-----------------------------|-------------|
-| `$di`     | **\Phalcon\Di\DiInterface** |             |
+| Parameter | Type                           | Description |
+|-----------|--------------------------------|-------------|
+| `$di`     | **\PhalconKit\Di\DiInterface** |             |
+
+**Throws:**
+
+When a concrete provider does not define a
+non-empty service name.
+- [`LogicException`](../../Exception/LogicException.md)
 
 ***
 
 ### getName
 
-Get the Service name.
+Returns the DI service name managed by this provider.
 
 ```php
 public getName(): string
@@ -84,20 +126,28 @@ public getName(): string
 
 ### boot
 
-Package boot method.
+Optional post-registration hook.
 
 ```php
 public boot(): void
 ```
 
+The base implementation is intentionally empty. Custom bootstraps or
+application code may call this method for provider-specific startup work
+after all services have been registered.
+
 ***
 
 ### configure
 
-Configures the current service provider.
+Optional provider-local configuration hook.
 
 ```php
 public configure(): void
 ```
+
+This runs during construction after DI has been stored and before
+`register()` is called. Use it to normalize provider options or prepare
+lightweight state; service creation belongs in `register()`.
 
 ***

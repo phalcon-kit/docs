@@ -1,4 +1,10 @@
 
+Declares role matching methods required by ACL and impersonation helpers.
+
+The role API keeps its legacy `$or` parameter for compatibility even though
+the current behavior treats `false` as any-match and `true` as all-match at
+the current nesting level.
+
 ***
 
 * Full name: `\PhalconKit\Identity\Traits\Abstracts\AbstractRole`
@@ -8,46 +14,46 @@
 ### hasRole
 
 ```php
-public hasRole(?array $roles = null, bool $or = false, bool $inherit = true): bool
+public hasRole(array<int,string>|null $roles = null, bool $or = false, bool $inherit = true): bool
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter  | Type       | Description |
-|------------|------------|-------------|
-| `$roles`   | **?array** |             |
-| `$or`      | **bool**   |             |
-| `$inherit` | **bool**   |             |
+| Parameter  | Type                        | Description |
+|------------|-----------------------------|-------------|
+| `$roles`   | **array<int,string>\|null** |             |
+| `$or`      | **bool**                    |             |
+| `$inherit` | **bool**                    |             |
 
 ***
 ### has
 
 ```php
-public has(array|string|null $needles = null, array $haystack = [], bool $or = false): bool
+public has(array<int,mixed>|string|null $needles = null, array<int,string> $haystack = [], bool $or = false): bool
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter   | Type                    | Description |
-|-------------|-------------------------|-------------|
-| `$needles`  | **array\|string\|null** |             |
-| `$haystack` | **array**               |             |
-| `$or`       | **bool**                |             |
+| Parameter   | Type                               | Description |
+|-------------|------------------------------------|-------------|
+| `$needles`  | **array<int,mixed>\|string\|null** |             |
+| `$haystack` | **array<int,string>**              |             |
+| `$or`       | **bool**                           |             |
 
 ***
 ### getInheritedRoleList
 
 ```php
-public getInheritedRoleList(array $roleIndexList = []): array
+public getInheritedRoleList(array<int,string> $roleIndexList = []): array<int,string>
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter        | Type      | Description |
-|------------------|-----------|-------------|
-| `$roleIndexList` | **array** |             |
+| Parameter        | Type                  | Description |
+|------------------|-----------------------|-------------|
+| `$roleIndexList` | **array<int,string>** |             |
 
 ***

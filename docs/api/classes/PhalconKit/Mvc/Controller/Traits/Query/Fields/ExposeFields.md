@@ -7,9 +7,15 @@
 
 ### exposeFields
 
+Controller-owned response exposure policy.
+
 ```php
 protected ?\Phalcon\Support\Collection $exposeFields
 ```
+
+Null lets the exposer use its default behavior for the current item. A
+non-null collection constrains the fields or nested relation paths that
+standard REST responses expose to clients.
 
 ***
 
@@ -17,60 +23,80 @@ protected ?\Phalcon\Support\Collection $exposeFields
 
 ### initializeExposeFields
 
-Initializes the expose fields.
+Initialize the response exposure field list.
 
 ```php
 public initializeExposeFields(): void
 ```
 
-This method is responsible for initializing the necessary expose fields for the model
+Concrete controllers can override this method and call
+
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\Query\Fields\setExposeFields() to define the public response shape for standard
+REST actions. The default remains null for backward compatibility.
 
 ***
 ### setExposeFields
 
-Sets the fields for exposing data.
+Replace the fields standard REST actions may expose.
 
 ```php
-public setExposeFields(\Phalcon\Support\Collection|null $exposeFields): void
+public setExposeFields(array|\Phalcon\Support\Collection|null $exposeFields): void
 ```
+
+Passing null leaves exposure unrestricted/defaulted. Passing an empty
+collection is a closed response policy and can be useful when a custom
+transformer owns the complete payload.
 
 **Parameters:**
 
-| Parameter       | Type                                  | Description                                                         |
-|-----------------|---------------------------------------|---------------------------------------------------------------------|
-| `$exposeFields` | **\Phalcon\Support\Collection\|null** | The array of expose fields.
-Pass null to allow exposing all fields. |
+| Parameter       | Type                                         | Description |
+|-----------------|----------------------------------------------|-------------|
+| `$exposeFields` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getExposeFields
 
-Returns the expose fields.
+Return the configured response exposure policy.
 
 ```php
-public getExposeFields(): \Phalcon\Support\Collection|null
+public getExposeFields(): ?\Phalcon\Support\Collection
 ```
 
-This method retrieves the expose fields for the model.
-If expose fields have been set, it returns the collection of expose fields.
-If no expose fields have been set, it returns null.
-
-Note: The expose fields are the fields that are exposed with the response.
-
-**Return Value:**
-
-The collection of expose fields or null if no expose fields have been set.
+The expose trait converts this collection to an array when listing or
+exposing records for standard REST responses.
 
 ***
 ### hasExposeFields
 
-Determines if the exposeFields property is set to a non-null value.
+Check whether response exposure configuration is present.
 
 ```php
 public hasExposeFields(): bool
 ```
 
-**Return Value:**
+This reports policy presence only. An empty collection still means the
+controller explicitly configured exposure.
 
-True if exposeFields is not null, false otherwise.
+***
+### mergeExposeFields
+
+Merge additional response exposure entries into the current policy.
+
+```php
+public mergeExposeFields(array|\Phalcon\Support\Collection $exposeFields): void
+```
+
+Merge semantics are centralized in
+
+- **See:** \PhalconKit\Support\CollectionPolicy: null starts
+from the incoming collection, empty incoming collections leave an existing
+policy unchanged, and associative keys can override previous entries.
+
+**Parameters:**
+
+| Parameter       | Type                                   | Description |
+|-----------------|----------------------------------------|-------------|
+| `$exposeFields` | **array\|\Phalcon\Support\Collection** |             |
 
 ***

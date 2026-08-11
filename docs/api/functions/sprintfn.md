@@ -1,12 +1,17 @@
 
-version of sprintf for cases where named arguments are desired (php syntax)
+Format a string with named placeholders backed by `vsprintf()`.
 
-with sprintf: sprintf('second: %%2$s ; first: %%1$s', '1st', '2nd');
+Named placeholders use PHP's positional syntax with a symbolic name in
+place of the numeric position. The names are rewritten to numeric
+positions before calling `vsprintf()`.
 
-with sprintfn: sprintfn('second: %%second$s ; first: %%first$s', array(
- 'first' => '1st',
- 'second'=> '2nd'
-));
+Example:
+```php
+sprintfn('second: %%second$s ; first: %%first$s', [
+    'first' => '1st',
+    'second' => '2nd',
+]);
+```
 
 ***
 
@@ -15,13 +20,15 @@ with sprintfn: sprintfn('second: %%second$s ; first: %%first$s', array(
 
 ## Parameters
 
-| Parameter | Type       | Description                                                         |
-|-----------|------------|---------------------------------------------------------------------|
-| `$format` | **string** | sprintf format string, with any number of named arguments           |
-| `$args`   | **array**  | array of [ 'arg_name' => 'arg value', ... ] replacements to be made |
+| Parameter | Type                    | Description                                          |
+|-----------|-------------------------|------------------------------------------------------|
+| `$format` | **string**              | Sprintf format string containing named placeholders. |
+| `$args`   | **array<string,mixed>** | Replacement values keyed by placeholder
+name.        |
 
 ## Return Value
 
 **string|false**
 
-result of sprintf call, or bool false on error
+Formatted string, or false after emitting a warning
+when a named placeholder has no matching argument.

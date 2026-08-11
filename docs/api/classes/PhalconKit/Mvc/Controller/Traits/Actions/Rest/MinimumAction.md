@@ -7,32 +7,23 @@
 
 ### minAction
 
-Minimum value of a column
-Alias for minimumAction
+Legacy short alias for `minimumAction()`.
 
 ```php
 public minAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
-
-**See Also:**
-
-* minimumAction()
-
 ***
 ### minimumAction
 
-Minimum value of a column
+Return the minimum value for the configured aggregate column.
 
 ```php
 public minimumAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
+The response variable is named `minimum`. Query preparation is delegated
+to the shared query trait so REST filters and policy constraints are
+applied consistently.
 
 ***

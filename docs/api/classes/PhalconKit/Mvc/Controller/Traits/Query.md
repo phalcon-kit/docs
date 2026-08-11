@@ -1,12 +1,20 @@
 
-Class Query
+Shared REST query builder for PhalconKit controllers.
 
-This class provides methods for building and executing database queries.
-It is used as a trait in other classes that need query building capabilities.
+The trait coordinates request-driven query state: filters, permissions,
+joins, eager-loading, grouping, aggregate columns, pagination, ordering,
+cache options, and save payload metadata. It compiles those collections into
+Phalcon model `find()`/aggregate option arrays while keeping extension hooks
+available through REST initialization events.
 
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Query`
+
+**See Also:**
+
+* https://docs.phalcon.io/5.18/db-models/
+* https://docs.phalcon.io/5.18/db-models-relationships/
 
 ## Properties
 
@@ -30,8 +38,9 @@ public initializeQuery(): void
 
 **Throws:**
 
+When request parameter filtering fails during
+query initialization.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-- [`Exception`](../../../../Exception.md)
 
 ***
 ### initializeFind
@@ -50,14 +59,14 @@ The values of various properties are assigned to the corresponding keys of the C
 Sets the value of the `find` property.
 
 ```php
-public setFind(\Phalcon\Support\Collection|null $find): void
+public setFind(array|\Phalcon\Support\Collection|null $find): void
 ```
 
 **Parameters:**
 
-| Parameter | Type                                  | Description                            |
-|-----------|---------------------------------------|----------------------------------------|
-| `$find`   | **\Phalcon\Support\Collection\|null** | The new value for the `find` property. |
+| Parameter | Type                                         | Description                            |
+|-----------|----------------------------------------------|----------------------------------------|
+| `$find`   | **array\|\Phalcon\Support\Collection\|null** | The new value for the `find` property. |
 
 ***
 ### getFind
@@ -93,23 +102,41 @@ public prepareFind(\Phalcon\Support\Collection|null $find = null, bool $ignoreKe
 The built find array.
 
 ***
-### mergeConditions
+### prepareFindListToString
 
-Merges and reformats the multiple conditions array to work with Phalcon\Mvc\Model\Query\Builder
+Converts find list options to their PHQL string form.
 
 ```php
-public mergeConditions(array $ret): array
+protected prepareFindListToString(array $items): string
 ```
+
+Collection-backed query options can be represented either as plain values
+or as enabled field maps, for example ['id' => true]. Values remain the
+default source, but true map entries use their string key as the selected
+field instead of compiling to "1".
 
 **Parameters:**
 
-| Parameter | Type      | Description                                                         |
-|-----------|-----------|---------------------------------------------------------------------|
-| `$ret`    | **array** | The input array that may contain conditions and other related data. |
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$items`  | **array** |             |
 
-**Return Value:**
+***
+### conditionsShouldBeHaving
 
-The modified array with merged and reformatted conditions.
+Determines whether WHERE conditions must be promoted to HAVING.
+
+```php
+public conditionsShouldBeHaving(?string $conditions): bool
+```
+
+Currently disabled by design.
+
+**Parameters:**
+
+| Parameter     | Type        | Description |
+|---------------|-------------|-------------|
+| `$conditions` | **?string** |             |
 
 ***
 ### find
@@ -117,7 +144,7 @@ The modified array with merged and reformatted conditions.
 Find records in the database using the specified criteria.
 
 ```php
-public find(array|null $find = null): \Phalcon\Mvc\Model\Resultset|array
+public find(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface&\Traversable
 ```
 
 **Parameters:**
@@ -146,7 +173,8 @@ public findWith(array|null $with = null, array|null $find = null): array
 | Parameter | Type            | Description                                                                                                                                                      |
 |-----------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `$with`   | **array\|null** | Optional. An array of related models to include
-with the found records. Defaults to `null`.                                                                      |
+with the found records. Passing null uses the
+controller's normalized default `with` graph.                      |
 | `$find`   | **array\|null** | Optional. An array of criteria to determine the records to find.
 If not provided, the default criteria from `getFind()` method
 will be used. Defaults to `null`. |
@@ -154,6 +182,12 @@ will be used. Defaults to `null`. |
 **Return Value:**
 
 The result of the find operation with loaded relationships.
+
+**Throws:**
+
+When the configured model does not support
+PhalconKit eager-loading helpers.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### findFirst
@@ -193,8 +227,8 @@ public findFirstWith(array|null $with = null, array|null $find = null): ?\Phalco
 | Parameter | Type            | Description                                                                                                                                                      |
 |-----------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `$with`   | **array\|null** | Optional. An array of relations to eager load for the record.
-If not provided, the default relations from `getWith()` method
-will be used. Defaults to `null`.   |
+Passing null uses the controller's normalized
+default `with` graph.                                |
 | `$find`   | **array\|null** | Optional. An array of criteria to determine the records to find.
 If not provided, the default criteria from `getFind()` method
 will be used. Defaults to `null`. |
@@ -202,6 +236,46 @@ will be used. Defaults to `null`. |
 **Return Value:**
 
 The result of the find operation for the first record.
+
+**Throws:**
+
+When the configured model does not support
+PhalconKit eager-loading helpers.
+- [`ServiceException`](../../../Exception/ServiceException.md)
+
+***
+### requireEagerLoadModel
+
+Require a loaded model that supports PhalconKit eager-loading helpers.
+
+```php
+protected requireEagerLoadModel(\Phalcon\Mvc\ModelInterface $model, string $method): \PhalconKit\Mvc\Model\Interfaces\EagerLoadInterface
+```
+
+Controller query helpers can load any Phalcon model, but `findWith()` and
+`findFirstWith()` need the PhalconKit eager-loading contract. Keeping this
+check in one helper keeps the public query methods readable while still
+producing a stable service-resolution exception instead of a late static
+method error when a controller is wired to the wrong model class.
+
+**Parameters:**
+
+| Parameter | Type                            | Description                                           |
+|-----------|---------------------------------|-------------------------------------------------------|
+| `$model`  | **\Phalcon\Mvc\ModelInterface** | Loaded model instance used for static query
+dispatch. |
+| `$method` | **string**                      | Query helper that requires eager loading.             |
+
+**Return Value:**
+
+The same model narrowed to the eager-loading
+contract.
+
+**Throws:**
+
+When the configured model does not support
+PhalconKit eager-loading helpers.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### average
@@ -243,9 +317,35 @@ Note: limit and offset are removed from the parameters in order to retrieve the 
 
 The total count of items that match the specified criteria.
 
-**Throws:**
+***
+### prepareCountFind
 
-- [`Exception`](../../../../Exception.md)
+Prepare count-specific options without overriding an explicit count column.
+
+```php
+protected prepareCountFind(array $find): array
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$find`   | **array** |             |
+
+***
+### getJoinedCountColumn
+
+Joined count queries default to the root model identity for single-column primary keys.
+
+```php
+protected getJoinedCountColumn(array $find): ?string
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$find`   | **array** |             |
 
 ***
 ### sum

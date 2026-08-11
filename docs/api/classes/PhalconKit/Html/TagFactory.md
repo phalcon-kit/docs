@@ -1,8 +1,14 @@
 
-Class TagFactory
+Framework HTML tag factory.
 
-The TagFactory class is responsible for generating HTML tags.
-It extends the \Phalcon\Html\TagFactory class.
+This class intentionally keeps Phalcon's tag-factory behavior while giving
+applications a PhalconKit-scoped type to register in the DI container. Use it
+when a service needs native Phalcon tag helpers but should remain typed to a
+framework-owned class.
+
+Applications that need to replace or decorate HTML helpers can extend this
+class and keep existing consumers pointed at the same `tag`/tag-factory
+service boundary.
 
 ***
 

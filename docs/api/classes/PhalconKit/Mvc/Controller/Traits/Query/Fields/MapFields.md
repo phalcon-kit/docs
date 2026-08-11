@@ -7,9 +7,15 @@
 
 ### mapFields
 
+Controller-owned public-to-model assignment map.
+
 ```php
 protected ?\Phalcon\Support\Collection $mapFields
 ```
+
+Null disables assignment mapping and leaves payload keys unchanged. A
+non-null collection is passed to Phalcon's assign API so controllers can
+expose stable public field names while assigning different model fields.
 
 ***
 
@@ -17,62 +23,80 @@ protected ?\Phalcon\Support\Collection $mapFields
 
 ### initializeMapFields
 
-Initializes the map fields.
+Initialize the REST assignment field map.
 
 ```php
 public initializeMapFields(): void
 ```
 
-This method is responsible for initializing the necessary map fields for the model
+Concrete controllers can override this method and call
+
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\Query\Fields\setMapFields() when public payload names differ from model
+attribute names. The default is null so save behavior remains unchanged.
 
 ***
 ### setMapFields
 
-Sets the fields for mapping data.
+Replace the field map used by REST persistence actions.
 
 ```php
-public setMapFields(\Phalcon\Support\Collection|null $mapFields): void
+public setMapFields(array|\Phalcon\Support\Collection|null $mapFields): void
 ```
+
+Passing null disables field mapping. Passing an empty collection keeps the
+decision explicit but maps no payload keys.
 
 **Parameters:**
 
-| Parameter    | Type                                  | Description                                                 |
-|--------------|---------------------------------------|-------------------------------------------------------------|
-| `$mapFields` | **\Phalcon\Support\Collection\|null** | The array of map fields.
-Pass null to disable the mappings. |
+| Parameter    | Type                                         | Description |
+|--------------|----------------------------------------------|-------------|
+| `$mapFields` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getMapFields
 
-Returns the map fields.
+Return the configured assignment field map.
 
 ```php
-public getMapFields(): \Phalcon\Support\Collection|null
+public getMapFields(): ?\Phalcon\Support\Collection
 ```
 
-This method retrieves the map fields for the model.
-If map fields have been set, it returns the collection of map fields.
-If no map fields have been set, it returns null.
-
-Note: The map fields are the fields that are mapped during the data assignation (save).
-
-**Return Value:**
-
-The collection of map fields or null if no map fields have been set.
+The save query trait converts this collection to an array and passes it to
+Phalcon's model assignment API together with the optional save-field
+policy.
 
 ***
 ### hasMapFields
 
-Determines if map fields are set.
+Check whether assignment mapping is configured.
 
 ```php
 public hasMapFields(): bool
 ```
 
-This method checks whether the map fields have been initialized and are not null.
+This reports policy presence only. An empty collection still means the
+controller intentionally configured no field mappings.
 
-**Return Value:**
+***
+### mergeMapFields
 
-True if map fields are set, otherwise false.
+Merge additional assignment mappings into the current policy.
+
+```php
+public mergeMapFields(array|\Phalcon\Support\Collection $mapFields): void
+```
+
+Merge semantics are centralized in
+
+- **See:** \PhalconKit\Support\CollectionPolicy: null starts
+from the incoming collection, empty incoming collections leave an existing
+policy unchanged, and associative keys can override previous entries.
+
+**Parameters:**
+
+| Parameter    | Type                                   | Description |
+|--------------|----------------------------------------|-------------|
+| `$mapFields` | **array\|\Phalcon\Support\Collection** |             |
 
 ***

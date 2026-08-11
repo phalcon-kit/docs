@@ -49,6 +49,7 @@ This method initializes the cache by setting the cache key and lifetime.
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -66,6 +67,7 @@ using `setCacheLifetime()` method with the filtered value.
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -142,14 +144,14 @@ The cache key.
 Set the cache config collection for the query.
 
 ```php
-public setCacheConfig(\Phalcon\Support\Collection|null $cacheConfig): void
+public setCacheConfig(array|\Phalcon\Support\Collection|null $cacheConfig): void
 ```
 
 **Parameters:**
 
-| Parameter      | Type                                  | Description                                      |
-|----------------|---------------------------------------|--------------------------------------------------|
-| `$cacheConfig` | **\Phalcon\Support\Collection\|null** | The cache config collection, or null to disable. |
+| Parameter      | Type                                         | Description                                      |
+|----------------|----------------------------------------------|--------------------------------------------------|
+| `$cacheConfig` | **array\|\Phalcon\Support\Collection\|null** | The cache config collection, or null to disable. |
 
 ***
 ### getCacheConfig
@@ -163,5 +165,20 @@ public getCacheConfig(): \Phalcon\Support\Collection|null
 **Return Value:**
 
 The cache config collection, or null if no cache is set.
+
+***
+### mergeCacheConfig
+
+Merges the provided cacheConfig collection with the current cacheConfig property.
+
+```php
+public mergeCacheConfig(array|\Phalcon\Support\Collection $cacheConfig): void
+```
+
+**Parameters:**
+
+| Parameter      | Type                                   | Description                                                              |
+|----------------|----------------------------------------|--------------------------------------------------------------------------|
+| `$cacheConfig` | **array\|\Phalcon\Support\Collection** | The collection of cacheConfig fields to merge with the current property. |
 
 ***

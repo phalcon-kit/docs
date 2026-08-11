@@ -1,4 +1,6 @@
 
+Abstract contract for configured PHQL join definitions.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractJoins`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeJoins
+
+Initialize join definitions.
 
 ```php
 public initializeJoins(): void
@@ -15,19 +19,23 @@ public initializeJoins(): void
 ***
 ### setJoins
 
+Replace join definitions.
+
 ```php
-public setJoins(?\Phalcon\Support\Collection $joins): void
+public setJoins(array|\Phalcon\Support\Collection|null $joins): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                             | Description |
-|-----------|----------------------------------|-------------|
-| `$joins`  | **?\Phalcon\Support\Collection** |             |
+| Parameter | Type                                         | Description |
+|-----------|----------------------------------------------|-------------|
+| `$joins`  | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getJoins
+
+Return join definitions.
 
 ```php
 public getJoins(): ?\Phalcon\Support\Collection

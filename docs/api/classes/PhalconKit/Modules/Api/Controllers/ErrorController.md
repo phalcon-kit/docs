@@ -1,46 +1,90 @@
 
-Class Controller
+API error endpoint without model-backed REST actions.
+
+Error routes are dispatch targets for status rendering only. They must not
+inherit the `Restful` CRUD/query surface because routes such as
+`/api/error/save` would otherwise attempt to infer and load an `Error` model
+instead of returning through the status action flow.
 
 ***
 
 * Full name: `\PhalconKit\Modules\Api\Controllers\ErrorController`
-* Parent class: [`\PhalconKit\Modules\Api\Controllers\AbstractController`](./AbstractController.md)
+* Parent class: [`\PhalconKit\Mvc\Controller\Rest`](../../../Mvc/Controller/Rest.md)
+
+## Methods
+
+### errorAction
+
+Render the configured HTTP-exception route through the REST envelope.
+
+```php
+public errorAction(?int $code = null, ?string $message = null): void
+```
+
+The dispatcher owns status validation and preserves the exception as a
+named route parameter. Only HttpException messages are exposed here;
+fatal exceptions remain private and use
+
+- **See:** \PhalconKit\Modules\Api\Controllers\fatalAction().
+
+**Parameters:**
+
+| Parameter  | Type        | Description |
+|------------|-------------|-------------|
+| `$code`    | **?int**    |             |
+| `$message` | **?string** |             |
+
+***
 
 ## Inherited methods
 
 ### setRestErrorResponse
 
-Set the REST response error
+Return a normalized REST error response.
 
 ```php
-public setRestErrorResponse(int $code = 400, ?string $status = null, mixed $response = null): \Phalcon\Http\ResponseInterface
+public setRestErrorResponse(int $code = 400, string|null $status = null, mixed $response = null): \Phalcon\Http\ResponseInterface
 ```
+
+This is the preferred exit path for controller failures that should use
+the standard JSON envelope but carry a non-2xx HTTP status. The response
+body remains caller-controlled so legacy actions can keep returning
+`false`, `null`, or a custom payload while the envelope status and code
+are still set consistently by
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestResponse().
 
 **Parameters:**
 
-| Parameter   | Type        | Description                                 |
-|-------------|-------------|---------------------------------------------|
-| `$code`     | **int**     | The HTTP status code (default: 400)         |
-| `$status`   | **?string** | The status message (default: 'Bad Request') |
-| `$response` | **mixed**   | The response body (default: null)           |
+| Parameter   | Type             | Description                                                                                                              |
+|-------------|------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `$code`     | **int**          | HTTP status code to expose in the response and payload.                                                                  |
+| `$status`   | **string\|null** | Optional status text; when null, the status is
+resolved from the current response or {@see \PhalconKit\Http\StatusCode}. |
+| `$response` | **mixed**        | Response body stored under the REST `response`
+envelope key.                                                             |
 
 **Return Value:**
 
-The REST response object
-
-**Throws:**
-
-- [`Exception`](../../../../Exception.md)
+The finalized Phalcon response instance.
 
 ***
 
 ### setRestResponse
 
-Sending rest response as a http response
+Sending rest response as a http response.
 
 ```php
-public setRestResponse(mixed $response = null, ?int $code = null, ?string $status = null, int $jsonOptions, int $depth = 512): \Phalcon\Http\ResponseInterface
+public setRestResponse(mixed $response = null, ?int $code = null, ?string $status = null, int $jsonOptions = 0, int $depth = 512): \Phalcon\Http\ResponseInterface
 ```
+
+The JSON envelope is intentionally centralized here so REST actions can
+focus on setting named view fields through
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestViewVar() and
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestViewVars(). The envelope keys are public constants because
+they are part of the API contract exposed to clients.
 
 **Parameters:**
 
@@ -52,9 +96,204 @@ public setRestResponse(mixed $response = null, ?int $code = null, ?string $statu
 | `$jsonOptions` | **int**     |             |
 | `$depth`       | **int**     |             |
 
-**Throws:**
+***
 
-- [`Exception`](../../../../Exception.md)
+### setRestViewVar
+
+Set one public view field for the REST response payload.
+
+```php
+protected setRestViewVar(string $key, mixed $value): void
+```
+
+The field is later serialized under the top-level `view` envelope key by
+
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestResponse(). Standard framework actions should use the
+`REST_VIEW_*` constants instead of repeating string literals so response
+contracts remain discoverable and consistent.
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$key`    | **string** |             |
+| `$value`  | **mixed**  |             |
+
+***
+
+### setRestViewVars
+
+Set several public view fields for the REST response payload.
+
+```php
+protected setRestViewVars(array<string,mixed> $vars, bool $merge = true): void
+```
+
+**Parameters:**
+
+| Parameter | Type                    | Description                                                                                                                |
+|-----------|-------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `$vars`   | **array<string,mixed>** | View fields to expose under the response
+envelope's `view` key.                                                            |
+| `$merge`  | **bool**                | Whether to merge with existing view variables. This
+matches Phalcon's `setVars()` default behavior used by legacy actions. |
+
+***
+
+### getRestViewVars
+
+Return view fields that are safe to serialize in a REST response.
+
+```php
+protected getRestViewVars(): array<string,mixed>
+```
+
+Phalcon keeps internal render data under `_`; that key is deliberately
+stripped so controller actions cannot accidentally leak framework internals
+through the public JSON envelope.
+
+***
+
+### buildRestPayload
+
+Build the normalized REST JSON envelope.
+
+```php
+protected buildRestPayload(mixed $response, int $code, string $status): array<string,mixed>
+```
+
+The shape is intentionally stable for backward compatibility:
+`timestamp`, `status`, `code`, `response`, and `view` are always present,
+while `debug` is added only when debug mode is enabled.
+
+**Parameters:**
+
+| Parameter   | Type       | Description |
+|-------------|------------|-------------|
+| `$response` | **mixed**  |             |
+| `$code`     | **int**    |             |
+| `$status`   | **string** |             |
+
+***
+
+### getRestActionFailureStatusCode
+
+Resolve an HTTP status code for REST action failures carrying messages.
+
+```php
+protected getRestActionFailureStatusCode(mixed $messages, int $emptyStatusCode = 400, int $defaultStatusCode = 422): int
+```
+
+Model, validation, and domain-rule failures normally include messages and
+map to 422 Unprocessable Entity. Framework-generated REST failures can
+attach explicit client-error codes to Phalcon messages; those 4xx codes
+are preserved so actions do not collapse invalid request intent, missing
+targets, forbidden operations, or conflicts into generic validation
+responses. Server errors stay owned by thrown exceptions or explicit
+controller calls to
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestErrorResponse().
+
+A failure without messages is treated as malformed input by default. The
+defaults can be overridden for actions that need a different legacy or
+protocol-specific response.
+
+**Parameters:**
+
+| Parameter            | Type      | Description                                                                                                                |
+|----------------------|-----------|----------------------------------------------------------------------------------------------------------------------------|
+| `$messages`          | **mixed** | A Phalcon messages collection, iterable list,
+single message, or any legacy message payload returned by model/action
+code. |
+| `$emptyStatusCode`   | **int**   | Status code used when no message payload is
+available.                                                                     |
+| `$defaultStatusCode` | **int**   | Status code used when messages exist but no
+explicit HTTP status code is attached.                                         |
+
+***
+
+### hasRestActionMessages
+
+Determine whether a REST action failure carried any message payload.
+
+```php
+protected hasRestActionMessages(mixed $messages): bool
+```
+
+PHP objects are never empty for `empty()`, even when they implement
+`Countable` and contain zero messages. Phalcon validation returns
+`Phalcon\Messages\Messages`, so status resolution must check the
+collection count instead of relying on PHP object truthiness.
+
+**Parameters:**
+
+| Parameter   | Type      | Description |
+|-------------|-----------|-------------|
+| `$messages` | **mixed** |             |
+
+***
+
+### setRestActionFailureResponse
+
+Return a normalized REST error response for an action failure.
+
+```php
+protected setRestActionFailureResponse(mixed $messages, mixed $response = false, int $emptyStatusCode = 400, int $defaultStatusCode = 422): \Phalcon\Http\ResponseInterface
+```
+
+This helper keeps REST actions from pre-mutating the response status and
+then relying on
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestResponse() to pick that status back up. The
+action still owns its public view fields; this method only resolves the
+HTTP failure code from explicit message metadata and delegates the final
+envelope to
+- **See:** \PhalconKit\Mvc\Controller\Traits\setRestErrorResponse().
+
+**Parameters:**
+
+| Parameter            | Type      | Description                                                                                                                |
+|----------------------|-----------|----------------------------------------------------------------------------------------------------------------------------|
+| `$messages`          | **mixed** | A Phalcon messages collection, iterable list,
+single message, or any legacy message payload returned by model/action
+code. |
+| `$response`          | **mixed** | Response body stored under the REST `response`
+envelope key. Standard framework actions usually pass `false`.              |
+| `$emptyStatusCode`   | **int**   | Status code used when no message payload is
+available.                                                                     |
+| `$defaultStatusCode` | **int**   | Status code used when messages exist but no
+explicit HTTP status code is attached.                                         |
+
+**Return Value:**
+
+The finalized Phalcon response instance.
+
+***
+
+### getRestActionMessageStatusCode
+
+Extract an explicit HTTP status code from one REST action message.
+
+```php
+protected getRestActionMessageStatusCode(mixed $message): int|null
+```
+
+Only Phalcon message codes in the HTTP client-error range are considered.
+Normal validation messages often carry no code, or a non-HTTP code, and
+server-error responses should come from exceptions or explicit controller
+error handling instead of model/domain message metadata.
+
+**Parameters:**
+
+| Parameter  | Type      | Description                                          |
+|------------|-----------|------------------------------------------------------|
+| `$message` | **mixed** | Candidate message value from a model/action failure. |
+
+**Return Value:**
+
+Explicit 4xx HTTP status code when present and valid;
+otherwise null.
 
 ***
 
@@ -128,10 +367,6 @@ public afterExecuteRoute(\Phalcon\Mvc\Dispatcher $dispatcher): void
 |---------------|-----------------------------|--------------------------|
 | `$dispatcher` | **\Phalcon\Mvc\Dispatcher** | The Dispatcher instance. |
 
-**Throws:**
-
-- [`Exception`](../../../../Exception.md)
-
 ***
 
 ### getParam
@@ -153,6 +388,7 @@ public getParam(string $key, array|string|null $filters = null, mixed|null $defa
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -180,7 +416,7 @@ public hasParam(string $key, array|null $params = null, bool $cached = true): bo
 Retrieve specific or all request parameters.
 
 ```php
-public getParams(array|null $fields = null, bool $cached = true, bool $deep = true): array<string,mixed>
+public getParams(array|null $fields = null, bool $cached = true, bool $deep = true): array<array-key,mixed>
 ```
 
 Usage examples:
@@ -198,6 +434,7 @@ Usage examples:
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -207,7 +444,7 @@ Usage examples:
 Retrieve all request parameters, optionally applying filters and caching results.
 
 ```php
-public getAllParams(array|null $filters = null, bool $cached = true, bool $deep = true): array<string,mixed>
+public getAllParams(array|null $filters = null, bool $cached = true, bool $deep = true): array<array-key,mixed>
 ```
 
 **Parameters:**
@@ -220,17 +457,75 @@ public getAllParams(array|null $filters = null, bool $cached = true, bool $deep 
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### collectRequestParams
 
-Collect parameters based on the HTTP method.
+Collect parameters from one request source based on the HTTP method.
 
 ```php
-private collectRequestParams(): array<string,mixed>
+private collectRequestParams(): array<array-key,mixed>
 ```
+
+Body methods prefer an explicitly JSON request body and otherwise use the
+matching form body. Query parameters are intentionally not merged into
+body payloads so save endpoints cannot accidentally persist route/query
+controls such as `with`, `filters`, or `order`.
+
+***
+
+### collectBodyParams
+
+Collect body parameters from JSON or the method-specific form payload.
+
+```php
+private collectBodyParams(mixed $formParams): array<array-key,mixed>
+```
+
+**Parameters:**
+
+| Parameter     | Type      | Description                                |
+|---------------|-----------|--------------------------------------------|
+| `$formParams` | **mixed** | Method-specific form payload from Phalcon. |
+
+***
+
+### collectJsonRequestParams
+
+Collect JSON request parameters when a body request explicitly sends JSON.
+
+```php
+private collectJsonRequestParams(): array<array-key,mixed>|null
+```
+
+***
+
+### hasJsonContentType
+
+Return true for standard JSON and vendor JSON request content types.
+
+```php
+private hasJsonContentType(): bool
+```
+
+***
+
+### normalizeRequestParams
+
+Normalize Phalcon request accessor output into a parameter array.
+
+```php
+private normalizeRequestParams(mixed $params): array<array-key,mixed>
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$params` | **mixed** |             |
 
 ***
 
@@ -239,19 +534,20 @@ private collectRequestParams(): array<string,mixed>
 Apply filters to parameters (recursively if $deep is true).
 
 ```php
-public applyFilters(array<string,mixed> $params, array<string,array|string> $filters, bool $deep = true): array<string,mixed>
+public applyFilters(array<array-key,mixed> $params, array<string,array|string> $filters, bool $deep = true): array<array-key,mixed>
 ```
 
 **Parameters:**
 
 | Parameter  | Type                            | Description |
 |------------|---------------------------------|-------------|
-| `$params`  | **array<string,mixed>**         |             |
+| `$params`  | **array<array-key,mixed>**      |             |
 | `$filters` | **array<string,array\|string>** |             |
 | `$deep`    | **bool**                        |             |
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -273,6 +569,7 @@ private deepSanitize(mixed $value, array|string $filters): mixed
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -350,7 +647,7 @@ public getDefaultFilters(): array<string,array|string>
 Retrieves the raw parameters from the request. If caching is enabled, it returns the cached parameters.
 
 ```php
-public getRawParams(bool $cached = true): array<string,mixed>
+public getRawParams(bool $cached = true): array<array-key,mixed>
 ```
 
 **Parameters:**
@@ -621,731 +918,81 @@ public attachBehaviors(array $behaviors = [], string|null $eventType = null, int
 
 ***
 
-### initializeQuery
-
-Initializes the query builder with default values for various properties.
+### getOrCreateEventsManager
 
 ```php
-public initializeQuery(): void
+protected getOrCreateEventsManager(): \Phalcon\Contracts\Events\Manager
 ```
-
-**Throws:**
-
-- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-- [`Exception`](../../../../Exception.md)
 
 ***
 
-### initializeFind
+### attachConfiguredBehaviors
 
-Initializes the `find` property with a new Collection object.
-
-```php
-public initializeFind(): void
-```
-
-The values of various properties are assigned to the corresponding keys of the Collection object.
-
-***
-
-### setFind
-
-Sets the value of the `find` property.
+Attach legacy, non-action-scoped behavior config for this controller/model.
 
 ```php
-public setFind(\Phalcon\Support\Collection|null $find): void
+private attachConfiguredBehaviors(array<string|int,mixed> $behaviorsContext, array<int,string> $handlerCandidates, ?string $modelName): void
 ```
 
 **Parameters:**
 
-| Parameter | Type                                  | Description                            |
-|-----------|---------------------------------------|----------------------------------------|
-| `$find`   | **\Phalcon\Support\Collection\|null** | The new value for the `find` property. |
+| Parameter            | Type                         | Description                    |
+|----------------------|------------------------------|--------------------------------|
+| `$behaviorsContext`  | **array<string\|int,mixed>** | Permission behavior map.       |
+| `$handlerCandidates` | **array<int,string>**        | Controller class/name aliases. |
+| `$modelName`         | **?string**                  |                                |
 
 ***
 
-### getFind
+### attachConfiguredActionBehaviors
 
-Retrieves the value of the `find` property.
-
-```php
-public getFind(): \Phalcon\Support\Collection|null
-```
-
-**Return Value:**
-
-The value of the `find` property.
-
-***
-
-### prepareFind
-
-Builds the `find` array for a query.
+Attach action-scoped controller/model behavior config for this request.
 
 ```php
-public prepareFind(\Phalcon\Support\Collection|null $find = null, bool $ignoreKey = false): array
+private attachConfiguredActionBehaviors(array<string|int,mixed> $behaviorActionsContext, array<int,string> $handlerCandidates, array<int,string> $actionCandidates, ?string $modelName): void
 ```
 
 **Parameters:**
 
-| Parameter    | Type                                  | Description                                                      |
-|--------------|---------------------------------------|------------------------------------------------------------------|
-| `$find`      | **\Phalcon\Support\Collection\|null** | The collection to build the find array from. Defaults to null.   |
-| `$ignoreKey` | **bool**                              | Whether to ignore the keys in the collection. Defaults to false. |
-
-**Return Value:**
-
-The built find array.
+| Parameter                 | Type                         | Description                    |
+|---------------------------|------------------------------|--------------------------------|
+| `$behaviorActionsContext` | **array<string\|int,mixed>** | Action behavior map.           |
+| `$handlerCandidates`      | **array<int,string>**        | Controller class/name aliases. |
+| `$actionCandidates`       | **array<int,string>**        | Current action aliases.        |
+| `$modelName`              | **?string**                  |                                |
 
 ***
 
-### mergeConditions
-
-Merges and reformats the multiple conditions array to work with Phalcon\Mvc\Model\Query\Builder
+### getBehaviorHandlerCandidates
 
 ```php
-public mergeConditions(array $ret): array
+private getBehaviorHandlerCandidates(): array<int,string>
 ```
 
-**Parameters:**
-
-| Parameter | Type      | Description                                                         |
-|-----------|-----------|---------------------------------------------------------------------|
-| `$ret`    | **array** | The input array that may contain conditions and other related data. |
-
-**Return Value:**
-
-The modified array with merged and reformatted conditions.
-
 ***
 
-### find
-
-Find records in the database using the specified criteria.
+### getBehaviorActionCandidates
 
 ```php
-public find(array|null $find = null): \Phalcon\Mvc\Model\Resultset|array
+private getBehaviorActionCandidates(): array<int,string>
 ```
 
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                                                                      |
-|-----------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional. An array of criteria to determine the records to find.
-If not provided, the default criteria from `getFind()` method
-will be used. Defaults to `null`. |
-
-**Return Value:**
-
-The result of the find operation.
-
 ***
 
-### findWith
-
-Find records in the database using the specified criteria and include related records.
+### getBehaviorDispatcher
 
 ```php
-public findWith(array|null $with = null, array|null $find = null): array
+private getBehaviorDispatcher(): ?\Phalcon\Dispatcher\AbstractDispatcher
 ```
 
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                                                                      |
-|-----------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$with`   | **array\|null** | Optional. An array of related models to include
-with the found records. Defaults to `null`.                                                                      |
-| `$find`   | **array\|null** | Optional. An array of criteria to determine the records to find.
-If not provided, the default criteria from `getFind()` method
-will be used. Defaults to `null`. |
-
-**Return Value:**
-
-The result of the find operation with loaded relationships.
-
 ***
 
-### findFirst
+### usesControllerAttributes
 
-Find the first record in the database using the specified criteria.
-
-```php
-public findFirst(array|null $find = null): \Phalcon\Mvc\ModelInterface|false|null
-```
-
-Note: We intentionally removed the Row from the return type to simplify usages.
-If you need to access the Row, use a query builder instead.
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                                                                                              |
-|-----------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional. An array of criteria to determine the record to find.
-If not provided, the default criteria from `getFind()` method
-will be used to find the first record. Defaults to `null`. |
-
-**Return Value:**
-
-The result of the find operation, which is the first record that matches the criteria.
-
-***
-
-### findFirstWith
-
-Find the first record in the database using the specified criteria and relations.
+Determine whether controller attributes should augment permission config.
 
 ```php
-public findFirstWith(array|null $with = null, array|null $find = null): ?\Phalcon\Mvc\ModelInterface
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                                                                      |
-|-----------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$with`   | **array\|null** | Optional. An array of relations to eager load for the record.
-If not provided, the default relations from `getWith()` method
-will be used. Defaults to `null`.   |
-| `$find`   | **array\|null** | Optional. An array of criteria to determine the records to find.
-If not provided, the default criteria from `getFind()` method
-will be used. Defaults to `null`. |
-
-**Return Value:**
-
-The result of the find operation for the first record.
-
-***
-
-### average
-
-Calculates the average value based on a given set of criteria.
-
-```php
-public average(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                       |
-|-----------|-----------------|---------------------------------------------------|
-| `$find`   | **array\|null** | The criteria to filter the records by (optional). |
-
-**Return Value:**
-
-The average value or a result set containing the average value.
-
-***
-
-### count
-
-Retrieves the total count of items based on the specified model name and find criteria.
-
-```php
-public count(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|int|false
-```
-
-Note: limit and offset are removed from the parameters in order to retrieve the total count
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                     |
-|-----------|-----------------|-------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | An array of find criteria to filter the results. If null, the default criteria will be applied. |
-
-**Return Value:**
-
-The total count of items that match the specified criteria.
-
-**Throws:**
-
-- [`Exception`](../../../../Exception.md)
-
-***
-
-### sum
-
-Calculates the sum of values based on a given search criteria.
-
-```php
-public sum(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                           |
-|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional: The criteria to find the maximum value from.
-Default: null (will retrieve the `find` from $this->getFind()) |
-
-**Return Value:**
-
-The calculated sum of values.
-
-***
-
-### maximum
-
-Retrieves the minimum value.
-
-```php
-public maximum(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                           |
-|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional: The criteria to find the maximum value from.
-Default: null (will retrieve the `find` from $this->getFind()) |
-
-**Return Value:**
-
-The maximum value from the dataset or a `ResultsetInterface` that represents the grouped maximum values.
-
-***
-
-### minimum
-
-Retrieves the minimum value.
-
-```php
-public minimum(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                           |
-|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional: The criteria to find the minimum value from.
-Default: null (will retrieve the `find` from $this->getFind()) |
-
-**Return Value:**
-
-The minimum value from the dataset or a `ResultsetInterface` that represents the grouped minimum values.
-
-***
-
-### getCalculationFind
-
-Prepares and retrieves the modified `find` array with optional adjustments.
-
-```php
-protected getCalculationFind(array|null $find = null, bool $removeLimitOffset = true): array
-```
-
-**Parameters:**
-
-| Parameter            | Type            | Description                                                                                                         |
-|----------------------|-----------------|---------------------------------------------------------------------------------------------------------------------|
-| `$find`              | **array\|null** | The initial `find` array to modify. If null, it defaults
-to the result of `getFind()->toArray()` or an empty array. |
-| `$removeLimitOffset` | **bool**        | Whether to remove `limit` and `offset` keys
-from the `find` array. Defaults to true.                                |
-
-**Return Value:**
-
-The adjusted `find` array, filtered with any necessary modifications.
-
-***
-
-### generateBindKey
-
-Generates a unique bind key with the given prefix.
-
-```php
-public generateBindKey(string $prefix): string
-```
-
-**Parameters:**
-
-| Parameter | Type       | Description                            |
-|-----------|------------|----------------------------------------|
-| `$prefix` | **string** | The prefix to be used in the bind key. |
-
-**Return Value:**
-
-The generated bind key.
-
-***
-
-### getModelName
-
-Retrieves the name of the model associated with the controller.
-
-```php
-public getModelName(): string|null
-```
-
-**Return Value:**
-
-The name of the model associated with the controller, or null if not found.
-
-***
-
-### setModelName
-
-Sets the name of the model to be used.
-
-```php
-public setModelName(string|null $modelName): void
-```
-
-**Parameters:**
-
-| Parameter    | Type             | Description                      |
-|--------------|------------------|----------------------------------|
-| `$modelName` | **string\|null** | The name of the model to be set. |
-
-***
-
-### getModelNamespaces
-
-Gets the namespaces used for the model lookup.
-
-```php
-public getModelNamespaces(): array
-```
-
-If no model namespace is set, the namespaces defined in the loader will be returned.
-
-**Return Value:**
-
-The namespaces used for the model lookup.
-
-***
-
-### setModelNamespaces
-
-Set the namespaces for the models.
-
-```php
-public setModelNamespaces(array|null $modelNamespaces): void
-```
-
-**Parameters:**
-
-| Parameter          | Type            | Description                             |
-|--------------------|-----------------|-----------------------------------------|
-| `$modelNamespaces` | **array\|null** | The array of namespaces for the models. |
-
-***
-
-### getModelNameFromController
-
-Retrieves the model name from the controller by following certain naming conventions.
-
-```php
-public getModelNameFromController(array|null $namespaces = null, string $needle = 'Models'): string|null
-```
-
-**Parameters:**
-
-| Parameter     | Type            | Description                                                                                                         |
-|---------------|-----------------|---------------------------------------------------------------------------------------------------------------------|
-| `$namespaces` | **array\|null** | Optional. An array of namespaces to search for the model. Default is null and will use $this->getModelNamespaces(). |
-| `$needle`     | **string**      | Optional. The keyword to search for in the namespace. Default is 'Models'.                                          |
-
-**Return Value:**
-
-The model name if found, otherwise null.
-
-***
-
-### getControllerName
-
-Returns the name of the controller.
-
-```php
-public getControllerName(): string
-```
-
-If the controller name is not set in the dispatcher, it extracts the controller name from the class name
-of the current instance.
-
-**Return Value:**
-
-The name of the controller.
-
-***
-
-### loadModel
-
-Loads a model by its name using the modelsManager.
-
-```php
-public loadModel(string|null $modelName = null): \Phalcon\Mvc\ModelInterface
-```
-
-**Parameters:**
-
-| Parameter    | Type             | Description                                                                        |
-|--------------|------------------|------------------------------------------------------------------------------------|
-| `$modelName` | **string\|null** | The name of the model to load. Default is null and will use $this->getModelName(). |
-
-**Return Value:**
-
-The loaded model.
-
-***
-
-### appendModelName
-
-Appends the model name to the specified field string, if not already present.
-
-```php
-public appendModelName(string $field, string|null $modelName = null): string
-```
-
-**Parameters:**
-
-| Parameter    | Type             | Description                                                                    |
-|--------------|------------------|--------------------------------------------------------------------------------|
-| `$field`     | **string**       | The field string to append the model name to.                                  |
-| `$modelName` | **string\|null** | The name of the model to append. If null, the default model name will be used. |
-
-**Return Value:**
-
-The modified field string with the model name appended.
-
-***
-
-### expose
-
-Expose properties of an item
-
-```php
-public expose(mixed $item, array|null $expose = null): array
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                                    |
-|-----------|-----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `$item`   | **mixed**       | The item to expose properties for                                                                                              |
-| `$expose` | **array\|null** | The array defining which properties to expose (optional).
-If not provided, the default $this->getExpose() method will be used. |
-
-**Return Value:**
-
-The exposed properties as an array
-
-***
-
-### listExpose
-
-List entities with specified expose definition
-
-```php
-public listExpose(iterable $items, array|null $expose = null): array
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                                |
-|-----------|-----------------|----------------------------------------------------------------------------------------------------------------------------|
-| `$items`  | **iterable**    | The iterable collection of items to be listed                                                                              |
-| `$expose` | **array\|null** | The expose definition for the entities (optional)
-If not provided, the default $this->getListExpose() method will be used. |
-
-**Return Value:**
-
-The array of exposed entities
-
-***
-
-### exportExpose
-
-Export items with expose definition
-
-```php
-public exportExpose(iterable $items, array|null $expose = null): array
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                         |
-|-----------|-----------------|---------------------------------------------------------------------------------------------------------------------|
-| `$items`  | **iterable**    | The items to be exported                                                                                            |
-| `$expose` | **array\|null** | The expose definition for the items.
-If not provided, the default $this->getExportExpose() definition will be used. |
-
-**Return Value:**
-
-The exported items
-
-***
-
-### getContentType
-
-Get the content type based on the given parameters.
-
-```php
-public getContentType(array|null $params = null): string
-```
-
-**Parameters:**
-
-| Parameter | Type            | Description                                                                                                  |
-|-----------|-----------------|--------------------------------------------------------------------------------------------------------------|
-| `$params` | **array\|null** | Optional. The parameters to determine the content type. If not provided, it will use the default parameters. |
-
-**Return Value:**
-
-The content type. Possible values: "json", "csv", "xlsx".
-
-**Throws:**
-
-When an unsupported content type is provided.
-- [`Exception`](../../../../Exception.md)
-
-***
-
-### getFilename
-
-Returns the filename for the exported file.
-
-```php
-public getFilename(): string
-```
-
-The filename is generated based on the model class name, with any
-namespaces replaced by slashes, and then slugified. It is then
-prepended with the current date in the 'Y-m-d' format.
-
-**Return Value:**
-
-The generated filename for the exported file.
-
-***
-
-### getExportColumns
-
-Retrieves the columns from the given list of data.
-
-```php
-public getExportColumns(array $list): array
-```
-
-**Parameters:**
-
-| Parameter | Type      | Description                               |
-|-----------|-----------|-------------------------------------------|
-| `$list`   | **array** | The list of data to extract columns from. |
-
-**Return Value:**
-
-An associative array containing the export columns as keys.
-
-***
-
-### export
-
-Exports the given list to a specified file in the specified format.
-
-```php
-public export(array $list = [], string|null $filename = null, string|null $contentType = null, array|null $params = null): \Phalcon\Http\ResponseInterface
-```
-
-**Parameters:**
-
-| Parameter      | Type             | Description                                                                                         |
-|----------------|------------------|-----------------------------------------------------------------------------------------------------|
-| `$list`        | **array**        | The list of data to export.                                                                         |
-| `$filename`    | **string\|null** | The filename of the exported file. If not provided, the default filename will be used.              |
-| `$contentType` | **string\|null** | The content type of the exported file. If not provided, the default content type will be used.      |
-| `$params`      | **array\|null**  | Additional parameters for the export process. If not provided, the default parameters will be used. |
-
-**Return Value:**
-
-Returns true if the export was successful, otherwise false.
-
-**Throws:**
-
-Thrown if the specified content type is not supported.
-- [`Exception`](../../../../Exception.md)
-
-***
-
-### exportXml
-
-Exports the given list to an XML file with the specified filename.
-
-```php
-public exportXml(array $list, string|null $filename = null, ?array $params = null): \Phalcon\Http\ResponseInterface
-```
-
-**Parameters:**
-
-| Parameter   | Type             | Description                                                                              |
-|-------------|------------------|------------------------------------------------------------------------------------------|
-| `$list`     | **array**        | The list of data to export.                                                              |
-| `$filename` | **string\|null** | The filename of the exported XML file. If not provided, a default filename will be used. |
-| `$params`   | **?array**       |                                                                                          |
-
-***
-
-### exportJson
-
-Export data as JSON file for download.
-
-```php
-public exportJson(mixed $list, string|null $filename = null, int $flags = JSON_PRETTY_PRINT, int $depth = 2048): \Phalcon\Http\ResponseInterface
-```
-
-**Parameters:**
-
-| Parameter   | Type             | Description                                                                              |
-|-------------|------------------|------------------------------------------------------------------------------------------|
-| `$list`     | **mixed**        | The data to be exported as JSON. Can be an array, object, or any serializable data type. |
-| `$filename` | **string\|null** | The name of the exported file. If not provided, the default filename will be used.       |
-| `$flags`    | **int**          | Optional JSON encoding options. Default is JSON_PRETTY_PRINT.                            |
-| `$depth`    | **int**          | Optional maximum depth of recursion. Default is 2048.                                    |
-
-***
-
-### exportExcel
-
-Export data as an Excel spreadsheet
-
-```php
-public exportExcel(array $list, string|null $filename = null, bool $forceRawValue = true): \Phalcon\Http\ResponseInterface
-```
-
-**Parameters:**
-
-| Parameter        | Type             | Description                                           |
-|------------------|------------------|-------------------------------------------------------|
-| `$list`          | **array**        | The data to be exported                               |
-| `$filename`      | **string\|null** | The desired filename for the exported file (optional) |
-| `$forceRawValue` | **bool**         |                                                       |
-
-***
-
-### exportCsv
-
-```php
-public exportCsv(array $list, ?string $filename = null, ?array $params = null): \Phalcon\Http\ResponseInterface
-```
-
-**Parameters:**
-
-| Parameter   | Type        | Description |
-|-------------|-------------|-------------|
-| `$list`     | **array**   |             |
-| `$filename` | **?string** |             |
-| `$params`   | **?array**  |             |
-
-**Throws:**
-
-- [`InvalidArgument`](https://csv.thephpleague.com/){:target="_blank"}
-- [`CannotInsertRecord`](https://csv.thephpleague.com/){:target="_blank"}
-- [`Exception`](https://csv.thephpleague.com/){:target="_blank"}
-
-***
-
-### initialize
-
-```php
-public initialize(): void
+private usesControllerAttributes(): bool
 ```
 
 ***
@@ -1374,12 +1021,15 @@ The updated response object.
 
 ### errorAction
 
-Http Status Code - Generic
-error
+Render a generic error using an explicit or already-selected status.
 
 ```php
 public errorAction(?int $code = null, ?string $message = null): void
 ```
+
+Dispatcher listeners can set the shared response status before forwarding
+here. Direct callers may still provide a status and optional reason phrase;
+otherwise the action falls back to HTTP 500.
 
 **Parameters:**
 

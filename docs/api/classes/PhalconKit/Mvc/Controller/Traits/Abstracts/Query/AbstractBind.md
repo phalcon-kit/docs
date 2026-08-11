@@ -1,4 +1,6 @@
 
+Abstract contract for query bind values and bind types.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractBind`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeBind
+
+Initialize query bind values.
 
 ```php
 public initializeBind(): void
@@ -15,6 +19,8 @@ public initializeBind(): void
 ***
 ### initializeBindTypes
 
+Initialize query bind types.
+
 ```php
 public initializeBindTypes(): void
 ```
@@ -23,19 +29,23 @@ public initializeBindTypes(): void
 ***
 ### setBind
 
+Replace bind values used by compiled query options.
+
 ```php
-public setBind(?\Phalcon\Support\Collection $bind): void
+public setBind(array|\Phalcon\Support\Collection|null $bind): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                             | Description |
-|-----------|----------------------------------|-------------|
-| `$bind`   | **?\Phalcon\Support\Collection** |             |
+| Parameter | Type                                         | Description |
+|-----------|----------------------------------------------|-------------|
+| `$bind`   | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getBind
+
+Return bind values used by compiled query options.
 
 ```php
 public getBind(): ?\Phalcon\Support\Collection
@@ -45,19 +55,23 @@ public getBind(): ?\Phalcon\Support\Collection
 ***
 ### setBindTypes
 
+Replace bind types used by compiled query options.
+
 ```php
-public setBindTypes(?\Phalcon\Support\Collection $bindTypes): void
+public setBindTypes(array|\Phalcon\Support\Collection|null $bindTypes): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter    | Type                             | Description |
-|--------------|----------------------------------|-------------|
-| `$bindTypes` | **?\Phalcon\Support\Collection** |             |
+| Parameter    | Type                                         | Description |
+|--------------|----------------------------------------------|-------------|
+| `$bindTypes` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getBindTypes
+
+Return bind types used by compiled query options.
 
 ```php
 public getBindTypes(): ?\Phalcon\Support\Collection

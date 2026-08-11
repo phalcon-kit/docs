@@ -1,7 +1,10 @@
 
-Class Helper
+Static facade for native Phalcon and PhalconKit helper services.
 
-This class is responsible for providing helper methods and functions.
+Calls are forwarded to the configured `helper` DI service when one exists,
+otherwise a new `HelperFactory` is created. The facade keeps lightweight
+helper calls available in static contexts such as config construction and
+legacy helper usage.
 
 Native methods
 
@@ -12,6 +15,8 @@ Native methods
 ## Properties
 
 ### helperFactory
+
+Helper factory used by the static facade.
 
 ```php
 public static ?\PhalconKit\Support\HelperFactory $helperFactory
@@ -25,44 +30,33 @@ public static ?\PhalconKit\Support\HelperFactory $helperFactory
 
 ### getHelperFactory
 
-Returns the instance of the HelperFactory class.
+Return the helper factory used by static helper calls.
 
 ```php
 public static getHelperFactory(): \PhalconKit\Support\HelperFactory
 ```
 
-This method is responsible for providing the HelperFactory instance.
-If the instance is already set, it returns the existing instance.
-If the instance is not set, it tries to retrieve it from the dependency injection container.
-If the instance is not found in the container, it creates a new instance of HelperFactory.
+The default DI `helper` service is preferred so applications can override
+or extend helper registration globally. When no DI service is available,
+the facade falls back to a local `HelperFactory`.
 
 * This method is **static**.
-**Return Value:**
-
-The instance of the HelperFactory class.
-
 ***
 
 ### __callStatic
 
-Magic method __callStatic
+Forward static helper calls to the active helper factory.
 
 ```php
-public static __callStatic(string $name, array $arguments): mixed
+public static __callStatic(string $name, array<int,mixed> $arguments): mixed
 ```
-
-This method is a magic method that allows calling static methods dynamically.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter    | Type       | Description                             |
-|--------------|------------|-----------------------------------------|
-| `$name`      | **string** | The name of the static method to call.  |
-| `$arguments` | **array**  | Arguments to pass to the static method. |
-
-**Return Value:**
-
-The result of the static method call.
+| Parameter    | Type                 | Description          |
+|--------------|----------------------|----------------------|
+| `$name`      | **string**           | Helper service name. |
+| `$arguments` | **array<int,mixed>** | Helper arguments.    |
 
 ***

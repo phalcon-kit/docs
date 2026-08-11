@@ -23,19 +23,19 @@ public bool $inProgress
 Executes before a database query is executed.
 
 ```php
-public beforeQuery(\Phalcon\Events\EventInterface $event, \Phalcon\Db\Adapter\AbstractAdapter $connection): void
+public beforeQuery(\Phalcon\Contracts\Events\Event $event, \Phalcon\Db\Adapter\AbstractAdapter $connection): void
 ```
 
 **Parameters:**
 
 | Parameter     | Type                                    | Description                     |
 |---------------|-----------------------------------------|---------------------------------|
-| `$event`      | **\Phalcon\Events\EventInterface**      | The event object.               |
+| `$event`      | **\Phalcon\Contracts\Events\Event**     | The event object.               |
 | `$connection` | **\Phalcon\Db\Adapter\AbstractAdapter** | The database connection object. |
 
 **Throws:**
 
-If an error occurs while logging.
-- [`\Phalcon\Logger\Exception|\Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+If Phalcon cannot write the query log entry.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***

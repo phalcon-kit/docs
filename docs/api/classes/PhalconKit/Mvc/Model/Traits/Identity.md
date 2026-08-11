@@ -1,8 +1,10 @@
 
-This trait provides convenient methods for managing user identity and authentication within a model.
+Provides model-level access to the current PhalconKit identity service.
 
-It encapsulates the logic related to user authentication and session management,
-making it easier to reuse and maintain in different models.
+The trait is used by attribution behaviors and application models that need
+the current user or delegated user while handling model lifecycle events. It
+resolves the identity manager from the model DI so tests and applications can
+replace the identity service through normal container configuration.
 
 ***
 
@@ -12,16 +14,30 @@ making it easier to reuse and maintain in different models.
 
 ### getIdentityService
 
-Get the current identity service from the DI
+Resolve the current identity manager from the model DI.
 
 ```php
-public getIdentityService(): \PhalconKit\Identity\Manager
+public getIdentityService(): \PhalconKit\Identity\ManagerInterface
 ```
+
+The service must implement `PhalconKit\Identity\ManagerInterface`; this
+allows applications to provide custom identity managers without extending
+the concrete core manager class.
+
+**Return Value:**
+
+Current identity manager service.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### isLoggedIn
 
-Check if a user is logged in
+Check whether the current identity is logged in.
 
 ```php
 public isLoggedIn(bool $as = false): bool
@@ -29,18 +45,25 @@ public isLoggedIn(bool $as = false): bool
 
 **Parameters:**
 
-| Parameter | Type     | Description                                               |
-|-----------|----------|-----------------------------------------------------------|
-| `$as`     | **bool** | Optional parameter to specify the identity state to check |
+| Parameter | Type     | Description                                                                          |
+|-----------|----------|--------------------------------------------------------------------------------------|
+| `$as`     | **bool** | When true, checks delegated/impersonated identity state
+instead of the primary user. |
 
 **Return Value:**
 
-Returns true if the user is logged in, false otherwise
+True when the requested identity state is authenticated.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### isLoggedInAs
 
-Check if the user is logged in as another user.
+Check whether the current identity is acting as another user.
 
 ```php
 public isLoggedInAs(): bool
@@ -48,12 +71,18 @@ public isLoggedInAs(): bool
 
 **Return Value:**
 
-True if the user is logged in as another user, false otherwise.
+True when a delegated/impersonated user is active.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### getCurrentUser
 
-Get the current user.
+Return the current user model from the identity service.
 
 ```php
 public getCurrentUser(bool $as = false): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -61,19 +90,26 @@ public getCurrentUser(bool $as = false): \PhalconKit\Models\Interfaces\UserInter
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                 |
-|-----------|----------|-------------------------------------------------------------|
-| `$as`     | **bool** | If true, return the UserInterface object. Default is false. |
+| Parameter | Type     | Description                                                                     |
+|-----------|----------|---------------------------------------------------------------------------------|
+| `$as`     | **bool** | When true, returns the delegated/impersonated user
+instead of the primary user. |
 
 **Return Value:**
 
-Returns the current user as a UserInterface object if $as is true.
-Returns null if there is no current user or the user is not found.
+Current user, delegated user, or null when no
+matching identity is available.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### getCurrentUserAs
 
-Get the current delegated UserInterface object
+Return the delegated user model from the identity service.
 
 ```php
 public getCurrentUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -81,12 +117,19 @@ public getCurrentUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
 
 **Return Value:**
 
-The current user as UserInterface if available, null otherwise
+Delegated/impersonated user, or null when no
+delegated identity is active.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### getCurrentUserId
 
-Retrieves the ID of the currently logged-in user.
+Return the integer ID of the current or delegated user.
 
 ```php
 public getCurrentUserId(bool $as = false): int|null
@@ -94,38 +137,43 @@ public getCurrentUserId(bool $as = false): int|null
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                                                                                                             |
-|-----------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Optional flag indicating whether to retrieve the user as well.
-If set to true, the complete user object will be returned.
-If set to false (default), only the user ID will be returned. |
+| Parameter | Type     | Description                                                                           |
+|-----------|----------|---------------------------------------------------------------------------------------|
+| `$as`     | **bool** | When true, returns the delegated/impersonated user ID
+instead of the primary user ID. |
 
 **Return Value:**
 
-If $as is true, it returns the ID of the currently logged-in user as an integer.
-If $as is false, it returns null if there is no logged-in user or
-the ID of the currently logged-in user as an integer.
+User ID cast to int, or null when no user is available
+or the user does not expose an ID.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### getCurrentUserIdCallback
 
-Retrieves a callback function that returns the ID of the currently logged-in user.
+Build a callback that returns the current or delegated user ID.
 
 ```php
-public getCurrentUserIdCallback(bool $as = false): \Closure
+public getCurrentUserIdCallback(bool $as = false): callable
 ```
+
+Behaviors can store this closure and evaluate it later during lifecycle
+events, ensuring they use the identity state at execution time rather
+than initialization time.
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                                                                                                             |
-|-----------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Optional flag indicating whether to retrieve the user as well.
-If set to true, the complete user object will be returned.
-If set to false (default), only the user ID will be returned. |
+| Parameter | Type     | Description                                             |
+|-----------|----------|---------------------------------------------------------|
+| `$as`     | **bool** | When true, the callback resolves the delegated user ID. |
 
 **Return Value:**
 
-A callback function that, when invoked, returns the ID of the currently logged-in user.
-The returned ID will be null if there is no logged-in user or an integer if the user is logged in.
+Callback returning the requested user ID or null.
 
 ***

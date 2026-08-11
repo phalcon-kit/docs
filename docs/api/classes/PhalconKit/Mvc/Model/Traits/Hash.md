@@ -25,13 +25,19 @@ public hash(string $string, string|null $salt = null, string|null $workFactor = 
 
 The salted hash value of the input string
 
+**Throws:**
+
+When the config or security service cannot be
+resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
+
 ***
 ### checkHash
 
 Checks whether a given hash is valid for a given string.
 
 ```php
-public checkHash(string|null $hash = null, string|null $string = null, int $maxPassLength): bool
+public checkHash(string|null $hash = null, string|null $string = null, int $maxPassLength = 0): bool
 ```
 
 **Parameters:**
@@ -45,5 +51,11 @@ public checkHash(string|null $hash = null, string|null $string = null, int $maxP
 **Return Value:**
 
 Returns true if the hash is valid for the string, false otherwise.
+
+**Throws:**
+
+When the config or security service cannot be
+resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***

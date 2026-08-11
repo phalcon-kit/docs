@@ -1,4 +1,11 @@
 
+Default permission fragment for dynamic-model access.
+
+Dynamic models can target runtime-selected tables, so the default config
+keeps the surface small: users can read dynamic records and administrators
+can manage them. Applications should merge stricter feature/role rules when
+dynamic access is exposed to end users.
+
 ***
 
 * Full name: `\PhalconKit\Bootstrap\Permissions\DynamicConfig`
@@ -8,16 +15,18 @@
 
 ### __construct
 
+Merge the dynamic-model permission fragment with caller-provided config.
+
 ```php
-public __construct(array $data = [], bool $insensitive = true): mixed
+public __construct(array<string,mixed> $data = [], bool $insensitive = true): mixed
 ```
 
 **Parameters:**
 
-| Parameter      | Type      | Description |
-|----------------|-----------|-------------|
-| `$data`        | **array** |             |
-| `$insensitive` | **bool**  |             |
+| Parameter      | Type                    | Description                                     |
+|----------------|-------------------------|-------------------------------------------------|
+| `$data`        | **array<string,mixed>** | Permission overrides or extensions.             |
+| `$insensitive` | **bool**                | Whether config keys should be case-insensitive. |
 
 ***
 
@@ -25,103 +34,120 @@ public __construct(array $data = [], bool $insensitive = true): mixed
 
 ### pathToArray
 
-Retrieves a value from a path and converts it to an array.
+Resolve a config path and normalize the result to an array.
 
 ```php
 public pathToArray(string $path, array|null $defaultValue = null, string|null $delimiter = null): array|null
 ```
 
+`null` is preserved so callers can distinguish a missing optional path
+from a configured scalar value. Native Phalcon config objects are
+converted through `toArray()`, and any other non-null value is cast to an
+array.
+
 **Parameters:**
 
-| Parameter       | Type             | Description                                             |
-|-----------------|------------------|---------------------------------------------------------|
-| `$path`         | **string**       | The path to retrieve the value from.                    |
-| `$defaultValue` | **array\|null**  | The default value to return if the path does not exist. |
-| `$delimiter`    | **string\|null** | The delimiter to use for splitting the path.            |
+| Parameter       | Type             | Description                                          |
+|-----------------|------------------|------------------------------------------------------|
+| `$path`         | **string**       | Path understood by Phalcon's native `path()` method. |
+| `$defaultValue` | **array\|null**  | Default returned when the path is
+missing.           |
+| `$delimiter`    | **string\|null** | Optional path delimiter.                             |
 
 **Return Value:**
 
-The value from the path as an array, or null if the value does not exist.
+Normalized array value, or null when the path
+resolves to null.
 
 ***
 
 ### merge
 
-Merges the current configuration object with another set of data.
+Merge data into this config instance.
 
 ```php
 public merge(array|\Phalcon\Config\ConfigInterface $toMerge, bool $append = false): \Phalcon\Config\ConfigInterface
 ```
 
+When `$append` is false, native Phalcon merge behavior is used. When
+`$append` is true, numeric-keyed values are appended while associative
+values are replaced recursively. This is useful for framework config
+fragments such as provider lists, permission features, and default seed
+data where applications need to extend list values instead of replacing
+the whole list.
+
 **Parameters:**
 
-| Parameter  | Type                                       | Description                                                                                                                                    |
-|------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$toMerge` | **array\|\Phalcon\Config\ConfigInterface** | The data to merge into the current configuration.
-This can be an array or another configuration object that implements PhalconConfigInterface. |
-| `$append`  | **bool**                                   | Whether to append the data during the merge or replace existing values.
-Defaults to false, meaning values will be replaced during the merge.   |
+| Parameter  | Type                                       | Description                                  |
+|------------|--------------------------------------------|----------------------------------------------|
+| `$toMerge` | **array\|\Phalcon\Config\ConfigInterface** | Data to merge into this
+config.              |
+| `$append`  | **bool**                                   | Use PhalconKit append-aware merge semantics. |
 
 **Return Value:**
 
-Returns the updated configuration object after the merge operation.
-The current instance is modified and returned.
+The current mutated config instance.
 
 **Throws:**
 
-If the $toMerge parameter is not of a valid data type.
-- [`Exception`](../../../Exception.md)
+When append mode receives a value that
+cannot be converted to an array.
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
 ### internalMergeAppend
 
-Merges two arrays recursively, appending values from the target array into the source array.
+Append-merge two arrays recursively.
 
 ```php
 final protected internalMergeAppend(array $source, array $target): array
 ```
 
-Handles both associative and indexed arrays.
+Integer keys are appended to preserve list-style config fragments.
+String keys replace existing values unless both sides contain arrays, in
+which case the merge recurses.
 
 * This method is **final**.
 **Parameters:**
 
-| Parameter | Type      | Description                            |
-|-----------|-----------|----------------------------------------|
-| `$source` | **array** | The source array to merge values into. |
-| `$target` | **array** | The target array to merge values from. |
+| Parameter | Type      | Description           |
+|-----------|-----------|-----------------------|
+| `$source` | **array** | Base config data.     |
+| `$target` | **array** | Incoming config data. |
 
 **Return Value:**
 
-The resulting array after the merge operation.
+Merged config data.
 
 ***
 
 ### getDateTime
 
-Get a modified DateTime.
+Return a modified immutable date.
 
 ```php
 public getDateTime(string $modifier, \DateTimeImmutable|null $dateTime = null): \DateTimeImmutable
 ```
 
-Note: This is a helper to enhance strict typings and safely use DateTime within config
+This helper keeps date-modifier config strongly typed in lifecycle and
+retention code. When no base date is provided, the current time is used.
 
 **Parameters:**
 
-| Parameter   | Type                         | Description                                                                     |
-|-------------|------------------------------|---------------------------------------------------------------------------------|
-| `$modifier` | **string**                   | The modifier string to modify the DateTime.                                     |
-| `$dateTime` | **\DateTimeImmutable\|null** | Optional. The DateTime to modify. Defaults to current DateTime if not provided. |
+| Parameter   | Type                         | Description                                                                                    |
+|-------------|------------------------------|------------------------------------------------------------------------------------------------|
+| `$modifier` | **string**                   | Date/time modifier accepted by
+`DateTimeImmutable::modify()`, such as `-1 month` or `+7 days`. |
+| `$dateTime` | **\DateTimeImmutable\|null** | Optional base date.                                                                            |
 
 **Return Value:**
 
-The modified DateTime object.
+Modified date.
 
 **Throws:**
 
-If the modification of the DateTime fails.
-- [`Exception`](../../../Exception.md)
+If the modifier cannot be parsed.
+- [`DateMalformedStringException`](https://www.php.net/manual/en/class.datemalformedstringexception.php){:target="_blank"}
 
 ***

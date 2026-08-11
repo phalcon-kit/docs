@@ -104,7 +104,7 @@ public addNumberValidation(\PhalconKit\Filter\Validation $validator, array|strin
 ### addStringLengthValidation
 
 ```php
-public addStringLengthValidation(\PhalconKit\Filter\Validation $validator, array|string $field, int $minChar, int $maxChar = 255, bool $allowEmpty = true): \PhalconKit\Filter\Validation
+public addStringLengthValidation(\PhalconKit\Filter\Validation $validator, array|string $field, int $minChar = 0, int $maxChar = 255, bool $allowEmpty = true): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -205,7 +205,7 @@ public addEmailValidation(\PhalconKit\Filter\Validation $validator, array|string
 ### addDateValidation
 
 ```php
-public addDateValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = Column::DATE_FORMAT): \PhalconKit\Filter\Validation
+public addDateValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = \PhalconKit\Db\Column::DATE_FORMAT): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -222,7 +222,7 @@ public addDateValidation(\PhalconKit\Filter\Validation $validator, array|string 
 ### addDateTimeValidation
 
 ```php
-public addDateTimeValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = Column::DATETIME_FORMAT): \PhalconKit\Filter\Validation
+public addDateTimeValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = \PhalconKit\Db\Column::DATETIME_FORMAT): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -239,7 +239,7 @@ public addDateTimeValidation(\PhalconKit\Filter\Validation $validator, array|str
 ### addJsonValidation
 
 ```php
-public addJsonValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, int $depth = 512, int $flags): \PhalconKit\Filter\Validation
+public addJsonValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, int $depth = 512, int $flags = 0): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**

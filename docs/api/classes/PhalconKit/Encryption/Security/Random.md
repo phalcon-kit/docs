@@ -14,6 +14,7 @@ public uuidv4(): string
 
 **Throws:**
 
+When native Phalcon UUID generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 **See Also:**

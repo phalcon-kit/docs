@@ -1,9 +1,10 @@
 
 Terminate execution with a 500 Internal Server Error response code.
 
-This function sets the response headers to indicate a 500 Internal Server Error
-and terminates the execution of the script. It should be used when an unrecoverable
-error occurs and the server cannot fulfill the request.
+In web SAPIs, the response code is set to 500 when headers are still
+mutable. In CLI/phpdbg the helper simply exits with status code 1. This is
+intended for debugging helpers and unrecoverable bootstrap failures, not
+for normal exception/control-flow handling.
 
 ***
 

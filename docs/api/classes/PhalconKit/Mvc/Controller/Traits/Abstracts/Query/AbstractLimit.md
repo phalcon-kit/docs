@@ -1,5 +1,8 @@
 
-The Limit trait provides methods to handle query limits.
+Abstract contract for REST query limit policy.
+
+Implementations distinguish between a requested limit, a maximum allowed
+limit, and the default values used when requests omit pagination options.
 
 ***
 
@@ -9,6 +12,8 @@ The Limit trait provides methods to handle query limits.
 
 ### initializeLimit
 
+Initialize the requested limit from controller parameters.
+
 ```php
 public initializeLimit(): void
 ```
@@ -16,6 +21,8 @@ public initializeLimit(): void
 * This method is **abstract**.
 ***
 ### setLimit
+
+Replace the requested limit.
 
 ```php
 public setLimit(?int $limit): void
@@ -31,6 +38,8 @@ public setLimit(?int $limit): void
 ***
 ### getLimit
 
+Return the effective requested limit.
+
 ```php
 public getLimit(): ?int
 ```
@@ -38,6 +47,8 @@ public getLimit(): ?int
 * This method is **abstract**.
 ***
 ### setMaxLimit
+
+Replace the maximum allowed limit.
 
 ```php
 public setMaxLimit(?int $maxLimit): void
@@ -53,6 +64,8 @@ public setMaxLimit(?int $maxLimit): void
 ***
 ### getMaxLimit
 
+Return the maximum allowed limit.
+
 ```php
 public getMaxLimit(): ?int
 ```
@@ -61,6 +74,8 @@ public getMaxLimit(): ?int
 ***
 ### defaultLimit
 
+Return the default requested limit.
+
 ```php
 public defaultLimit(): ?int
 ```
@@ -68,6 +83,8 @@ public defaultLimit(): ?int
 * This method is **abstract**.
 ***
 ### defaultMaxLimit
+
+Return the default maximum allowed limit.
 
 ```php
 public defaultMaxLimit(): ?int

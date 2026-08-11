@@ -1,5 +1,10 @@
 
-Class Controller
+Base MVC controller for PhalconKit applications.
+
+The class keeps Phalcon's native controller behavior and adds typed injectable
+properties used throughout the framework. Application controllers can extend
+it when they want direct access to the PhalconKit DI helper surface without
+re-declaring those service properties.
 
 ***
 
@@ -10,12 +15,15 @@ Class Controller
 
 ### errorAction
 
-Http Status Code - Generic
-error
+Render a generic error using an explicit or already-selected status.
 
 ```php
 public errorAction(?int $code = null, ?string $message = null): void
 ```
+
+Dispatcher listeners can set the shared response status before forwarding
+here. Direct callers may still provide a status and optional reason phrase;
+otherwise the action falls back to HTTP 500.
 
 **Parameters:**
 

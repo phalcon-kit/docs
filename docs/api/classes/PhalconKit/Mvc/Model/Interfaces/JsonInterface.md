@@ -8,7 +8,7 @@
 ### jsonEncode
 
 ```php
-public jsonEncode(mixed $value, int $flags = JSON_UNESCAPED_SLASHES, int $depth = 512): string|false
+public jsonEncode(mixed $value, int $flags = \PhalconKit\Mvc\Model\Interfaces\JSON_UNESCAPED_SLASHES, int $depth = 512): string|false
 ```
 
 **Parameters:**
@@ -24,7 +24,7 @@ public jsonEncode(mixed $value, int $flags = JSON_UNESCAPED_SLASHES, int $depth 
 ### jsonDecode
 
 ```php
-public jsonDecode(string $json, ?bool $associative = null, int $depth = 512, int $flags): mixed
+public jsonDecode(string $json, ?bool $associative = null, int $depth = 512, int $flags = 0): mixed
 ```
 
 **Parameters:**

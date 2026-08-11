@@ -25,7 +25,7 @@ public static ?string $eventsPrefix
 The event manager responsible for handling and triggering events.
 
 ```php
-protected ?\Phalcon\Events\ManagerInterface $eventsManager
+protected ?\Phalcon\Contracts\Events\Manager $eventsManager
 ```
 
 ***
@@ -37,14 +37,14 @@ protected ?\Phalcon\Events\ManagerInterface $eventsManager
 Set the events manager
 
 ```php
-public setEventsManager(\Phalcon\Events\ManagerInterface $manager): void
+public setEventsManager(\Phalcon\Contracts\Events\Manager $manager): void
 ```
 
 **Parameters:**
 
-| Parameter  | Type                                 | Description |
-|------------|--------------------------------------|-------------|
-| `$manager` | **\Phalcon\Events\ManagerInterface** |             |
+| Parameter  | Type                                  | Description |
+|------------|---------------------------------------|-------------|
+| `$manager` | **\Phalcon\Contracts\Events\Manager** |             |
 
 ***
 ### getEventsManager
@@ -52,7 +52,7 @@ public setEventsManager(\Phalcon\Events\ManagerInterface $manager): void
 Get the events manager.
 
 ```php
-public getEventsManager(): ?\Phalcon\Events\ManagerInterface
+public getEventsManager(): ?\Phalcon\Contracts\Events\Manager
 ```
 
 ***

@@ -10,12 +10,12 @@ Allow to manage and lookup the locale for the localisation
 
 ## Constants
 
-| Constant       | Visibility | Type | Value     |
-|----------------|------------|------|-----------|
-| `MODE_DEFAULT` | public     |      | 'default' |
-| `MODE_ROUTE`   | public     |      | 'route'   |
-| `MODE_HTTP`    | public     |      | 'http'    |
-| `MODE_SESSION` | public     |      | 'session' |
+| Constant       | Visibility | Type   | Value     |
+|----------------|------------|--------|-----------|
+| `MODE_DEFAULT` | public     | string | 'default' |
+| `MODE_ROUTE`   | public     | string | 'route'   |
+| `MODE_HTTP`    | public     | string | 'http'    |
+| `MODE_SESSION` | public     | string | 'session' |
 
 ## Properties
 
@@ -341,101 +341,115 @@ The closest matching language tag or default value.
 
 ### __construct
 
-Constructs a new instance of the class.
+Construct the object and initialize its options.
 
 ```php
-public __construct(array|null $options = null): mixed
+public __construct(array<string,mixed>|null $options = null): mixed
 ```
 
 **Parameters:**
 
-| Parameter  | Type            | Description                                                                    |
-|------------|-----------------|--------------------------------------------------------------------------------|
-| `$options` | **array\|null** | An optional array of options to initialize the instance with. Default is null. |
+| Parameter  | Type                          | Description                    |
+|------------|-------------------------------|--------------------------------|
+| `$options` | **array<string,mixed>\|null** | Defaults to capture and apply. |
 
 ***
 
 ### initializeOptions
 
-Initializes the options for the object.
+Capture defaults, apply the current options, and run initialize().
 
 ```php
-public initializeOptions(array|null $options = null): void
+public initializeOptions(array<string,mixed>|null $options = null): void
 ```
 
 **Parameters:**
 
-| Parameter  | Type            | Description                                                          |
-|------------|-----------------|----------------------------------------------------------------------|
-| `$options` | **array\|null** | The options to be initialized. If null, an empty array will be used. |
+| Parameter  | Type                          | Description                    |
+|------------|-------------------------------|--------------------------------|
+| `$options` | **array<string,mixed>\|null** | Defaults to capture and apply. |
 
 ***
 
 ### initialize
 
-Initializes the object.
+Optional hook called after options are initialized.
 
 ```php
 public initialize(): void
 ```
 
-This method is responsible for performing any necessary setup or initialization tasks for the object.
-It does not accept any parameters and does not return a value.
+Override this in classes that need to derive internal state from options
+during construction.
 
 ***
 
 ### setOptions
 
-Sets the options for the object.
+Replace or merge the current option set.
 
 ```php
-public setOptions(array $options, bool $merge = false): void
+public setOptions(array<string,mixed> $options, bool $merge = false): void
 ```
+
+Options intentionally use PHP's null-coalescing read semantics: a key
+stored with a null value remains present in the raw option array, but
+
+
+- **See:** \PhalconKit\Support\Options\getOption() returns the caller default and
+- **See:** \PhalconKit\Support\Options\hasOption()
+reports false for that key.
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                                    |
-|------------|-----------|--------------------------------------------------------------------------------|
-| `$options` | **array** | The array of options to be set.                                                |
-| `$merge`   | **bool**  | Whether to merge the existing options with the new options. Defaults to false. |
+| Parameter  | Type                    | Description                                                       |
+|------------|-------------------------|-------------------------------------------------------------------|
+| `$options` | **array<string,mixed>** | Options to apply.                                                 |
+| `$merge`   | **bool**                | Whether to merge into existing options instead of
+replacing them. |
 
 ***
 
 ### getOptions
 
-Retrieves all options.
+Return the current option set.
 
 ```php
-public getOptions(): array
+public getOptions(): array<string,mixed>
 ```
-
-**Return Value:**
-
-An array containing all the options.
 
 ***
 
 ### setOption
 
-Sets the value of the option specified by the given key.
+Store or replace one option value.
 
 ```php
 public setOption(string $key, mixed $value = null, bool $merge = false): void
 ```
 
+Passing null stores the key in the raw option array, but the key still
+reads as missing through
+
+- **See:** \PhalconKit\Support\Options\getOption() and
+- **See:** \PhalconKit\Support\Options\hasOption(). This
+preserves the historical contract where null means "fall back to the
+caller default" while still allowing callers to inspect raw options.
+
 **Parameters:**
 
-| Parameter | Type       | Description                                                                         |
-|-----------|------------|-------------------------------------------------------------------------------------|
-| `$key`    | **string** | The key of the option.                                                              |
-| `$value`  | **mixed**  | The value to be set for the option.                                                 |
-| `$merge`  | **bool**   | Whether to merge the new value with an existing value if the option already exists. |
+| Parameter | Type       | Description                                                         |
+|-----------|------------|---------------------------------------------------------------------|
+| `$key`    | **string** |                                                                     |
+| `$value`  | **mixed**  |                                                                     |
+| `$merge`  | **bool**   | Whether to merge the key/value pair into the existing
+option array. |
 
 ***
 
 ### getOption
 
-Retrieves the value of the option specified by the given key.
+Return one option value or a default when it is missing or null.
 
 ```php
 public getOption(string $key, mixed $default = null): mixed
@@ -443,59 +457,57 @@ public getOption(string $key, mixed $default = null): mixed
 
 **Parameters:**
 
-| Parameter  | Type       | Description                                                    |
-|------------|------------|----------------------------------------------------------------|
-| `$key`     | **string** | The key of the option.                                         |
-| `$default` | **mixed**  | The default value to be returned if the option does not exist. |
-
-**Return Value:**
-
-The value of the option specified by the key, or the default value if the option does not exist.
+| Parameter  | Type       | Description                                  |
+|------------|------------|----------------------------------------------|
+| `$key`     | **string** |                                              |
+| `$default` | **mixed**  | Default returned when the option is not set. |
 
 ***
 
 ### hasOption
 
-Checks if the option specified by the given key exists.
+Return true when an option is present and not null.
 
 ```php
 public hasOption(string $key): bool
 ```
 
+This intentionally mirrors
+
+- **See:** \PhalconKit\Support\Options\getOption() rather than
+`array_key_exists()`: null-valued options are stored in the raw option
+array but are treated as absent by the public lookup helpers.
+
 **Parameters:**
 
-| Parameter | Type       | Description            |
-|-----------|------------|------------------------|
-| `$key`    | **string** | The key of the option. |
-
-**Return Value:**
-
-Returns true if the option exists, false otherwise.
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$key`    | **string** |             |
 
 ***
 
 ### removeOption
 
-Remove an option by key
+Remove one option key when it exists in the raw option array.
 
 ```php
 public removeOption(string $key): void
 ```
 
-Removes the option with the given key from the options array.
+Removal uses `array_key_exists()` instead of `isset()` so callers can
+delete a key even when it currently stores null.
 
 **Parameters:**
 
-| Parameter | Type       | Description                         |
-|-----------|------------|-------------------------------------|
-| `$key`    | **string** | The key of the option to be removed |
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$key`    | **string** |             |
 
 ***
 
 ### resetOptions
 
-Reset all options to their default values
-- Uses the defaultOptions property to set the options
+Restore current options to the initialized defaults.
 
 ```php
 public resetOptions(): void
@@ -505,13 +517,10 @@ public resetOptions(): void
 
 ### clearOptions
 
-Clear all options
+Remove all current option values.
 
 ```php
 public clearOptions(): void
 ```
-
-This method clears all the options stored in the class.
-After calling this method, the options array will be empty.
 
 ***

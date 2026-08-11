@@ -1,5 +1,8 @@
 
-Will implode an array_map return of the mb_sprintf results
+Multibyte-safe variant of `implode_sprintf()`.
+
+Values are formatted with `mb_vsprintf()` so string width and precision
+handling respect the selected encoding.
 
 ***
 
@@ -8,13 +11,16 @@ Will implode an array_map return of the mb_sprintf results
 
 ## Parameters
 
-| Parameter   | Type        | Description |
-|-------------|-------------|-------------|
-| `$array`    | **array**   |             |
-| `$glue`     | **string**  |             |
-| `$format`   | **string**  |             |
-| `$encoding` | **?string** |             |
+| Parameter   | Type                       | Description                                                                 |
+|-------------|----------------------------|-----------------------------------------------------------------------------|
+| `$array`    | **array<array-key,mixed>** | Values to format.                                                           |
+| `$glue`     | **string**                 | String inserted between formatted values.                                   |
+| `$format`   | **string**                 | Multibyte sprintf format string.                                            |
+| `$encoding` | **string\|null**           | Encoding used for multibyte formatting. Null
+uses `mb_internal_encoding()`. |
 
 ## Return Value
 
 **string**
+
+Joined formatted values.

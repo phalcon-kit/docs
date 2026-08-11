@@ -24,7 +24,7 @@ public hash(string $string, ?string $salt = null, ?string $workFactor = null): s
 ### checkHash
 
 ```php
-public checkHash(?string $hash = null, ?string $string = null, int $maxPassLength): bool
+public checkHash(?string $hash = null, ?string $string = null, int $maxPassLength = 0): bool
 ```
 
 **Parameters:**

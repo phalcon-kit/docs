@@ -8,9 +8,9 @@
 
 ## Constants
 
-| Constant                    | Visibility | Type | Value                                                            |
-|-----------------------------|------------|------|------------------------------------------------------------------|
-| `E_NOT_ALLOWED_METHOD_CALL` | public     |      | 'When eager loading relations queries must return full entities' |
+| Constant                    | Visibility | Type   | Value                                                            |
+|-----------------------------|------------|--------|------------------------------------------------------------------|
+| `E_NOT_ALLOWED_METHOD_CALL` | public     | string | 'When eager loading relations queries must return full entities' |
 
 ## Methods
 
@@ -28,7 +28,7 @@ public distinct(mixed $distinct): \Phalcon\Mvc\Model\Query\BuilderInterface
 
 **Throws:**
 
-- [`LogicException`](../../../../LogicException.md)
+- [`LogicException`](../../../Exception/LogicException.md)
 
 ***
 
@@ -46,7 +46,7 @@ public columns(mixed $columns): \Phalcon\Mvc\Model\Query\BuilderInterface
 
 **Throws:**
 
-- [`LogicException`](../../../../LogicException.md)
+- [`LogicException`](../../../Exception/LogicException.md)
 
 ***
 

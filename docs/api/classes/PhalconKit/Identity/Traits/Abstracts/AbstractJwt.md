@@ -1,4 +1,12 @@
 
+Declares JWT claim methods required by session and identity helpers.
+
+The identity session layer uses the active claim key to read and write the
+session payload, so any class using this abstract trait must provide the JWT
+claim lifecycle from
+
+- **See:** \PhalconKit\Identity\Traits\Interfaces\JwtInterface.
+
 ***
 
 * Full name: `\PhalconKit\Identity\Traits\Abstracts\AbstractJwt`
@@ -8,7 +16,7 @@
 ### getJwt
 
 ```php
-public getJwt(bool $refresh = false): array
+public getJwt(bool $refresh = false): array{jwt: string, refreshToken: string, refreshed: bool}
 ```
 
 * This method is **abstract**.
@@ -22,7 +30,7 @@ public getJwt(bool $refresh = false): array
 ### getClaim
 
 ```php
-public getClaim(bool $refresh = false, bool $force = false): array
+public getClaim(bool $refresh = false, bool $force = false): array<string,mixed>
 ```
 
 * This method is **abstract**.
@@ -37,37 +45,37 @@ public getClaim(bool $refresh = false, bool $force = false): array
 ### setClaim
 
 ```php
-public setClaim(array $claim): void
+public setClaim(array<string,mixed> $claim): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type      | Description |
-|-----------|-----------|-------------|
-| `$claim`  | **array** |             |
+| Parameter | Type                    | Description |
+|-----------|-------------------------|-------------|
+| `$claim`  | **array<string,mixed>** |             |
 
 ***
 ### getJwtToken
 
 ```php
-public getJwtToken(string $id, array $data = [], array $options = []): string
+public getJwtToken(string $id, array<string,mixed> $data = [], array<string,mixed> $options = []): string
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter  | Type       | Description |
-|------------|------------|-------------|
-| `$id`      | **string** |             |
-| `$data`    | **array**  |             |
-| `$options` | **array**  |             |
+| Parameter  | Type                    | Description |
+|------------|-------------------------|-------------|
+| `$id`      | **string**              |             |
+| `$data`    | **array<string,mixed>** |             |
+| `$options` | **array<string,mixed>** |             |
 
 ***
 ### getClaimFromToken
 
 ```php
-public getClaimFromToken(string $token, ?string $claim = null): array
+public getClaimFromToken(string $token, ?string $claim = null): array<string,mixed>
 ```
 
 * This method is **abstract**.
@@ -82,14 +90,14 @@ public getClaimFromToken(string $token, ?string $claim = null): array
 ### getClaimFromAuthorization
 
 ```php
-public getClaimFromAuthorization(array $authorization): array
+public getClaimFromAuthorization(array<int,string> $authorization): array<string,mixed>
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter        | Type      | Description |
-|------------------|-----------|-------------|
-| `$authorization` | **array** |             |
+| Parameter        | Type                  | Description |
+|------------------|-----------------------|-------------|
+| `$authorization` | **array<int,string>** |             |
 
 ***

@@ -16,6 +16,7 @@
           - Tag: api/classes/PhalconKit/Tag.md
       - \PhalconKit\Acl:
           - Acl: api/classes/PhalconKit/Acl/Acl.md
+          - PermissionName: api/classes/PhalconKit/Acl/PermissionName.md
           - AclInterface: api/classes/PhalconKit/Acl/AclInterface.md
       - \PhalconKit\Assets:
           - Manager: api/classes/PhalconKit/Assets/Manager.md
@@ -58,10 +59,17 @@
           - Logger: api/classes/PhalconKit/Db/Events/Logger.md
           - Profiler: api/classes/PhalconKit/Db/Events/Profiler.md
       - \PhalconKit\Di:
+          - Di: api/classes/PhalconKit/Di/Di.md
+          - FactoryDefault: api/classes/PhalconKit/Di/FactoryDefault.md
           - Injectable: api/classes/PhalconKit/Di/Injectable.md
+          - ServiceResolver: api/classes/PhalconKit/Di/ServiceResolver.md
           - AbstractInjectable: api/classes/PhalconKit/Di/AbstractInjectable.md
           - InjectableProperties: api/classes/PhalconKit/Di/InjectableProperties.md
           - InjectableTrait: api/classes/PhalconKit/Di/InjectableTrait.md
+          - TypedServicesTrait: api/classes/PhalconKit/Di/TypedServicesTrait.md
+          - DiInterface: api/classes/PhalconKit/Di/DiInterface.md
+      - \PhalconKit\Di\FactoryDefault:
+          - Cli: api/classes/PhalconKit/Di/FactoryDefault/Cli.md
       - \PhalconKit\Dispatcher:
           - AbstractDispatcher: api/classes/PhalconKit/Dispatcher/AbstractDispatcher.md
           - DispatcherTrait: api/classes/PhalconKit/Dispatcher/DispatcherTrait.md
@@ -71,11 +79,18 @@
       - \PhalconKit\Encryption\Security:
           - Random: api/classes/PhalconKit/Encryption/Security/Random.md
       - \PhalconKit\Events:
+          - ConfiguredEventListeners: api/classes/PhalconKit/Events/ConfiguredEventListeners.md
           - EventsAwareTrait: api/classes/PhalconKit/Events/EventsAwareTrait.md
       - \PhalconKit\Exception:
           - CliException: api/classes/PhalconKit/Exception/CliException.md
+          - ConfigurationException: api/classes/PhalconKit/Exception/ConfigurationException.md
           - HttpException: api/classes/PhalconKit/Exception/HttpException.md
+          - InvalidArgumentException: api/classes/PhalconKit/Exception/InvalidArgumentException.md
+          - LogicException: api/classes/PhalconKit/Exception/LogicException.md
+          - RuntimeException: api/classes/PhalconKit/Exception/RuntimeException.md
+          - ServiceException: api/classes/PhalconKit/Exception/ServiceException.md
           - WsException: api/classes/PhalconKit/Exception/WsException.md
+          - ExceptionInterface: api/classes/PhalconKit/Exception/ExceptionInterface.md
       - \PhalconKit\Filter:
           - Filter: api/classes/PhalconKit/Filter/Filter.md
           - FilterFactory: api/classes/PhalconKit/Filter/FilterFactory.md
@@ -451,6 +466,11 @@
           - Restful: api/classes/PhalconKit/Mvc/Controller/Restful.md
           - RestfulInterface: api/classes/PhalconKit/Mvc/Controller/RestfulInterface.md
           - RestInterface: api/classes/PhalconKit/Mvc/Controller/RestInterface.md
+      - \PhalconKit\Mvc\Controller\Attributes:
+          - AllowRoles: api/classes/PhalconKit/Mvc/Controller/Attributes/AllowRoles.md
+          - AttachBehavior: api/classes/PhalconKit/Mvc/Controller/Attributes/AttachBehavior.md
+          - PermissionAttributeResolver: api/classes/PhalconKit/Mvc/Controller/Attributes/PermissionAttributeResolver.md
+          - PermissionFeature: api/classes/PhalconKit/Mvc/Controller/Attributes/PermissionFeature.md
       - \PhalconKit\Mvc\Controller\Behavior\Model:
           - Create: api/classes/PhalconKit/Mvc/Controller/Behavior/Model/Create.md
           - Delete: api/classes/PhalconKit/Mvc/Controller/Behavior/Model/Delete.md
@@ -511,7 +531,6 @@
       - \PhalconKit\Mvc\Controller\Traits:
           - Behavior: api/classes/PhalconKit/Mvc/Controller/Traits/Behavior.md
           - Debug: api/classes/PhalconKit/Mvc/Controller/Traits/Debug.md
-          - DynamicJoins: api/classes/PhalconKit/Mvc/Controller/Traits/DynamicJoins.md
           - Export: api/classes/PhalconKit/Mvc/Controller/Traits/Export.md
           - Expose: api/classes/PhalconKit/Mvc/Controller/Traits/Expose.md
           - Fractal: api/classes/PhalconKit/Mvc/Controller/Traits/Fractal.md
@@ -557,6 +576,7 @@
           - AbstractExposeFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractExposeFields.md
           - AbstractFilterFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractFilterFields.md
           - AbstractMapFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractMapFields.md
+          - AbstractOrderFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractOrderFields.md
           - AbstractSaveFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractSaveFields.md
           - AbstractSearchFields: api/classes/PhalconKit/Mvc/Controller/Traits/Abstracts/Query/Fields/AbstractSearchFields.md
       - \PhalconKit\Mvc\Controller\Traits\Actions:
@@ -595,8 +615,10 @@
           - Bind: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Bind.md
           - Cache: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Cache.md
           - Column: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Column.md
+          - Compiler: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Compiler.md
           - Conditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions.md
           - Distinct: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Distinct.md
+          - DynamicJoins: api/classes/PhalconKit/Mvc/Controller/Traits/Query/DynamicJoins.md
           - Fields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields.md
           - Group: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Group.md
           - Having: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Having.md
@@ -607,7 +629,9 @@
           - Save: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Save.md
           - With: api/classes/PhalconKit/Mvc/Controller/Traits/Query/With.md
       - \PhalconKit\Mvc\Controller\Traits\Query\Conditions:
+          - ExistentialConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/ExistentialConditions.md
           - FilterConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/FilterConditions.md
+          - FilterSemantics: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/FilterSemantics.md
           - IdentityConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/IdentityConditions.md
           - PermissionConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/PermissionConditions.md
           - SearchConditions: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Conditions/SearchConditions.md
@@ -616,6 +640,7 @@
           - ExposeFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/ExposeFields.md
           - FilterFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/FilterFields.md
           - MapFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/MapFields.md
+          - OrderFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/OrderFields.md
           - SaveFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/SaveFields.md
           - SearchFields: api/classes/PhalconKit/Mvc/Controller/Traits/Query/Fields/SearchFields.md
       - \PhalconKit\Mvc\Dispatcher:
@@ -628,6 +653,7 @@
           - Rest: api/classes/PhalconKit/Mvc/Dispatcher/Rest.md
           - Security: api/classes/PhalconKit/Mvc/Dispatcher/Security.md
       - \PhalconKit\Mvc\Model:
+          - Dynamic: api/classes/PhalconKit/Mvc/Model/Dynamic.md
           - Manager: api/classes/PhalconKit/Mvc/Model/Manager.md
           - ManagerInterface: api/classes/PhalconKit/Mvc/Model/ManagerInterface.md
       - \PhalconKit\Mvc\Model\Behavior:
@@ -771,8 +797,6 @@
           - ServiceProvider: api/classes/PhalconKit/Provider/Filter/ServiceProvider.md
       - \PhalconKit\Provider\Flash:
           - ServiceProvider: api/classes/PhalconKit/Provider/Flash/ServiceProvider.md
-      - \PhalconKit\Provider\Gravatar:
-          - ServiceProvider: api/classes/PhalconKit/Provider/Gravatar/ServiceProvider.md
       - \PhalconKit\Provider\Helper:
           - ServiceProvider: api/classes/PhalconKit/Provider/Helper/ServiceProvider.md
       - \PhalconKit\Provider\Identity:
@@ -847,6 +871,7 @@
       - \PhalconKit\Router:
           - RouterInterface: api/classes/PhalconKit/Router/RouterInterface.md
       - \PhalconKit\Support:
+          - CollectionPolicy: api/classes/PhalconKit/Support/CollectionPolicy.md
           - Debug: api/classes/PhalconKit/Support/Debug.md
           - Env: api/classes/PhalconKit/Support/Env.md
           - Helper: api/classes/PhalconKit/Support/Helper.md
@@ -857,6 +882,8 @@
           - Utils: api/classes/PhalconKit/Support/Utils.md
           - Version: api/classes/PhalconKit/Support/Version.md
           - ModelsMap: api/classes/PhalconKit/Support/ModelsMap.md
+      - \PhalconKit\Support\Debug\Renderer:
+          - HtmlRenderer: api/classes/PhalconKit/Support/Debug/Renderer/HtmlRenderer.md
       - \PhalconKit\Support\Exposer:
           - Builder: api/classes/PhalconKit/Support/Exposer/Builder.md
           - Exposer: api/classes/PhalconKit/Support/Exposer/Exposer.md

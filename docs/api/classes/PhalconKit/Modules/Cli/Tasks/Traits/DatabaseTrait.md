@@ -200,6 +200,7 @@ public addModelsPermissions(?array $tables = null): void
 
 **Throws:**
 
+When permission configuration cannot be merged.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***

@@ -1,7 +1,9 @@
 
-Class Php
+Small PHP runtime helpers used during bootstrap.
 
-Provides utility methods for working with PHP settings and environment.
+These helpers centralize runtime concerns that must be configured before the
+application handles a request, such as SAPI checks, proxy HTTPS detection,
+debugging INI flags, locale, encoding, memory limit, and execution timeout.
 
 ***
 
@@ -11,68 +13,84 @@ Provides utility methods for working with PHP settings and environment.
 
 ### isCli
 
-Check if the script is running in a command-line interface (CLI) environment.
+Determine whether a SAPI value represents a command-line runtime.
 
 ```php
-public static isCli(string $sapi = PHP_SAPI): bool
+public static isCli(string $sapi = \PhalconKit\Support\PHP_SAPI): bool
 ```
+
+`phpdbg` is treated as CLI so test runners and debuggers follow the same
+bootstrap path as normal console commands.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$sapi`   | **string** |             |
+| Parameter | Type       | Description                                          |
+|-----------|------------|------------------------------------------------------|
+| `$sapi`   | **string** | PHP SAPI name. Defaults to the current process SAPI. |
 
 **Return Value:**
 
-Returns true if the script is running in a CLI environment, false otherwise.
+True for CLI-like SAPIs, false for web SAPIs.
 
 ***
 
 ### trustForwardedProto
 
-Trust the forwarded protocol from the reverse proxy server.
+Promote trusted proxy HTTPS information into `$_SERVER['HTTPS']`.
 
 ```php
 public static trustForwardedProto(): void
 ```
 
-If trusted and HTTP_X_FORWARDED_PROTO is https force $_SERVER['https'] to 'on'
+Applications behind a reverse proxy can call this during bootstrap after
+deciding that `HTTP_X_FORWARDED_PROTO` is trustworthy. When the forwarded
+protocol starts with `https`, Phalcon and PHP helpers that inspect
+`$_SERVER['HTTPS']` will see the request as secure.
 
 * This method is **static**.
 ***
 
 ### debug
 
-Enable or disable debug mode
+Enable or disable PHP error display for the current process.
 
 ```php
 public static debug(bool|null $debug = null): void
 ```
 
+Passing true enables full error reporting and display. Passing false or
+null disables display while keeping `error_reporting(-1)`, which preserves
+reporting for logs without exposing errors in responses.
+
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type           | Description                                                                                   |
-|-----------|----------------|-----------------------------------------------------------------------------------------------|
-| `$debug`  | **bool\|null** | Set to true to enable debug mode, false to disable it. If null, debug mode remains unchanged. |
+| Parameter | Type           | Description                                              |
+|-----------|----------------|----------------------------------------------------------|
+| `$debug`  | **bool\|null** | Whether response-visible debug output should be
+enabled. |
 
 ***
 
 ### set
 
-Set the configuration options for the application.
+Apply process-wide PHP defaults used by PhalconKit applications.
 
 ```php
-public static set(array $config = []): void
+public static set(array{timezone?: non-empty-string, encoding?: non-empty-string, locale?: non-empty-string, memoryLimit?: non-empty-string, timeoutLimit?: int|string} $config = []): void
 ```
+
+Missing values are filled with conservative framework defaults. This
+method changes global PHP runtime state, so applications should call it
+once during bootstrap before handling requests or starting long-running
+workers.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type      | Description                                    |
-|-----------|-----------|------------------------------------------------|
-| `$config` | **array** | The configuration options for the application. |
+| Parameter | Type                                                                                                                                                       | Description               |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
+| `$config` | **array{timezone?: non-empty-string, encoding?: non-empty-string, locale?: non-empty-string, memoryLimit?: non-empty-string, timeoutLimit?: int\|string}** | Runtime options to apply. |
 
 ***

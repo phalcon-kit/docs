@@ -1,4 +1,11 @@
 
+Base class for PhalconKit CLI tasks.
+
+Extend this class for framework/application CLI tasks that need Phalcon's
+native task lifecycle plus PhalconKit injectable service annotations. The
+class does not add task behavior itself; action methods remain normal
+Phalcon CLI task methods.
+
 ***
 
 * Full name: `\PhalconKit\Modules\Cli\Tasks\DataLifeCycleTask`
@@ -21,6 +28,24 @@ including the models and policies applicable.
 
 ```php
 public array $dataLifeCycleConfig
+```
+
+***
+
+### models
+
+App tasks can populate these before calling parent::initialize().
+
+```php
+public array $models
+```
+
+***
+
+### policies
+
+```php
+public array $policies
 ```
 
 ***
@@ -92,6 +117,63 @@ containing the count of deleted records ('deleted') and any messages
 
 ***
 
+### requireLifeCycleModel
+
+Require a lifecycle model loaded by the models manager.
+
+```php
+protected requireLifeCycleModel(mixed $model, class-string $modelClass): \PhalconKit\Mvc\Model
+```
+
+Lifecycle tasks need the concrete PhalconKit model implementation because
+they disable soft-delete behavior and call lifecycle helpers on the model
+class. Keeping this validation outside the main loop keeps the task flow
+readable and gives applications a deterministic PhalconKit exception when
+a configured model class resolves to the wrong type.
+
+**Parameters:**
+
+| Parameter     | Type             | Description                                    |
+|---------------|------------------|------------------------------------------------|
+| `$model`      | **mixed**        | Model instance returned by the models manager. |
+| `$modelClass` | **class-string** | Configured lifecycle model class.              |
+
+**Throws:**
+
+When the configured model does not resolve to a
+PhalconKit model instance.
+- [`LogicException`](../../../Exception/LogicException.md)
+
+***
+
+### requireLifeCycleResultset
+
+Require the lifecycle query to return a Phalcon resultset.
+
+```php
+protected requireLifeCycleResultset(mixed $records, class-string $modelClass): \Phalcon\Mvc\Model\Resultset
+```
+
+`findLifeCycle()` is expected to return records that can be iterated and
+passed to the configured lifecycle callback. This guard avoids silently
+continuing with malformed model lifecycle implementations when assertions
+are disabled.
+
+**Parameters:**
+
+| Parameter     | Type             | Description                            |
+|---------------|------------------|----------------------------------------|
+| `$records`    | **mixed**        | Records returned by `findLifeCycle()`. |
+| `$modelClass` | **class-string** | Model class being processed.           |
+
+**Throws:**
+
+When the lifecycle query does not return a
+Phalcon resultset.
+- [`LogicException`](../../../Exception/LogicException.md)
+
+***
+
 ### getDataLifeCycleModels
 
 Retrieves the data lifecycle models from the configuration.
@@ -117,6 +199,22 @@ public getDataLifeCyclePolicies(): array
 **Return Value:**
 
 An array of data lifecycle policies or an empty array if not configured.
+
+***
+
+### getTaskDataLifeCycleModels
+
+```php
+private getTaskDataLifeCycleModels(): array
+```
+
+***
+
+### getTaskDataLifeCyclePolicies
+
+```php
+private getTaskDataLifeCyclePolicies(): array
+```
 
 ***
 
@@ -185,5 +283,42 @@ public afterExecuteRoute(\Phalcon\Cli\Dispatcher $dispatcher): void
 **Throws:**
 
 - [`CliException`](../../../Exception/CliException.md)
+
+***
+
+### normalizeCliPayload
+
+Normalize values before CLI output serializers see them.
+
+```php
+protected normalizeCliPayload(mixed $payload): mixed
+```
+
+Phalcon message objects are useful inside the framework but are opaque for
+JSON automation. This helper recursively converts them into scalar arrays
+while leaving other payload values unchanged.
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$payload` | **mixed** |             |
+
+***
+
+### normalizeCliMessages
+
+Normalize a list of model messages and optionally add a fallback entry.
+
+```php
+protected normalizeCliMessages(iterable $messages, ?string $fallbackMessage = null): list<array{message: string, field: string|null, type: string|null, code: int|null}>
+```
+
+**Parameters:**
+
+| Parameter          | Type         | Description                                |
+|--------------------|--------------|--------------------------------------------|
+| `$messages`        | **iterable** | Messages returned by a model or resultset. |
+| `$fallbackMessage` | **?string**  |                                            |
 
 ***

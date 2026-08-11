@@ -1,5 +1,5 @@
 
-This trait provides functionality to set and get an offset value for a query.
+Abstract contract for REST query offset configuration.
 
 ***
 
@@ -9,6 +9,8 @@ This trait provides functionality to set and get an offset value for a query.
 
 ### initializeOffset
 
+Initialize offset configuration.
+
 ```php
 public initializeOffset(): void
 ```
@@ -16,6 +18,8 @@ public initializeOffset(): void
 * This method is **abstract**.
 ***
 ### setOffset
+
+Replace the requested offset.
 
 ```php
 public setOffset(?int $offset): void
@@ -31,6 +35,8 @@ public setOffset(?int $offset): void
 ***
 ### getOffset
 
+Return the requested offset.
+
 ```php
 public getOffset(): ?int
 ```
@@ -38,6 +44,8 @@ public getOffset(): ?int
 * This method is **abstract**.
 ***
 ### defaultOffset
+
+Return the default offset.
 
 ```php
 public defaultOffset(): ?int

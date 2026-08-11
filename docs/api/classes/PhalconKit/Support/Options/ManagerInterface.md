@@ -1,4 +1,10 @@
 
+Minimal mutable key/value option manager contract.
+
+This interface is useful when consumers need a small runtime options store
+without exposing the full `OptionsInterface` lifecycle. Values are keyed by
+strings and may be any PHP value.
+
 ***
 
 * Full name: `\PhalconKit\Support\Options\ManagerInterface`
@@ -6,6 +12,8 @@
 ## Methods
 
 ### get
+
+Return an option value or the provided default when it is not set.
 
 ```php
 public get(string $key, mixed $default = null): mixed
@@ -22,6 +30,8 @@ public get(string $key, mixed $default = null): mixed
 
 ### set
 
+Store or replace an option value.
+
 ```php
 public set(string $key, mixed $value = null): void
 ```
@@ -37,6 +47,8 @@ public set(string $key, mixed $value = null): void
 
 ### remove
 
+Remove one option value when it exists.
+
 ```php
 public remove(string $key): void
 ```
@@ -51,6 +63,8 @@ public remove(string $key): void
 
 ### reset
 
+Restore the manager to its constructor/default option set.
+
 ```php
 public reset(): void
 ```
@@ -58,6 +72,8 @@ public reset(): void
 ***
 
 ### clear
+
+Remove all current option values.
 
 ```php
 public clear(): void

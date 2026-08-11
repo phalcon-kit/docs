@@ -141,6 +141,33 @@ public afterSave(\Phalcon\Mvc\ModelInterface $model, string $field, bool $rawSql
 
 ***
 
+### requireModel
+
+Require a PhalconKit model for position behavior internals.
+
+```php
+private requireModel(\Phalcon\Mvc\ModelInterface $model, string $context): \PhalconKit\Mvc\Model
+```
+
+The public Phalcon behavior signature accepts the native model interface,
+but position shifting uses PhalconKit helpers for snapshots, primary-key
+values, query execution, and message context. A deterministic exception
+is clearer than relying on PHP assertions or late method-call failures.
+
+**Parameters:**
+
+| Parameter  | Type                            | Description                                    |
+|------------|---------------------------------|------------------------------------------------|
+| `$model`   | **\Phalcon\Mvc\ModelInterface** | Model passed by the native behavior event.     |
+| `$context` | **string**                      | Operation that needs PhalconKit model helpers. |
+
+**Throws:**
+
+When the behavior receives an incompatible model.
+- [`LogicException`](../../../Exception/LogicException.md)
+
+***
+
 ## Inherited methods
 
 ### getEnabled

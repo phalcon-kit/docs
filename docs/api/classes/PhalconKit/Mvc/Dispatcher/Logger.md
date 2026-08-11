@@ -1,4 +1,9 @@
 
+Dispatcher listener that logs route resolution metadata.
+
+The listener writes one structured log entry before the dispatch loop starts
+when both the global logger flag and dispatcher logger flag are enabled.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Dispatcher\Logger`
@@ -8,7 +13,7 @@
 
 ### isEnabled
 
-Check if the logger is currently enabled or not from the config
+Determine whether dispatcher logging is enabled by configuration.
 
 ```php
 public isEnabled(): bool
@@ -18,8 +23,7 @@ public isEnabled(): bool
 
 ### beforeDispatchLoop
 
-This action is executed before execute any action in the application
-Keeping a log of the dispatch event
+Log the current dispatcher state before action execution.
 
 ```php
 public beforeDispatchLoop(\Phalcon\Events\Event $event, \PhalconKit\Dispatcher\DispatcherInterface $dispatcher): void
@@ -27,13 +31,14 @@ public beforeDispatchLoop(\Phalcon\Events\Event $event, \PhalconKit\Dispatcher\D
 
 **Parameters:**
 
-| Parameter     | Type                                           | Description |
-|---------------|------------------------------------------------|-------------|
-| `$event`      | **\Phalcon\Events\Event**                      |             |
-| `$dispatcher` | **\PhalconKit\Dispatcher\DispatcherInterface** |             |
+| Parameter     | Type                                           | Description                        |
+|---------------|------------------------------------------------|------------------------------------|
+| `$event`      | **\Phalcon\Events\Event**                      | Dispatch event emitted by Phalcon. |
+| `$dispatcher` | **\PhalconKit\Dispatcher\DispatcherInterface** | Active PhalconKit dispatcher.      |
 
 **Throws:**
 
+When Phalcon cannot write the dispatch log entry.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***

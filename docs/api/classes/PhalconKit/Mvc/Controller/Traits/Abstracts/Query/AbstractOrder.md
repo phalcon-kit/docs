@@ -1,4 +1,6 @@
 
+Abstract contract for ORDER BY query configuration.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractOrder`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeDefaultOrder
+
+Initialize default order configuration.
 
 ```php
 public initializeDefaultOrder(): void
@@ -15,6 +19,8 @@ public initializeDefaultOrder(): void
 ***
 ### initializeOrder
 
+Initialize request order configuration.
+
 ```php
 public initializeOrder(): void
 ```
@@ -23,19 +29,23 @@ public initializeOrder(): void
 ***
 ### setOrder
 
+Replace request order configuration.
+
 ```php
-public setOrder(?\Phalcon\Support\Collection $order): void
+public setOrder(array|\Phalcon\Support\Collection|null $order): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                             | Description |
-|-----------|----------------------------------|-------------|
-| `$order`  | **?\Phalcon\Support\Collection** |             |
+| Parameter | Type                                         | Description |
+|-----------|----------------------------------------------|-------------|
+| `$order`  | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getOrder
+
+Return request order configuration.
 
 ```php
 public getOrder(): ?\Phalcon\Support\Collection
@@ -44,6 +54,8 @@ public getOrder(): ?\Phalcon\Support\Collection
 * This method is **abstract**.
 ***
 ### setDefaultOrder
+
+Replace default order configuration.
 
 ```php
 public setDefaultOrder(array|string|null $defaultOrder): void
@@ -58,6 +70,8 @@ public setDefaultOrder(array|string|null $defaultOrder): void
 
 ***
 ### getDefaultOrder
+
+Return default order configuration.
 
 ```php
 public getDefaultOrder(): array|string|null

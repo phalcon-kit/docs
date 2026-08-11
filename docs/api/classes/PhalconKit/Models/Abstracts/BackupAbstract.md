@@ -465,6 +465,49 @@ public columnMap(): array
 
 ## Inherited methods
 
+### getAllowEmptyOption
+
+```php
+protected getAllowEmptyOption(bool $allowEmpty = true): bool|array
+```
+
+**Parameters:**
+
+| Parameter     | Type     | Description |
+|---------------|----------|-------------|
+| `$allowEmpty` | **bool** |             |
+
+***
+
+### shouldSkipOptionalValidation
+
+```php
+protected shouldSkipOptionalValidation(array|string $field, bool $allowEmpty): bool
+```
+
+**Parameters:**
+
+| Parameter     | Type              | Description |
+|---------------|-------------------|-------------|
+| `$field`      | **array\|string** |             |
+| `$allowEmpty` | **bool**          |             |
+
+***
+
+### isOptionalEmptyValue
+
+```php
+protected isOptionalEmptyValue(mixed $value): bool
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$value`  | **mixed** |             |
+
+***
+
 ### genericValidation
 
 Apply generic validation to a validator object.
@@ -602,7 +645,7 @@ The modified validation object with the number validations added
 Add string length validations for a field
 
 ```php
-public addStringLengthValidation(\PhalconKit\Filter\Validation $validator, array|string $field, int $minChar, int $maxChar = 255, bool $allowEmpty = true): \PhalconKit\Filter\Validation
+public addStringLengthValidation(\PhalconKit\Filter\Validation $validator, array|string $field, int $minChar = 0, int $maxChar = 255, bool $allowEmpty = true): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -746,7 +789,7 @@ Add basic validations for the date field
 - Must be a valid date in the specified format
 
 ```php
-public addDateValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = Column::DATE_FORMAT): \PhalconKit\Filter\Validation
+public addDateValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = \PhalconKit\Db\Column::DATE_FORMAT): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -771,7 +814,7 @@ Add basic validations for the datetime field
 - Must be a valid datetime format
 
 ```php
-public addDateTimeValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = Column::DATETIME_FORMAT): \PhalconKit\Filter\Validation
+public addDateTimeValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, string $format = \PhalconKit\Db\Column::DATETIME_FORMAT): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -796,7 +839,7 @@ Add validations for a JSON field
 - Must be a valid JSON string
 
 ```php
-public addJsonValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, int $depth = 512, int $flags): \PhalconKit\Filter\Validation
+public addJsonValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true, int $depth = 512, int $flags = 0): \PhalconKit\Filter\Validation
 ```
 
 **Parameters:**
@@ -1045,23 +1088,36 @@ The updated validator object with the restored validation added.
 
 ### initializeUuid
 
-Initializing Uuid
+Initialize the UUID transform behavior for create validation.
 
 ```php
-public initializeUuid(?array $options = null): void
+public initializeUuid(array<string,mixed>|null $options = null): void
 ```
+
+Options default to the model options manager under `uuid`. Supported
+keys are:
+
+- `field`: target attribute name, default `uuid`
+- `native`: when true, use database `UUID()` expressions
+- `binary`: when true, store UUIDs as binary values
 
 **Parameters:**
 
-| Parameter  | Type       | Description |
-|------------|------------|-------------|
-| `$options` | **?array** |             |
+| Parameter  | Type                          | Description            |
+|------------|-------------------------------|------------------------|
+| `$options` | **array<string,mixed>\|null** | UUID behavior options. |
+
+**Throws:**
+
+When the security service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getBinaryUuid
 
-Get Binary Uuid
+Convert a canonical UUID string to its packed binary representation.
 
 ```php
 private getBinaryUuid(string $uuid): string
@@ -1069,19 +1125,19 @@ private getBinaryUuid(string $uuid): string
 
 **Parameters:**
 
-| Parameter | Type       | Description                                         |
-|-----------|------------|-----------------------------------------------------|
-| `$uuid`   | **string** | The UUID string to convert to binary representation |
+| Parameter | Type       | Description                          |
+|-----------|------------|--------------------------------------|
+| `$uuid`   | **string** | UUID string with or without hyphens. |
 
 **Return Value:**
 
-The binary representation of the given UUID
+Binary bytes suitable for binary UUID columns.
 
 ***
 
 ### setUuidBehavior
 
-Set Uuid Behavior
+Register the UUID transform behavior under the standard behavior name.
 
 ```php
 public setUuidBehavior(\PhalconKit\Mvc\Model\Behavior\Transformable $uuidBehavior): void
@@ -1089,19 +1145,35 @@ public setUuidBehavior(\PhalconKit\Mvc\Model\Behavior\Transformable $uuidBehavio
 
 **Parameters:**
 
-| Parameter       | Type                                             | Description |
-|-----------------|--------------------------------------------------|-------------|
-| `$uuidBehavior` | **\PhalconKit\Mvc\Model\Behavior\Transformable** |             |
+| Parameter       | Type                                             | Description                        |
+|-----------------|--------------------------------------------------|------------------------------------|
+| `$uuidBehavior` | **\PhalconKit\Mvc\Model\Behavior\Transformable** | Configured transformable behavior. |
+
+**Throws:**
+
+When the current models manager does not expose
+the PhalconKit behavior registry.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getUuidBehavior
 
-Get Uuid Behavior
+Retrieve the registered UUID transform behavior.
 
 ```php
 public getUuidBehavior(): \PhalconKit\Mvc\Model\Behavior\Transformable
 ```
+
+**Return Value:**
+
+Transformable behavior responsible for UUID values.
+
+**Throws:**
+
+When the current models manager does not expose
+the PhalconKit behavior registry.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
@@ -1199,6 +1271,9 @@ Events:
 public restore(?string $field = null, ?int $notDeletedValue = null): bool
 ```
 
+The native ORM events flag is read from INI here because the trait can be
+used without access to the original model setup options.
+
 **Parameters:**
 
 | Parameter          | Type        | Description |
@@ -1221,6 +1296,42 @@ protected keepSnapshots(bool $keepSnapshot): void
 |-----------------|----------|-------------|
 | `$keepSnapshot` | **bool** |             |
 
+***
+
+### getModelsMetaData
+
+```php
+public getModelsMetaData(): \Phalcon\Mvc\Model\MetaDataInterface
+```
+
+* This method is **abstract**.
+***
+
+### getChangedFields
+
+```php
+public getChangedFields(): array
+```
+
+* This method is **abstract**.
+***
+
+### getSnapshotData
+
+```php
+public getSnapshotData(): array
+```
+
+* This method is **abstract**.
+***
+
+### hasSnapshotData
+
+```php
+public hasSnapshotData(): bool
+```
+
+* This method is **abstract**.
 ***
 
 ### initializeSnapshot
@@ -1269,6 +1380,57 @@ The SnapshotBehavior instance.
 
 ***
 
+### getSnapshotChangedFields
+
+Return model fields whose raw values differ from the stored snapshot.
+
+```php
+public getSnapshotChangedFields(array<int,string> $ignoreFields = []): list<string>
+```
+
+Phalcon's native getChangedFields() reports the extension's current dirty
+tracking state. This helper complements it for audit, domain comparison,
+replication, and response-building code that needs a stable
+snapshot-versus-current diff expressed with application model field names.
+
+Snapshot arrays can be keyed by either database column names or mapped
+model field names. Returned fields are normalized through the model column
+map whenever metadata is available, unknown snapshot entries are ignored,
+and current values are read through readAttribute() so model getters do
+not format values or trigger domain side effects during comparison.
+
+The ignore list accepts database column names and mapped model field names.
+Use it for lifecycle or bookkeeping fields such as updatedAt, updatedBy,
+updatedAs, or their database-column equivalents. Nullable fields preserve
+PhalconKit's SQL "NULL" string convention by comparing those values as
+null when metadata marks the field nullable.
+
+When Phalcon has no snapshot for the model, the method falls back to
+native getChangedFields(), still applying column-map normalization and the
+ignore list. This method is intentionally not a replacement for native
+dirty tracking and should not be used as the sole authorization context
+for sensitive flows such as password reset or privileged account changes.
+
+**Parameters:**
+
+| Parameter       | Type                  | Description                                                          |
+|-----------------|-----------------------|----------------------------------------------------------------------|
+| `$ignoreFields` | **array<int,string>** | Database column or mapped model
+field names to omit from the result. |
+
+**Return Value:**
+
+Mapped model field names whose snapshot value differs
+from the current raw attribute value.
+
+**Throws:**
+
+When the trait host cannot expose Phalcon's raw
+entity attribute API.
+- [`LogicException`](../../Exception/LogicException.md)
+
+***
+
 ### hasChangedCallback
 
 Creates a closure that can be used as a callback to determine if a model attribute has changed.
@@ -1288,6 +1450,144 @@ public hasChangedCallback(callable $callback, bool $anyField = true): \Closure
 
 A closure that takes a Model instance and a field name as arguments, and returns the result of the callback
 function if the attribute has changed, or the value of the attribute if it has not changed.
+
+***
+
+### getSnapshotFieldContext
+
+Build the field metadata used to normalize snapshot keys and comparisons.
+
+```php
+private getSnapshotFieldContext(): array{columnMap: array<string,string>, databaseFields: array<string,true>|null, modelFields: array<string,true>|null, nullableFields: array<string,true>}
+```
+
+Metadata access is best-effort because callers can use model doubles or
+partially bootstrapped models in tests. When metadata is unavailable the
+helper keeps field names as provided, which mirrors Phalcon's native
+changed-field behavior without inventing mappings.
+
+***
+
+### normalizeNativeChangedFields
+
+Normalize native changed-field output through the same mapped-name rules.
+
+```php
+private normalizeNativeChangedFields(array<int,mixed> $changedFields, array<string,true> $ignoredFields, array{columnMap: array<string,string>, databaseFields: array<string,true>|null, modelFields: array<string,true>|null, nullableFields: array<string,true>} $context): list<string>
+```
+
+Native Phalcon changed fields are used only when no snapshot is available.
+If metadata cannot identify a field, the original native name is kept so
+the fallback remains faithful to Phalcon's own result.
+
+**Parameters:**
+
+| Parameter        | Type                                                                                                                                                            | Description                            |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| `$changedFields` | **array<int,mixed>**                                                                                                                                            | Native fields from getChangedFields(). |
+| `$ignoredFields` | **array<string,true>**                                                                                                                                          | Normalized fields to omit.             |
+| `$context`       | **array{columnMap: array<string,string>, databaseFields: array<string,true>\|null, modelFields: array<string,true>\|null, nullableFields: array<string,true>}** | Snapshot field metadata.               |
+
+***
+
+### normalizeSnapshotFieldName
+
+Convert database-column snapshot keys and ignore entries to model fields.
+
+```php
+private normalizeSnapshotFieldName(string $field, array{columnMap: array<string,string>, databaseFields: array<string,true>|null, modelFields: array<string,true>|null, nullableFields: array<string,true>} $context): ?string
+```
+
+When metadata knows the model fields, unknown snapshot keys return null so
+relation payloads or transient data stored alongside snapshots do not
+create false changed-field results.
+
+**Parameters:**
+
+| Parameter  | Type                                                                                                                                                            | Description              |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
+| `$field`   | **string**                                                                                                                                                      |                          |
+| `$context` | **array{columnMap: array<string,string>, databaseFields: array<string,true>\|null, modelFields: array<string,true>\|null, nullableFields: array<string,true>}** | Snapshot field metadata. |
+
+***
+
+### normalizeSnapshotIgnoredFields
+
+Normalize ignore-list entries once so comparisons stay simple.
+
+```php
+private normalizeSnapshotIgnoredFields(array<int,string> $ignoreFields, array{columnMap: array<string,string>, databaseFields: array<string,true>|null, modelFields: array<string,true>|null, nullableFields: array<string,true>} $context): array<string,true>
+```
+
+**Parameters:**
+
+| Parameter       | Type                                                                                                                                                            | Description                                            |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| `$ignoreFields` | **array<int,string>**                                                                                                                                           | Database column or mapped model
+field names to ignore. |
+| `$context`      | **array{columnMap: array<string,string>, databaseFields: array<string,true>\|null, modelFields: array<string,true>\|null, nullableFields: array<string,true>}** | Snapshot field metadata.                               |
+
+***
+
+### normalizeSnapshotColumnMap
+
+Normalize a Phalcon metadata column map into string keys and values.
+
+```php
+private normalizeSnapshotColumnMap(array<array-key,int|string> $columnMap): array<string,string>
+```
+
+**Parameters:**
+
+| Parameter    | Type                             | Description              |
+|--------------|----------------------------------|--------------------------|
+| `$columnMap` | **array<array-key,int\|string>** | Raw metadata column map. |
+
+**Return Value:**
+
+Database column name to mapped model field.
+
+***
+
+### normalizeSnapshotComparisonValue
+
+Normalize comparison values for nullable SQL NULL-string conventions.
+
+```php
+private normalizeSnapshotComparisonValue(string $field, mixed $value, array<string,true> $nullableFields): mixed
+```
+
+PhalconKit already converts "NULL" strings to null before persistence for
+nullable attributes. The snapshot diff mirrors that rule during
+comparison, without mutating the model or its snapshot arrays.
+
+**Parameters:**
+
+| Parameter         | Type                   | Description                          |
+|-------------------|------------------------|--------------------------------------|
+| `$field`          | **string**             |                                      |
+| `$value`          | **mixed**              |                                      |
+| `$nullableFields` | **array<string,true>** | Mapped model fields that allow null. |
+
+***
+
+### requireSnapshotEntity
+
+Require the trait host to expose Phalcon's raw entity attribute API.
+
+```php
+private requireSnapshotEntity(): \Phalcon\Mvc\EntityInterface
+```
+
+Snapshot comparison intentionally avoids magic property access and domain
+getters. If a downstream class composes this trait outside a Phalcon
+entity, fail with a framework-scoped exception instead of a late method
+error from readAttribute().
+
+**Throws:**
+
+When the trait host is not a Phalcon entity.
+- [`LogicException`](../../Exception/LogicException.md)
 
 ***
 
@@ -1387,20 +1687,27 @@ The security behavior instance.
 
 ### setConnectionService
 
+Set the default connection service used by Phalcon for this model.
+
 ```php
 public setConnectionService(string $connectionService): void
 ```
 
+Implemented by Phalcon's model base class.
+
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter            | Type       | Description |
-|----------------------|------------|-------------|
-| `$connectionService` | **string** |             |
+| Parameter            | Type       | Description                                 |
+|----------------------|------------|---------------------------------------------|
+| `$connectionService` | **string** | DI service name for the default
+connection. |
 
 ***
 
 ### setReadConnectionService
+
+Set the read connection service used by Phalcon for this model.
 
 ```php
 public setReadConnectionService(string $connectionService): void
@@ -1409,13 +1716,15 @@ public setReadConnectionService(string $connectionService): void
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter            | Type       | Description |
-|----------------------|------------|-------------|
-| `$connectionService` | **string** |             |
+| Parameter            | Type       | Description                          |
+|----------------------|------------|--------------------------------------|
+| `$connectionService` | **string** | DI service name for read operations. |
 
 ***
 
 ### setWriteConnectionService
+
+Set the write connection service used by Phalcon for this model.
 
 ```php
 public setWriteConnectionService(string $connectionService): void
@@ -1424,149 +1733,216 @@ public setWriteConnectionService(string $connectionService): void
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter            | Type       | Description |
-|----------------------|------------|-------------|
-| `$connectionService` | **string** |             |
+| Parameter            | Type       | Description                           |
+|----------------------|------------|---------------------------------------|
+| `$connectionService` | **string** | DI service name for write operations. |
 
 ***
 
 ### getWriteConnectionService
+
+Return the configured write connection service name.
 
 ```php
 public getWriteConnectionService(): string
 ```
 
 * This method is **abstract**.
+**Return Value:**
+
+DI service name for write operations.
+
 ***
 
 ### getReadConnectionService
+
+Return the configured read connection service name.
 
 ```php
 public getReadConnectionService(): string
 ```
 
 * This method is **abstract**.
+**Return Value:**
+
+DI service name for read operations.
+
 ***
 
 ### getReplicationLag
 
-Get the replication lag value in milliseconds
+Return the configured replica lag window in milliseconds.
 
 ```php
-public static getReplicationLag(): ?int
+public static getReplicationLag(): int|null
 ```
 
 * This method is **static**.
+**Return Value:**
+
+Lag window, or null before replication initialization.
+
 ***
 
 ### setReplicationLag
 
-Set the replication lag value in milliseconds
+Set the replica lag window in milliseconds.
 
 ```php
-public static setReplicationLag(?int $replicationLag = null): void
+public static setReplicationLag(int|null $replicationLag = null): void
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter         | Type     | Description |
-|-------------------|----------|-------------|
-| `$replicationLag` | **?int** |             |
+| Parameter         | Type          | Description                                                       |
+|-------------------|---------------|-------------------------------------------------------------------|
+| `$replicationLag` | **int\|null** | Lag window to use after write events, or
+null to clear the value. |
 
 ***
 
 ### getReplicationReadyAt
 
-Get the replication lag value in milliseconds
+Return the timestamp after which replica reads may resume.
 
 ```php
-public static getReplicationReadyAt(): ?int
+public static getReplicationReadyAt(): int|null
 ```
 
 * This method is **static**.
+**Return Value:**
+
+Unix timestamp in milliseconds, or null when reads are
+not currently pinned to the write connection.
+
 ***
 
 ### setReplicationReadyAt
 
-Set the replication lag value in milliseconds
+Set the timestamp after which replica reads may resume.
 
 ```php
-public static setReplicationReadyAt(?int $replicationReadyAt = null): void
+public static setReplicationReadyAt(int|null $replicationReadyAt = null): void
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter             | Type     | Description |
-|-----------------------|----------|-------------|
-| `$replicationReadyAt` | **?int** |             |
+| Parameter             | Type          | Description                                                           |
+|-----------------------|---------------|-----------------------------------------------------------------------|
+| `$replicationReadyAt` | **int\|null** | Unix timestamp in milliseconds, or
+null to mark the replica as ready. |
 
 ***
 
 ### initializeReplication
 
-Replication Trait Initialization
-- Set Read & Write Connection Service
-- Add Replication Behavior
+Initialize read/write connection services for replica-aware models.
 
 ```php
-public initializeReplication(?array $options = null): void
+public initializeReplication(array<array-key,mixed>|null $options = null): void
 ```
+
+The trait reads `database.drivers.mysql.readonly.enable` from the config
+service. When enabled, it configures connection service names and attaches
+write-event listeners that temporarily pin reads to the write connection.
 
 **Parameters:**
 
-| Parameter  | Type       | Description |
-|------------|------------|-------------|
-| `$options` | **?array** |             |
+| Parameter  | Type                             | Description                                                                                                                         |
+|------------|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `$options` | **array<array-key,mixed>\|null** | Optional replication
+options. Supported keys are `lag`, `connectionService`,
+`readConnectionService`, and `writeConnectionService`. |
+
+**Throws:**
+
+When the config service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### selectReadConnection
 
-Dynamically selects a shard
-- Prefer to read on the write master during the replica delay
+Select the connection used for model reads.
 
 ```php
 public selectReadConnection(): \Phalcon\Db\Adapter\AdapterInterface
 ```
 
-Possible parameters which can be added if required
-?array $intermediate = null, array $bindParams = [], array $bindTypes = []
+When there is no active replica-cooldown window, the configured read
+connection service is returned. Immediately after write-like events,
+reads are pinned back to the write connection until the lag window
+expires, which avoids stale reads from asynchronous replicas.
+
+**Return Value:**
+
+Read connection when replicas are ready; write
+connection while reads are pinned after a mutation.
+
+**Throws:**
+
+When the read or write connection service cannot
+be resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### addReadWriteConnectionBehavior
 
-Force write connection service to master if the model was previously saved
+Attach lifecycle listeners that pin reads to the write connection.
 
 ```php
 public addReadWriteConnectionBehavior(): void
 ```
 
+Each write-like event updates `replicationReadyAt` to `now + lag`. Native
+Phalcon requires a compatible events manager to attach these callbacks.
+
+**Throws:**
+
+When the model events manager is missing or does
+not implement Phalcon's events manager contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
 ***
 
 ### isReplicationReady
 
-Check whether the replica should be ready or not
+Determine whether reads may use a replica again.
 
 ```php
 public isReplicationReady(): bool
 ```
 
+When the cooldown has expired, the ready timestamp is cleared so future
+calls remain ready until another write event updates it.
+
 **Return Value:**
 
-true if replica should be ready
+True when the replica cooldown is absent or expired.
 
 ***
 
 ### nowMs
 
+Return the current process time in milliseconds.
+
 ```php
 protected static nowMs(): int
 ```
 
+This helper keeps replication timestamps integer-based and easy to
+compare without leaking floating-point microtime values into public
+replication state.
+
 * This method is **static**.
+**Return Value:**
+
+Unix timestamp in milliseconds.
+
 ***
 
 ### appendMessage
@@ -1581,6 +1957,118 @@ public appendMessage(\Phalcon\Messages\MessageInterface $message): \Phalcon\Mvc\
 | Parameter  | Type                                   | Description |
 |------------|----------------------------------------|-------------|
 | `$message` | **\Phalcon\Messages\MessageInterface** |             |
+
+***
+
+### setStrictRelatedAssignment
+
+Enable or disable strict validation for relationship payloads.
+
+```php
+public setStrictRelatedAssignment(bool $strictRelatedAssignment): void
+```
+
+Leave this disabled for legacy forms that may send extra nested data.
+Enable it in API/resource layers where relation aliases are controlled by
+explicit save-field policies and a malformed relation should fail loudly.
+
+**Parameters:**
+
+| Parameter                  | Type     | Description |
+|----------------------------|----------|-------------|
+| `$strictRelatedAssignment` | **bool** |             |
+
+***
+
+### isStrictRelatedAssignment
+
+Return whether malformed relationship payloads should throw exceptions.
+
+```php
+public isStrictRelatedAssignment(): bool
+```
+
+***
+
+### setRelationshipOptions
+
+Replace the configured relationship behavior options.
+
+```php
+public setRelationshipOptions(array $options): void
+```
+
+The option group is intentionally stored in the shared model options
+manager so applications can opt into stricter behavior per model without
+changing generated relationship declarations.
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$options` | **array** |             |
+
+***
+
+### getRelationshipOptions
+
+Return relationship options, optionally including a per-alias override.
+
+```php
+public getRelationshipOptions(?string $alias = null): array
+```
+
+**Parameters:**
+
+| Parameter | Type        | Description |
+|-----------|-------------|-------------|
+| `$alias`  | **?string** |             |
+
+***
+
+### getConfiguredRelationshipOptions
+
+Read relationship defaults from bootstrap config when available.
+
+```php
+private getConfiguredRelationshipOptions(): array<string,mixed>
+```
+
+The config path is intentionally feature-specific (`model.relationship`)
+rather than part of the generic model options manager.
+
+***
+
+### getRelationshipOption
+
+Return one configured relationship behavior option.
+
+```php
+public getRelationshipOption(string $option, ?string $alias = null, mixed $default = null): mixed
+```
+
+**Parameters:**
+
+| Parameter  | Type        | Description |
+|------------|-------------|-------------|
+| `$option`  | **string**  |             |
+| `$alias`   | **?string** |             |
+| `$default` | **mixed**   |             |
+
+***
+
+### getRelationshipAliasOptions
+
+```php
+private getRelationshipAliasOptions(array $configured, string $alias): array
+```
+
+**Parameters:**
+
+| Parameter     | Type       | Description |
+|---------------|------------|-------------|
+| `$configured` | **array**  |             |
+| `$alias`      | **string** |             |
 
 ***
 
@@ -1605,7 +2093,7 @@ public setKeepMissingRelated(array $keepMissingRelated): void
 Return the missing related configuration list
 
 ```php
-public getKeepMissingRelated(): array
+public getKeepMissingRelated(): array<string,bool>
 ```
 
 ***
@@ -1674,7 +2162,7 @@ public setRelationshipContext(string $context): void
 Return the dirtyRelated entities
 
 ```php
-public getDirtyRelated(): array
+public getDirtyRelated(): array<string,mixed>
 ```
 
 ***
@@ -1754,6 +2242,152 @@ public hasDirtyRelatedAlias(string $alias): bool
 
 ***
 
+### getLoadedRelated
+
+Return the eager-loaded related entities
+
+```php
+public getLoadedRelated(): array<string,mixed>
+```
+
+***
+
+### setLoadedRelated
+
+Set the eager-loaded related entities
+
+```php
+public setLoadedRelated(array $loadedRelated): void
+```
+
+**Parameters:**
+
+| Parameter        | Type      | Description |
+|------------------|-----------|-------------|
+| `$loadedRelated` | **array** |             |
+
+***
+
+### getLoadedRelatedAlias
+
+Return eager-loaded related entities for one alias
+
+```php
+public getLoadedRelatedAlias(string $alias): mixed
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+
+***
+
+### setLoadedRelatedAlias
+
+Set eager-loaded related entities for one alias
+
+```php
+public setLoadedRelatedAlias(string $alias, mixed $value): void
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+| `$value`  | **mixed**  |             |
+
+***
+
+### hasLoadedRelatedAlias
+
+Check whether an eager-loaded relation alias exists
+
+```php
+public hasLoadedRelatedAlias(string $alias): bool
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+
+***
+
+### setRelated
+
+Store a related value in both Phalcon's native relation cache and
+PhalconKit's read-only eager-loading cache.
+
+```php
+public setRelated(string $alias, mixed $records): \Phalcon\Mvc\ModelInterface
+```
+
+Phalcon 5.18's native eager loader calls this method while hydrating
+`find(['eager' => [...]])` results. Mirroring the value keeps direct
+property access, `getRelated()`, exports, and native
+`isRelationshipLoaded()` checks consistent without marking the relation
+for persistence.
+
+**Parameters:**
+
+| Parameter  | Type       | Description                             |
+|------------|------------|-----------------------------------------|
+| `$alias`   | **string** | Registered relationship alias.          |
+| `$records` | **mixed**  | Related model, row, resultset, or null. |
+
+**Return Value:**
+
+The current model instance.
+
+***
+
+### normalizeRelationAlias
+
+```php
+private normalizeRelationAlias(string $alias): string
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+
+***
+
+### normalizeRelationAliases
+
+```php
+private normalizeRelationAliases(array $related): array
+```
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$related` | **array** |             |
+
+***
+
+### writeDeclaredRelatedAlias
+
+```php
+private writeDeclaredRelatedAlias(string $alias, mixed $value): void
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+| `$value`  | **mixed**  |             |
+
+***
+
 ### assign
 
 Assigns values to the model from an array, with options to control which fields are assigned.
@@ -1778,7 +2412,7 @@ Returns the updated ModelInterface instance.
 
 **Throws:**
 
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -1808,7 +2442,164 @@ Many
 
 **Throws:**
 
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
+
+***
+
+### isRelatedAssignmentWhiteListed
+
+Check whether a relation alias is allowed by a nested assignment whitelist.
+
+```php
+private isRelatedAssignmentWhiteListed(string $alias, array $whiteList): bool
+```
+
+The whitelist can contain relation aliases as plain values or as keys that
+point to nested allowed fields. This mirrors existing PhalconKit save-field
+payloads without forcing callers to choose one representation.
+
+**Parameters:**
+
+| Parameter    | Type       | Description |
+|--------------|------------|-------------|
+| `$alias`     | **string** |             |
+| `$whiteList` | **array**  |             |
+
+***
+
+### isRelationPayload
+
+Determine whether an unknown key carries relationship-shaped data.
+
+```php
+private isRelationPayload(mixed $value): bool
+```
+
+Scalar unknown keys are left to native model assignment. Complex values
+are the only safe candidates for strict relationship-alias validation
+because they are how REST/save payloads express nested relations.
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$value`  | **mixed** |             |
+
+***
+
+### isModelAssignmentField
+
+Check whether a non-relation assignment key is a known model field.
+
+```php
+private isModelAssignmentField(string $field, ?array $dataColumnMap = null): bool
+```
+
+Strict relationship assignment must not reject JSON/array columns or
+mapped model attributes just because their values look like nested
+relation payloads. The optional data column map is checked first because
+callers may use external request keys that Phalcon maps before writing.
+
+**Parameters:**
+
+| Parameter        | Type       | Description |
+|------------------|------------|-------------|
+| `$field`         | **string** |             |
+| `$dataColumnMap` | **?array** |             |
+
+***
+
+### isDirectOwnedRelationType
+
+```php
+private isDirectOwnedRelationType(?int $type): bool
+```
+
+**Parameters:**
+
+| Parameter | Type     | Description |
+|-----------|----------|-------------|
+| `$type`   | **?int** |             |
+
+***
+
+### assertDirectRelatedRecordCanBeAssigned
+
+```php
+private assertDirectRelatedRecordCanBeAssigned(?string $alias, ?int $type, array $relationFields, array $referencedFields, \Phalcon\Mvc\EntityInterface $record): void
+```
+
+**Parameters:**
+
+| Parameter           | Type                             | Description |
+|---------------------|----------------------------------|-------------|
+| `$alias`            | **?string**                      |             |
+| `$type`             | **?int**                         |             |
+| `$relationFields`   | **array**                        |             |
+| `$referencedFields` | **array**                        |             |
+| `$record`           | **\Phalcon\Mvc\EntityInterface** |             |
+
+***
+
+### getDirectRelatedOwnershipState
+
+```php
+private getDirectRelatedOwnershipState(array $relationFields, array $referencedFields, \Phalcon\Mvc\EntityInterface $record): string
+```
+
+**Parameters:**
+
+| Parameter           | Type                             | Description |
+|---------------------|----------------------------------|-------------|
+| `$relationFields`   | **array**                        |             |
+| `$referencedFields` | **array**                        |             |
+| `$record`           | **\Phalcon\Mvc\EntityInterface** |             |
+
+***
+
+### isEmptyRelationValue
+
+```php
+private isEmptyRelationValue(mixed $value): bool
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$value`  | **mixed** |             |
+
+***
+
+### isSameRelationValue
+
+```php
+private isSameRelationValue(mixed $expected, mixed $actual): bool
+```
+
+**Parameters:**
+
+| Parameter   | Type      | Description |
+|-------------|-----------|-------------|
+| `$expected` | **mixed** |             |
+| `$actual`   | **mixed** |             |
+
+***
+
+### prepareDirectRelatedRecordForSave
+
+```php
+private prepareDirectRelatedRecordForSave(\Phalcon\Mvc\Model\RelationInterface $relation, \Phalcon\Mvc\EntityInterface $record, ?string $alias, ?int $index = null): bool
+```
+
+**Parameters:**
+
+| Parameter   | Type                                     | Description |
+|-------------|------------------------------------------|-------------|
+| `$relation` | **\Phalcon\Mvc\Model\RelationInterface** |             |
+| `$record`   | **\Phalcon\Mvc\EntityInterface**         |             |
+| `$alias`    | **?string**                              |             |
+| `$index`    | **?int**                                 |             |
 
 ***
 
@@ -1833,7 +2624,7 @@ protected preSaveRelatedRecords(\Phalcon\Db\Adapter\AdapterInterface $connection
 
 **Throws:**
 
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -1867,7 +2658,7 @@ Returns true on successful processing of related records, false if an error occu
 **Throws:**
 
 Throws an exception if there are no defined relations for a given alias or if invalid data types are provided.
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 **See Also:**
 
@@ -1904,7 +2695,7 @@ and `null` if the relation is of type `Through`.
 **Throws:**
 
 If there is an error during the save operation for a related record.
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -1936,7 +2727,7 @@ Returns null if the relation is not a through relationship.
 **Throws:**
 
 If the intermediate model or related records cannot be properly saved.
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -2117,7 +2908,7 @@ The new index as a string
 Retrieves the related records as an array.
 
 ```php
-public relatedToArray(array|null $columns = null, bool $useGetter = true): array
+public relatedToArray(array|null $columns = null, bool $useGetter = true): array<string,mixed>
 ```
 
 If $columns is provided, only the specified columns will be included in the array.
@@ -2143,19 +2934,27 @@ where the related record is being stored into the "related" property and then
 passed from the collectRelatedToSave and is mistakenly saved without the user consent
 
 ```php
-public getRelated(string $alias, mixed $arguments = null): false|int|\Phalcon\Mvc\Model\Resultset\Simple
+public getRelated(string $alias, mixed $arguments = null): mixed
 ```
 
 **Parameters:**
 
-| Parameter    | Type       | Description |
-|--------------|------------|-------------|
-| `$alias`     | **string** |             |
-| `$arguments` | **mixed**  |             |
+| Parameter    | Type       | Description                                                                                                                                                                                                                           |
+|--------------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$alias`     | **string** |                                                                                                                                                                                                                                       |
+| `$arguments` | **mixed**  |
+Values populated by Phalcon 5.18's native eager loader are returned from
+PhalconKit's read-only cache. Uncached relationships continue through
+the models manager so they are never added to Phalcon's dirty relation
+save pipeline. |
+
+**Return Value:**
+
+Cached related data or the models manager query result.
 
 **Throws:**
 
-- [`Exception`](../../../Exception.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -2193,10 +2992,6 @@ Sets the position options and sets the position behavior accordingly.
 | `$options` | **array\|null** | The options for the position behavior.
 If not provided, the default position behavior options will be used. |
 
-**Throws:**
-
-- [`Exception`](../../../Exception.md)
-
 ***
 
 ### setPositionBehavior
@@ -2230,7 +3025,7 @@ The position behavior object.
 **Throws:**
 
 if the position behavior is not found.
-- [`Exception`](../../../Exception.md)
+- [`LogicException`](../../Exception/LogicException.md)
 
 ***
 
@@ -2257,7 +3052,28 @@ Returns true if the reorder operation was successful, false otherwise.
 
 **Throws:**
 
-- [`Exception`](../../../Exception.md)
+When the trait is used on an incompatible model.
+- [`LogicException`](../../Exception/LogicException.md)
+
+***
+
+### requirePositionModel
+
+Require the trait host to be a PhalconKit model.
+
+```php
+protected requirePositionModel(): \PhalconKit\Mvc\Model
+```
+
+Position reordering depends on model events, assignment, snapshots, and
+persistence APIs. This helper keeps `reorder()` readable while producing
+a deterministic PhalconKit exception if the trait is composed into an
+incompatible class.
+
+**Throws:**
+
+When the trait host is not a PhalconKit model.
+- [`LogicException`](../../Exception/LogicException.md)
 
 ***
 
@@ -2345,51 +3161,74 @@ Array containing the values of the primary keys attributes of the entity.
 
 ### _
 
-Translate a given key using the translation service
+Translate a key through the model's translate service.
 
 ```php
-public _(string $translateKey, array $placeholders = []): string
+public _(string $translateKey, array<array-key,mixed> $placeholders = []): string
 ```
+
+This is a model-level convenience wrapper around Phalcon's translate
+adapter. It keeps model validation messages and computed labels aligned
+with the same `translate` service used by the rest of the application.
 
 **Parameters:**
 
-| Parameter       | Type       | Description                                        |
-|-----------------|------------|----------------------------------------------------|
-| `$translateKey` | **string** | The key to be translated                           |
-| `$placeholders` | **array**  | The placeholders to be replaced in the translation |
+| Parameter       | Type                       | Description                               |
+|-----------------|----------------------------|-------------------------------------------|
+| `$translateKey` | **string**                 | Translation key to resolve.               |
+| `$placeholders` | **array<array-key,mixed>** | Placeholder values passed to
+the adapter. |
 
 **Return Value:**
 
-The translated string
+Translated string returned by the adapter.
+
+**Throws:**
+
+When the translate service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### __call
 
-Magic method to dynamically call localed named methods using the current locale
-- Allow to call $this->methodName{Fr\|En\|Sp\|...}() from missing methodName method
+Dispatch missing method calls to locale-suffixed methods when available.
 
 ```php
-public __call(string $method, array $arguments): mixed|null
+public __call(string $method, array<array-key,mixed> $arguments): mixed
 ```
+
+For example, with locale `fr`, a call to `label()` will try `labelFr()`
+before delegating to the parent model magic handler. This is intended for
+computed localized accessors, not for replacing explicit public methods.
 
 **Parameters:**
 
-| Parameter    | Type       | Description      |
-|--------------|------------|------------------|
-| `$method`    | **string** | method name      |
-| `$arguments` | **array**  | method arguments |
+| Parameter    | Type                       | Description                                                    |
+|--------------|----------------------------|----------------------------------------------------------------|
+| `$method`    | **string**                 | Missing method name.                                           |
+| `$arguments` | **array<array-key,mixed>** | Arguments forwarded to the
+localized method or parent handler. |
+
+**Return Value:**
+
+Localized method result, or the parent magic-call result.
 
 **Throws:**
 
+When the parent Phalcon model magic handler
+rejects the missing method.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When the locale service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### __set
 
-Magic setter to set localed named field automatically using the current locale
-- Allow to set $this->name{Fr\|En\|Sp\|...} for missing name property
+Handles dynamic model writes before Phalcon sees them.
 
 ```php
 public __set(string $property, mixed $value): void
@@ -2397,17 +3236,16 @@ public __set(string $property, mixed $value): void
 
 **Parameters:**
 
-| Parameter   | Type       | Description                      |
-|-------------|------------|----------------------------------|
-| `$property` | **string** | property name                    |
-| `$value`    | **mixed**  | value to be set for the property |
+| Parameter   | Type       | Description |
+|-------------|------------|-------------|
+| `$property` | **string** |             |
+| `$value`    | **mixed**  |             |
 
 ***
 
 ### __get
 
-Magic getter to get localed named field automatically using the current locale
-- Allow to get $this->name{Fr\|En\|Sp\|...} from missing name property
+Handles dynamic model reads before Phalcon sees them.
 
 ```php
 public __get(string $property): mixed
@@ -2415,97 +3253,177 @@ public __get(string $property): mixed
 
 **Parameters:**
 
-| Parameter   | Type       | Description   |
-|-------------|------------|---------------|
-| `$property` | **string** | property name |
+| Parameter   | Type       | Description |
+|-------------|------------|-------------|
+| `$property` | **string** |             |
 
 ***
 
 ### prepareLifeCycleQuery
 
-Return the query for data retention
+Apply safety defaults to a lifecycle query builder.
 
 ```php
-public static prepareLifeCycleQuery(\Phalcon\Mvc\Model\Query\BuilderInterface $builder, ?array $parameters = null): void
+public static prepareLifeCycleQuery(\Phalcon\Mvc\Model\Query\BuilderInterface $builder, array<string,mixed>|null $parameters = null): void
 ```
+
+A model with no resolved policy query should never accidentally match all
+records. When parameters are empty, the builder receives a `false`
+condition and empty bind arrays so the resulting query is intentionally
+empty.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type                                          | Description |
-|---------------|-----------------------------------------------|-------------|
-| `$builder`    | **\Phalcon\Mvc\Model\Query\BuilderInterface** |             |
-| `$parameters` | **?array**                                    |             |
+| Parameter     | Type                                          | Description                                                             |
+|---------------|-----------------------------------------------|-------------------------------------------------------------------------|
+| `$builder`    | **\Phalcon\Mvc\Model\Query\BuilderInterface** | Builder that will be executed by the
+lifecycle task.                    |
+| `$parameters` | **array<string,mixed>\|null**                 | Policy query parameters
+resolved from config or supplied by the caller. |
 
 ***
 
 ### getLifeCyclePolicy
 
+Return the lifecycle policy configured for the current model class.
+
 ```php
-public static getLifeCyclePolicy(): array
+public static getLifeCyclePolicy(): array<string,mixed>
 ```
 
+The config maps model class names to policy names under
+`dataLifeCycle.models`; the policy payload is then read from
+`dataLifeCycle.policies`. Missing mappings return an empty policy.
+
 * This method is **static**.
+**Return Value:**
+
+Policy payload for the calling model class.
+
+**Throws:**
+
+When the default DI or config service cannot be
+resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
 ***
 
 ### getLifeCyclePolicyQuery
 
+Return only the lifecycle query portion of the configured policy.
+
 ```php
-public static getLifeCyclePolicyQuery(): ?array
+public static getLifeCyclePolicyQuery(): array<string,mixed>|null
 ```
 
 * This method is **static**.
+**Return Value:**
+
+Query definition accepted by Phalcon's
+model query builder, or null when no policy query is configured.
+
+**Throws:**
+
+When the lifecycle policy cannot be resolved.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
 ***
 
 ### getLifeCycleQuery
 
-Return the Query for data retention
+Build the executable lifecycle query for the current model class.
 
 ```php
-public static getLifeCycleQuery(?array $parameters = null, ?\Phalcon\Mvc\Model\Query\BuilderInterface $builder = null): \Phalcon\Mvc\Model\QueryInterface
+public static getLifeCycleQuery(array<string,mixed>|null $parameters = null, \Phalcon\Mvc\Model\Query\BuilderInterface|null $builder = null): \Phalcon\Mvc\Model\QueryInterface
 ```
+
+Callers may pass explicit query parameters or a preconfigured builder for
+tests and custom lifecycle workflows. When both are omitted, the
+configured policy query is used.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type                                           | Description |
-|---------------|------------------------------------------------|-------------|
-| `$parameters` | **?array**                                     |             |
-| `$builder`    | **?\Phalcon\Mvc\Model\Query\BuilderInterface** |             |
+| Parameter     | Type                                                | Description                |
+|---------------|-----------------------------------------------------|----------------------------|
+| `$parameters` | **array<string,mixed>\|null**                       | Query parameters to apply. |
+| `$builder`    | **\Phalcon\Mvc\Model\Query\BuilderInterface\|null** | Optional builder override. |
+
+**Return Value:**
+
+Executable query for lifecycle processing.
+
+**Throws:**
+
+When the default DI or models manager service
+cannot be resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getBuilder
 
-Return a Query Builder based on parameters
+Create a lifecycle query builder for the current model class.
 
 ```php
-public static getBuilder(?array $parameters = null): \Phalcon\Mvc\Model\Query\BuilderInterface
+public static getBuilder(array<string,mixed>|null $parameters = null): \Phalcon\Mvc\Model\Query\BuilderInterface
 ```
+
+The builder is initialized from the provided parameters and forced to use
+the calling model class as its `from` model. A top-level `limit` parameter
+is applied explicitly because Phalcon's builder parameters do not always
+preserve that value when lifecycle tasks construct custom arrays.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type       | Description |
-|---------------|------------|-------------|
-| `$parameters` | **?array** |             |
+| Parameter     | Type                          | Description               |
+|---------------|-------------------------------|---------------------------|
+| `$parameters` | **array<string,mixed>\|null** | Query-builder parameters. |
+
+**Return Value:**
+
+Builder scoped to the calling model class.
+
+**Throws:**
+
+When the default DI or models manager service
+cannot be resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### findLifeCycle
 
-Find records to hard delete for data retention purpose
+Execute the lifecycle query and return matching records.
 
 ```php
-public static findLifeCycle(?array $parameters = null): mixed
+public static findLifeCycle(array<string,mixed>|null $parameters = null): mixed
 ```
+
+If a resultset is returned and the policy parameters include a
+`hydration` value, the resultset hydrate mode is updated before returning
+it to the caller. Non-resultset query outputs are returned untouched to
+preserve native Phalcon behavior.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type       | Description |
-|---------------|------------|-------------|
-| `$parameters` | **?array** |             |
+| Parameter     | Type                          | Description                                                  |
+|---------------|-------------------------------|--------------------------------------------------------------|
+| `$parameters` | **array<string,mixed>\|null** | Query parameters or null to
+use the configured policy query. |
+
+**Return Value:**
+
+Query execution result, usually a Phalcon model resultset.
+
+**Throws:**
+
+When the lifecycle query cannot be built because
+required DI services are unavailable or incompatible.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
@@ -2514,7 +3432,7 @@ public static findLifeCycle(?array $parameters = null): mixed
 Encodes a value to JSON.
 
 ```php
-public jsonEncode(mixed $value, int $flags = JSON_UNESCAPED_SLASHES, int $depth = 512): string|false
+public jsonEncode(mixed $value, int $flags = \PhalconKit\Mvc\Model\Traits\JSON_UNESCAPED_SLASHES, int $depth = 512): string|false
 ```
 
 **Parameters:**
@@ -2538,7 +3456,7 @@ The JSON encoded string on success, or `false` on failure.
 Decodes a JSON string.
 
 ```php
-public jsonDecode(string $json, bool|null $associative = null, int $depth = 512, int $flags): mixed
+public jsonDecode(string $json, bool|null $associative = null, int $depth = 512, int $flags = 0): mixed
 ```
 
 **Parameters:**
@@ -2581,7 +3499,7 @@ The validated depth.
 **Throws:**
 
 If depth is outside the valid range.
-- [`InvalidArgumentException`](../../../InvalidArgumentException.md)
+- [`InvalidArgumentException`](../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -2596,17 +3514,31 @@ public static loadInstance(): static
 
 ### getIdentityService
 
-Get the current identity service from the DI
+Resolve the current identity manager from the model DI.
 
 ```php
-public getIdentityService(): \PhalconKit\Identity\Manager
+public getIdentityService(): \PhalconKit\Identity\ManagerInterface
 ```
+
+The service must implement `PhalconKit\Identity\ManagerInterface`; this
+allows applications to provide custom identity managers without extending
+the concrete core manager class.
+
+**Return Value:**
+
+Current identity manager service.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### isLoggedIn
 
-Check if a user is logged in
+Check whether the current identity is logged in.
 
 ```php
 public isLoggedIn(bool $as = false): bool
@@ -2614,19 +3546,26 @@ public isLoggedIn(bool $as = false): bool
 
 **Parameters:**
 
-| Parameter | Type     | Description                                               |
-|-----------|----------|-----------------------------------------------------------|
-| `$as`     | **bool** | Optional parameter to specify the identity state to check |
+| Parameter | Type     | Description                                                                          |
+|-----------|----------|--------------------------------------------------------------------------------------|
+| `$as`     | **bool** | When true, checks delegated/impersonated identity state
+instead of the primary user. |
 
 **Return Value:**
 
-Returns true if the user is logged in, false otherwise
+True when the requested identity state is authenticated.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### isLoggedInAs
 
-Check if the user is logged in as another user.
+Check whether the current identity is acting as another user.
 
 ```php
 public isLoggedInAs(): bool
@@ -2634,13 +3573,19 @@ public isLoggedInAs(): bool
 
 **Return Value:**
 
-True if the user is logged in as another user, false otherwise.
+True when a delegated/impersonated user is active.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getCurrentUser
 
-Get the current user.
+Return the current user model from the identity service.
 
 ```php
 public getCurrentUser(bool $as = false): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -2648,20 +3593,27 @@ public getCurrentUser(bool $as = false): \PhalconKit\Models\Interfaces\UserInter
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                 |
-|-----------|----------|-------------------------------------------------------------|
-| `$as`     | **bool** | If true, return the UserInterface object. Default is false. |
+| Parameter | Type     | Description                                                                     |
+|-----------|----------|---------------------------------------------------------------------------------|
+| `$as`     | **bool** | When true, returns the delegated/impersonated user
+instead of the primary user. |
 
 **Return Value:**
 
-Returns the current user as a UserInterface object if $as is true.
-Returns null if there is no current user or the user is not found.
+Current user, delegated user, or null when no
+matching identity is available.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getCurrentUserAs
 
-Get the current delegated UserInterface object
+Return the delegated user model from the identity service.
 
 ```php
 public getCurrentUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -2669,13 +3621,20 @@ public getCurrentUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
 
 **Return Value:**
 
-The current user as UserInterface if available, null otherwise
+Delegated/impersonated user, or null when no
+delegated identity is active.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getCurrentUserId
 
-Retrieves the ID of the currently logged-in user.
+Return the integer ID of the current or delegated user.
 
 ```php
 public getCurrentUserId(bool $as = false): int|null
@@ -2683,40 +3642,45 @@ public getCurrentUserId(bool $as = false): int|null
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                                                                                                             |
-|-----------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Optional flag indicating whether to retrieve the user as well.
-If set to true, the complete user object will be returned.
-If set to false (default), only the user ID will be returned. |
+| Parameter | Type     | Description                                                                           |
+|-----------|----------|---------------------------------------------------------------------------------------|
+| `$as`     | **bool** | When true, returns the delegated/impersonated user ID
+instead of the primary user ID. |
 
 **Return Value:**
 
-If $as is true, it returns the ID of the currently logged-in user as an integer.
-If $as is false, it returns null if there is no logged-in user or
-the ID of the currently logged-in user as an integer.
+User ID cast to int, or null when no user is available
+or the user does not expose an ID.
+
+**Throws:**
+
+When the identity service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getCurrentUserIdCallback
 
-Retrieves a callback function that returns the ID of the currently logged-in user.
+Build a callback that returns the current or delegated user ID.
 
 ```php
-public getCurrentUserIdCallback(bool $as = false): \Closure
+public getCurrentUserIdCallback(bool $as = false): callable
 ```
+
+Behaviors can store this closure and evaluate it later during lifecycle
+events, ensuring they use the identity state at execution time rather
+than initialization time.
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                                                                                                             |
-|-----------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Optional flag indicating whether to retrieve the user as well.
-If set to true, the complete user object will be returned.
-If set to false (default), only the user ID will be returned. |
+| Parameter | Type     | Description                                             |
+|-----------|----------|---------------------------------------------------------|
+| `$as`     | **bool** | When true, the callback resolves the delegated user ID. |
 
 **Return Value:**
 
-A callback function that, when invoked, returns the ID of the currently logged-in user.
-The returned ID will be null if there is no logged-in user or an integer if the user is logged in.
+Callback returning the requested user ID or null.
 
 ***
 
@@ -2740,6 +3704,12 @@ public hash(string $string, string|null $salt = null, string|null $workFactor = 
 
 The salted hash value of the input string
 
+**Throws:**
+
+When the config or security service cannot be
+resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
 ***
 
 ### checkHash
@@ -2747,7 +3717,7 @@ The salted hash value of the input string
 Checks whether a given hash is valid for a given string.
 
 ```php
-public checkHash(string|null $hash = null, string|null $string = null, int $maxPassLength): bool
+public checkHash(string|null $hash = null, string|null $string = null, int $maxPassLength = 0): bool
 ```
 
 **Parameters:**
@@ -2762,12 +3732,18 @@ public checkHash(string|null $hash = null, string|null $string = null, int $maxP
 
 Returns true if the hash is valid for the string, false otherwise.
 
+**Throws:**
+
+When the config or security service cannot be
+resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
 ***
 
 ### findInById
 
 ```php
-public static findInById(array $idList = []): array|\Phalcon\Mvc\Model\Resultset|false
+public static findInById(array $idList = []): \Phalcon\Mvc\Model\ResultsetInterface
 ```
 
 * This method is **static**.
@@ -2810,33 +3786,78 @@ public fireEventCancel(string $eventName): bool
 
 ***
 
-### find
+### ensureTraversableResultset
 
 ```php
-public static find(mixed $parameters = null): mixed
+private static ensureTraversableResultset(\Phalcon\Mvc\Model\ResultsetInterface $resultset): \Phalcon\Mvc\Model\ResultsetInterface&\Traversable
 ```
+
+* This method is **static**.
+**Parameters:**
+
+| Parameter    | Type                                      | Description |
+|--------------|-------------------------------------------|-------------|
+| `$resultset` | **\Phalcon\Mvc\Model\ResultsetInterface** |             |
+
+***
+
+### find
+
+Run Phalcon's native static finder for the model using this trait.
+
+```php
+public static find(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+```
+
+The explicit `mixed` parameter mirrors PhalconKit's patched
+`phalcon/ide-stubs` contract for `Phalcon\Mvc\Model::find()`. Keeping the
+abstract dependency in sync with the upstream model API prevents static
+analyzers and downstream projects from seeing this trait as a narrower,
+incompatible declaration.
+
+Eager loading requires an iterable Phalcon resultset because
+`findWith()` delegates the returned records to the eager-loading loader.
 
 * This method is **static**.* This method is **abstract**.
 **Parameters:**
 
-| Parameter     | Type      | Description |
-|---------------|-----------|-------------|
-| `$parameters` | **mixed** |             |
+| Parameter     | Type      | Description                                                                             |
+|---------------|-----------|-----------------------------------------------------------------------------------------|
+| `$parameters` | **mixed** | Native Phalcon find parameters, usually an
+array, string, integer primary key, or null. |
+
+**Return Value:**
+
+Resultset returned by the concrete model
+implementation.
 
 ***
 
 ### findFirst
 
+Run Phalcon's native static first-record finder for the model using this trait.
+
 ```php
 public static findFirst(mixed $parameters = null): mixed
 ```
 
+Phalcon can return a model instance, a row, false, null, or another value
+depending on hydration and extension behavior, so this dependency keeps
+the same broad `mixed` return declared by the patched Phalcon stubs.
+`findFirstWith()` narrows that value at runtime and only eager-loads when
+a real model instance is returned.
+
 * This method is **static**.* This method is **abstract**.
 **Parameters:**
 
-| Parameter     | Type      | Description |
-|---------------|-----------|-------------|
-| `$parameters` | **mixed** |             |
+| Parameter     | Type      | Description                                                                                   |
+|---------------|-----------|-----------------------------------------------------------------------------------------------|
+| `$parameters` | **mixed** | Native Phalcon find-first parameters, usually an
+array, string, integer primary key, or null. |
+
+**Return Value:**
+
+Native result returned by the concrete model implementation.
 
 ***
 
@@ -2845,18 +3866,19 @@ public static findFirst(mixed $parameters = null): mixed
 Counts the number of records that match the given parameters.
 
 ```php
-public static count(array|null|string $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|int|false
+public static count(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|int
 ```
 
 This method wraps the core static `count` model call with beforeCount/afterCount cancellable events.
-The "beforeCount" event can cancel the operation by returning false.
+The "beforeCount" event can cancel the operation. Since Phalcon 5.16's
+native contract cannot return false for count(), cancellation returns 0.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type                    | Description                                        |
-|---------------|-------------------------|----------------------------------------------------|
-| `$parameters` | **array\|null\|string** | Optional parameters to filter the count operation. |
+| Parameter     | Type      | Description                               |
+|---------------|-----------|-------------------------------------------|
+| `$parameters` | **mixed** | Optional native Phalcon count parameters. |
 
 **Return Value:**
 
@@ -2873,22 +3895,23 @@ The count result or a ResultsetInterface, depending on the implementation.
 Executes a sum operation on the underlying data with optional parameters.
 
 ```php
-public static sum(array $parameters = []): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static sum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float
 ```
 
 This method supports cancellable events triggered before and after execution.
-If the "beforeSum" event cancels the operation, this method returns false.
+If the "beforeSum" event cancels the operation, this method returns 0.0
+to satisfy Phalcon 5.16's native return contract.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type      | Description                                         |
-|---------------|-----------|-----------------------------------------------------|
-| `$parameters` | **array** | Optional parameters to customize the sum operation. |
+| Parameter     | Type      | Description                             |
+|---------------|-----------|-----------------------------------------|
+| `$parameters` | **mixed** | Optional native Phalcon sum parameters. |
 
 **Return Value:**
 
-Returns the sum result as a float, a result set interface, or false if the operation is canceled.
+Returns the sum result as a float or a result set interface.
 
 **See Also:**
 
@@ -2902,14 +3925,15 @@ Calculates the average of results based on the provided parameters. It wraps the
 with before/after cancellable events.
 
 ```php
-public static average(array $parameters = []): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static average(array $parameters = []): \Phalcon\Mvc\Model\ResultsetInterface|float
 ```
 
 Example events triggered:
 - beforeAverage()
 - afterAverage()
 
-If the "beforeAverage" event cancels the operation, false is returned.
+If the "beforeAverage" event cancels the operation, 0.0 is returned to
+satisfy Phalcon 5.16's native return contract.
 
 * This method is **static**.
 **Parameters:**
@@ -2933,15 +3957,16 @@ The calculated average or a ResultsetInterface, depending on the implementation.
 Calculates the minimum value of a specified column in the database according to the given conditions.
 
 ```php
-public static minimum(array $parameters = []): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static minimum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type      | Description                                                                            |
-|---------------|-----------|----------------------------------------------------------------------------------------|
-| `$parameters` | **array** | Parameters to customize the query, such as conditions, column selection, or groupings. |
+| Parameter     | Type      | Description                                                                                           |
+|---------------|-----------|-------------------------------------------------------------------------------------------------------|
+| `$parameters` | **mixed** | Native Phalcon parameters to customize the query,
+such as conditions, column selection, or groupings. |
 
 **Return Value:**
 
@@ -2954,15 +3979,16 @@ Returns the minimum value as a float, a ResultsetInterface object, or false if n
 Calculates the maximum value of a specified column in the database based on the given conditions.
 
 ```php
-public static maximum(array $parameters = []): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static maximum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type      | Description                                                                            |
-|---------------|-----------|----------------------------------------------------------------------------------------|
-| `$parameters` | **array** | Parameters to customize the query, such as conditions, column selection, or groupings. |
+| Parameter     | Type      | Description                                                                                           |
+|---------------|-----------|-------------------------------------------------------------------------------------------------------|
+| `$parameters` | **mixed** | Native Phalcon parameters to customize the query,
+such as conditions, column selection, or groupings. |
 
 **Return Value:**
 
@@ -2991,7 +4017,9 @@ Example (beforeX/afterX events):
 - afterFind()
 - afterFindFirst()
 
-Returns false if the "beforeX" event cancels the operation.
+Returns false if the "beforeX" event cancels the operation. Callers
+whose native Phalcon contracts cannot return false must normalize this
+sentinel before returning.
 
 * This method is **static**.
 **Parameters:**
@@ -3102,6 +4130,10 @@ public static __callStatic(string $method, array $arguments = []): array|\Phalco
 The method provides a mechanism to resolve calls like "findFirstWithBy..."/"firstWithBy..."
 and "findWithBy..."/"withBy..." to their corresponding mapped operations.
 
+The static magic method keeps the existing PhalconKit `findWithBy*`
+surface. Moving this to native `missingMethods()` remains a compatibility
+decision because it would change where dynamic calls are intercepted.
+
 * This method is **static**.
 **Parameters:**
 
@@ -3187,6 +4219,14 @@ Get the query parameters from a list of arguments
 public static getParametersFromArguments(array& $arguments): mixed
 ```
 
+The final argument is treated as the native Phalcon finder parameters
+when at least two arguments were passed. Eager loading needs complete
+parent models so relation keys are available, therefore custom `columns`
+selections are expanded to include `*` before the parameters are passed
+to `find()` or `findFirst()`. Native Phalcon accepts both array and
+string column definitions, so both shapes are normalized without changing
+any other finder options.
+
 * This method is **static**.
 **Parameters:**
 
@@ -3198,130 +4238,220 @@ public static getParametersFromArguments(array& $arguments): mixed
 
 ### subCount
 
+Count rows through a subquery generated by the models manager.
+
 ```php
 public static subCount(mixed $find): int
 ```
 
+The supplied find definition is converted to a query builder for the
+calling model class, compiled to SQL, and wrapped in
+`SELECT COUNT(*) FROM (...)`. Bind parameters and bind types are reused
+from the generated query.
+
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type      | Description |
-|-----------|-----------|-------------|
-| `$find`   | **mixed** |             |
+| Parameter | Type      | Description                                                                                                                                                           |
+|-----------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$find`   | **mixed** | Phalcon find parameters accepted by the models manager
+builder. Non-array values are wrapped as a single-item parameter
+array for compatibility with model find APIs. |
+
+**Return Value:**
+
+Total row count reported by the database.
+
+**Throws:**
+
+When the default DI, models manager, or database
+service cannot be resolved through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### initializeCache
 
-Initializing Cache
+Initialize model cache invalidation for the current model.
 
 ```php
 public initializeCache(): void
 ```
 
+The `models` service supplies framework model class mappings used for
+the default blacklist. After the blacklist is prepared, the trait adds
+the flush behavior unless this model instance or class is excluded.
+
+**Throws:**
+
+When the models service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
 ***
 
 ### addFlushCacheBehavior
 
-Adding Cache Behavior
+Add an after-event behavior that clears the shared models cache.
 
 ```php
-public addFlushCacheBehavior(?array $flushModelsCacheBlackList = null): void
+public addFlushCacheBehavior(array<int,class-string|object|string>|null $flushModelsCacheBlackList = null): void
 ```
+
+The behavior is skipped when `preventFlushCache` is true or the current
+model is an instance of one of the blacklisted classes. Cache clearing is
+attempted only when snapshots indicate that persisted data changed.
 
 **Parameters:**
 
-| Parameter                    | Type       | Description |
-|------------------------------|------------|-------------|
-| `$flushModelsCacheBlackList` | **?array** |             |
+| Parameter                    | Type                                              | Description                                                                              |
+|------------------------------|---------------------------------------------------|------------------------------------------------------------------------------------------|
+| `$flushModelsCacheBlackList` | **array<int,class-string\|object\|string>\|null** |
+Classes that should not receive the flush behavior. Defaults to the
+instance blacklist. |
+
+**Throws:**
+
+When the modelsCache service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### isInstanceOf
 
-Check whether the current instance is any of the classes
+Check whether a model instance belongs to any configured class.
 
 ```php
-public isInstanceOf(array $classes = [], ?\Phalcon\Mvc\ModelInterface $that = null): bool
+public isInstanceOf(array<int,mixed> $classes = [], \Phalcon\Mvc\ModelInterface|null $that = null): bool
 ```
+
+This helper supports cache blacklist checks while allowing tests or
+callers to pass an explicit instance. Invalid values are ignored instead
+of being passed to `instanceof`, because a malformed application-provided
+blacklist entry should not turn cache-behavior initialization into a PHP
+fatal error.
 
 **Parameters:**
 
-| Parameter  | Type                             | Description |
-|------------|----------------------------------|-------------|
-| `$classes` | **array**                        |             |
-| `$that`    | **?\Phalcon\Mvc\ModelInterface** |             |
+| Parameter  | Type                                  | Description                                                           |
+|------------|---------------------------------------|-----------------------------------------------------------------------|
+| `$classes` | **array<int,mixed>**                  | Class names, objects, or ignored
+malformed values to compare against. |
+| `$that`    | **\Phalcon\Mvc\ModelInterface\|null** | Optional model instance to inspect.
+Defaults to the current model.    |
+
+**Return Value:**
+
+True when the model is an instance of at least one class.
 
 ***
 
 ### initializeBlameable
 
-Initialize Blameable
+Initialize the blameable behavior and user relationship.
 
 ```php
-public initializeBlameable(array|null $options = null): void
+public initializeBlameable(array<array-key,mixed>|null $options = null): void
 ```
+
+When no options are provided, the trait reads `blameable` options from
+the model options manager. Missing audit, audit-detail, and user classes
+are filled from the PhalconKit `models` service so applications using
+custom model classes keep one central mapping.
 
 **Parameters:**
 
-| Parameter  | Type            | Description                       |
-|------------|-----------------|-----------------------------------|
-| `$options` | **array\|null** | Options for the BlameableBehavior |
+| Parameter  | Type                             | Description                                                                                                                                                                                                                                   |
+|------------|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$options` | **array<array-key,mixed>\|null** | Behavior options. Common
+keys include `auditClass`, `auditDetailClass`, `userClass`,
+`userField`, `auditEnabled`, and `auditDetailEnabled`. Audit is
+opt-in; set `auditEnabled` to `true` for applications that install
+and use audit tables. |
+
+**Throws:**
+
+When the models service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### setBlameableBehavior
 
-Set Blameable Behavior.
+Register the blameable behavior under the standard behavior name.
 
 ```php
 public setBlameableBehavior(\PhalconKit\Mvc\Model\Behavior\Blameable $blameableBehavior): void
 ```
 
+The behavior is stored in the PhalconKit model behavior registry as
+`blameable`, which lets other traits and application code retrieve the
+same instance later.
+
 **Parameters:**
 
-| Parameter            | Type                                         | Description                              |
-|----------------------|----------------------------------------------|------------------------------------------|
-| `$blameableBehavior` | **\PhalconKit\Mvc\Model\Behavior\Blameable** | The `BlameableBehavior` instance to set. |
+| Parameter            | Type                                         | Description                   |
+|----------------------|----------------------------------------------|-------------------------------|
+| `$blameableBehavior` | **\PhalconKit\Mvc\Model\Behavior\Blameable** | Configured behavior instance. |
+
+**Throws:**
+
+When the current models manager does not expose
+the PhalconKit behavior registry.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### getBlameableBehavior
 
-Retrieves the BlameableBehavior instance associated with the current object.
+Retrieve the registered blameable behavior.
 
 ```php
 public getBlameableBehavior(): \PhalconKit\Mvc\Model\Behavior\Blameable
 ```
 
-**Return Value:**
+**Throws:**
 
-The BlameableBehavior instance.
+When the current models manager does not expose
+the PhalconKit behavior registry.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
 ### addUserRelationship
 
-Adds a relationship between the current object and a user entity.
+Add a user relationship when the configured attribution field exists.
 
 ```php
-public addUserRelationship(string $field = 'userId', string $alias = 'UserEntity', array $params = [], string $ref = 'id', string $type = 'belongsTo', string|null $class = null): \Phalcon\Mvc\Model\Relation|null
+public addUserRelationship(string $field = 'userId', string $alias = 'UserEntity', array<array-key,mixed> $params = [], string $ref = 'id', string $type = 'belongsTo', string|null $class = null): \Phalcon\Mvc\Model\Relation|null
 ```
 
 **Parameters:**
 
-| Parameter | Type             | Description                                                                                                    |
-|-----------|------------------|----------------------------------------------------------------------------------------------------------------|
-| `$field`  | **string**       | The field name to create the relationship on. Default is 'userId'.                                             |
-| `$alias`  | **string**       | The alias name for the user entity. Default is 'UserEntity'.                                                   |
-| `$params` | **array**        | Additional parameters for the relationship. Default is an empty array.                                         |
-| `$ref`    | **string**       | The reference field in the user entity. Default is 'id'.                                                       |
-| `$type`   | **string**       | The type of relationship to create. Default is 'belongsTo'.                                                    |
-| `$class`  | **string\|null** | The class name of the user entity. If null, it will be obtained from the identity or the global configuration. |
+| Parameter | Type                       | Description                                                                              |
+|-----------|----------------------------|------------------------------------------------------------------------------------------|
+| `$field`  | **string**                 |                                                                                          |
+| `$alias`  | **string**                 | The alias name for the user entity. Default is 'UserEntity'.                             |
+| `$params` | **array<array-key,mixed>** | Additional relationship
+parameters.                                                      |
+| `$ref`    | **string**                 | The reference field in the user entity. Default is 'id'.                                 |
+| `$type`   | **string**                 | Relationship method to call on the model, usually
+`belongsTo`.                           |
+| `$class`  | **string\|null**           | User model class. When null, the class is
+resolved from the PhalconKit `models` service. |
 
 **Return Value:**
 
-The created relationship object, or null if the specified field does not exist in the current object.
+Created relationship, or null when the model does
+not expose the configured attribution field.
+
+**Throws:**
+
+When the models service cannot be resolved while
+deriving the default user class.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 
@@ -3362,10 +4492,56 @@ public setAttribute(string $attribute, mixed $value): void
 
 ***
 
+### save
+
+```php
+public save(): bool
+```
+
+***
+
+### create
+
+```php
+public create(): bool
+```
+
+***
+
+### update
+
+```php
+public update(): bool
+```
+
+***
+
+### doSave
+
+```php
+public doSave(\Phalcon\Support\Collection\CollectionInterface $visited): bool
+```
+
+**Parameters:**
+
+| Parameter  | Type                                                | Description |
+|------------|-----------------------------------------------------|-------------|
+| `$visited` | **\Phalcon\Support\Collection\CollectionInterface** |             |
+
+***
+
 ### initialize
 
 ```php
 public initialize(): void
+```
+
+***
+
+### normalizeNullableNullStrings
+
+```php
+protected normalizeNullableNullStrings(): void
 ```
 
 ***
@@ -3406,6 +4582,6 @@ public static setup(array|null $options = null): void
 
 **See Also:**
 
-* https://docs.phalcon.io/latest/en/db-models#model-features
+* https://docs.phalcon.io/5.18/db-models#model-features
 
 ***

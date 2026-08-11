@@ -1,4 +1,13 @@
 
+Implements session-based user impersonation.
+
+The effective `userId` is replaced with the target user while the original
+user id is stored in `asUserId`. Calling
+
+- **See:** \PhalconKit\Identity\Traits\logoutAs() restores the
+original id. Authorization is currently the legacy admin/dev role check; a
+configurable permission contract is tracked as a future design topic.
+
 ***
 
 * Full name: `\PhalconKit\Identity\Traits\Impersonation`
@@ -7,45 +16,54 @@
 
 ### loginAs
 
-Allows an admin or developer to log in as another user based on their user ID.
+Switch the current session to another user.
 
 ```php
-public loginAs(array $params = []): array
+public loginAs(array<string,mixed> $params = []): array{messages?: \Phalcon\Messages\Messages, loggedIn: bool, loggedInAs: bool, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
 
-Validates the provided parameters to ensure the presence and numericality of the user ID.
-Also handles the scenario where the user attempts to return to their original session.
+The target `userId` must be present, numeric, and resolvable through the
+configured user model. If the target id equals the current `asUserId`, the
+method treats the request as a return-to-self action and restores the
+original session.
 
 **Parameters:**
 
-| Parameter | Type      | Description                                                                                      |
-|-----------|-----------|--------------------------------------------------------------------------------------------------|
-| `$params` | **array** | Associative array containing the key 'userId', which represents the ID of the user to log in as. |
+| Parameter | Type                    | Description                     |
+|-----------|-------------------------|---------------------------------|
+| `$params` | **array<string,mixed>** | Parameters containing `userId`. |
 
-**Return Value:**
+**Throws:**
 
-An array containing the validation messages, login status, and login-as status:
-- 'messages': Validation messages, if any.
-- 'loggedIn': Boolean indicating whether the user is logged in under their original session.
-- 'loggedInAs': Boolean indicating whether the user is logged in as another user.
+When stateless token key
+generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 ### logoutAs
 
-Logs out from a session where the user was logged in (impersonating)
-as another user, reverting back to the original session identity.
+Restore the original user from an impersonated session.
 
 ```php
-public logoutAs(): array
+public logoutAs(): array{loggedIn: bool, loggedInAs: bool, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
 
-If the current session identity includes an 'asUserId', the identity
-is updated to the corresponding 'userId'.
+If both `userId` and `asUserId` are present, the original id becomes the
+effective `userId` and the impersonation marker is removed.
 
 **Return Value:**
 
-An array containing the user's login status after reverting:
-- 'loggedIn': Boolean indicating whether the original user is logged in.
-- 'loggedInAs': Boolean indicating whether the session is currently logged in as another user.
+Login state after
+the restore attempt.
+
+**Throws:**
+
+When stateless token key
+generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***

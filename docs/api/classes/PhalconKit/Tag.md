@@ -77,6 +77,12 @@ public static getAssetsManager(): \PhalconKit\Assets\Manager
 
 The instance of the Assets Manager
 
+**Throws:**
+
+When the tag DI cannot resolve a compatible
+assets manager.
+- [`ServiceException`](./Exception/ServiceException.md)
+
 ***
 
 ### setAssetsManager
@@ -116,11 +122,6 @@ The params should be an associative array with optional keys to configure the es
 
 The configured escaper instance, or null if no escaper is found.
 
-**Throws:**
-
-If the retrieved escaper instance is not an instance of Escaper.
-- [`AssertionError`](../AssertionError.md)
-
 **See Also:**
 
 * \Phalcon\Tag::getEscaper()
@@ -142,8 +143,9 @@ The instance of the escaper service.
 
 **Throws:**
 
-If the retrieved escaper instance is not an instance of Escaper.
-- [`AssertionError`](../AssertionError.md)
+When the default DI cannot resolve a native
+Phalcon escaper service.
+- [`ServiceException`](./Exception/ServiceException.md)
 
 **See Also:**
 
@@ -804,6 +806,7 @@ The CSS markup for the specified collection or all collections. Returns null if 
 
 **Throws:**
 
+When Phalcon cannot render CSS assets.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -849,6 +852,7 @@ The generated JavaScript code, or null if no JavaScript code is found for the sp
 
 **Throws:**
 
+When Phalcon cannot render JavaScript assets.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -870,6 +874,7 @@ public static js(string|null $collection = null): void
 
 **Throws:**
 
+When Phalcon cannot render JavaScript assets.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***

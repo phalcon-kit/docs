@@ -1,4 +1,10 @@
 
+Base class for WebSocket tasks.
+
+Tasks get typed access to the WebSocket console, router, and dispatcher
+through PhalconKit injectable properties. Concrete tasks should implement
+action methods such as `listenAction()`.
+
 ***
 
 * Full name: `\PhalconKit\Modules\Ws\Tasks\ErrorTask`
@@ -32,12 +38,15 @@ If an error occurs while setting the status code.
 
 ### errorAction
 
-Http Status Code - Generic
-error
+Render a generic error using an explicit or already-selected status.
 
 ```php
 public errorAction(?int $code = null, ?string $message = null): void
 ```
+
+Dispatcher listeners can set the shared response status before forwarding
+here. Direct callers may still provide a status and optional reason phrase;
+otherwise the action falls back to HTTP 500.
 
 **Parameters:**
 

@@ -1,9 +1,16 @@
 
-NestedNativeArray class is an implementation of the Translate Adapter interface that uses
-a nested array as the translation source.
+Translation adapter backed by a nested PHP array.
+
+Phalcon's NativeArray adapter supports flat translation maps. This adapter
+adds delimiter-based nested lookup, while still preserving exact flat-key
+lookup precedence. A flat key such as `button.save` wins over a nested path
+`button => ['save' => ...]` when both exist.
+
+Missing keys return the original key by default. Set `triggerError` to true
+when development/test environments should fail fast on missing translations.
 
 Usage example:
-```
+```php
 $interpolator = new InterpolatorFactory();
 $options = [
     'content' => [
@@ -23,7 +30,7 @@ $options = [
 $translator = new NestedNativeArray($interpolator, $options);
 
 // Check if translation exists
-$translator->exists('en.welcome'); // returns true
+$translator->has('en.welcome'); // returns true
 
 // Get translated string
 $translator->query('fr.goodbye'); // returns 'Au revoir!'
@@ -39,32 +46,28 @@ $translator->query('en.welcome', ['name' => 'John']); // returns 'Welcome to our
 * This class implements:
   `ArrayAccess`
 
+**See Also:**
+
+* https://docs.phalcon.io/5.18/translate/
+
 ## Properties
 
 ### translate
 
-Translation array.
+Translation content indexed by flat keys or nested arrays.
 
 ```php
-private array $translate
-```
-
-***
-
-### triggerError
-
-```php
-private bool $triggerError
+private array<string,mixed> $translate
 ```
 
 ***
 
 ### delimiter
 
-Sets the value of the delimiter.
+Delimiter used when resolving nested translation paths.
 
 ```php
-protected string $delimiter
+protected non-empty-string $delimiter
 ```
 
 ***
@@ -73,28 +76,30 @@ protected string $delimiter
 
 ### __construct
 
-PhalconKit\Translate\Adapter\NestedNativeArray constructor
+Create a nested-array translation adapter.
 
 ```php
-public __construct(\Phalcon\Translate\InterpolatorFactory $interpolator, array $options): mixed
+public __construct(\Phalcon\Translate\InterpolatorFactory $interpolator, array<string,mixed> $options): mixed
 ```
+
+Supported options:
+- `content`: translation content as flat keys, nested arrays, or both.
+- `triggerError`: throw a RuntimeException when a key is missing.
+- `delimiter`: non-empty delimiter used for nested lookup.
 
 **Parameters:**
 
-| Parameter       | Type                                       | Description                                                                   |
-|-----------------|--------------------------------------------|-------------------------------------------------------------------------------|
-| `$interpolator` | **\Phalcon\Translate\InterpolatorFactory** |                                                                               |
-| `$options`      | **array**                                  | [
-    'content' => '',
-    'triggerError' => false,
-    'delimiter' => '.',
-] |
+| Parameter       | Type                                       | Description                                          |
+|-----------------|--------------------------------------------|------------------------------------------------------|
+| `$interpolator` | **\Phalcon\Translate\InterpolatorFactory** | Factory used by Phalcon for
+placeholder replacement. |
+| `$options`      | **array<string,mixed>**                    | Adapter options.                                     |
 
 ***
 
 ### exists
 
-Returns whether a translation exists for the given index
+Check whether a translation exists for the given key.
 
 ```php
 public exists(string $index): bool
@@ -103,13 +108,13 @@ public exists(string $index): bool
 * **Warning:** this method is **deprecated**. This means that this method will likely be removed in a future version.
 **Parameters:**
 
-| Parameter | Type       | Description                    |
-|-----------|------------|--------------------------------|
-| `$index`  | **string** | The translation index to check |
+| Parameter | Type       | Description               |
+|-----------|------------|---------------------------|
+| `$index`  | **string** | Translation key to check. |
 
 **Return Value:**
 
-True if a translation exists for the index, false otherwise
+True when the key exists.
 
 **See Also:**
 
@@ -119,28 +124,30 @@ True if a translation exists for the index, false otherwise
 
 ### has
 
-Returns true if the translation for the given index exists, false otherwise.
+Return true when a flat or nested translation key exists.
 
 ```php
 public has(string $index): bool
 ```
 
+Exact flat keys are checked first. If no exact key exists, the key is
+split by the configured delimiter and resolved through nested arrays.
+
 **Parameters:**
 
-| Parameter | Type       | Description                            |
-|-----------|------------|----------------------------------------|
-| `$index`  | **string** | The index of the translation to check. |
+| Parameter | Type       | Description               |
+|-----------|------------|---------------------------|
+| `$index`  | **string** | Translation key to check. |
 
 **Return Value:**
 
-Returns true if the translation for the given index exists, false otherwise.
+True when the key resolves to a configured translation.
 
 ***
 
 ### notFound
 
-Returns the index if translation key is not found
-Throws exception if triggerError is enabled and translation key is not found
+Return the missing key fallback or throw when strict mode is enabled.
 
 ```php
 public notFound(string $index): string
@@ -148,57 +155,63 @@ public notFound(string $index): string
 
 **Parameters:**
 
-| Parameter | Type       | Description         |
-|-----------|------------|---------------------|
-| `$index`  | **string** | The translation key |
+| Parameter | Type       | Description              |
+|-----------|------------|--------------------------|
+| `$index`  | **string** | Missing translation key. |
 
 **Return Value:**
 
-Returns the index
+Original key when `triggerError` is false.
 
 **Throws:**
 
-Throws exception if triggerError is enabled and translation key is not found
-- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When `triggerError` is true.
+- [`RuntimeException`](../../Exception/RuntimeException.md)
 
 ***
 
 ### query
 
-Queries for a translated string based on the given translate key and optional placeholders.
+Return a translated string for a flat or nested key.
 
 ```php
-public query(string $translateKey, array $placeholders = []): string
+public query(string $translateKey, array<string,mixed> $placeholders = []): string
 ```
+
+Exact flat keys are returned before nested lookup is attempted. Nested
+values are resolved with the configured delimiter and then passed through
+Phalcon's placeholder interpolator.
 
 **Parameters:**
 
-| Parameter       | Type       | Description                                                            |
-|-----------------|------------|------------------------------------------------------------------------|
-| `$translateKey` | **string** | The translate key to query for a translated string.                    |
-| `$placeholders` | **array**  | An optional array of placeholders to replace in the translated string. |
+| Parameter       | Type                    | Description                                    |
+|-----------------|-------------------------|------------------------------------------------|
+| `$translateKey` | **string**              | Translation key to resolve.                    |
+| `$placeholders` | **array<string,mixed>** | Placeholder values passed to the
+interpolator. |
 
 **Return Value:**
 
-The translated string or the not found string if the translate key is not found.
+Translated string, or the missing-key fallback.
 
 **Throws:**
 
-Throws exception if triggerError is enabled and translation key is not found
-- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When the key is missing and `triggerError` is
+true.
+- [`RuntimeException`](../../Exception/RuntimeException.md)
 
 ***
 
 ### toArray
 
-Converts the translate data to an array.
+Return the raw translation content.
 
 ```php
-public toArray(): array
+public toArray(): array<string,mixed>
 ```
 
 **Return Value:**
 
-The translate data as an array.
+Translation content exactly as configured.
 
 ***

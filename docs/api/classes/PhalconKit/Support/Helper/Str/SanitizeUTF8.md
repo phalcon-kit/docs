@@ -1,5 +1,10 @@
 
-Sanitize and convert to UTF-8
+Normalize input text to UTF-8 and remove invalid characters.
+
+The helper is designed for defensive text cleanup before values are used in
+slugs, exports, or generated content. It detects common Western encodings,
+converts to UTF-8, then removes characters matching the configured invalid
+UTF-8 pattern.
 
 ***
 
@@ -9,21 +14,21 @@ Sanitize and convert to UTF-8
 
 ### __invoke
 
-Invokes the function to sanitize a given string by detecting its encoding,
-converting it to UTF-8, and removing invalid UTF-8 characters.
+Detect common encodings, convert safely to UTF-8, and strip invalid text.
 
 ```php
 ```
 
 **Parameters:**
 
-| Parameter           | Type       | Description                                                                                              |
-|---------------------|------------|----------------------------------------------------------------------------------------------------------|
-| `$string`           | **string** | The input string to be sanitized.                                                                        |
-| `$invalidUtf8Regex` | **string** | A regular expression pattern to identify invalid UTF-8 characters. Default: '[^\\x20-\\x7E\\xA0-\\xFF]'. |
+| Parameter           | Type       | Description                                                         |
+|---------------------|------------|---------------------------------------------------------------------|
+| `$string`           | **string** | Input text.                                                         |
+| `$invalidUtf8Regex` | **string** | Multibyte regex used to remove invalid
+characters after conversion. |
 
 **Return Value:**
 
-The sanitized string in UTF-8 encoding, with invalid characters removed.
+UTF-8 text with invalid characters removed.
 
 ***

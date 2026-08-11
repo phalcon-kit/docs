@@ -1,11 +1,10 @@
 
-Return a formatted string
-It should work with any "ASCII preserving" encoding such as UTF-8 and all the ISO-8859 charsets.
+Return a formatted string with multibyte-aware `%s` handling.
 
-It handles sign, padding, alignment, width and precision. Argument swapping is not handled.
-Works with all encodings in format and arguments.
-Supported: Sign, padding, alignment, width and precision.
-Not supported: Argument swapping.
+The format is converted to UTF-8 while parsing directives, then converted
+back to the requested encoding before delegating non-string directives to
+`vsprintf()`. String directives support sign, padding, alignment, width,
+and precision. Argument swapping is intentionally not supported.
 
 ***
 
@@ -18,12 +17,15 @@ Not supported: Argument swapping.
 
 ## Parameters
 
-| Parameter   | Type        | Description |
-|-------------|-------------|-------------|
-| `$format`   | **string**  |             |
-| `$argv`     | **array**   |             |
-| `$encoding` | **?string** |             |
+| Parameter   | Type                 | Description                                                                     |
+|-------------|----------------------|---------------------------------------------------------------------------------|
+| `$format`   | **string**           | Multibyte-aware sprintf format.                                                 |
+| `$argv`     | **array<int,mixed>** | Format arguments.                                                               |
+| `$encoding` | **string\|null**     | Encoding used for the format and arguments.
+Null uses `mb_internal_encoding()`. |
 
 ## Return Value
 
 **string**
+
+Formatted string.

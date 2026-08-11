@@ -1,4 +1,6 @@
 
+Abstract contract for aggregate column selection.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractColumn`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeColumn
+
+Initialize aggregate column configuration.
 
 ```php
 public initializeColumn(): void
@@ -15,19 +19,23 @@ public initializeColumn(): void
 ***
 ### setColumn
 
+Replace aggregate column configuration.
+
 ```php
-public setColumn(?\Phalcon\Support\Collection $column): void
+public setColumn(array|\Phalcon\Support\Collection|null $column): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                             | Description |
-|-----------|----------------------------------|-------------|
-| `$column` | **?\Phalcon\Support\Collection** |             |
+| Parameter | Type                                         | Description |
+|-----------|----------------------------------------------|-------------|
+| `$column` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getColumn
+
+Return aggregate column configuration.
 
 ```php
 public getColumn(): ?\Phalcon\Support\Collection

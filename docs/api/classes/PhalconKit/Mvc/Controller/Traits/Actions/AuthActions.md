@@ -107,6 +107,25 @@ Returns an array of login parameters with specified filters applied.
 
 **Throws:**
 
+When request parameter filtering fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+
+***
+### getLoginAsParams
+
+Retrieves login parameters for the "login as" functionality.
+
+```php
+public getLoginAsParams(): array
+```
+
+**Return Value:**
+
+The filtered parameters, including the user's ID.
+
+**Throws:**
+
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -124,6 +143,7 @@ Returns an array of reset password parameters with specified filters applied.
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***

@@ -1,5 +1,10 @@
 
-This is the security plugin which controls that users only have access to the modules they're assigned to
+Dispatcher listener that enforces configured ACL permissions.
+
+The listener compares the active controller/task class and action against
+PhalconKit ACL components. When permissions are not configured it allows the
+request, preserving the framework's permissive default for applications that
+have not opted into ACL configuration.
 
 ***
 
@@ -10,7 +15,7 @@ This is the security plugin which controls that users only have access to the mo
 
 ### beforeDispatchLoop
 
-This action is executed before execute any action in the application
+Check ACL permissions before Phalcon enters the dispatch loop.
 
 ```php
 public beforeDispatchLoop(\Phalcon\Events\Event $event, \Phalcon\Dispatcher\AbstractDispatcher $dispatcher): bool
@@ -18,34 +23,97 @@ public beforeDispatchLoop(\Phalcon\Events\Event $event, \Phalcon\Dispatcher\Abst
 
 **Parameters:**
 
-| Parameter     | Type                                       | Description |
-|---------------|--------------------------------------------|-------------|
-| `$event`      | **\Phalcon\Events\Event**                  |             |
-| `$dispatcher` | **\Phalcon\Dispatcher\AbstractDispatcher** |             |
+| Parameter     | Type                                       | Description                        |
+|---------------|--------------------------------------------|------------------------------------|
+| `$event`      | **\Phalcon\Events\Event**                  | Dispatch event emitted by Phalcon. |
+| `$dispatcher` | **\Phalcon\Dispatcher\AbstractDispatcher** | Active MVC or CLI dispatcher.      |
+
+**Return Value:**
+
+True when dispatch can continue, false after forwarding.
 
 **Throws:**
 
+When dispatcher state cannot be inspected.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### checkAcl
 
-Check if the current identity is allowed from the dispatcher
+Determine whether the current identity may execute the active handler.
 
 ```php
-public checkAcl(\Phalcon\Events\Event $event, ?\Phalcon\Dispatcher\AbstractDispatcher $dispatcher = null): bool
+public checkAcl(\Phalcon\Events\Event $event, \Phalcon\Dispatcher\AbstractDispatcher|null $dispatcher = null): bool
+```
+
+Unauthorized users with more than one ACL role are forwarded to
+`router.unauthorized`; users with only one role are forwarded to
+`router.forbidden`. Missing ACL components forward to `router.notFound`.
+
+**Parameters:**
+
+| Parameter     | Type                                             | Description                                                                   |
+|---------------|--------------------------------------------------|-------------------------------------------------------------------------------|
+| `$event`      | **\Phalcon\Events\Event**                        | Dispatch event emitted by Phalcon.                                            |
+| `$dispatcher` | **\Phalcon\Dispatcher\AbstractDispatcher\|null** | Dispatcher to inspect. When
+omitted, the injected dispatcher service is used. |
+
+**Return Value:**
+
+True when dispatch can continue, false after forwarding.
+
+**Throws:**
+
+When dispatcher state cannot be inspected.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+
+***
+
+### isCurrentRoute
+
+Detect dispatcher cycles for full or partial configured routes.
+
+```php
+private isCurrentRoute(array $route, ?string $namespace, ?string $module, string $handlerRouteKey, ?string $handler, string $action): bool
 ```
 
 **Parameters:**
 
-| Parameter     | Type                                        | Description |
-|---------------|---------------------------------------------|-------------|
-| `$event`      | **\Phalcon\Events\Event**                   |             |
-| `$dispatcher` | **?\Phalcon\Dispatcher\AbstractDispatcher** |             |
+| Parameter          | Type        | Description |
+|--------------------|-------------|-------------|
+| `$route`           | **array**   |             |
+| `$namespace`       | **?string** |             |
+| `$module`          | **?string** |             |
+| `$handlerRouteKey` | **string**  |             |
+| `$handler`         | **?string** |             |
+| `$action`          | **string**  |             |
 
-**Throws:**
+***
 
-- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+### resolveAclComponent
+
+Resolve the configured ACL component for the current dispatcher handler.
+
+```php
+private resolveAclComponent(\Phalcon\Acl\Adapter\Memory $acl, array<int,string> $candidates): ?string
+```
+
+**Parameters:**
+
+| Parameter     | Type                            | Description                      |
+|---------------|---------------------------------|----------------------------------|
+| `$acl`        | **\Phalcon\Acl\Adapter\Memory** | Native ACL instance.             |
+| `$candidates` | **array<int,string>**           | Handler class and route aliases. |
+
+***
+
+### usesControllerAttributes
+
+Determine whether controller attributes should augment permission config.
+
+```php
+private usesControllerAttributes(): bool
+```
 
 ***

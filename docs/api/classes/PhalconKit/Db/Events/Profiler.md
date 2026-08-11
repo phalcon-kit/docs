@@ -1,5 +1,10 @@
 
-Class Profiler
+Database event listener that feeds executed queries into the profiler.
+
+Attach this class to a database connection events manager to start a profile
+before each query and stop it afterwards. Profiling is controlled by
+`app.profiler`, falling back to `profiler.enable`, so applications can keep
+the listener registered while disabling collection in production.
 
 ***
 
@@ -10,7 +15,7 @@ Class Profiler
 
 ### isEnabled
 
-Check if the profiler is currently enabled or not from the config
+Determine whether query profiling is enabled by configuration.
 
 ```php
 public isEnabled(): bool
@@ -20,34 +25,38 @@ public isEnabled(): bool
 
 ### beforeQuery
 
-Start the current profile if profiler is enabled
+Start profiling the SQL statement about to be executed.
 
 ```php
-public beforeQuery(\Phalcon\Events\EventInterface $event, \Phalcon\Db\Adapter\AbstractAdapter $connection): void
+public beforeQuery(\Phalcon\Contracts\Events\Event $event, \Phalcon\Db\Adapter\AbstractAdapter $connection): void
 ```
+
+Stopped events are ignored so listeners earlier in the chain can cancel
+profiling together with the query.
 
 **Parameters:**
 
-| Parameter     | Type                                    | Description |
-|---------------|-----------------------------------------|-------------|
-| `$event`      | **\Phalcon\Events\EventInterface**      |             |
-| `$connection` | **\Phalcon\Db\Adapter\AbstractAdapter** |             |
+| Parameter     | Type                                    | Description                                        |
+|---------------|-----------------------------------------|----------------------------------------------------|
+| `$event`      | **\Phalcon\Contracts\Events\Event**     | Database `beforeQuery` event.                      |
+| `$connection` | **\Phalcon\Db\Adapter\AbstractAdapter** | Connection that is about to execute
+the statement. |
 
 ***
 
 ### afterQuery
 
-Stop the current profile
+Stop the active query profile after execution.
 
 ```php
-public afterQuery(\Phalcon\Events\EventInterface $event, \Phalcon\Db\Adapter\AbstractAdapter $connection): void
+public afterQuery(\Phalcon\Contracts\Events\Event $event, \Phalcon\Db\Adapter\AbstractAdapter $connection): void
 ```
 
 **Parameters:**
 
-| Parameter     | Type                                    | Description |
-|---------------|-----------------------------------------|-------------|
-| `$event`      | **\Phalcon\Events\EventInterface**      |             |
-| `$connection` | **\Phalcon\Db\Adapter\AbstractAdapter** |             |
+| Parameter     | Type                                    | Description                             |
+|---------------|-----------------------------------------|-----------------------------------------|
+| `$event`      | **\Phalcon\Contracts\Events\Event**     | Database `afterQuery` event.            |
+| `$connection` | **\Phalcon\Db\Adapter\AbstractAdapter** | Connection that executed the statement. |
 
 ***

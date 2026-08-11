@@ -1,5 +1,5 @@
 
-Class Controller
+Base MVC controller for PhalconKit applications.
 
 ***
 

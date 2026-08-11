@@ -1,60 +1,51 @@
-# Phalcon KIT Documentation
+# Phalcon Kit Documentation
 
-Welcome to the documentation for Phalcon KIT. This documentation project is built using MkDocs and serves as a
-comprehensive guide to understanding and utilizing the features provided by Phalcon KIT.
+This repository publishes the consumer documentation for
+[phalcon-kit/core](https://github.com/phalcon-kit/core).
 
-## Official Documentation
+The maintained documentation has two sources:
 
-Visit the [official documentation site](https://github.com/phalcon-kit/docs) for detailed information, tutorials, and examples on
-using Phalcon KIT.
+- Narrative guides synchronized from the core repository.
+- API reference generated from the current core source with phpDocumentor.
 
-## Phalcon KIT Website
+The current published baseline is Phalcon Kit Core 3.9.0 on PHP 8.5 and
+Phalcon 5.18.2.
 
-For more information about Phalcon KIT and its features, visit the [official website](https://github.com/phalcon-kit/core).
+## Build Locally
 
-## Installation
+Build the documentation image:
 
-To build and install the documentation locally, follow these steps:
+    docker build -t phalcon-kit-mkdocs .
 
-Clone the repository:
+Build the site:
 
-```bash
-git clone https://github.com/phalcon-kit/docs.git
-```
+    docker run -e CD=true --rm -it -v $PWD:/docs phalcon-kit-mkdocs build
 
-Navigate to the project directory:
+Serve it locally:
 
-```bash
-cd docs
-```
+    docker run -e CI=true --rm -it -p 8000:8000 -v $PWD:/docs phalcon-kit-mkdocs
 
-Use the Dockerfile:
-```bash
-docker build -t phalcon-kit-mkdocs .
-```
+Open http://localhost:8000.
 
-Build the documentation:
+## Updating From Core
 
-```bash
-docker run -e CD=true --rm -it -v ${PWD}:/docs phalcon-kit-mkdocs build
-```
+Regenerate the API reference in the core repository with:
 
-Start a local development server to view the documentation:
+    composer docs
 
-```bash
-docker run -e CI=true --rm -it -p 8000:8000 -v ${PWD}:/docs phalcon-kit-mkdocs
-```
-
-Open your web browser and visit http://localhost:8000 to view the documentation.
+Then synchronize core/docs into docs/api and core/guides into docs/guides.
+Review and build the complete MkDocs site before publishing.
 
 ## Contributing
 
-Contributions to the documentation are welcome! If you would like to contribute, please fork the repository, make your
-changes, and submit a pull request. Refer to
-the [Contribution Guidelines](https://github.com/phalcon-kit/core/blob/master/CONTRIBUTING.md) for more information.
+Documentation changes should reflect public behavior already present in
+phalcon-kit/core. Keep generated API files separate from hand-written guide
+changes when practical.
+
+See the
+[core contribution guide](https://github.com/phalcon-kit/core/blob/master/CONTRIBUTING.md).
 
 ## License
 
-This documentation is licensed under
-the [BSD 3-Clause License](https://github.com/phalcon-kit/core/blob/master/LICENSE.txt). You are free to use, modify, and
-distribute the documentation as per the terms of the license.
+Phalcon Kit documentation is available under the
+[BSD 3-Clause License](LICENSE).

@@ -1,88 +1,51 @@
-# Welcome to Phalcon Kit
+# Phalcon Kit
 
-Welcome to the documentation for Phalcon Kit, a framework built on top of Phalcon PHP that simplifies the usage of Phalcon and
-allows for consistent, standard coding across multiple projects. With Phalcon Kit, you can take advantage of shared features
-and avoid having to recreate the same code in different projects.
+Phalcon Kit is a database-first toolkit for building Phalcon applications and
+REST APIs with consistent scaffolding, model relationships, eager loading,
+identity, permissions, CLI tasks, and WebSocket support.
 
-This documentation will guide you through the various components and features of Phalcon Kit, helping you get up and
-running with the framework quickly and easily.
+The current stable documentation targets:
 
-## Jump right in
-Feeling like an eager beaver? Jump in to the quick start docs and get making your first request:
+- Phalcon Kit Core 3.9.0
+- PHP 8.5 or newer
+- Phalcon 5.18.2
 
-<div class="grid cards" markdown>
+Phalcon Kit extends Phalcon rather than replacing it. Use the official
+[Phalcon 5.18 documentation](https://docs.phalcon.io/5.18/) for native framework
+behavior and these guides for Phalcon Kit conventions.
 
--   :material-clock-fast:{ .lg .middle } **Quick Setup**
+## Start Here
 
-    ---
+- [Getting Started](guides/getting-started.md): install, configure, and run an
+  application.
+- [Build Your First REST Resource](guides/first-rest-resource.md): go from a
+  database table to a model-backed API resource.
+- [Architecture](guides/architecture.md): understand bootstrap, modules,
+  generated models, and application-owned code.
+- [Configuration](guides/configuration.md): configure modules, providers,
+  aliases, permissions, and integrations.
 
-    Install [`phalcon-kit`](https://github.com/phalcon-kit/){:target="_blank"}
-    with [`composer`](https://getcomposer.org){:target="_blank"} and get up
-    and running in minutes
+## Core Workflows
 
-    [:octicons-arrow-right-24: Getting Started](phalcon-kit/getting-started.md)
+- [Database And Scaffolding](guides/database-scaffolding.md)
+- [Models And Eager Loading](guides/models-and-eager-loading.md)
+- [REST APIs](guides/rest-api.md)
+- [Identity And Permissions](guides/identity-and-permissions.md)
+- [Web Server And WebSocket](guides/web-server-and-websocket.md)
 
+## Reference
 
--   :material-circle-outline:{ .lg .middle } **Core Components**
+- [API Reference](api/Home.md): generated directly from the current
+  phalcon-kit/core source.
+- [Phalcon Runtime Upgrades](guides/phalcon-runtime-upgrades.md): keep the
+  native extension, Composer requirements, IDE stubs, Docker, and CI aligned.
+- [Migration From zemit-cms/core](guides/migration-from-zemit.md): guidance for
+  historical applications.
 
-    ---
+Install the stable core package with:
 
-    Explore Phalcon Kit's additional core tools built on top of Phalcon PHP.
+    composer require phalcon-kit/core:^3.9
 
-    [:octicons-arrow-right-24: Components](core.md)
+For a new project:
 
-
--   :simple-docsdotrs:{ .lg .middle } **Pre-defined Modules**
-
-    ---
-
-    Use our predefined modules to streamline your development process.
-
-    [:octicons-arrow-right-24: Modules](modules.md)
-
-
--   :material-dots-hexagon:{ .lg .middle } **Pre-configured Services**
-
-    ---
-
-    Take advantage of an extensive set of pre-configured common services.
-
-    [:octicons-arrow-right-24: Services](services.md)
-
-
--   :material-target:{ .lg .middle } **Pre-built Endpoints**
-
-    ---
-
-    Explore Phalcon Kit's pre-built endpoints and extend your own business logics.
-
-    [:octicons-arrow-right-24: Endpoints](endpoints.md)
-
-
--   :material-code-json:{ .lg .middle } **RESTful API System**
-
-    ---
-
-    Build robust customized RESTful APIs for your web applications with ease.
-
-    [:octicons-arrow-right-24: Build APIs](rest.md)
-
-
--   :material-code-tags:{ .lg .middle } **Phalcon Kit API**
-
-    ---
-
-    Dive deeper into the code references of Phalcon Kit for efficient development.
-
-    [:octicons-arrow-right-24: References](api/Home.md)
-
-
--   :material-scale-balance:{ .lg .middle } **Open Source**
-
-    ---
-
-    Phalcon Kit is licensed under the **BSD 3-Clause** License and is available on [GitHub](https://github.com/phalcon-kit/core).
-
-    [:octicons-arrow-right-24: License](phalcon-kit/license.md)
-
-</div>
+    composer create-project phalcon-kit/app my-api

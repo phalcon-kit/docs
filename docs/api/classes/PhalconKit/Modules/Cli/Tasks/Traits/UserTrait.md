@@ -15,6 +15,23 @@ public array $tables
 
 ## Methods
 
+### normalizeCliMessages
+
+Normalize model messages through the base CLI task output contract.
+
+```php
+protected normalizeCliMessages(iterable $messages, ?string $fallbackMessage = null): list<array{message: string, field: string|null, type: string|null, code: int|null}>
+```
+
+* This method is **abstract**.
+**Parameters:**
+
+| Parameter          | Type         | Description                                |
+|--------------------|--------------|--------------------------------------------|
+| `$messages`        | **iterable** | Messages returned by a model or resultset. |
+| `$fallbackMessage` | **?string**  |                                            |
+
+***
 ### initialize
 
 ```php
@@ -34,10 +51,9 @@ public getDefinitions(): array<string,array<string,string|callable>>
 ### createAction
 
 ```php
-final public createAction(string $email, ?string $password = null): (array|int|mixed)[]
+public createAction(string $email, ?string $password = null): (array|int|mixed)[]
 ```
 
-* This method is **final**.
 **Parameters:**
 
 | Parameter   | Type        | Description |
@@ -49,10 +65,9 @@ final public createAction(string $email, ?string $password = null): (array|int|m
 ### roleAction
 
 ```php
-final public roleAction(string $email, string $role): (array|int|mixed)[]
+public roleAction(string $email, string $role): (array|int|mixed)[]
 ```
 
-* This method is **final**.
 **Parameters:**
 
 | Parameter | Type       | Description |
@@ -64,16 +79,29 @@ final public roleAction(string $email, string $role): (array|int|mixed)[]
 ### passwordAction
 
 ```php
-final public passwordAction(?string $username = null, ?string $password = null): array
+public passwordAction(?string $username = null, ?string $password = null): array
 ```
 
-* This method is **final**.
 **Parameters:**
 
 | Parameter   | Type        | Description |
 |-------------|-------------|-------------|
 | `$username` | **?string** |             |
 | `$password` | **?string** |             |
+
+***
+### newUserEntity
+
+Create a fresh configured user model for CLI create operations.
+
+```php
+protected newUserEntity(): \PhalconKit\Models\Interfaces\UserInterface
+```
+
+Applications may map `User::class` to their own model implementation via
+the framework model map. This hook keeps create operations on that mapped
+class while still letting app tasks override the instantiation strategy
+when they need custom construction.
 
 ***
 ### addModelsPermissions

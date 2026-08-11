@@ -7,32 +7,23 @@
 
 ### maxAction
 
-Maximum value of a column
-Alias for maximumAction
+Legacy short alias for `maximumAction()`.
 
 ```php
 public maxAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
-
-**See Also:**
-
-* maximumAction()
-
 ***
 ### maximumAction
 
-Maximum value of a column
+Return the maximum value for the configured aggregate column.
 
 ```php
 public maximumAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
+The response variable is named `maximum`. Query preparation is delegated
+to the shared query trait so REST filters and policy constraints are
+applied consistently.
 
 ***

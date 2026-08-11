@@ -7,18 +7,14 @@
 
 ### sumAction
 
-Calculates the sum of a column.
+Return the sum for the configured aggregate column.
 
 ```php
 public sumAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Return Value:**
-
-The REST response with a status of true.
-
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
+The response variable is named `sum`. Query preparation is delegated to
+the shared query trait so filters, permissions, joins, and request state
+match the other REST aggregate actions.
 
 ***

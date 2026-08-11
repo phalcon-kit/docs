@@ -108,6 +108,9 @@ Events:
 public restore(?string $field = null, ?int $notDeletedValue = null): bool
 ```
 
+The native ORM events flag is read from INI here because the trait can be
+used without access to the original model setup options.
+
 **Parameters:**
 
 | Parameter          | Type        | Description |

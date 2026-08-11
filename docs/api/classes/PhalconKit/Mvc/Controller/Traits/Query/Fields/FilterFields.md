@@ -7,9 +7,15 @@
 
 ### filterFields
 
+Controller-owned filter-field policy.
+
 ```php
 protected ?\Phalcon\Support\Collection $filterFields
 ```
+
+Null means unrestricted filtering and preserves legacy controller
+behavior. A non-null collection enables allow-list mode; an empty
+collection is therefore a closed policy that rejects every client filter.
 
 ***
 
@@ -17,63 +23,83 @@ protected ?\Phalcon\Support\Collection $filterFields
 
 ### initializeFilterFields
 
-Initializes the filter fields.
+Initialize the filter-field allow-list.
 
 ```php
 public initializeFilterFields(): void
 ```
 
-This method is responsible for initializing the necessary filter fields for the model
+Concrete controllers can override this method and call
+
+
+- **See:** \PhalconKit\Mvc\Controller\Traits\Query\Fields\setFilterFields() to define which fields the public `filter`
+request parameter may target. The default is null so existing resources
+keep accepting any normalized field until they opt in to restrictions.
 
 ***
 ### setFilterFields
 
-Sets the fields for filtering data.
+Replace the fields clients may use in the REST `filter` parameter.
 
 ```php
-public setFilterFields(\Phalcon\Support\Collection|null $filterFields): void
+public setFilterFields(array|\Phalcon\Support\Collection|null $filterFields): void
 ```
+
+Supported collection shapes follow the filter compiler contract and may
+include nested arrays for relation-aware filters. Passing null disables
+allow-list enforcement; passing an empty collection keeps allow-list mode
+active but allows no client-supplied filters.
 
 **Parameters:**
 
-| Parameter       | Type                                  | Description                                                          |
-|-----------------|---------------------------------------|----------------------------------------------------------------------|
-| `$filterFields` | **\Phalcon\Support\Collection\|null** | The array of filter fields.
-Pass null to allow filtering all fields. |
+| Parameter       | Type                                         | Description |
+|-----------------|----------------------------------------------|-------------|
+| `$filterFields` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getFilterFields
 
-Returns the filter fields.
+Return the configured filter-field policy.
 
 ```php
-public getFilterFields(): \Phalcon\Support\Collection|null
+public getFilterFields(): ?\Phalcon\Support\Collection
 ```
 
-This method retrieves the filter fields for the model.
-If filter fields have been set, it returns the collection of filter fields.
-If no filter fields have been set, it returns null.
-
-Note: The filter fields are the fields that are allowed to be used within database queries.
-
-**Return Value:**
-
-The collection of filter fields or null if no filter fields have been set.
+A null return value means unrestricted filtering. A non-null collection is
+consumed by the filter condition builder before client filters are
+accepted.
 
 ***
 ### hasFilterFields
 
-Determines if filter fields are set.
+Check whether filter-field allow-list mode is configured.
 
 ```php
 public hasFilterFields(): bool
 ```
 
-This method checks whether the filter fields have been initialized
-or are set to a non-null value.
+This reports policy presence, not whether at least one field is enabled.
+An empty collection still means filtering is intentionally closed.
 
-**Return Value:**
+***
+### mergeFilterFields
 
-True if filter fields are set, false otherwise.
+Merge additional filter-field entries into the current policy.
+
+```php
+public mergeFilterFields(array|\Phalcon\Support\Collection $filterFields): void
+```
+
+Merge semantics are centralized in
+
+- **See:** \PhalconKit\Support\CollectionPolicy: null starts
+from the incoming collection, empty incoming collections leave an existing
+policy unchanged, and associative keys can override previous entries.
+
+**Parameters:**
+
+| Parameter       | Type                                   | Description |
+|-----------------|----------------------------------------|-------------|
+| `$filterFields` | **array\|\Phalcon\Support\Collection** |             |
 
 ***

@@ -1,4 +1,10 @@
 
+Declares user-resolution methods required by identity behavior traits.
+
+The default manager resolves users from the configured model service and
+caches the effective/original user on the manager instance for the duration
+of the request.
+
 ***
 
 * Full name: `\PhalconKit\Identity\Traits\Abstracts\AbstractUser`

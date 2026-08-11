@@ -194,3 +194,47 @@ public getTableName(string $name): string
 Returns the table name with the first letter capitalized and all other letters unchanged.
 
 ***
+### wrapIdentifier
+
+Wraps a property name in square brackets if certain conditions are met.
+
+```php
+public wrapIdentifier(string $name, bool $always = false): string
+```
+
+Note: fields that are already wrapped will not be wrapped again.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                                                                   |
+|-----------|------------|-----------------------------------------------------------------------------------------------|
+| `$name`   | **string** | The name of the property to be wrapped.                                                       |
+| `$always` | **bool**   | Indicates whether the property name should always be wrapped, regardless of other conditions. |
+
+**Return Value:**
+
+The property name, optionally wrapped in square brackets.
+
+***
+### requiresWrapping
+
+Determines whether a property name should be wrapped based on specific conditions.
+
+```php
+public requiresWrapping(string $name, bool $always = false): bool
+```
+
+Reasoning: Phalcon PHQL parser has a bug with function names starting with 'not'.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                                              |
+|-----------|------------|--------------------------------------------------------------------------|
+| `$name`   | **string** | The property name to check for wrapping.                                 |
+| `$always` | **bool**   | Whether to always wrap the property name regardless of other conditions. |
+
+**Return Value:**
+
+True if the property name should be wrapped, otherwise false.
+
+***

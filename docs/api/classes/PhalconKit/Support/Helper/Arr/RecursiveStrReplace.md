@@ -1,6 +1,10 @@
 
-This class provides functionality to recursively replace specific patterns in strings
-within a nested array structure using a key/value map of replacements.
+Replace string fragments throughout a nested array.
+
+This helper is intentionally conservative: nested arrays are processed
+recursively, string leaves are passed through `str_replace()`, and all other
+values are returned unchanged. It is useful for config/template arrays that
+contain placeholders alongside booleans, numbers, or nulls.
 
 ***
 
@@ -10,38 +14,36 @@ within a nested array structure using a key/value map of replacements.
 
 ### __invoke
 
+Invoke the helper and return an array result.
+
 ```php
-public __invoke(array $collection, array $replaces): array
+public __invoke(array<string|int,mixed> $collection, array<string,string> $replaces): array<string|int,mixed>
 ```
 
 **Parameters:**
 
-| Parameter     | Type      | Description |
-|---------------|-----------|-------------|
-| `$collection` | **array** |             |
-| `$replaces`   | **array** |             |
+| Parameter     | Type                         | Description         |
+|---------------|------------------------------|---------------------|
+| `$collection` | **array<string\|int,mixed>** | Input array.        |
+| `$replaces`   | **array<string,string>**     | Search/replace map. |
 
 ***
 
 ### process
 
-Processes the given collection recursively, replacing specific key patterns in strings
-with their corresponding values from the replaces array.
+Recursively replace string values while preserving non-string values.
 
 ```php
-public static process(array $collection, array $replaces): array|null
+public static process(array<string|int,mixed> $collection, array<string,string> $replaces): array<string|int,mixed>|null
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type      | Description                                                                                              |
-|---------------|-----------|----------------------------------------------------------------------------------------------------------|
-| `$collection` | **array** | The input array to be processed. It can contain nested arrays and/or strings.                            |
-| `$replaces`   | **array** | An associative array where keys are the patterns to be replaced, and values are the replacement strings. |
-
-**Return Value:**
-
-Returns the processed array with replaced values, or null if processing fails.
+| Parameter     | Type                         | Description                                               |
+|---------------|------------------------------|-----------------------------------------------------------|
+| `$collection` | **array<string\|int,mixed>** | Input array.                                              |
+| `$replaces`   | **array<string,string>**     | Search strings as keys and
+replacement strings as values. |
 
 ***

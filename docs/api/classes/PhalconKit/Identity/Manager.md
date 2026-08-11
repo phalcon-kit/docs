@@ -1,4 +1,23 @@
 
+Coordinates authentication state for PhalconKit applications.
+
+The manager exposes a compact identity API on top of several lower-level
+traits: user lookup, session-backed identity storage, JWT claim handling,
+OAuth2 account linking, role inheritance, ACL role construction, and
+impersonation. It expects the application DI to provide the standard
+PhalconKit services used by those traits, including config, models, request,
+security, session, JWT, and bootstrap services.
+
+Identity state is stored as a small payload keyed by the active JWT claim
+key. The payload normally lives in the session service; when
+`identity.stateless` is enabled it lives directly in the JWT claim so API
+clients can avoid server-side identity persistence. The primary payload keys
+are `userId` for the effective user and `asUserId` for the original user
+during impersonation. Login and password reset responses deliberately avoid
+exposing whether an email address exists unless validation has already
+failed, so downstream code should preserve that behavior when overriding the
+manager.
+
 ***
 
 * Full name: `\PhalconKit\Identity\Manager`
@@ -11,130 +30,197 @@
 
 ### get
 
-Retrieves the identity based on the provided user expose parameter.
+Return the current identity payload.
 
 ```php
-public get(array|null $userExpose = null): array
+public get(array|null $userExpose = null): array<string,mixed>
 ```
+
+This method is the short public entry point used by controllers and API
+responses. It delegates to
+
+- **See:** \PhalconKit\Identity\getIdentity() so subclasses only need
+to customize the detailed identity payload in one place.
 
 **Parameters:**
 
-| Parameter     | Type            | Description                                               |
-|---------------|-----------------|-----------------------------------------------------------|
-| `$userExpose` | **array\|null** | Optional parameter to specify user-related data exposure. |
+| Parameter     | Type            | Description                                                                               |
+|---------------|-----------------|-------------------------------------------------------------------------------------------|
+| `$userExpose` | **array\|null** | Optional expose definition passed to user
+models before they are returned in the payload. |
 
 **Return Value:**
 
-The resulting identity data array.
+Identity payload for the current request.
 
 ***
 
 ### getIdentity
 
-Retrieves the identity information based on the provided user expose parameter.
+Build the current identity payload.
 
 ```php
-public getIdentity(array|null $userExpose = null): array
+public getIdentity(array|null $userExpose = null): array{loggedInAs: bool, userAs: mixed, loggedIn: bool, user: mixed, roleList: array<string,object>, typeList: array<string,object>, groupList: array<string,object>}
 ```
+
+The payload includes both the effective user and the original user when
+impersonating. Related role, type, and group lists are normalized into
+maps keyed by each related entity's `getKey()` value so ACL checks and
+API consumers can use stable identifiers without inspecting model
+relation internals.
 
 **Parameters:**
 
-| Parameter     | Type            | Description                                                   |
-|---------------|-----------------|---------------------------------------------------------------|
-| `$userExpose` | **array\|null** | Optional parameter specifying details for user data exposure. |
+| Parameter     | Type            | Description                                                                           |
+|---------------|-----------------|---------------------------------------------------------------------------------------|
+| `$userExpose` | **array\|null** | Optional expose definition passed to
+`expose()` on user models before returning them. |
 
-**Return Value:**
+**Throws:**
 
-An associative array containing identity details such as logged-in status, user data, impersonation, roles, and groups.
+When a related role/type/group entity cannot
+provide a stable key.
+- [`LogicException`](../Exception/LogicException.md)
 
 ***
 
 ### login
 
-Handles the login process by validating the provided parameters, checking user credentials,
-and managing session state. Returns the login status along with any validation messages.
+Validate credentials and establish the session identity.
 
 ```php
-public login(array $params = []): array
+public login(array<string,mixed> $params = []): array{loggedIn: bool, loggedInAs: bool, messages: \Phalcon\Messages\Messages, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
+
+The login flow accepts an email address and password, validates both
+fields, checks the configured user model, and stores the authenticated
+`userId` in the identity payload. Missing users, disabled passwords, and
+invalid passwords all return the same generic login-failed message so the
+response does not reveal whether an account exists. Deleted users are
+rejected with a forbidden message after password verification succeeds.
+When stateless identity is enabled, successful responses also include a
+freshly signed JWT/refresh-token pair containing the new identity payload.
+
+Successful login also refreshes the global model security roles from the
+effective ACL roles, allowing model behaviors to evaluate the newly
+authenticated identity immediately.
 
 **Parameters:**
 
-| Parameter | Type      | Description                                                       |
-|-----------|-----------|-------------------------------------------------------------------|
-| `$params` | **array** | Parameters for login, typically including 'email' and 'password'. |
+| Parameter | Type                    | Description                                              |
+|-----------|-------------------------|----------------------------------------------------------|
+| `$params` | **array<string,mixed>** | Login fields. Supported keys are
+`email` and `password`. |
 
-**Return Value:**
+**Throws:**
 
-Contains login status, logged-in user information, and validation messages.
+When stateless token key generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### logout
 
-Logs out the current user by removing the session identity and returns the login status.
+Remove the current identity payload.
 
 ```php
-public logout(): array
+public logout(): array{loggedIn: bool, loggedInAs: bool, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
+
+Logout clears the identity stored under the current claim key. It does not
+clear unrelated session data. Stateless clients receive a refreshed
+anonymous token response and must replace/discard any older authenticated
+token client-side; JWTs are not server-revoked without an application
+revocation strategy.
 
 **Return Value:**
 
-An associative array containing the user's login status and identity status after logout.
+Login state after
+the identity has been removed.
+
+**Throws:**
+
+When stateless token key generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### reset
 
-Resets a user's password or generates a reset token for the user, depending on the input parameters.
+Start or complete a password reset flow.
 
 ```php
-public reset(array|null $params = null): array
+public reset(array<string,mixed>|null $params = null): array<string,mixed>
 ```
+
+When only `email` is provided, the manager creates a random reset token,
+stores its hash on the user record, and returns an empty response on
+success. When `resetToken` and `password` are provided, the token is
+verified against the stored hash before the password is updated and the
+reset token is cleared.
+
+To prevent user enumeration, a valid request for a missing email returns
+the same empty response shape as a successful request. Validation failures
+and persistence failures still return messages because those are
+actionable by the caller. Notification delivery is intentionally left to
+application code until the framework has a mailer/event contract for this
+flow.
 
 **Parameters:**
 
-| Parameter | Type            | Description                                                                                                                                                                                                                                                                                                          |
-|-----------|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$params` | **array\|null** | Parameters including email, token,
-password, and password confirmation for the reset operation.
-- 'email': The user's email address.
-- 'token': An optional reset token for password update.
-- 'password': The new password to set (relevant with token).
-- 'passwordConfirm': The confirmation of the new password. |
+| Parameter | Type                          | Description                                                                                              |
+|-----------|-------------------------------|----------------------------------------------------------------------------------------------------------|
+| `$params` | **array<string,mixed>\|null** | Reset fields. Supported keys are
+`email`, optional `resetToken`, and `password` when completing a
+reset. |
 
 **Return Value:**
 
-An array containing the following keys:
-- 'saved': A boolean indicating whether the save operation was successful.
-- 'sent': A boolean indicating whether the reset token email was sent successfully.
-- 'messages': A collection of validation or processing messages.
+Empty on successful or intentionally opaque
+outcomes, or `messages` when validation/persistence fails.
 
 **Throws:**
 
+When token generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### collectList
 
-Collects and returns a list of entities from the specified property of the model, keyed by a method from each entity.
+Normalize a related model list into a key-indexed map.
 
 ```php
-private collectList(\PhalconKit\Mvc\ModelInterface|null $model, string $property, string $keyMethod = 'getKey'): array
+private collectList(\PhalconKit\Mvc\ModelInterface|null $model, string $property, string $keyMethod = 'getKey'): array<string,object>
 ```
+
+Identity payloads need stable role, type, and group keys regardless of
+whether relations were eager-loaded, staged as dirty related records, or
+assigned to public fixture properties in tests. This helper checks those
+sources in order and ignores missing or non-iterable values.
 
 **Parameters:**
 
-| Parameter    | Type                                     | Description                                                                           |
-|--------------|------------------------------------------|---------------------------------------------------------------------------------------|
-| `$model`     | **\PhalconKit\Mvc\ModelInterface\|null** | The model containing the property with the list of entities.                          |
-| `$property`  | **string**                               | The name of the property in the model that holds the list of entities.                |
-| `$keyMethod` | **string**                               | The name of the method in each entity used to generate the key. Defaults to 'getKey'. |
+| Parameter    | Type                                     | Description                                                    |
+|--------------|------------------------------------------|----------------------------------------------------------------|
+| `$model`     | **\PhalconKit\Mvc\ModelInterface\|null** | Model that may expose the relation.                            |
+| `$property`  | **string**                               | Relation alias or property name to read.                       |
+| `$keyMethod` | **string**                               | Method each related entity must expose to
+provide the map key. |
 
 **Return Value:**
 
-An associative array of entities, keyed by the specified method from each entity.
+Related entities keyed by their stable key.
+
+**Throws:**
+
+When a related entity is not an object or does not
+implement the required key method.
+- [`LogicException`](../Exception/LogicException.md)
 
 ***
 
@@ -142,28 +228,63 @@ An associative array of entities, keyed by the specified method from each entity
 
 ### getUser
 
-Return the current user or impersonated user object based on the session
+Return the effective user or original impersonating user.
 
 ```php
 public getUser(bool $as = false, bool|null $force = null): \PhalconKit\Models\Interfaces\UserInterface|null
 ```
 
+Unless `$force` is set, the method returns the cached instance for the
+requested slot. A fresh lookup reads `userId` or `asUserId` from the
+session identity payload and eager-loads role, group, and type relations
+through the configured user model.
+
 **Parameters:**
 
-| Parameter | Type           | Description                                                        |
-|-----------|----------------|--------------------------------------------------------------------|
-| `$as`     | **bool**       | Flag to indicate whether to get the user as another user           |
-| `$force`  | **bool\|null** | Flag to indicate whether to force the retrieval of the user object |
+| Parameter | Type           | Description                                                           |
+|-----------|----------------|-----------------------------------------------------------------------|
+| `$as`     | **bool**       | Return the original impersonating user instead of the
+effective user. |
+| `$force`  | **bool\|null** | Force a fresh lookup instead of using the cached
+model instance.      |
 
 **Return Value:**
 
-The user object or null if session is not available
+User model or null when no identity is stored.
+
+***
+
+### requireIdentityUser
+
+Require the configured user model query to return the identity contract.
+
+```php
+protected requireIdentityUser(mixed $user): \PhalconKit\Models\Interfaces\UserInterface
+```
+
+The identity manager can resolve the user model from application
+configuration, so the query result is a framework integration boundary.
+This helper keeps `getUser()` focused on session/user selection while
+failing clearly if the configured model does not implement the expected
+PhalconKit user interface.
+
+**Parameters:**
+
+| Parameter | Type      | Description                                   |
+|-----------|-----------|-----------------------------------------------|
+| `$user`   | **mixed** | User record returned by the configured model. |
+
+**Throws:**
+
+When the configured user model does not return
+the PhalconKit identity user contract.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
 ### setUser
 
-Set the current user or impersonated user instance.
+Cache the effective user for this manager instance.
 
 ```php
 public setUser(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -171,15 +292,15 @@ public setUser(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
 
 **Parameters:**
 
-| Parameter | Type                                                  | Description                                                 |
-|-----------|-------------------------------------------------------|-------------------------------------------------------------|
-| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | The user instance to set or null to unset the current user. |
+| Parameter | Type                                                  | Description                            |
+|-----------|-------------------------------------------------------|----------------------------------------|
+| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | User model or null to clear the cache. |
 
 ***
 
 ### getUserAs
 
-Retrieve the original user when impersonating
+Return the original user during impersonation.
 
 ```php
 public getUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -187,13 +308,13 @@ public getUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
 
 **Return Value:**
 
-The user instance or null if not available.
+Original user or null when not impersonating.
 
 ***
 
 ### setUserAs
 
-Set the original user instance when impersonating
+Cache the original user for this manager instance.
 
 ```php
 public setUserAs(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -201,15 +322,15 @@ public setUserAs(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
 
 **Parameters:**
 
-| Parameter | Type                                                  | Description                                 |
-|-----------|-------------------------------------------------------|---------------------------------------------|
-| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | The user instance to set, or null to unset. |
+| Parameter | Type                                                  | Description                            |
+|-----------|-------------------------------------------------------|----------------------------------------|
+| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | User model or null to clear the cache. |
 
 ***
 
 ### getUserId
 
-Retrieves the current/impersonated user or the original user ID.
+Return the effective or original user's id.
 
 ```php
 public getUserId(bool $as = false): int|null
@@ -217,19 +338,19 @@ public getUserId(bool $as = false): int|null
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                      |
-|-----------|----------|--------------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Determines whether to retrieve the original user (true) or the current/impersonated one (false). |
+| Parameter | Type     | Description                                |
+|-----------|----------|--------------------------------------------|
+| `$as`     | **bool** | Return the original impersonating user id. |
 
 **Return Value:**
 
-Returns the user ID as an integer if available, or null if the user is not set.
+User id or null when no matching user is logged in.
 
 ***
 
 ### getUserAsId
 
-Retrieves the original user ID when impersonating.
+Return the original user's id during impersonation.
 
 ```php
 public getUserAsId(): int|null
@@ -237,55 +358,55 @@ public getUserAsId(): int|null
 
 **Return Value:**
 
-Returns the user ID as an integer if available, or null otherwise.
+Original user id or null when not impersonating.
 
 ***
 
 ### getRoleList
 
-Retrieves the list of roles associated with the current identity.
+Return roles associated with the current effective identity.
 
 ```php
-public getRoleList(): array
+public getRoleList(): array<string,object>
 ```
 
 **Return Value:**
 
-Returns an array of roles. If no roles are set, returns an empty array.
+Role entities keyed by their stable key.
 
 ***
 
 ### getGroupList
 
-Retrieves the list of groups associated with the current identity.
+Return groups associated with the current effective identity.
 
 ```php
-public getGroupList(): array
+public getGroupList(): array<string,object>
 ```
 
 **Return Value:**
 
-Returns an array of group identifiers or an empty array if no groups are found.
+Group entities keyed by their stable key.
 
 ***
 
 ### getTypeList
 
-Retrieves the list of types associated with the current identity.
+Return types associated with the current effective identity.
 
 ```php
-public getTypeList(): array
+public getTypeList(): array<string,object>
 ```
 
 **Return Value:**
 
-Returns an array of types. If no types are found, returns an empty array.
+Type entities keyed by their stable key.
 
 ***
 
 ### isLoggedIn
 
-Checks if the user is currently logged in.
+Check whether the effective or original user is logged in.
 
 ```php
 public isLoggedIn(bool $as = false, bool $force = false): bool
@@ -293,20 +414,20 @@ public isLoggedIn(bool $as = false, bool $force = false): bool
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                   |
-|-----------|----------|-----------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Determines whether to check the original user (true) or the current/impersonated one (false). |
-| `$force`  | **bool** | Forces a fresh check ignoring cached user session data when set to true.                      |
+| Parameter | Type     | Description                                         |
+|-----------|----------|-----------------------------------------------------|
+| `$as`     | **bool** | Check the original impersonating user.              |
+| `$force`  | **bool** | Force a fresh lookup instead of using cached users. |
 
 **Return Value:**
 
-Returns true if the user is logged in, false otherwise.
+True when a matching user model can be resolved.
 
 ***
 
 ### isLoggedInAs
 
-Checks if the user is logged in and impersonating another user.
+Check whether the current session is impersonating another user.
 
 ```php
 public isLoggedInAs(bool $force = false): bool
@@ -314,19 +435,19 @@ public isLoggedInAs(bool $force = false): bool
 
 **Parameters:**
 
-| Parameter | Type     | Description                                           |
-|-----------|----------|-------------------------------------------------------|
-| `$force`  | **bool** | Determines whether to enforce a specific login check. |
+| Parameter | Type     | Description                                |
+|-----------|----------|--------------------------------------------|
+| `$force`  | **bool** | Force a fresh lookup of the original user. |
 
 **Return Value:**
 
-Returns true if the user is logged in based on the condition, otherwise false.
+True when `asUserId` resolves to a user.
 
 ***
 
 ### findUserById
 
-Finds and retrieves a user by their unique identifier.
+Find a user by primary key through the configured user model.
 
 ```php
 public findUserById(int $id): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -334,19 +455,19 @@ public findUserById(int $id): \PhalconKit\Models\Interfaces\UserInterface|null
 
 **Parameters:**
 
-| Parameter | Type    | Description                                        |
-|-----------|---------|----------------------------------------------------|
-| `$id`     | **int** | The unique identifier of the user to be retrieved. |
+| Parameter | Type    | Description |
+|-----------|---------|-------------|
+| `$id`     | **int** | User id.    |
 
 **Return Value:**
 
-Returns the user instance if found, or null if no user exists with the specified identifier.
+Matching user or null.
 
 ***
 
 ### findUserByEmail
 
-Finds and retrieves a user by their email address.
+Find a user by email through the configured user model.
 
 ```php
 public findUserByEmail(string $string): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -354,19 +475,19 @@ public findUserByEmail(string $string): \PhalconKit\Models\Interfaces\UserInterf
 
 **Parameters:**
 
-| Parameter | Type       | Description                                  |
-|-----------|------------|----------------------------------------------|
-| `$string` | **string** | The email address of the user to search for. |
+| Parameter | Type       | Description    |
+|-----------|------------|----------------|
+| `$string` | **string** | Email address. |
 
 **Return Value:**
 
-Returns a UserInterface instance if a user with the specified email is found, or null if no user matches the email.
+Matching user or null.
 
 ***
 
 ### getSessionKey
 
-Retrieves the session key, optionally appending a refresh suffix.
+Return the configured identity session namespace.
 
 ```php
 public getSessionKey(bool $refresh = false): string
@@ -374,59 +495,64 @@ public getSessionKey(bool $refresh = false): string
 
 **Parameters:**
 
-| Parameter  | Type     | Description                                                           |
-|------------|----------|-----------------------------------------------------------------------|
-| `$refresh` | **bool** | Indicates whether to append the '-refresh' suffix to the session key. |
+| Parameter  | Type     | Description                                                                            |
+|------------|----------|----------------------------------------------------------------------------------------|
+| `$refresh` | **bool** | Append {@see \PhalconKit\Identity\Traits\REFRESH_SUFFIX} for refresh-token
+operations. |
 
 **Return Value:**
 
-The retrieved session key, with or without the refresh suffix.
+Configured session key with the optional refresh suffix.
 
 ***
 
 ### removeSessionIdentity
 
-Removes the session identity associated with the current instance, if a valid key exists.
+Remove the identity payload stored under the active claim key.
 
 ```php
 public removeSessionIdentity(): void
 ```
 
+If no claim key is available, there is no addressable identity payload
+and the method intentionally becomes a no-op.
+
 ***
 
 ### setSessionIdentity
 
-Sets the session identity by storing the provided identity data in the session.
+Store the identity payload under the active claim key.
 
 ```php
-public setSessionIdentity(array $identity): void
+public setSessionIdentity(array<string,mixed> $identity): void
 ```
 
 **Parameters:**
 
-| Parameter   | Type      | Description                                                                      |
-|-------------|-----------|----------------------------------------------------------------------------------|
-| `$identity` | **array** | An associative array representing the identity data to be stored in the session. |
+| Parameter   | Type                    | Description                                                             |
+|-------------|-------------------------|-------------------------------------------------------------------------|
+| `$identity` | **array<string,mixed>** | Identity payload, usually including
+`userId` and optionally `asUserId`. |
 
 ***
 
 ### getSessionIdentity
 
-Retrieves the session identity from the session storage.
+Return the identity payload stored under the active claim key.
 
 ```php
-public getSessionIdentity(): array
+public getSessionIdentity(): array<string,mixed>
 ```
 
 **Return Value:**
 
-An associative array representing the identity data retrieved from the session. Returns an empty array if no data is found.
+Empty when no key or payload exists.
 
 ***
 
 ### hasSessionIdentity
 
-Checks if a session identity exists by verifying the presence of a valid key and its association in the session.
+Check whether an identity payload exists for the active claim key.
 
 ```php
 public hasSessionIdentity(): bool
@@ -434,13 +560,14 @@ public hasSessionIdentity(): bool
 
 **Return Value:**
 
-Returns true if a session identity exists; otherwise, false.
+True when both a claim key and matching session payload are
+present.
 
 ***
 
 ### getKey
 
-Retrieves the 'key' value from the claim array if it exists, or returns null.
+Return the active claim key used to address session identity storage.
 
 ```php
 public getKey(): string|null
@@ -448,25 +575,62 @@ public getKey(): string|null
 
 **Return Value:**
 
-The 'key' value from the claim array, or null if not found.
+Claim key or null when no usable claim has been
+resolved.
+
+***
+
+### isStatelessIdentity
+
+Check whether identity state should be carried only in JWT claims.
+
+```php
+protected isStatelessIdentity(): bool
+```
+
+This setting does not disable the framework session service globally. It
+only changes where the identity payload is persisted, which keeps
+unrelated session consumers available for applications that still need
+them.
+
+***
+
+### getJwtForStatelessIdentity
+
+Return fresh JWT values after an identity state change when needed.
+
+```php
+protected getJwtForStatelessIdentity(): array{jwt?: string, refreshToken?: string, refreshed?: bool}
+```
+
+Stateless clients must replace their token after login, logout, OAuth2
+login, and impersonation changes because the identity payload lives in
+the token subject. Stateful clients keep receiving the legacy response
+shape because the session-backed payload has already changed server-side.
 
 ***
 
 ### hasRole
 
-Determines if the current user has the specified roles.
+Check whether the current identity has the requested roles.
 
 ```php
-public hasRole(array|null $roles = null, bool $or = false, bool $inherit = true): bool
+public hasRole(array<int,string>|null $roles = null, bool $or = false, bool $inherit = true): bool
 ```
+
+When inheritance is enabled, configured parent roles are added to the
+current role list before matching. With the legacy `$or` flag left at its
+default, the method returns true when any requested role matches. Passing
+`true` requires every requested role to match at the current level.
 
 **Parameters:**
 
-| Parameter  | Type            | Description                                                                                            |
-|------------|-----------------|--------------------------------------------------------------------------------------------------------|
-| `$roles`   | **array\|null** | List of roles to check against.                                                                        |
-| `$or`      | **bool**        | If true, checks if the user has at least one of the roles. If false, checks if the user has all roles. |
-| `$inherit` | **bool**        | If true, includes inherited roles in the check.                                                        |
+| Parameter  | Type                        | Description                                                           |
+|------------|-----------------------------|-----------------------------------------------------------------------|
+| `$roles`   | **array<int,string>\|null** | Role names to check.                                                  |
+| `$or`      | **bool**                    | Legacy mode flag; `false` means any-match and `true`
+means all-match. |
+| `$inherit` | **bool**                    | Include roles inherited through configuration.                        |
 
 **Return Value:**
 
@@ -476,401 +640,527 @@ True if the user satisfies the role conditions, false otherwise.
 
 ### has
 
-Check if the needles meet the haystack using nested arrays
-Reversing ANDs and ORs within each nested subarray
+Match one or more values against a haystack.
 
 ```php
-public has(array|string|null $needles = null, array $haystack = [], bool $or = false): bool
+public has(array<int,mixed>|string|null $needles = null, array<int,string> $haystack = [], bool $or = false): bool
 ```
 
-$this->has(['dev', 'admin'], $this->getUser()->getRoles(), true); // 'dev' OR 'admin'
-$this->has(['dev', 'admin'], $this->getUser()->getRoles(), false); // 'dev' AND 'admin'
+At the current level, the legacy `$or` flag behaves as follows:
+`false` returns true when any needle matches, and `true` returns true only
+when every needle matches. Each nested array flips the mode for that
+nested group, enabling expressions such as "all of these groups, where
+each group may contain any of these roles".
 
-$this->has(['dev', 'admin'], $this->getUser()->getRoles()); // 'dev' AND 'admin'
-$this->has([['dev', 'admin']], $this->getUser()->getRoles()); // 'dev' OR 'admin'
-$this->has([[['dev', 'admin']]], $this->getUser()->getRoles()); // 'dev' AND 'admin'
+Examples:
+
+$this->has(['dev', 'admin'], $roles); // 'dev' OR 'admin'
+$this->has(['dev', 'admin'], $roles, true); // 'dev' AND 'admin'
+$this->has([['dev', 'admin']], $roles, true); // ('dev' OR 'admin')
 
 **Parameters:**
 
-| Parameter   | Type                    | Description                                              |
-|-------------|-------------------------|----------------------------------------------------------|
-| `$needles`  | **array\|string\|null** | Needles to match and meet the rules                      |
-| `$haystack` | **array**               | Haystack array to search into                            |
-| `$or`       | **bool**                | True to force with "OR" , false to force "AND" condition |
+| Parameter   | Type                               | Description                                                                                |
+|-------------|------------------------------------|--------------------------------------------------------------------------------------------|
+| `$needles`  | **array<int,mixed>\|string\|null** | Values or nested groups to
+match.                                                          |
+| `$haystack` | **array<int,string>**              | Values available to match against.                                                         |
+| `$or`       | **bool**                           | Legacy mode flag; `false` means any-match and `true`
+means all-match at the current level. |
 
 **Return Value:**
 
-Return true or false if the needles rules are being met
+True when the expression matches the haystack.
 
 ***
 
 ### getInheritedRoleList
 
-Retrieves a list of inherited roles based on the provided role indices.
+Resolve inherited roles from the permissions configuration.
 
 ```php
-public getInheritedRoleList(array $roleIndexList = []): array
+public getInheritedRoleList(array<int,string> $roleIndexList = []): array<int,string>
 ```
 
-The method processes the given role indices, determines their inherited roles
-recursively, and returns a unique and flattened list of all inherited roles.
+The method walks `permissions.roles.<role>.inherit` recursively, avoids
+re-processing roles it has already inspected, and returns a de-duplicated
+list. When no base or inherited role is present, `guest` is added. The
+universal `everyone` role is always included.
 
 **Parameters:**
 
-| Parameter        | Type      | Description                                                                      |
-|------------------|-----------|----------------------------------------------------------------------------------|
-| `$roleIndexList` | **array** | The list of role indices to process for inheritance. Defaults to an empty array. |
+| Parameter        | Type                  | Description                 |
+|------------------|-----------------------|-----------------------------|
+| `$roleIndexList` | **array<int,string>** | Base role names to resolve. |
 
 **Return Value:**
 
-An array containing the unique list of all inherited roles.
+Unique inherited role names.
 
 ***
 
 ### oauth2
 
-OAuth2 authentication
+Create/update an OAuth2 identity and log in its linked local user.
 
 ```php
-public oauth2(string $provider, string $providerUuid, string $accessToken, string|null $refreshToken = null, array|null $meta = []): array
+public oauth2(string $provider, string $providerUuid, string $accessToken, string|null $refreshToken = null, array<string,mixed>|null $meta = []): array{saved: bool, loggedIn: bool, loggedInAs: bool, messages: \Phalcon\Messages\Messages, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
+
+If the provider identity is not linked yet and a local user is already
+logged in, the provider identity is attached to that user. Otherwise the
+saved provider identity must already contain a user id before login can
+succeed.
 
 **Parameters:**
 
-| Parameter       | Type             | Description                                             |
-|-----------------|------------------|---------------------------------------------------------|
-| `$provider`     | **string**       | The OAuth2 provider                                     |
-| `$providerUuid` | **string**       | The UUID associated with the provider                   |
-| `$accessToken`  | **string**       | The access token provided by the provider               |
-| `$refreshToken` | **string\|null** | The refresh token provided by the provider (optional)   |
-| `$meta`         | **array\|null**  | Additional metadata associated with the user (optional) |
-
-**Return Value:**
-
-Returns an array with the following keys:
-- 'saved': Indicates whether the OAuth2 entity was saved successfully
-- 'loggedIn': Indicates whether the user is currently logged in
-- 'loggedInAs': Indicates the user that is currently logged in
-- 'messages': An array of validation messages
+| Parameter       | Type                          | Description                           |
+|-----------------|-------------------------------|---------------------------------------|
+| `$provider`     | **string**                    | Provider key.                         |
+| `$providerUuid` | **string**                    | Stable provider-side user identifier. |
+| `$accessToken`  | **string**                    | Provider access token.                |
+| `$refreshToken` | **string\|null**              | Optional provider refresh token.      |
+| `$meta`         | **array<string,mixed>\|null** | Optional provider profile data.       |
 
 **Throws:**
 
-- [`Exception`](../../Exception.md)
+When OAuth provider fields cannot be sanitized.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless token key
+generation fails after a successful OAuth2 login.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails after a successful OAuth2 login.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### getJwt
 
-Generates a new JWT and refresh token based on the specified claim and configuration.
+Generate access and refresh tokens for the current claim.
 
 ```php
-public getJwt(bool $refresh = false): array
+public getJwt(bool $refresh = false): array{jwt: string, refreshToken: string, refreshed: bool}
 ```
 
-If the claim does not have a key or is refreshed, it creates a new key and updates the session if enabled.
+When no claim key exists, a new UUID key is created. During refresh with
+session-backed identity storage, the existing identity payload is copied
+from the old key to the new key after the old storage entry is removed,
+which invalidates tokens tied to the old key while keeping the user
+logged in. In stateless identity mode, the payload is preserved directly
+in the claim so clients can carry it without PHP session storage; old
+signed JWTs remain valid until expiration or an application-level
+revocation strategy rejects them.
 
 **Parameters:**
 
-| Parameter  | Type     | Description                                                                                      |
-|------------|----------|--------------------------------------------------------------------------------------------------|
-| `$refresh` | **bool** | Indicates whether to refresh the claim by generating a new key and invalidating previous tokens. |
-
-**Return Value:**
-
-Contains the generated JWT, refresh token, and a flag indicating if the claim was refreshed.
+| Parameter  | Type     | Description                                          |
+|------------|----------|------------------------------------------------------|
+| `$refresh` | **bool** | Rotate the claim key and invalidate previous tokens. |
 
 **Throws:**
 
-- [`\Phalcon\Encryption\Security\Exception|\Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When token key generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When JWT validation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### getClaim
 
-Retrieves the claim using different authentication methods such as JWT, Authorization Header, or Session.
+Resolve the current claim from request and session sources.
 
 ```php
-public getClaim(bool $refresh = false, bool $force = false): array
+public getClaim(bool $refresh = false, bool $force = false): array<string,mixed>
 ```
 
-If the claim is cached and not forced to refresh, it returns the cached claim.
+Resolution order is refresh token, JWT request value, authorization
+header, then optional session fallback. The fallback is intentionally
+disabled by default because it couples token authentication to server-side
+session state, and is always skipped when `identity.stateless` is enabled.
 
 **Parameters:**
 
-| Parameter  | Type     | Description                                                      |
-|------------|----------|------------------------------------------------------------------|
-| `$refresh` | **bool** | Determines whether to attempt refreshing the claim if available. |
-| `$force`   | **bool** | Forces bypassing the cached claim and retrieving a new one.      |
+| Parameter  | Type     | Description                                        |
+|------------|----------|----------------------------------------------------|
+| `$refresh` | **bool** | Prefer the refresh-token source.                   |
+| `$force`   | **bool** | Ignore the cached claim for this manager instance. |
 
 **Return Value:**
 
-The claim data or an empty array if no claim is found.
+Claim payload or an empty array when no
+supported credential is present.
 
 ***
 
 ### setClaim
 
-Sets the claim information for the current instance.
+Replace the cached claim for this manager instance.
 
 ```php
-public setClaim(array $claim): void
+public setClaim(array<string,mixed> $claim): void
 ```
 
 **Parameters:**
 
-| Parameter | Type      | Description            |
-|-----------|-----------|------------------------|
-| `$claim`  | **array** | The claim data to set. |
+| Parameter | Type                    | Description    |
+|-----------|-------------------------|----------------|
+| `$claim`  | **array<string,mixed>** | Claim payload. |
 
 ***
 
 ### getJwtToken
 
-Generates a JWT (JSON Web Token) using the provided identifier, payload data, and additional options.
+Build a signed JWT with Phalcon's JWT service.
 
 ```php
-public getJwtToken(string $id, array $data = [], array $options = []): string
+public getJwtToken(string $id, array<string,mixed> $data = [], array<string,mixed> $options = []): string
 ```
+
+Missing issuer and audience values default to the current request URI.
+Missing token id defaults to `$id`, and the subject defaults to the JSON
+encoded claim data.
 
 **Parameters:**
 
-| Parameter  | Type       | Description                                                                                                                     |
-|------------|------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `$id`      | **string** | The unique identifier for the JWT, typically representing a specific user or session.                                           |
-| `$data`    | **array**  | An associative array containing the payload data to be encoded in the JWT.                                                      |
-| `$options` | **array**  | An associative array of options for the token such as issuer, audience, subject, etc. Defaults will be applied if not provided. |
+| Parameter  | Type                    | Description                       |
+|------------|-------------------------|-----------------------------------|
+| `$id`      | **string**              | Expected token id.                |
+| `$data`    | **array<string,mixed>** | Claim payload encoded into `sub`. |
+| `$options` | **array<string,mixed>** | Additional JWT builder options.   |
 
 **Return Value:**
 
-The generated JWT token as a string.
+Encoded JWT.
 
 **Throws:**
 
+When the JWT builder rejects the options.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### getClaimFromToken
 
-Extracts claims from a provided JWT token after validating it.
+Validate a JWT and return its decoded subject payload.
 
 ```php
-public getClaimFromToken(string $token, string|null $claim = null): array
+public getClaimFromToken(string $token, string|null $claim = null): array<string,mixed>
 ```
+
+The token must match the current request URI as issuer and audience. When
+`$claim` is provided, it is used as the expected token id so access and
+refresh tokens cannot be exchanged.
 
 **Parameters:**
 
-| Parameter | Type             | Description                                           |
-|-----------|------------------|-------------------------------------------------------|
-| `$token`  | **string**       | The JWT token to parse and validate.                  |
-| `$claim`  | **string\|null** | An optional identifier to validate the token against. |
+| Parameter | Type             | Description        |
+|-----------|------------------|--------------------|
+| `$token`  | **string**       | Encoded JWT.       |
+| `$claim`  | **string\|null** | Expected token id. |
 
 **Return Value:**
 
-The claims extracted from the token, or an empty array if no valid claims are found.
+Decoded `sub` payload or an empty array when
+the subject is missing/non-array.
 
 ***
 
 ### getClaimFromAuthorization
 
-Extracts claim information from the authorization header if it follows the Bearer token format.
+Resolve a claim from a bearer authorization header.
 
 ```php
-public getClaimFromAuthorization(array $authorization): array
+public getClaimFromAuthorization(array<int,string> $authorization): array<string,mixed>
 ```
 
 **Parameters:**
 
-| Parameter        | Type      | Description                                                           |
-|------------------|-----------|-----------------------------------------------------------------------|
-| `$authorization` | **array** | The authorization header split into an array with the type and token. |
+| Parameter        | Type                  | Description                              |
+|------------------|-----------------------|------------------------------------------|
+| `$authorization` | **array<int,string>** | Header parts, usually
+`[Bearer, token]`. |
 
 **Return Value:**
 
-The claim information extracted from the token or an empty array if extraction fails.
+Claim payload or an empty array when the
+header is not a bearer token.
 
 ***
 
 ### getJsonRawBody
 
-Retrieves the raw JSON body from the request.
+Return the request JSON body as an object.
 
 ```php
 private getJsonRawBody(): \stdClass
 ```
 
-If the body is not valid JSON, an empty stdClass object is returned.
+Phalcon throws for invalid JSON; identity credential lookup treats that
+as an empty body so malformed optional JSON does not prevent header/query
+credentials from being evaluated.
 
 **Return Value:**
 
-The raw JSON body as an object or an empty stdClass object if the input is invalid.
+Parsed body or an empty object.
 
 ***
 
 ### loginAs
 
-Allows an admin or developer to log in as another user based on their user ID.
+Switch the current session to another user.
 
 ```php
-public loginAs(array $params = []): array
+public loginAs(array<string,mixed> $params = []): array{messages?: \Phalcon\Messages\Messages, loggedIn: bool, loggedInAs: bool, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
 
-Validates the provided parameters to ensure the presence and numericality of the user ID.
-Also handles the scenario where the user attempts to return to their original session.
+The target `userId` must be present, numeric, and resolvable through the
+configured user model. If the target id equals the current `asUserId`, the
+method treats the request as a return-to-self action and restores the
+original session.
 
 **Parameters:**
 
-| Parameter | Type      | Description                                                                                      |
-|-----------|-----------|--------------------------------------------------------------------------------------------------|
-| `$params` | **array** | Associative array containing the key 'userId', which represents the ID of the user to log in as. |
+| Parameter | Type                    | Description                     |
+|-----------|-------------------------|---------------------------------|
+| `$params` | **array<string,mixed>** | Parameters containing `userId`. |
 
-**Return Value:**
+**Throws:**
 
-An array containing the validation messages, login status, and login-as status:
-- 'messages': Validation messages, if any.
-- 'loggedIn': Boolean indicating whether the user is logged in under their original session.
-- 'loggedInAs': Boolean indicating whether the user is logged in as another user.
+When stateless token key
+generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### logoutAs
 
-Logs out from a session where the user was logged in (impersonating)
-as another user, reverting back to the original session identity.
+Restore the original user from an impersonated session.
 
 ```php
-public logoutAs(): array
+public logoutAs(): array{loggedIn: bool, loggedInAs: bool, jwt?: string, refreshToken?: string, refreshed?: bool}
 ```
 
-If the current session identity includes an 'asUserId', the identity
-is updated to the corresponding 'userId'.
+If both `userId` and `asUserId` are present, the original id becomes the
+effective `userId` and the impersonation marker is removed.
 
 **Return Value:**
 
-An array containing the user's login status after reverting:
-- 'loggedIn': Boolean indicating whether the original user is logged in.
-- 'loggedInAs': Boolean indicating whether the session is currently logged in as another user.
+Login state after
+the restore attempt.
+
+**Throws:**
+
+When stateless token key
+generation fails.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When stateless JWT creation fails.
+- [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+
+***
+
+### hasAclRole
+
+Check whether the current identity has at least one (or all) of the given ACL roles.
+
+```php
+public hasAclRole(array|null $roles = null, bool $or = false): bool
+```
+
+This method evaluates the provided role names against the **effective ACL role set**
+returned by
+
+- **See:** \PhalconKit\Identity\Traits\getAclRoles(), not just the raw identity roles. As a result:
+
+- Contextual roles such as `ws`, `cli`, and `everyone` are implicitly considered.
+- The `guest` role may be present when no explicit identity roles exist.
+- Inherited roles are already resolved and included.
+
+Internally, this delegates to
+- **See:** \PhalconKit\Identity\Traits\has(), comparing:
+- the requested roles (`$roles`)
+- against the keys of the computed ACL role map
+
+**Parameters:**
+
+| Parameter | Type            | Description                                                                                                                                                           |
+|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$roles`  | **array\|null** | List of role identifiers to test.
+- `null` typically implies a truthy check against defaults,
+  depending on {@see \PhalconKit\Identity\Traits\has()} semantics.      |
+| `$or`     | **bool**        | Legacy matching mode passed to {@see \PhalconKit\Identity\Traits\has()}:
+- `false` (default): at least one role must be present.
+- `true`: all roles must be present. |
+
+**Return Value:**
+
+True if the role condition is satisfied, false otherwise.
 
 ***
 
 ### getAclRoles
 
-Return the list of ACL roles
-- role `ws` is automatically added if the bootstrap mode is websocket/ws
-- role `cli` is automatically added if the bootstrap mode is console/cli
-- role `everyone` is automatically added to everyone at all time
-- role `guest` is automatically added only if no role was found
-- inherited roles are automatically added from the base roles
+Build and return the effective ACL role set for the current identity.
 
 ```php
-public getAclRoles(array|null $roleList = null): array
+public getAclRoles(array|null $roleList = null): array<string,\Phalcon\Acl\Role>
 ```
+
+This method computes the **final, authoritative list of ACL roles** used by
+permission checks. The resulting role set is not a direct reflection of the
+identity’s stored roles; it is a **context-aware, normalized, and expanded**
+role map that accounts for execution context and role inheritance.
+
+Resolution rules, applied in order:
+
+1. **Execution-context roles**
+   - `ws` is added when running under a WebSocket bootstrap.
+   - `cli` is added when running under a console/CLI bootstrap.
+
+2. **Global role**
+   - `everyone` is always added, regardless of identity state.
+
+3. **Identity roles**
+   - If `$roleList` is provided, it is treated as the authoritative base role list.
+   - Otherwise, roles are derived from the current identity via `getRoleList()`.
+
+4. **Guest fallback**
+   - If no base roles are resolved, `guest` is added as the sole identity role.
+
+5. **Inherited roles**
+   - All roles implied by inheritance rules are automatically added.
+
+The returned array is keyed by role name and contains instantiated ACL `Role`
+objects, ensuring uniqueness and preventing duplicate role registration.
 
 **Parameters:**
 
-| Parameter   | Type            | Description |
-|-------------|-----------------|-------------|
-| `$roleList` | **array\|null** |             |
+| Parameter   | Type            | Description                                                                                                                                           |
+|-------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$roleList` | **array\|null** | Optional explicit list of base role identifiers.
+When provided, it overrides identity-derived roles
+but still participates in inheritance resolution. |
+
+**Return Value:**
+
+Map of role name to ACL Role instance representing
+the complete effective ACL role set.
 
 ***
 
 ### __construct
 
-Constructs a new instance of the class.
+Construct the object and initialize its options.
 
 ```php
-public __construct(array|null $options = null): mixed
+public __construct(array<string,mixed>|null $options = null): mixed
 ```
 
 **Parameters:**
 
-| Parameter  | Type            | Description                                                                    |
-|------------|-----------------|--------------------------------------------------------------------------------|
-| `$options` | **array\|null** | An optional array of options to initialize the instance with. Default is null. |
+| Parameter  | Type                          | Description                    |
+|------------|-------------------------------|--------------------------------|
+| `$options` | **array<string,mixed>\|null** | Defaults to capture and apply. |
 
 ***
 
 ### initializeOptions
 
-Initializes the options for the object.
+Capture defaults, apply the current options, and run initialize().
 
 ```php
-public initializeOptions(array|null $options = null): void
+public initializeOptions(array<string,mixed>|null $options = null): void
 ```
 
 **Parameters:**
 
-| Parameter  | Type            | Description                                                          |
-|------------|-----------------|----------------------------------------------------------------------|
-| `$options` | **array\|null** | The options to be initialized. If null, an empty array will be used. |
+| Parameter  | Type                          | Description                    |
+|------------|-------------------------------|--------------------------------|
+| `$options` | **array<string,mixed>\|null** | Defaults to capture and apply. |
 
 ***
 
 ### initialize
 
-Initializes the object.
+Optional hook called after options are initialized.
 
 ```php
 public initialize(): void
 ```
 
-This method is responsible for performing any necessary setup or initialization tasks for the object.
-It does not accept any parameters and does not return a value.
+Override this in classes that need to derive internal state from options
+during construction.
 
 ***
 
 ### setOptions
 
-Sets the options for the object.
+Replace or merge the current option set.
 
 ```php
-public setOptions(array $options, bool $merge = false): void
+public setOptions(array<string,mixed> $options, bool $merge = false): void
 ```
+
+Options intentionally use PHP's null-coalescing read semantics: a key
+stored with a null value remains present in the raw option array, but
+
+
+- **See:** \PhalconKit\Support\Options\getOption() returns the caller default and
+- **See:** \PhalconKit\Support\Options\hasOption()
+reports false for that key.
 
 **Parameters:**
 
-| Parameter  | Type      | Description                                                                    |
-|------------|-----------|--------------------------------------------------------------------------------|
-| `$options` | **array** | The array of options to be set.                                                |
-| `$merge`   | **bool**  | Whether to merge the existing options with the new options. Defaults to false. |
+| Parameter  | Type                    | Description                                                       |
+|------------|-------------------------|-------------------------------------------------------------------|
+| `$options` | **array<string,mixed>** | Options to apply.                                                 |
+| `$merge`   | **bool**                | Whether to merge into existing options instead of
+replacing them. |
 
 ***
 
 ### getOptions
 
-Retrieves all options.
+Return the current option set.
 
 ```php
-public getOptions(): array
+public getOptions(): array<string,mixed>
 ```
-
-**Return Value:**
-
-An array containing all the options.
 
 ***
 
 ### setOption
 
-Sets the value of the option specified by the given key.
+Store or replace one option value.
 
 ```php
 public setOption(string $key, mixed $value = null, bool $merge = false): void
 ```
 
+Passing null stores the key in the raw option array, but the key still
+reads as missing through
+
+- **See:** \PhalconKit\Support\Options\getOption() and
+- **See:** \PhalconKit\Support\Options\hasOption(). This
+preserves the historical contract where null means "fall back to the
+caller default" while still allowing callers to inspect raw options.
+
 **Parameters:**
 
-| Parameter | Type       | Description                                                                         |
-|-----------|------------|-------------------------------------------------------------------------------------|
-| `$key`    | **string** | The key of the option.                                                              |
-| `$value`  | **mixed**  | The value to be set for the option.                                                 |
-| `$merge`  | **bool**   | Whether to merge the new value with an existing value if the option already exists. |
+| Parameter | Type       | Description                                                         |
+|-----------|------------|---------------------------------------------------------------------|
+| `$key`    | **string** |                                                                     |
+| `$value`  | **mixed**  |                                                                     |
+| `$merge`  | **bool**   | Whether to merge the key/value pair into the existing
+option array. |
 
 ***
 
 ### getOption
 
-Retrieves the value of the option specified by the given key.
+Return one option value or a default when it is missing or null.
 
 ```php
 public getOption(string $key, mixed $default = null): mixed
@@ -878,59 +1168,57 @@ public getOption(string $key, mixed $default = null): mixed
 
 **Parameters:**
 
-| Parameter  | Type       | Description                                                    |
-|------------|------------|----------------------------------------------------------------|
-| `$key`     | **string** | The key of the option.                                         |
-| `$default` | **mixed**  | The default value to be returned if the option does not exist. |
-
-**Return Value:**
-
-The value of the option specified by the key, or the default value if the option does not exist.
+| Parameter  | Type       | Description                                  |
+|------------|------------|----------------------------------------------|
+| `$key`     | **string** |                                              |
+| `$default` | **mixed**  | Default returned when the option is not set. |
 
 ***
 
 ### hasOption
 
-Checks if the option specified by the given key exists.
+Return true when an option is present and not null.
 
 ```php
 public hasOption(string $key): bool
 ```
 
+This intentionally mirrors
+
+- **See:** \PhalconKit\Support\Options\getOption() rather than
+`array_key_exists()`: null-valued options are stored in the raw option
+array but are treated as absent by the public lookup helpers.
+
 **Parameters:**
 
-| Parameter | Type       | Description            |
-|-----------|------------|------------------------|
-| `$key`    | **string** | The key of the option. |
-
-**Return Value:**
-
-Returns true if the option exists, false otherwise.
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$key`    | **string** |             |
 
 ***
 
 ### removeOption
 
-Remove an option by key
+Remove one option key when it exists in the raw option array.
 
 ```php
 public removeOption(string $key): void
 ```
 
-Removes the option with the given key from the options array.
+Removal uses `array_key_exists()` instead of `isset()` so callers can
+delete a key even when it currently stores null.
 
 **Parameters:**
 
-| Parameter | Type       | Description                         |
-|-----------|------------|-------------------------------------|
-| `$key`    | **string** | The key of the option to be removed |
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$key`    | **string** |             |
 
 ***
 
 ### resetOptions
 
-Reset all options to their default values
-- Uses the defaultOptions property to set the options
+Restore current options to the initialized defaults.
 
 ```php
 public resetOptions(): void
@@ -940,13 +1228,10 @@ public resetOptions(): void
 
 ### clearOptions
 
-Clear all options
+Remove all current option values.
 
 ```php
 public clearOptions(): void
 ```
-
-This method clears all the options stored in the class.
-After calling this method, the options array will be empty.
 
 ***

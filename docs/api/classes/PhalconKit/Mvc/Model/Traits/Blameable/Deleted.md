@@ -20,6 +20,45 @@ public initializeDeleted(?array $options = null): void
 | `$options` | **?array** |             |
 
 ***
+### normalizeNullableBlameId
+
+```php
+private normalizeNullableBlameId(mixed $id): ?int
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$id`     | **mixed** |             |
+
+***
+### normalizeNullableBlameDate
+
+```php
+private normalizeNullableBlameDate(mixed $date): ?string
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$date`   | **mixed** |             |
+
+***
+### isNullBlameValue
+
+```php
+private isNullBlameValue(mixed $value): bool
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$value`  | **mixed** |             |
+
+***
 ### setDeletedBehavior
 
 Set Deleted Behavior

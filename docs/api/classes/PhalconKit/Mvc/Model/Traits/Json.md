@@ -14,7 +14,7 @@ This trait provides methods for encoding and decoding JSON data.
 Encodes a value to JSON.
 
 ```php
-public jsonEncode(mixed $value, int $flags = JSON_UNESCAPED_SLASHES, int $depth = 512): string|false
+public jsonEncode(mixed $value, int $flags = \PhalconKit\Mvc\Model\Traits\JSON_UNESCAPED_SLASHES, int $depth = 512): string|false
 ```
 
 **Parameters:**
@@ -37,7 +37,7 @@ The JSON encoded string on success, or `false` on failure.
 Decodes a JSON string.
 
 ```php
-public jsonDecode(string $json, bool|null $associative = null, int $depth = 512, int $flags): mixed
+public jsonDecode(string $json, bool|null $associative = null, int $depth = 512, int $flags = 0): mixed
 ```
 
 **Parameters:**
@@ -79,6 +79,6 @@ The validated depth.
 **Throws:**
 
 If depth is outside the valid range.
-- [`InvalidArgumentException`](../../../../InvalidArgumentException.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***

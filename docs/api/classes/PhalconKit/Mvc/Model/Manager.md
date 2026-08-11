@@ -88,17 +88,17 @@ public hasBehavior(\Phalcon\Mvc\ModelInterface $model, string $behaviorName): bo
 
 ### removeBehavior
 
-Removes a behavior associated with the given model and behavior name.
+Removes a behavior associated with the given model and behavior class/name.
 
 ```php
-public removeBehavior(\Phalcon\Mvc\ModelInterface $model, string $behaviorName): void
+public removeBehavior(\Phalcon\Mvc\ModelInterface $model, string $behaviorClass): void
 ```
 
 **Parameters:**
 
-| Parameter       | Type                            | Description |
-|-----------------|---------------------------------|-------------|
-| `$model`        | **\Phalcon\Mvc\ModelInterface** |             |
-| `$behaviorName` | **string**                      |             |
+| Parameter        | Type                            | Description |
+|------------------|---------------------------------|-------------|
+| `$model`         | **\Phalcon\Mvc\ModelInterface** |             |
+| `$behaviorClass` | **string**                      |             |
 
 ***

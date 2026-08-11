@@ -27,10 +27,6 @@ Sets the position options and sets the position behavior accordingly.
 | `$options` | **array\|null** | The options for the position behavior.
 If not provided, the default position behavior options will be used. |
 
-**Throws:**
-
-- [`Exception`](../../../../Exception.md)
-
 ***
 ### setPositionBehavior
 
@@ -62,7 +58,7 @@ The position behavior object.
 **Throws:**
 
 if the position behavior is not found.
-- [`Exception`](../../../../Exception.md)
+- [`LogicException`](../../../Exception/LogicException.md)
 
 ***
 ### reorder
@@ -88,6 +84,26 @@ Returns true if the reorder operation was successful, false otherwise.
 
 **Throws:**
 
-- [`Exception`](../../../../Exception.md)
+When the trait is used on an incompatible model.
+- [`LogicException`](../../../Exception/LogicException.md)
+
+***
+### requirePositionModel
+
+Require the trait host to be a PhalconKit model.
+
+```php
+protected requirePositionModel(): \PhalconKit\Mvc\Model
+```
+
+Position reordering depends on model events, assignment, snapshots, and
+persistence APIs. This helper keeps `reorder()` readable while producing
+a deterministic PhalconKit exception if the trait is composed into an
+incompatible class.
+
+**Throws:**
+
+When the trait host is not a PhalconKit model.
+- [`LogicException`](../../../Exception/LogicException.md)
 
 ***

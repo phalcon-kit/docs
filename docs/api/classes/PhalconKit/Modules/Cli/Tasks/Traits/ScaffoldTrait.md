@@ -157,6 +157,24 @@ public getStrictTypes(): string|null
 The value of the 'strictTypes' property, or null if the 'no-strict-types' parameter is set.
 
 ***
+### getPhpFileHeader
+
+Builds the normalized opening PHP header for scaffolded files.
+
+```php
+public getPhpFileHeader(): string
+```
+
+Optional fragments, such as the license stamp and strict-types
+declaration, are trimmed before joining so disabled fragments do not
+leave extra blank lines in generated files.
+
+**Return Value:**
+
+Header text ending with exactly one blank line before the
+next top-level statement, typically a namespace declaration.
+
+***
 ### isWhitelistedTable
 
 Checks if the given table is whitelisted.
@@ -227,6 +245,13 @@ public isNoModels(): bool
 
 ```php
 public isNoEnums(): bool
+```
+
+***
+### isNoTests
+
+```php
+public isNoTests(): bool
 ```
 
 ***

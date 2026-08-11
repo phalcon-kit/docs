@@ -1,30 +1,42 @@
 
-PhalconKit\Mvc\Model\Traits\Behavior\Transformable
+Applies configured attribute transformations during model lifecycle events.
 
-Allows to automatically update a model’s attribute saving the datetime when a
-record is created or updated
+Each watched event can define a field-to-value map. Values may be scalars or
+callbacks; callbacks receive the model and field name on the first pass and
+may return another callback for deferred value generation. The final value is
+written through Phalcon's entity API so column maps and model internals stay
+consistent.
 
 ***
 
 * Full name: `\PhalconKit\Mvc\Model\Behavior\Transformable`
 * Parent class: [`Behavior`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
+**See Also:**
+
+* https://docs.phalcon.io/5.18/db-models-events/
+
 ## Methods
 
 ### notify
 
-Listens for notifications from the models manager
+Handle a model manager lifecycle notification.
 
 ```php
-public notify(string $type, \Phalcon\Mvc\ModelInterface $model): ?bool
+public notify(string $type, \Phalcon\Mvc\ModelInterface $model): bool|null
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description |
-|-----------|---------------------------------|-------------|
-| `$type`   | **string**                      |             |
-| `$model`  | **\Phalcon\Mvc\ModelInterface** |             |
+| Parameter | Type                            | Description                                    |
+|-----------|---------------------------------|------------------------------------------------|
+| `$type`   | **string**                      | Event name emitted by Phalcon's model manager. |
+| `$model`  | **\Phalcon\Mvc\ModelInterface** | Model receiving transformed values.            |
+
+**Return Value:**
+
+True when a configured transformation ran, null when
+the behavior is disabled, does not match the event, or has no work.
 
 ***
 

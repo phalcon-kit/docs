@@ -1,9 +1,10 @@
 
-Return a formatted multibyte string
-A more complete and working version of mb_sprintf and mb_vsprintf.
+Return a formatted multibyte string.
 
-It should work with any "ASCII preserving" encoding such as UTF-8 and all the ISO-8859 charsets.
-It handles sign, padding, alignment, width and precision. Argument swapping is not handled.
+This convenience wrapper delegates to `mb_vsprintf()`. It is intended for
+ASCII-preserving encodings such as UTF-8 and ISO-8859 variants, and it
+handles sign, padding, alignment, width, and precision. Argument swapping
+is intentionally not supported by the multibyte implementation.
 
 ***
 
@@ -12,11 +13,13 @@ It handles sign, padding, alignment, width and precision. Argument swapping is n
 
 ## Parameters
 
-| Parameter | Type                   | Description |
-|-----------|------------------------|-------------|
-| `$format` | **string**             |             |
-| `$args`   | **string\|int\|float** |             |
+| Parameter | Type                   | Description                     |
+|-----------|------------------------|---------------------------------|
+| `$format` | **string**             | Multibyte-aware sprintf format. |
+| `$args`   | **string\|int\|float** | Format arguments.               |
 
 ## Return Value
 
 **string**
+
+Formatted string.

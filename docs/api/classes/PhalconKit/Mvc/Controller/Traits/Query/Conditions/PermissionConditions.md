@@ -1,5 +1,19 @@
 
-This trait provides methods for managing permission conditions for the query.
+Permission-based query condition provider.
+
+This trait is responsible for producing **row-level access constraints**
+based on the current authenticated identity.
+
+Design contract:
+ - Returning `null` means: *no restriction applied*
+ - Returning an array means: *AND-applicable condition payload*
+
+Condition payload shape:
+ [
+     0 => string  $conditionSql,
+     1 => array   $bindValues,
+     2 => array   $bindTypes,
+ ]
 
 ***
 
@@ -9,15 +23,14 @@ This trait provides methods for managing permission conditions for the query.
 
 ### permissionConditions
 
-Holds the permission conditions collection.
+Registered permission condition sets.
 
 ```php
-protected \Phalcon\Support\Collection|null $permissionConditions
+protected ?\Phalcon\Support\Collection $permissionConditions
 ```
 
-This variable stores the permission conditions in an associative array format. Each key represents a permission,
-and the corresponding value represents the conditions associated with that permission. The conditions can be
-nested within sub-arrays to handle complex permission structures.
+Keys are symbolic names (e.g. "default", "custom"),
+values are condition payloads or callables producing them.
 
 ***
 
@@ -25,99 +38,87 @@ nested within sub-arrays to handle complex permission structures.
 
 ### initializePermissionConditions
 
-Initializes the permission conditions for the object.
+Initialize permission conditions.
 
 ```php
 public initializePermissionConditions(): void
 ```
 
-Sets the permission conditions using a new instance of Collection class.
-The default permission condition is set using the defaultPermissionCondition method.
+Called during controller / query bootstrap.
 
 ***
 ### setPermissionConditions
 
-Sets the permission conditions for the current user's identity and role.
+Replace the permission condition collection.
 
 ```php
-public setPermissionConditions(\Phalcon\Support\Collection|null $permissionConditions): void
+public setPermissionConditions(array|\Phalcon\Support\Collection|null $permissionConditions): void
 ```
 
 **Parameters:**
 
-| Parameter               | Type                                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|-------------------------|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$permissionConditions` | **\Phalcon\Support\Collection\|null** | The permission conditions to be set. Pass null if no conditions are required.
-A Collection object that contains the permission conditions.
-Each permission condition is expected to be an array with the following elements:
-- The condition string formed by joining the columns with 'or' operators.
-- An array of bind values for the condition.
-- An array of bind types for the condition.
-Example: [
-    'column1 = :value1:',
-    ['value1' => 'some value'],
-    ['value1' => Column::BIND_PARAM_STR],
-] |
+| Parameter               | Type                                         | Description |
+|-------------------------|----------------------------------------------|-------------|
+| `$permissionConditions` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getPermissionConditions
 
-Retrieves the collection of permission conditions.
+Retrieve the permission condition collection.
 
 ```php
-public getPermissionConditions(): \Phalcon\Support\Collection|null
+public getPermissionConditions(): ?\Phalcon\Support\Collection
 ```
-
-**Return Value:**
-
-Returns the collection of permission conditions, or null if it is not set.
 
 ***
-### defaultPermissionCondition
+### buildDefaultPermissionCondition
 
-Builds the permission condition based on the current user's identity and role.
+Build the default permission condition.
 
 ```php
-public defaultPermissionCondition(): array|string|null
+public buildDefaultPermissionCondition(): ?array
 ```
 
-**Return Value:**
+Rules:
+- No identity → no restriction
+- Super roles → no restriction
+- No owner columns → no restriction
+- Otherwise → owner-based OR condition
 
-Returns an array with the following elements:
-- If permission columns are empty, returns null.
-- If no permission is found, returns ['false'].
-- If the current user role is a super admin, returns ['true'].
-- If permission conditions are found, returns an array with the following elements:
-  - The condition string formed by joining the columns with 'or' operators.
-  - An array of bind values for the condition.
-  - An array of bind types for the condition.
+***
+### buildOwnerCondition
+
+Build an owner-based permission condition.
+
+```php
+public buildOwnerCondition(int $userId, array $columns): array|null
+```
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$userId`  | **int**   |             |
+| `$columns` | **array** |             |
 
 ***
 ### getCreatedByColumns
 
-Retrieves the owner id columns of the current model.
+Columns used to assert record ownership.
 
 ```php
 public getCreatedByColumns(): array
 ```
 
-**Return Value:**
-
-Returns an array of strings representing the column names containing the "created by" information.
+Override per-model when ownership differs.
 
 ***
 ### getSuperRoles
 
-Retrieves the list of super admins roles.
+Roles exempt from permission constraints.
 
 ```php
 public getSuperRoles(): array
 ```
-
-These roles are authorized through the Permission Conditions
-
-**Return Value:**
-
-The list of super roles, which by default includes 'dev' and 'admin'.
 
 ***

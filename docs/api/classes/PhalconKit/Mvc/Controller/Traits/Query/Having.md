@@ -17,28 +17,53 @@ protected ?\Phalcon\Support\Collection $having
 
 ### initializeHaving
 
+Initializes the having property to its default state.
+
 ```php
 public initializeHaving(): void
 ```
 
 ***
-### setHaving
+### getHaving
+
+Retrieves the current having collection.
 
 ```php
-public setHaving(?\Phalcon\Support\Collection $having): void
+public getHaving(): \Phalcon\Support\Collection|null
+```
+
+**Return Value:**
+
+The collection of having, or null if none is set.
+
+***
+### setHaving
+
+Sets the having property to the provided collection.
+
+```php
+public setHaving(array|\Phalcon\Support\Collection|null $having): void
 ```
 
 **Parameters:**
 
-| Parameter | Type                             | Description |
-|-----------|----------------------------------|-------------|
-| `$having` | **?\Phalcon\Support\Collection** |             |
+| Parameter | Type                                         | Description                                                        |
+|-----------|----------------------------------------------|--------------------------------------------------------------------|
+| `$having` | **array\|\Phalcon\Support\Collection\|null** | The collection to set as the having property, or null to clear it. |
 
 ***
-### getHaving
+### mergeHaving
+
+Merges the provided having collection with the current having property.
 
 ```php
-public getHaving(): ?\Phalcon\Support\Collection
+public mergeHaving(array|\Phalcon\Support\Collection $having): void
 ```
+
+**Parameters:**
+
+| Parameter | Type                                   | Description                                                  |
+|-----------|----------------------------------------|--------------------------------------------------------------|
+| `$having` | **array\|\Phalcon\Support\Collection** | The collection of having to merge with the current property. |
 
 ***

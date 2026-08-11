@@ -25,7 +25,7 @@ public getParam(string $key, array|string|null $filters = null, mixed $default =
 ### getParams
 
 ```php
-public getParams(?array $fields = null, bool $cached = true, bool $deep = true): array
+public getParams(?array $fields = null, bool $cached = true, bool $deep = true): array<array-key,mixed>
 ```
 
 * This method is **abstract**.

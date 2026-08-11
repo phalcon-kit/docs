@@ -31,6 +31,38 @@ public static generate(string $string, array $replace = [], string $delimiter = 
 
 The transformed, cleaned, and formatted string.
 
+**Throws:**
+
+When the PHP intl transliterator cannot be
+created or transliteration fails.
+- [`ServiceException`](../Exception/ServiceException.md)
+
+***
+
+### createTransliterator
+
+Creates the ICU transliterator used by slug generation.
+
+```php
+private static createTransliterator(string $identifier): \Transliterator
+```
+
+Keeping this in one place gives callers a stable framework exception when
+the intl extension is missing or ICU rejects the transliterator rule set.
+
+* This method is **static**.
+**Parameters:**
+
+| Parameter     | Type       | Description |
+|---------------|------------|-------------|
+| `$identifier` | **string** |             |
+
+**Throws:**
+
+When the transliterator class or identifier is
+not available.
+- [`ServiceException`](../Exception/ServiceException.md)
+
 ***
 
 ### restoreLocale

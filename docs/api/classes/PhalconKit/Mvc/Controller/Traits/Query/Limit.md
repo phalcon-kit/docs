@@ -38,8 +38,10 @@ and the result of calling the `defaultLimit` method as the third argument.
 
 **Throws:**
 
+When Phalcon rejects the configured limit filter.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-- [`Exception`](../../../../../Exception.md)
+When the resulting limit violates controller policy.
+- [`HttpException`](../../../../Exception/HttpException.md)
 
 ***
 ### setLimit
@@ -62,8 +64,9 @@ After performing the necessary validations, it updates the limit property with t
 
 **Throws:**
 
-If the provided limit is less than -1 or exceeds the maximum limit.
-- [`Exception`](../../../../../Exception.md)
+If the provided limit is less than -1 or exceeds
+the maximum limit.
+- [`HttpException`](../../../../Exception/HttpException.md)
 
 ***
 ### getLimit

@@ -1,4 +1,11 @@
 
+Resolves identity users from the configured user model.
+
+The trait keeps separate cached instances for the effective user and the
+original impersonating user. It reads only lightweight ids from the identity
+session payload, then loads full user records with role, group, and type
+relations for downstream ACL and API payloads.
+
 ***
 
 * Full name: `\PhalconKit\Identity\Traits\User`
@@ -7,7 +14,7 @@
 
 ### user
 
-Current/impersonated user instance
+Effective user for the current request.
 
 ```php
 protected ?\PhalconKit\Models\Interfaces\UserInterface $user
@@ -16,7 +23,7 @@ protected ?\PhalconKit\Models\Interfaces\UserInterface $user
 ***
 ### userAs
 
-Original user instance when impersonating
+Original user when the current request is impersonating another user.
 
 ```php
 protected ?\PhalconKit\Models\Interfaces\UserInterface $userAs
@@ -28,27 +35,61 @@ protected ?\PhalconKit\Models\Interfaces\UserInterface $userAs
 
 ### getUser
 
-Return the current user or impersonated user object based on the session
+Return the effective user or original impersonating user.
 
 ```php
 public getUser(bool $as = false, bool|null $force = null): \PhalconKit\Models\Interfaces\UserInterface|null
 ```
 
+Unless `$force` is set, the method returns the cached instance for the
+requested slot. A fresh lookup reads `userId` or `asUserId` from the
+session identity payload and eager-loads role, group, and type relations
+through the configured user model.
+
 **Parameters:**
 
-| Parameter | Type           | Description                                                        |
-|-----------|----------------|--------------------------------------------------------------------|
-| `$as`     | **bool**       | Flag to indicate whether to get the user as another user           |
-| `$force`  | **bool\|null** | Flag to indicate whether to force the retrieval of the user object |
+| Parameter | Type           | Description                                                           |
+|-----------|----------------|-----------------------------------------------------------------------|
+| `$as`     | **bool**       | Return the original impersonating user instead of the
+effective user. |
+| `$force`  | **bool\|null** | Force a fresh lookup instead of using the cached
+model instance.      |
 
 **Return Value:**
 
-The user object or null if session is not available
+User model or null when no identity is stored.
+
+***
+### requireIdentityUser
+
+Require the configured user model query to return the identity contract.
+
+```php
+protected requireIdentityUser(mixed $user): \PhalconKit\Models\Interfaces\UserInterface
+```
+
+The identity manager can resolve the user model from application
+configuration, so the query result is a framework integration boundary.
+This helper keeps `getUser()` focused on session/user selection while
+failing clearly if the configured model does not implement the expected
+PhalconKit user interface.
+
+**Parameters:**
+
+| Parameter | Type      | Description                                   |
+|-----------|-----------|-----------------------------------------------|
+| `$user`   | **mixed** | User record returned by the configured model. |
+
+**Throws:**
+
+When the configured user model does not return
+the PhalconKit identity user contract.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 ### setUser
 
-Set the current user or impersonated user instance.
+Cache the effective user for this manager instance.
 
 ```php
 public setUser(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -56,14 +97,14 @@ public setUser(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
 
 **Parameters:**
 
-| Parameter | Type                                                  | Description                                                 |
-|-----------|-------------------------------------------------------|-------------------------------------------------------------|
-| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | The user instance to set or null to unset the current user. |
+| Parameter | Type                                                  | Description                            |
+|-----------|-------------------------------------------------------|----------------------------------------|
+| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | User model or null to clear the cache. |
 
 ***
 ### getUserAs
 
-Retrieve the original user when impersonating
+Return the original user during impersonation.
 
 ```php
 public getUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -71,12 +112,12 @@ public getUserAs(): \PhalconKit\Models\Interfaces\UserInterface|null
 
 **Return Value:**
 
-The user instance or null if not available.
+Original user or null when not impersonating.
 
 ***
 ### setUserAs
 
-Set the original user instance when impersonating
+Cache the original user for this manager instance.
 
 ```php
 public setUserAs(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -84,14 +125,14 @@ public setUserAs(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
 
 **Parameters:**
 
-| Parameter | Type                                                  | Description                                 |
-|-----------|-------------------------------------------------------|---------------------------------------------|
-| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | The user instance to set, or null to unset. |
+| Parameter | Type                                                  | Description                            |
+|-----------|-------------------------------------------------------|----------------------------------------|
+| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface\|null** | User model or null to clear the cache. |
 
 ***
 ### getUserId
 
-Retrieves the current/impersonated user or the original user ID.
+Return the effective or original user's id.
 
 ```php
 public getUserId(bool $as = false): int|null
@@ -99,18 +140,18 @@ public getUserId(bool $as = false): int|null
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                      |
-|-----------|----------|--------------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Determines whether to retrieve the original user (true) or the current/impersonated one (false). |
+| Parameter | Type     | Description                                |
+|-----------|----------|--------------------------------------------|
+| `$as`     | **bool** | Return the original impersonating user id. |
 
 **Return Value:**
 
-Returns the user ID as an integer if available, or null if the user is not set.
+User id or null when no matching user is logged in.
 
 ***
 ### getUserAsId
 
-Retrieves the original user ID when impersonating.
+Return the original user's id during impersonation.
 
 ```php
 public getUserAsId(): int|null
@@ -118,51 +159,51 @@ public getUserAsId(): int|null
 
 **Return Value:**
 
-Returns the user ID as an integer if available, or null otherwise.
+Original user id or null when not impersonating.
 
 ***
 ### getRoleList
 
-Retrieves the list of roles associated with the current identity.
+Return roles associated with the current effective identity.
 
 ```php
-public getRoleList(): array
+public getRoleList(): array<string,object>
 ```
 
 **Return Value:**
 
-Returns an array of roles. If no roles are set, returns an empty array.
+Role entities keyed by their stable key.
 
 ***
 ### getGroupList
 
-Retrieves the list of groups associated with the current identity.
+Return groups associated with the current effective identity.
 
 ```php
-public getGroupList(): array
+public getGroupList(): array<string,object>
 ```
 
 **Return Value:**
 
-Returns an array of group identifiers or an empty array if no groups are found.
+Group entities keyed by their stable key.
 
 ***
 ### getTypeList
 
-Retrieves the list of types associated with the current identity.
+Return types associated with the current effective identity.
 
 ```php
-public getTypeList(): array
+public getTypeList(): array<string,object>
 ```
 
 **Return Value:**
 
-Returns an array of types. If no types are found, returns an empty array.
+Type entities keyed by their stable key.
 
 ***
 ### isLoggedIn
 
-Checks if the user is currently logged in.
+Check whether the effective or original user is logged in.
 
 ```php
 public isLoggedIn(bool $as = false, bool $force = false): bool
@@ -170,19 +211,19 @@ public isLoggedIn(bool $as = false, bool $force = false): bool
 
 **Parameters:**
 
-| Parameter | Type     | Description                                                                                   |
-|-----------|----------|-----------------------------------------------------------------------------------------------|
-| `$as`     | **bool** | Determines whether to check the original user (true) or the current/impersonated one (false). |
-| `$force`  | **bool** | Forces a fresh check ignoring cached user session data when set to true.                      |
+| Parameter | Type     | Description                                         |
+|-----------|----------|-----------------------------------------------------|
+| `$as`     | **bool** | Check the original impersonating user.              |
+| `$force`  | **bool** | Force a fresh lookup instead of using cached users. |
 
 **Return Value:**
 
-Returns true if the user is logged in, false otherwise.
+True when a matching user model can be resolved.
 
 ***
 ### isLoggedInAs
 
-Checks if the user is logged in and impersonating another user.
+Check whether the current session is impersonating another user.
 
 ```php
 public isLoggedInAs(bool $force = false): bool
@@ -190,18 +231,18 @@ public isLoggedInAs(bool $force = false): bool
 
 **Parameters:**
 
-| Parameter | Type     | Description                                           |
-|-----------|----------|-------------------------------------------------------|
-| `$force`  | **bool** | Determines whether to enforce a specific login check. |
+| Parameter | Type     | Description                                |
+|-----------|----------|--------------------------------------------|
+| `$force`  | **bool** | Force a fresh lookup of the original user. |
 
 **Return Value:**
 
-Returns true if the user is logged in based on the condition, otherwise false.
+True when `asUserId` resolves to a user.
 
 ***
 ### findUserById
 
-Finds and retrieves a user by their unique identifier.
+Find a user by primary key through the configured user model.
 
 ```php
 public findUserById(int $id): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -209,18 +250,18 @@ public findUserById(int $id): \PhalconKit\Models\Interfaces\UserInterface|null
 
 **Parameters:**
 
-| Parameter | Type    | Description                                        |
-|-----------|---------|----------------------------------------------------|
-| `$id`     | **int** | The unique identifier of the user to be retrieved. |
+| Parameter | Type    | Description |
+|-----------|---------|-------------|
+| `$id`     | **int** | User id.    |
 
 **Return Value:**
 
-Returns the user instance if found, or null if no user exists with the specified identifier.
+Matching user or null.
 
 ***
 ### findUserByEmail
 
-Finds and retrieves a user by their email address.
+Find a user by email through the configured user model.
 
 ```php
 public findUserByEmail(string $string): \PhalconKit\Models\Interfaces\UserInterface|null
@@ -228,12 +269,12 @@ public findUserByEmail(string $string): \PhalconKit\Models\Interfaces\UserInterf
 
 **Parameters:**
 
-| Parameter | Type       | Description                                  |
-|-----------|------------|----------------------------------------------|
-| `$string` | **string** | The email address of the user to search for. |
+| Parameter | Type       | Description    |
+|-----------|------------|----------------|
+| `$string` | **string** | Email address. |
 
 **Return Value:**
 
-Returns a UserInterface instance if a user with the specified email is found, or null if no user matches the email.
+Matching user or null.
 
 ***

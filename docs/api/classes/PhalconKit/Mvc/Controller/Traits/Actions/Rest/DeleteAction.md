@@ -7,14 +7,14 @@
 
 ### deleteAction
 
-Deleting a record
+Delete the first record matching the prepared REST query.
 
 ```php
 public deleteAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
+The action returns 404 when no entity matches. On success or failure it
+exposes the attempted entity, the boolean delete result, and model
+messages so clients can display domain validation or delete errors.
 
 ***

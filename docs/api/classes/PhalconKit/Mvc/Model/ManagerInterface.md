@@ -78,14 +78,14 @@ public hasBehavior(\Phalcon\Mvc\ModelInterface $model, string $behaviorName): bo
 ### removeBehavior
 
 ```php
-public removeBehavior(\Phalcon\Mvc\ModelInterface $model, string $behaviorName): void
+public removeBehavior(\Phalcon\Mvc\ModelInterface $model, string $behaviorClass): void
 ```
 
 **Parameters:**
 
-| Parameter       | Type                            | Description |
-|-----------------|---------------------------------|-------------|
-| `$model`        | **\Phalcon\Mvc\ModelInterface** |             |
-| `$behaviorName` | **string**                      |             |
+| Parameter        | Type                            | Description |
+|------------------|---------------------------------|-------------|
+| `$model`         | **\Phalcon\Mvc\ModelInterface** |             |
+| `$behaviorClass` | **string**                      |             |
 
 ***

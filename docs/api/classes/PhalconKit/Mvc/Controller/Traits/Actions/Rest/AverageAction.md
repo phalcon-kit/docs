@@ -7,14 +7,14 @@
 
 ### averageAction
 
-Average column
+Return the average value for the configured aggregate column.
 
 ```php
 public averageAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
+The query state is prepared by the shared query trait, so filters,
+identity conditions, permissions, joins, and request parameters are
+applied consistently with other REST aggregate actions.
 
 ***

@@ -8,7 +8,7 @@
 ### rawParams
 
 ```php
-protected array<string,mixed>|null $rawParams
+protected array<array-key,mixed>|null $rawParams
 ```
 
 ***
@@ -41,6 +41,7 @@ public getParam(string $key, array|string|null $filters = null, mixed|null $defa
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -66,7 +67,7 @@ public hasParam(string $key, array|null $params = null, bool $cached = true): bo
 Retrieve specific or all request parameters.
 
 ```php
-public getParams(array|null $fields = null, bool $cached = true, bool $deep = true): array<string,mixed>
+public getParams(array|null $fields = null, bool $cached = true, bool $deep = true): array<array-key,mixed>
 ```
 
 Usage examples:
@@ -84,6 +85,7 @@ Usage examples:
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -92,7 +94,7 @@ Usage examples:
 Retrieve all request parameters, optionally applying filters and caching results.
 
 ```php
-public getAllParams(array|null $filters = null, bool $cached = true, bool $deep = true): array<string,mixed>
+public getAllParams(array|null $filters = null, bool $cached = true, bool $deep = true): array<array-key,mixed>
 ```
 
 **Parameters:**
@@ -105,16 +107,70 @@ public getAllParams(array|null $filters = null, bool $cached = true, bool $deep 
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 ### collectRequestParams
 
-Collect parameters based on the HTTP method.
+Collect parameters from one request source based on the HTTP method.
 
 ```php
-private collectRequestParams(): array<string,mixed>
+private collectRequestParams(): array<array-key,mixed>
 ```
+
+Body methods prefer an explicitly JSON request body and otherwise use the
+matching form body. Query parameters are intentionally not merged into
+body payloads so save endpoints cannot accidentally persist route/query
+controls such as `with`, `filters`, or `order`.
+
+***
+### collectBodyParams
+
+Collect body parameters from JSON or the method-specific form payload.
+
+```php
+private collectBodyParams(mixed $formParams): array<array-key,mixed>
+```
+
+**Parameters:**
+
+| Parameter     | Type      | Description                                |
+|---------------|-----------|--------------------------------------------|
+| `$formParams` | **mixed** | Method-specific form payload from Phalcon. |
+
+***
+### collectJsonRequestParams
+
+Collect JSON request parameters when a body request explicitly sends JSON.
+
+```php
+private collectJsonRequestParams(): array<array-key,mixed>|null
+```
+
+***
+### hasJsonContentType
+
+Return true for standard JSON and vendor JSON request content types.
+
+```php
+private hasJsonContentType(): bool
+```
+
+***
+### normalizeRequestParams
+
+Normalize Phalcon request accessor output into a parameter array.
+
+```php
+private normalizeRequestParams(mixed $params): array<array-key,mixed>
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$params` | **mixed** |             |
 
 ***
 ### applyFilters
@@ -122,19 +178,20 @@ private collectRequestParams(): array<string,mixed>
 Apply filters to parameters (recursively if $deep is true).
 
 ```php
-public applyFilters(array<string,mixed> $params, array<string,array|string> $filters, bool $deep = true): array<string,mixed>
+public applyFilters(array<array-key,mixed> $params, array<string,array|string> $filters, bool $deep = true): array<array-key,mixed>
 ```
 
 **Parameters:**
 
 | Parameter  | Type                            | Description |
 |------------|---------------------------------|-------------|
-| `$params`  | **array<string,mixed>**         |             |
+| `$params`  | **array<array-key,mixed>**      |             |
 | `$filters` | **array<string,array\|string>** |             |
 | `$deep`    | **bool**                        |             |
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -155,6 +212,7 @@ private deepSanitize(mixed $value, array|string $filters): mixed
 
 **Throws:**
 
+When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -226,7 +284,7 @@ public getDefaultFilters(): array<string,array|string>
 Retrieves the raw parameters from the request. If caching is enabled, it returns the cached parameters.
 
 ```php
-public getRawParams(bool $cached = true): array<string,mixed>
+public getRawParams(bool $cached = true): array<array-key,mixed>
 ```
 
 **Parameters:**

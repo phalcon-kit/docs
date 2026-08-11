@@ -1,7 +1,9 @@
 
-Class RecursiveMap
+Apply a callback to every scalar value in a nested array.
 
-This class provides a way to recursively process the elements of an array using a callback function.
+Array keys and nesting are preserved. Only non-array leaf values are passed
+to the callback, which makes the helper useful for normalizing config values
+without changing the shape expected by providers or policy builders.
 
 ***
 
@@ -11,39 +13,35 @@ This class provides a way to recursively process the elements of an array using 
 
 ### __invoke
 
+Invoke the helper for a nested array.
+
 ```php
-public __invoke(array $collection, callable $callback): array
+public __invoke(array<string|int,mixed> $collection, callable $callback): array<string|int,mixed>
 ```
 
 **Parameters:**
 
-| Parameter     | Type         | Description |
-|---------------|--------------|-------------|
-| `$collection` | **array**    |             |
-| `$callback`   | **callable** |             |
+| Parameter     | Type                         | Description                               |
+|---------------|------------------------------|-------------------------------------------|
+| `$collection` | **array<string\|int,mixed>** | Input array.                              |
+| `$callback`   | **callable**                 | Callback applied to each non-array value. |
 
 ***
 
 ### process
 
-Applies a callback function to each element of the given array recursively and returns a new array.
+Apply a callback to each non-array value and preserve array structure.
 
 ```php
-public static process(array $collection, callable $callback): array
+public static process(array<string|int,mixed> $collection, callable $callback): array<string|int,mixed>
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter     | Type         | Description                                                                                                                                                                                        |
-|---------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$collection` | **array**    | The array to be processed.                                                                                                                                                                         |
-| `$callback`   | **callable** | The callback function to be applied to each array element.
-The callback function should accept one argument, which is the current array element,
-and can return a modified value for that element. |
-
-**Return Value:**
-
-The processed array with the callback function applied to each element.
+| Parameter     | Type                         | Description                              |
+|---------------|------------------------------|------------------------------------------|
+| `$collection` | **array<string\|int,mixed>** | The array to process.                    |
+| `$callback`   | **callable**                 | Callback receiving each non-array value. |
 
 ***

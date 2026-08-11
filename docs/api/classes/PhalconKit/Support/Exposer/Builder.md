@@ -1,4 +1,27 @@
 
+Mutable state container used by {@see Exposer} during exposure traversal.
+
+This class is deliberately simple and strict. It enforces a **single invariant**
+that the entire exposure system relies on:
+
+**All keys are strings. The root path is represented by the empty string (`''`).**
+
+`null` is never used to represent keys or paths once inside the Builder.
+
+Responsibilities:
+- Hold the current traversal state (value, parent, key, context).
+- Hold global exposure configuration (columns, protected flag).
+- Be reused across recursion to avoid object churn.
+
+Non-responsibilities:
+- No exposure logic.
+- No rule resolution.
+- No traversal decisions.
+
+All business logic lives in
+
+- **See:** \PhalconKit\Support\Exposer\Exposer.
+
 ***
 
 * Full name: `\PhalconKit\Support\Exposer\Builder`
@@ -9,6 +32,8 @@
 
 ### value
 
+Current value being evaluated.
+
 ```php
 private mixed $value
 ```
@@ -16,6 +41,8 @@ private mixed $value
 ***
 
 ### parent
+
+Parent value in the traversal graph.
 
 ```php
 private mixed $parent
@@ -25,37 +52,55 @@ private mixed $parent
 
 ### columns
 
+Flattened column rules (dot-path => rule).
+
 ```php
-private ?array $columns
+private array<array-key,mixed>|null $columns
 ```
 
 ***
 
 ### field
 
+Optional logical field name (legacy / informational).
+
 ```php
 private ?string $field
 ```
+
+Not used by the Exposer core logic.
 
 ***
 
 ### key
 
+Current local key (single segment).
+
 ```php
-private ?string $key
+private string $key
 ```
+
+Normalized and guaranteed to be a string.
+Root is represented as ''.
 
 ***
 
 ### contextKey
 
+Current context key (dot-path prefix).
+
 ```php
-private ?string $contextKey
+private string $contextKey
 ```
+
+Normalized and guaranteed to be a string.
+Root context is represented as ''.
 
 ***
 
 ### expose
+
+Whether the current node is exposed.
 
 ```php
 private bool $expose
@@ -64,6 +109,8 @@ private bool $expose
 ***
 
 ### protected
+
+Whether underscore-prefixed keys are allowed.
 
 ```php
 private bool $protected
@@ -75,6 +122,8 @@ private bool $protected
 
 ### getValue
 
+Get the current value being evaluated.
+
 ```php
 public getValue(): mixed
 ```
@@ -82,6 +131,8 @@ public getValue(): mixed
 ***
 
 ### setValue
+
+Set the current value being evaluated.
 
 ```php
 public setValue(mixed $value = null): void
@@ -97,6 +148,8 @@ public setValue(mixed $value = null): void
 
 ### getParent
 
+Get the parent value in the traversal graph.
+
 ```php
 public getParent(): mixed
 ```
@@ -104,6 +157,8 @@ public getParent(): mixed
 ***
 
 ### setParent
+
+Set the parent value in the traversal graph.
 
 ```php
 public setParent(mixed $parent = null): void
@@ -119,17 +174,28 @@ public setParent(mixed $parent = null): void
 
 ### getKey
 
+Return the current local key.
+
 ```php
-public getKey(): ?string
+public getKey(): string
 ```
+
+Guaranteed to be a string.
+Root is represented as ''.
 
 ***
 
 ### setKey
 
+Set the current local key.
+
 ```php
 public setKey(?string $key = null): void
 ```
+
+Any input is normalized via
+
+- **See:** \PhalconKit\Support\Exposer\processKey().
 
 **Parameters:**
 
@@ -141,17 +207,28 @@ public setKey(?string $key = null): void
 
 ### getContextKey
 
+Return the current context key (dot-path prefix).
+
 ```php
-public getContextKey(): ?string
+public getContextKey(): string
 ```
+
+Guaranteed to be a string.
+Root context is represented as ''.
 
 ***
 
 ### setContextKey
 
+Set the current context key.
+
 ```php
 public setContextKey(?string $contextKey = null): void
 ```
+
+Any input is normalized via
+
+- **See:** \PhalconKit\Support\Exposer\processKey().
 
 **Parameters:**
 
@@ -163,6 +240,8 @@ public setContextKey(?string $contextKey = null): void
 
 ### getField
 
+Get the logical field name (legacy / informational).
+
 ```php
 public getField(): ?string
 ```
@@ -170,6 +249,8 @@ public getField(): ?string
 ***
 
 ### setField
+
+Set the logical field name.
 
 ```php
 public setField(?string $field = null): void
@@ -185,27 +266,33 @@ public setField(?string $field = null): void
 
 ### getColumns
 
+Return the flattened exposure rule map.
+
 ```php
-public getColumns(): ?array
+public getColumns(): array<array-key,mixed>|null
 ```
 
 ***
 
 ### setColumns
 
+Replace the flattened exposure rule map.
+
 ```php
-public setColumns(?array $columns = null): void
+public setColumns(array<array-key,mixed>|null $columns = null): void
 ```
 
 **Parameters:**
 
-| Parameter  | Type       | Description |
-|------------|------------|-------------|
-| `$columns` | **?array** |             |
+| Parameter  | Type                             | Description |
+|------------|----------------------------------|-------------|
+| `$columns` | **array<array-key,mixed>\|null** |             |
 
 ***
 
 ### getExpose
+
+Whether the current node is exposed.
 
 ```php
 public getExpose(): bool
@@ -214,6 +301,8 @@ public getExpose(): bool
 ***
 
 ### setExpose
+
+Set whether the current node is exposed.
 
 ```php
 public setExpose(bool $expose): void
@@ -229,6 +318,8 @@ public setExpose(bool $expose): void
 
 ### getProtected
 
+Whether underscore-prefixed keys are allowed.
+
 ```php
 public getProtected(): bool
 ```
@@ -236,6 +327,8 @@ public getProtected(): bool
 ***
 
 ### setProtected
+
+Set whether underscore-prefixed keys are allowed.
 
 ```php
 public setProtected(bool $protected): void
@@ -251,40 +344,52 @@ public setProtected(bool $protected): void
 
 ### getFullKey
 
-Retrieves the full key constructed from the context and the key.
+Return the fully-qualified dot-path key for the current node.
 
 ```php
-public getFullKey(): string|null
+public getFullKey(): string
 ```
 
-The full key is determined based on the following conditions:
-- If the key is empty, the context is returned.
-- If the context is empty, the key is returned.
-- If both are present, the result is a concatenation of context and key separated by a dot.
+Invariants:
+- Always returns a string.
+- Root path is ''.
 
-**Return Value:**
-
-The constructed full key or null if both key and context are null.
+Semantics:
+- key='' and context=''      → ''
+- key='' and context!=''     → context
+- key!='' and context=''     → key
+- key!='' and context!=''    → context.key
 
 ***
 
 ### processKey
 
-Processes the given key by normalizing its format.
+Normalize a key or context segment.
 
 ```php
-public static processKey(string|null $key = null): string|null
+public static processKey(string|null $key = null): string
 ```
+
+Rules:
+- null, empty string, or integer-like strings collapse to '' (root).
+- Whitespace becomes dots.
+- Multiple dots collapse into one.
+- Lowercased and trimmed of leading/trailing dots.
+
+This guarantees:
+- Stable dot-path generation.
+- No accidental numeric keys.
+- A single, canonical representation for root.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type             | Description                                                                  |
-|-----------|------------------|------------------------------------------------------------------------------|
-| `$key`    | **string\|null** | The input key to be processed. It can be null, an empty string, or a string. |
+| Parameter | Type             | Description               |
+|-----------|------------------|---------------------------|
+| `$key`    | **string\|null** | Local key or context key. |
 
 **Return Value:**
 
-Returns the processed key in a normalized format or an empty string if the input is null, empty, or a valid integer string.
+Canonical dot-path segment, or empty string for root.
 
 ***

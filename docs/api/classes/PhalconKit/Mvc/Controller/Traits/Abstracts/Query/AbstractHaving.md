@@ -1,4 +1,6 @@
 
+Abstract contract for HAVING query conditions.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Controller\Traits\Abstracts\Query\AbstractHaving`
@@ -6,6 +8,8 @@
 ## Methods
 
 ### initializeHaving
+
+Initialize HAVING conditions.
 
 ```php
 public initializeHaving(): void
@@ -15,19 +19,23 @@ public initializeHaving(): void
 ***
 ### setHaving
 
+Replace HAVING conditions.
+
 ```php
-public setHaving(?\Phalcon\Support\Collection $having): void
+public setHaving(array|\Phalcon\Support\Collection|null $having): void
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                             | Description |
-|-----------|----------------------------------|-------------|
-| `$having` | **?\Phalcon\Support\Collection** |             |
+| Parameter | Type                                         | Description |
+|-----------|----------------------------------------------|-------------|
+| `$having` | **array\|\Phalcon\Support\Collection\|null** |             |
 
 ***
 ### getHaving
+
+Return HAVING conditions.
 
 ```php
 public getHaving(): ?\Phalcon\Support\Collection

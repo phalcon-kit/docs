@@ -7,10 +7,10 @@
 
 ## Constants
 
-| Constant              | Visibility | Type | Value                                                                                                                      |
-|-----------------------|------------|------|----------------------------------------------------------------------------------------------------------------------------|
-| `E_INVALID_SUBJECT`   | private    |      | 'Expected value of `subject` to be either a ModelInterface object, a Simple object or an array of ModelInterface objects.' |
-| `E_INVALID_CLASSNAME` | private    |      | 'Expected value of `className` to be either an existing class name.'                                                       |
+| Constant              | Visibility | Type   | Value                                                                                                                                               |
+|-----------------------|------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `E_INVALID_SUBJECT`   | private    | string | 'Expected value of `subject` to be either a ModelInterface object, a traversable ResultsetInterface object, or an array of ModelInterface objects.' |
+| `E_INVALID_CLASSNAME` | private    | string | 'Expected value of `className` to be either an existing class name.'                                                                                |
 
 ## Properties
 
@@ -66,17 +66,52 @@ public __construct(mixed $from, array $arguments): mixed
 
 **Parameters:**
 
-| Parameter    | Type      | Description                                                                                                         |
-|--------------|-----------|---------------------------------------------------------------------------------------------------------------------|
+| Parameter    | Type      | Description                                                                                                                                   |
+|--------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | `$from`      | **mixed** | The data source from which to load the data. Can be an instance of ModelInterface,
-Simple, array, null, or boolean. |
+a traversable ResultsetInterface, array, null, or boolean. |
 | `$arguments` | **array** | Optional arguments for eager loading. Each argument should be an array
-specifying the relationships to eager load.  |
+specifying the relationships to eager load.                            |
 
 **Throws:**
 
 If the supplied data source is invalid.
-- [`InvalidArgumentException`](../../../../InvalidArgumentException.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
+
+***
+
+### normalizeModelSubject
+
+Normalize model collections accepted by the eager-loading loader.
+
+```php
+private static normalizeModelSubject(iterable<mixed,mixed> $records): array{subject: list<\Phalcon\Mvc\ModelInterface>|null, className: class-string<\Phalcon\Mvc\ModelInterface>|null, allowEmptySubject: bool}
+```
+
+Phalcon's concrete resultsets, custom traversable resultsets, and plain
+arrays all eventually become a list of root models. Keeping that
+validation in one place prevents different entry points from accepting
+different shapes: every non-empty element must implement
+`ModelInterface`, and every model must be the same concrete class so the
+loader can safely resolve one root relationship graph.
+
+Null and otherwise empty values are discarded for compatibility with the
+historical array path, where sparse controller/model collections were
+often normalized through PHP's default `array_filter()` behavior.
+
+* This method is **static**.
+**Parameters:**
+
+| Parameter  | Type                      | Description                                                 |
+|------------|---------------------------|-------------------------------------------------------------|
+| `$records` | **iterable<mixed,mixed>** | Raw records from an array or an
+iterable Phalcon resultset. |
+
+**Throws:**
+
+When any non-empty record is not a
+Phalcon model, or when the collection mixes more than one model class.
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -193,16 +228,16 @@ public static fromModel(\Phalcon\Mvc\ModelInterface $subject, mixed $arguments):
 Create and get from an array
 
 ```php
-public static fromArray(\Phalcon\Mvc\ModelInterface[] $subject, mixed $arguments): array
+public static fromArray(array<array-key,\Phalcon\Mvc\ModelInterface|null> $subject, mixed $arguments): array
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter    | Type                              | Description |
-|--------------|-----------------------------------|-------------|
-| `$subject`   | **\Phalcon\Mvc\ModelInterface[]** |             |
-| `$arguments` | **mixed**                         |             |
+| Parameter    | Type                                                   | Description |
+|--------------|--------------------------------------------------------|-------------|
+| `$subject`   | **array<array-key,\Phalcon\Mvc\ModelInterface\|null>** |             |
+| `$arguments` | **mixed**                                              |             |
 
 ***
 
@@ -277,7 +312,7 @@ private static parseArguments(array $arguments): array
 
 **Throws:**
 
-- [`InvalidArgumentException`](../../../../InvalidArgumentException.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 
@@ -312,7 +347,7 @@ private buildTree(): \PhalconKit\Mvc\Model\EagerLoading\EagerLoad[]
 
 **Throws:**
 
-- [`RuntimeException`](../../../../RuntimeException.md)
+- [`RuntimeException`](../../../Exception/RuntimeException.md)
 
 ***
 

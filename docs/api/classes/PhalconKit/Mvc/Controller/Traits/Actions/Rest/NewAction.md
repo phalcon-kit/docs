@@ -7,15 +7,14 @@
 
 ### newAction
 
-Prepare a new unsaved model
-This is useful if you want the default values
+Build and expose a new unsaved model instance.
 
 ```php
 public newAction(): \Phalcon\Http\ResponseInterface
 ```
 
-**Throws:**
-
-- [`Exception`](../../../../../../Exception.md)
+Request parameters are assigned through the configured save/map fields so
+clients can inspect default values and server-side assignment behavior
+before submitting a create request.
 
 ***

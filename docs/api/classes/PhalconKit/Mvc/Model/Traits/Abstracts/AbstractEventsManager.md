@@ -8,7 +8,7 @@
 ### getEventsManager
 
 ```php
-public getEventsManager(): ?\Phalcon\Events\ManagerInterface
+public getEventsManager(): ?\Phalcon\Contracts\Events\Manager
 ```
 
 * This method is **abstract**.

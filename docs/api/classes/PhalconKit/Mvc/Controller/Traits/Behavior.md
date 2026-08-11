@@ -46,3 +46,75 @@ public attachBehaviors(array $behaviors = [], string|null $eventType = null, int
 | `$priority`  | **int\|null**    | The priority of the behaviors. If null, the behaviors will be attached with the default priority.      |
 
 ***
+### getOrCreateEventsManager
+
+```php
+protected getOrCreateEventsManager(): \Phalcon\Contracts\Events\Manager
+```
+
+***
+### attachConfiguredBehaviors
+
+Attach legacy, non-action-scoped behavior config for this controller/model.
+
+```php
+private attachConfiguredBehaviors(array<string|int,mixed> $behaviorsContext, array<int,string> $handlerCandidates, ?string $modelName): void
+```
+
+**Parameters:**
+
+| Parameter            | Type                         | Description                    |
+|----------------------|------------------------------|--------------------------------|
+| `$behaviorsContext`  | **array<string\|int,mixed>** | Permission behavior map.       |
+| `$handlerCandidates` | **array<int,string>**        | Controller class/name aliases. |
+| `$modelName`         | **?string**                  |                                |
+
+***
+### attachConfiguredActionBehaviors
+
+Attach action-scoped controller/model behavior config for this request.
+
+```php
+private attachConfiguredActionBehaviors(array<string|int,mixed> $behaviorActionsContext, array<int,string> $handlerCandidates, array<int,string> $actionCandidates, ?string $modelName): void
+```
+
+**Parameters:**
+
+| Parameter                 | Type                         | Description                    |
+|---------------------------|------------------------------|--------------------------------|
+| `$behaviorActionsContext` | **array<string\|int,mixed>** | Action behavior map.           |
+| `$handlerCandidates`      | **array<int,string>**        | Controller class/name aliases. |
+| `$actionCandidates`       | **array<int,string>**        | Current action aliases.        |
+| `$modelName`              | **?string**                  |                                |
+
+***
+### getBehaviorHandlerCandidates
+
+```php
+private getBehaviorHandlerCandidates(): array<int,string>
+```
+
+***
+### getBehaviorActionCandidates
+
+```php
+private getBehaviorActionCandidates(): array<int,string>
+```
+
+***
+### getBehaviorDispatcher
+
+```php
+private getBehaviorDispatcher(): ?\Phalcon\Dispatcher\AbstractDispatcher
+```
+
+***
+### usesControllerAttributes
+
+Determine whether controller attributes should augment permission config.
+
+```php
+private usesControllerAttributes(): bool
+```
+
+***

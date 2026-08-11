@@ -1,4 +1,12 @@
 
+CLI dispatcher with PhalconKit diagnostic state export.
+
+The dispatcher keeps Phalcon's native CLI dispatch behavior and adds the
+shared PhalconKit dispatcher helper surface through
+
+- **See:** \PhalconKit\Dispatcher\DispatcherTrait,
+including state export used by diagnostics and tests.
+
 ***
 
 * Full name: `\PhalconKit\Cli\Dispatcher`
@@ -6,9 +14,15 @@
 * This class implements:
   [`\PhalconKit\Cli\DispatcherInterface`](./DispatcherInterface.md)
 
+**See Also:**
+
+* https://docs.phalcon.io/5.18/application-cli/
+
 ## Inherited methods
 
 ### getNamespaceName
+
+Return the namespace currently targeted by the dispatcher.
 
 ```php
 public getNamespaceName(): ?string
@@ -19,6 +33,8 @@ public getNamespaceName(): ?string
 
 ### getModuleName
 
+Return the module currently targeted by the dispatcher.
+
 ```php
 public getModuleName(): ?string
 ```
@@ -26,7 +42,26 @@ public getModuleName(): ?string
 * This method is **abstract**.
 ***
 
+### setModuleName
+
+Update the current module name before forwarding.
+
+```php
+public setModuleName(?string $moduleName = null): void
+```
+
+* This method is **abstract**.
+**Parameters:**
+
+| Parameter     | Type        | Description |
+|---------------|-------------|-------------|
+| `$moduleName` | **?string** |             |
+
+***
+
 ### getActionName
+
+Return the action currently targeted by the dispatcher.
 
 ```php
 public getActionName(): string
@@ -37,14 +72,18 @@ public getActionName(): string
 
 ### getParams
 
+Return current dispatch parameters.
+
 ```php
-public getParams(): array
+public getParams(): array<int|string,mixed>
 ```
 
 * This method is **abstract**.
 ***
 
 ### getHandlerClass
+
+Return the resolved controller or task class name.
 
 ```php
 public getHandlerClass(): string
@@ -55,6 +94,8 @@ public getHandlerClass(): string
 
 ### getHandlerSuffix
 
+Return the native handler suffix used by the dispatcher.
+
 ```php
 public getHandlerSuffix(): string
 ```
@@ -63,6 +104,8 @@ public getHandlerSuffix(): string
 ***
 
 ### getActionSuffix
+
+Return the native action suffix used by the dispatcher.
 
 ```php
 public getActionSuffix(): string
@@ -73,6 +116,8 @@ public getActionSuffix(): string
 
 ### getActiveMethod
 
+Return the concrete handler method name Phalcon will invoke.
+
 ```php
 public getActiveMethod(): string
 ```
@@ -82,81 +127,88 @@ public getActiveMethod(): string
 
 ### callActionMethod
 
-{@inheritDoc}
-The string typed keys are not passed to the action method arguments
-Only the int keys will be passed
+Invoke a controller or task action with positional parameters only.
 
 ```php
-public callActionMethod(mixed $handler, string $actionMethod, array $params = []): mixed
+public callActionMethod(mixed $handler, string $actionMethod, array<int|string,mixed> $params = []): mixed
 ```
+
+Phalcon stores dispatch params as an array that may contain named metadata.
+Only integer-keyed entries are passed to action method arguments so route
+metadata cannot accidentally shift the method signature.
 
 **Parameters:**
 
-| Parameter       | Type       | Description |
-|-----------------|------------|-------------|
-| `$handler`      | **mixed**  |             |
-| `$actionMethod` | **string** |             |
-| `$params`       | **array**  |             |
+| Parameter       | Type                         | Description                                      |
+|-----------------|------------------------------|--------------------------------------------------|
+| `$handler`      | **mixed**                    | Controller or task instance selected by Phalcon. |
+| `$actionMethod` | **string**                   | Method name to call on the handler.              |
+| `$params`       | **array<int\|string,mixed>** | Dispatch parameters.                             |
+
+**Return Value:**
+
+Action return value.
 
 ***
 
 ### forward
 
-Extending forwarding event to prevent cyclic routing when forwarding under dispatcher events
-{@inheritDoc}
+Forward to another target, optionally skipping cyclic forwards.
 
 ```php
-public forward(array $forward, bool $preventCycle = false): void
+public forward(array<string,mixed> $forward, bool $preventCycle = false): void
 ```
+
+Null forward parts are stripped before delegating to Phalcon. When
+`$preventCycle` is true, forwarding only happens if at least one target
+part differs from the current dispatch state.
 
 **Parameters:**
 
-| Parameter       | Type      | Description |
-|-----------------|-----------|-------------|
-| `$forward`      | **array** |             |
-| `$preventCycle` | **bool**  |             |
+| Parameter       | Type                    | Description                                   |
+|-----------------|-------------------------|-----------------------------------------------|
+| `$forward`      | **array<string,mixed>** | Forward target parts.                         |
+| `$preventCycle` | **bool**                | Whether identical forwards should be ignored. |
 
 ***
 
 ### canForward
 
-Check whether the forward attribute can be forwarded
-we do additional checks to prevent dispatcher cycling
+Determine whether a forward target differs from the current dispatch.
 
 ```php
-public canForward(array $forward): bool
+public canForward(array<array-key,mixed> $forward): bool
 ```
 
 **Parameters:**
 
-| Parameter  | Type      | Description |
-|------------|-----------|-------------|
-| `$forward` | **array** |             |
+| Parameter  | Type                       | Description           |
+|------------|----------------------------|-----------------------|
+| `$forward` | **array<array-key,mixed>** | Forward target parts. |
 
 ***
 
 ### canForwardHandler
 
-Check whether the handler is changed or not
-depending on the dispatcher
-MVC: controller
-CLI: task
+Determine whether the dispatcher-specific handler target changes.
 
 ```php
-private canForwardHandler(array $forward): bool
+private canForwardHandler(array<string,mixed> $forward): bool
 ```
+
+MVC dispatchers compare controllers; CLI dispatchers compare tasks.
 
 **Parameters:**
 
-| Parameter  | Type      | Description |
-|------------|-----------|-------------|
-| `$forward` | **array** |             |
+| Parameter  | Type                    | Description           |
+|------------|-------------------------|-----------------------|
+| `$forward` | **array<string,mixed>** | Forward target parts. |
 
 ***
 
 ### canForwardController
 
-Check whether the controller is changed
+Determine whether an MVC forward points to a different controller.
 
 ```php
 private canForwardController(?string $controller = null): bool
@@ -172,7 +224,7 @@ private canForwardController(?string $controller = null): bool
 
 ### canForwardTask
 
-Check whether the task is changed
+Determine whether a CLI forward points to a different task.
 
 ```php
 private canForwardTask(?string $task = null): bool
@@ -188,23 +240,37 @@ private canForwardTask(?string $task = null): bool
 
 ### unsetForwardNullParts
 
+Remove null parts from a forward target before delegating to Phalcon.
+
 ```php
-public unsetForwardNullParts(array $forward, ?array $parts = null): array
+public unsetForwardNullParts(array<string,mixed> $forward, array<int,string>|null $parts = null): array<string,mixed>
 ```
 
 **Parameters:**
 
-| Parameter  | Type       | Description |
-|------------|------------|-------------|
-| `$forward` | **array**  |             |
-| `$parts`   | **?array** |             |
+| Parameter  | Type                        | Description                                                              |
+|------------|-----------------------------|--------------------------------------------------------------------------|
+| `$forward` | **array<string,mixed>**     | Forward target parts.                                                    |
+| `$parts`   | **array<int,string>\|null** | Forward keys to inspect. Defaults
+to the common MVC and CLI target keys. |
+
+**Return Value:**
+
+Forward target with null parts removed.
 
 ***
 
 ### toArray
 
+Export the active dispatcher state for diagnostics and debug responses.
+
 ```php
-public toArray(): array
+public toArray(): array<string,mixed>
 ```
+
+**Return Value:**
+
+Current namespace, module, handler, action,
+parameters, and dispatcher-specific previous route state.
 
 ***

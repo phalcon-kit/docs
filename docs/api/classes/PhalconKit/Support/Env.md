@@ -1,8 +1,14 @@
 
-This class provides utilities for managing environment variables and loading .env files.
+Loads dotenv files and exposes normalized environment values.
 
-It allows for easy access to environment variables and provides methods for setting and getting values.
-It also initializes a Dotenv instance and loads .env files based on specified configurations.
+The helper keeps dotenv configuration in static state because bootstrap
+config objects need environment values before the DI container exists. Values
+loaded from dotenv are cached in
+
+- **See:** ; callers can also set values
+directly in tests or specialized bootstraps. `get()` normalizes common
+string values (`true`, `false`, integers, and floats) so config defaults do
+not need to repeat basic scalar casting.
 
 ***
 
@@ -12,14 +18,11 @@ It also initializes a Dotenv instance and loads .env files based on specified co
 
 ### dotenv
 
-Represents the instance of the Dotenv class.
+Last Dotenv loader created by {@see load()}.
 
 ```php
-public static ?\Dotenv\Dotenv $dotenv
+public static \Dotenv\Dotenv|null $dotenv
 ```
-
-The Dotenv class is responsible for loading environment variables from the
-".env" file into the application.
 
 * This property is **static**.
 
@@ -27,15 +30,11 @@ The Dotenv class is responsible for loading environment variables from the
 
 ### vars
 
-Represents an array of variables.
+Cached dotenv values and explicit test/runtime overrides.
 
 ```php
-public static array $vars
+public static array<string,mixed> $vars
 ```
-
-The $vars variable is used to store a collection of key-value pairs,
-where each key represents a variable name and the corresponding value
-represents the value of that variable.
 
 * This property is **static**.
 
@@ -43,14 +42,11 @@ represents the value of that variable.
 
 ### paths
 
-Holds the value of the paths.
+Directories searched for dotenv files.
 
 ```php
 public static string[]|string|null $paths
 ```
-
-This variable represents the value of the paths and is initially set to null.
-It can be assigned a different value during the runtime of the program.
 
 * This property is **static**.
 
@@ -58,14 +54,11 @@ It can be assigned a different value during the runtime of the program.
 
 ### names
 
-Represents the array of filenames.
+Dotenv file names to load from the configured paths.
 
 ```php
 public static string[]|string|null $names
 ```
-
-The $names variable is an array that holds the filenames of the ".env" file(s) to be loaded.
-This variable is used as an argument in the Dotenv class to specify the filenames to load.
 
 * This property is **static**.
 
@@ -73,14 +66,11 @@ This variable is used as an argument in the Dotenv class to specify the filename
 
 ### type
 
-Represents the type of data being declared.
+Dotenv factory type: mutable, immutable, unsafe-mutable, or unsafe-immutable.
 
 ```php
 public static string $type
 ```
-
-The $type variable is a string that indicates the mutability of the data. It can
-have two possible values: "mutable" or "immutable".
 
 * This property is **static**.
 
@@ -88,16 +78,11 @@ have two possible values: "mutable" or "immutable".
 
 ### shortCircuit
 
-Represents a boolean flag that enables short-circuiting in the code.
+Whether dotenv should stop after the first matching file.
 
 ```php
 public static bool $shortCircuit
 ```
-
-When the $shortCircuit variable is set to true, it indicates that the code
-should perform short-circuit evaluation. Short-circuit evaluation allows
-skipping the evaluation of subsequent conditions in a logical expression if
-the final result can be determined early.
 
 * This property is **static**.
 
@@ -105,15 +90,11 @@ the final result can be determined early.
 
 ### fileEncoding
 
-Represents the encoding of the file.
+Optional file encoding passed to Dotenv.
 
 ```php
-public static string|null $fileEncoding
+public static ?string $fileEncoding
 ```
-
-The $fileEncoding variable is used to store the encoding of the file that
-will be processed by the application. It is initially set to null and will be
-updated with the actual encoding value during the file processing.
 
 * This property is **static**.
 
@@ -123,12 +104,19 @@ updated with the actual encoding value during the file processing.
 
 ### load
 
-Initializes the Dotenv instance with the specified configurations
-and returns the loaded instance.
+Configure and load dotenv files.
 
 ```php
 public static load(string|array|null $paths = null, string|array|null $names = null, bool|null $shortCircuit = true, string|null $fileEncoding = null, string|null $type = null): \Dotenv\Dotenv
 ```
+
+Null parameters reuse the current static settings. When no paths have
+been configured,
+
+- **See:** \PhalconKit\Support\setPaths() derives a path from `ENV_PATH`,
+`ROOT_PATH`, `APP_PATH`, or the current working directory. Loaded values
+are stored in
+- **See:**  and also returned through the Dotenv instance.
 
 * This method is **static**.
 **Parameters:**
@@ -149,112 +137,128 @@ The loaded Dotenv instance.
 
 ### getPaths
 
-Retrieves an array of paths.
+Return the configured dotenv search paths.
 
 ```php
 public static getPaths(): string|string[]|null
 ```
 
-If the paths array is not yet created, it will be loaded and returned.
-
 * This method is **static**.
 **Return Value:**
 
-The array of paths.
+Configured paths or null before load/setup.
 
 ***
 
 ### setPaths
 
-Sets the paths for the application. If no paths are provided,
-the paths will be set to null.
+Set dotenv search paths.
 
 ```php
-public static setPaths(string|string[]|null $paths = null): void
+public static setPaths(string|array|null $paths = null): void
 ```
+
+Passing null asks the helper to derive a path from known bootstrap
+constants. `APP_PATH` is converted to its parent directory because app
+paths usually point to the application source folder rather than the
+project root where `.env` normally lives.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type                       | Description                                                                                                   |
-|-----------|----------------------------|---------------------------------------------------------------------------------------------------------------|
-| `$paths`  | **string\|string[]\|null** | The paths to be set for the application.
-If null is provided, the paths will be set to null.
-Default is null. |
+| Parameter | Type                    | Description |
+|-----------|-------------------------|-------------|
+| `$paths`  | **string\|array\|null** |             |
 
 ***
 
 ### getNames
 
-Get .env file names
+Return dotenv file names loaded from the configured paths.
 
 ```php
 public static getNames(): string|string[]|null
 ```
 
 * This method is **static**.
+**Return Value:**
+
+Configured file names.
+
 ***
 
 ### setNames
 
-Sets the names array. If the specified array is null, the existing names array will be cleared.
+Set dotenv file names.
 
 ```php
-public static setNames(string|string[]|null $names): void
+public static setNames(string|array|null $names): void
 ```
+
+Passing null resets the loader to the conventional `.env` file name.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type                       | Description                                                            |
-|-----------|----------------------------|------------------------------------------------------------------------|
-| `$names`  | **string\|string[]\|null** | The array of names. If null, the existing names array will be cleared. |
+| Parameter | Type                    | Description |
+|-----------|-------------------------|-------------|
+| `$names`  | **string\|array\|null** |             |
 
 ***
 
 ### getType
 
-Retrieves the type of the instance. If the type is not set, it will default to 'mutable'.
+Return the Dotenv factory suffix for the configured loader type.
 
 ```php
 public static getType(): string
 ```
 
-The type is then transformed into a camel case string and the first letter is capitalized.
+Dotenv exposes static factories such as `createMutable()` and
+`createUnsafeImmutable()`. This method converts the stored type string
+into the suffix used by
+
+- **See:** \PhalconKit\Support\load().
 
 * This method is **static**.
 **Return Value:**
 
-The type of the instance.
+Dotenv factory suffix.
 
 **Throws:**
 
-- [`Exception`](../../Exception.md)
+When the configured environment loader
+type is unsupported.
+- [`ConfigurationException`](../Exception/ConfigurationException.md)
 
 ***
 
 ### setType
 
-Sets the type of the object. If the type is not provided or is not one of the allowed types,
-the type will be set to 'mutable' by default.
+Set the Dotenv loader type.
 
 ```php
 public static setType(string|null $type = null): void
 ```
 
+Invalid values are normalized to `mutable` for compatibility with older
+bootstraps. A stricter invalid-type exception is tracked as a future
+design question because changing this default could break existing
+deployments.
+
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type             | Description                                                                                            |
-|-----------|------------------|--------------------------------------------------------------------------------------------------------|
-| `$type`   | **string\|null** | The type of the object. Available types: 'mutable', 'immutable', 'unsafe-mutable', 'unsafe-immutable'. |
+| Parameter | Type             | Description                                                                   |
+|-----------|------------------|-------------------------------------------------------------------------------|
+| `$type`   | **string\|null** | Loader type: `mutable`, `immutable`,
+`unsafe-mutable`, or `unsafe-immutable`. |
 
 ***
 
 ### getShortCircuit
 
-Retrieves the short circuit value. If the short circuit value is not yet set,
-it will return the default value.
+Return whether dotenv loading stops after the first matching file.
 
 ```php
 public static getShortCircuit(): bool
@@ -263,46 +267,45 @@ public static getShortCircuit(): bool
 * This method is **static**.
 **Return Value:**
 
-The short circuit value.
+Current short-circuit setting.
 
 ***
 
 ### setShortCircuit
 
-Sets the value of the shortCircuit property.
+Set whether dotenv loading stops after the first matching file.
 
 ```php
-public static setShortCircuit(bool $shortCircuit = true): void
+public static setShortCircuit(bool|null $shortCircuit = true): void
 ```
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter       | Type     | Description                                  |
-|-----------------|----------|----------------------------------------------|
-| `$shortCircuit` | **bool** | The new value for the shortCircuit property. |
+| Parameter       | Type           | Description                           |
+|-----------------|----------------|---------------------------------------|
+| `$shortCircuit` | **bool\|null** | Null restores the default true value. |
 
 ***
 
 ### getFileEncoding
 
-Retrieves the file encoding. If the encoding is not yet set, it will return null.
+Return the configured dotenv file encoding.
 
 ```php
-public static getFileEncoding(): ?string
+public static getFileEncoding(): string|null
 ```
 
 * This method is **static**.
 **Return Value:**
 
-The file encoding.
+Encoding passed to Dotenv, or null for its default.
 
 ***
 
 ### setFileEncoding
 
-Sets the file encoding for the env file. If no file encoding is specified,
-the default encoding will be used.
+Set the dotenv file encoding.
 
 ```php
 public static setFileEncoding(string|null $fileEncoding = null): void
@@ -311,16 +314,16 @@ public static setFileEncoding(string|null $fileEncoding = null): void
 * This method is **static**.
 **Parameters:**
 
-| Parameter       | Type             | Description                                    |
-|-----------------|------------------|------------------------------------------------|
-| `$fileEncoding` | **string\|null** | The file encoding to be set. Defaults to null. |
+| Parameter       | Type             | Description                                         |
+|-----------------|------------------|-----------------------------------------------------|
+| `$fileEncoding` | **string\|null** | Encoding passed to Dotenv, or null for
+its default. |
 
 ***
 
 ### getDotenv
 
-Retrieves the Dotenv instance. If the instance is not yet created,
-it will be loaded and returned.
+Return the current Dotenv instance, loading defaults on first use.
 
 ```php
 public static getDotenv(): \Dotenv\Dotenv
@@ -329,46 +332,53 @@ public static getDotenv(): \Dotenv\Dotenv
 * This method is **static**.
 **Return Value:**
 
-The Dotenv instance.
+Active Dotenv loader.
 
 ***
 
 ### get
 
-Gets the value of an environment variable. Pass the $default for fallback value.
+Return an environment value with simple scalar normalization.
 
 ```php
 public static get(string $key, mixed $default = null): mixed
 ```
 
+String values equal to `true` or `false` are returned as booleans.
+Numeric strings are returned as integers or floats. Other values are
+returned unchanged, and missing keys return the caller-provided default.
+
 * This method is **static**.
 **Parameters:**
 
-| Parameter  | Type       | Description                                 |
-|------------|------------|---------------------------------------------|
-| `$key`     | **string** | Key to get                                  |
-| `$default` | **mixed**  | Value to fallback if the key can't be found |
+| Parameter  | Type       | Description                          |
+|------------|------------|--------------------------------------|
+| `$key`     | **string** | Environment key.                     |
+| `$default` | **mixed**  | Fallback when the key is not loaded. |
 
 **Return Value:**
 
-Return the environment variable value or the default value
+Normalized environment value or fallback.
 
 ***
 
 ### set
 
-Set an environment variable
+Set or override one cached environment value.
 
 ```php
 public static set(string $key, mixed $value): void
 ```
 
+This affects PhalconKit's cached environment store only; it does not call
+`putenv()` or mutate `$_ENV`.
+
 * This method is **static**.
 **Parameters:**
 
-| Parameter | Type       | Description  |
-|-----------|------------|--------------|
-| `$key`    | **string** | Key to set   |
-| `$value`  | **mixed**  | Value to set |
+| Parameter | Type       | Description      |
+|-----------|------------|------------------|
+| `$key`    | **string** | Environment key. |
+| `$value`  | **mixed**  | Value to store.  |
 
 ***

@@ -1,9 +1,22 @@
 
-Allow to automagically save relationship
+Adds relationship-aware assignment, persistence, and export helpers.
+
+PhalconKit models call `assignRelated()` before native model assignment so
+request payloads can contain nested relationship data. The default behavior
+remains permissive for backward compatibility: unknown relation-looking
+payloads and non-whitelisted aliases are ignored so scalar model assignment
+can continue through Phalcon. Applications that validate request payloads
+more tightly can enable strict relationship assignment per model instance.
 
 ***
 
 * Full name: `\PhalconKit\Mvc\Model\Traits\Relationship`
+
+## Constants
+
+| Constant                       | Visibility | Type  | Value                                                                                                                    |
+|--------------------------------|------------|-------|--------------------------------------------------------------------------------------------------------------------------|
+| `DEFAULT_RELATIONSHIP_OPTIONS` | private    | array | ['enforceDirectOwnership' => false, 'allowUnownedDirectRelationAdoption' => true, 'autoRestoreDirectRelations' => false] |
 
 ## Properties
 
@@ -12,6 +25,20 @@ Allow to automagically save relationship
 ```php
 private array $keepMissingRelated
 ```
+
+***
+### strictRelatedAssignment
+
+Whether relation-specific assignment mistakes should throw exceptions.
+
+```php
+private bool $strictRelatedAssignment
+```
+
+This flag does not make normal scalar model assignment strict. It only
+affects payloads that are clearly intended for relationship handling,
+such as known relation aliases, complex nested values, and relation list
+items.
 
 ***
 ### relationshipContext
@@ -25,6 +52,16 @@ private string $relationshipContext
 
 ```php
 protected \Phalcon\Mvc\ModelInterface[] $dirtyRelated
+```
+
+***
+### loadedRelated
+
+Eager-loaded relationship values that should be readable/exportable
+without being treated as pending related records to save.
+
+```php
+protected array<string,mixed> $loadedRelated
 ```
 
 ***
@@ -43,6 +80,111 @@ public appendMessage(\Phalcon\Messages\MessageInterface $message): \Phalcon\Mvc\
 | Parameter  | Type                                   | Description |
 |------------|----------------------------------------|-------------|
 | `$message` | **\Phalcon\Messages\MessageInterface** |             |
+
+***
+### setStrictRelatedAssignment
+
+Enable or disable strict validation for relationship payloads.
+
+```php
+public setStrictRelatedAssignment(bool $strictRelatedAssignment): void
+```
+
+Leave this disabled for legacy forms that may send extra nested data.
+Enable it in API/resource layers where relation aliases are controlled by
+explicit save-field policies and a malformed relation should fail loudly.
+
+**Parameters:**
+
+| Parameter                  | Type     | Description |
+|----------------------------|----------|-------------|
+| `$strictRelatedAssignment` | **bool** |             |
+
+***
+### isStrictRelatedAssignment
+
+Return whether malformed relationship payloads should throw exceptions.
+
+```php
+public isStrictRelatedAssignment(): bool
+```
+
+***
+### setRelationshipOptions
+
+Replace the configured relationship behavior options.
+
+```php
+public setRelationshipOptions(array $options): void
+```
+
+The option group is intentionally stored in the shared model options
+manager so applications can opt into stricter behavior per model without
+changing generated relationship declarations.
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$options` | **array** |             |
+
+***
+### getRelationshipOptions
+
+Return relationship options, optionally including a per-alias override.
+
+```php
+public getRelationshipOptions(?string $alias = null): array
+```
+
+**Parameters:**
+
+| Parameter | Type        | Description |
+|-----------|-------------|-------------|
+| `$alias`  | **?string** |             |
+
+***
+### getConfiguredRelationshipOptions
+
+Read relationship defaults from bootstrap config when available.
+
+```php
+private getConfiguredRelationshipOptions(): array<string,mixed>
+```
+
+The config path is intentionally feature-specific (`model.relationship`)
+rather than part of the generic model options manager.
+
+***
+### getRelationshipOption
+
+Return one configured relationship behavior option.
+
+```php
+public getRelationshipOption(string $option, ?string $alias = null, mixed $default = null): mixed
+```
+
+**Parameters:**
+
+| Parameter  | Type        | Description |
+|------------|-------------|-------------|
+| `$option`  | **string**  |             |
+| `$alias`   | **?string** |             |
+| `$default` | **mixed**   |             |
+
+***
+### getRelationshipAliasOptions
+
+```php
+private getRelationshipAliasOptions(array $configured, string $alias): array
+```
+
+**Parameters:**
+
+| Parameter     | Type       | Description |
+|---------------|------------|-------------|
+| `$configured` | **array**  |             |
+| `$alias`      | **string** |             |
 
 ***
 ### setKeepMissingRelated
@@ -65,7 +207,7 @@ public setKeepMissingRelated(array $keepMissingRelated): void
 Return the missing related configuration list
 
 ```php
-public getKeepMissingRelated(): array
+public getKeepMissingRelated(): array<string,bool>
 ```
 
 ***
@@ -129,7 +271,7 @@ public setRelationshipContext(string $context): void
 Return the dirtyRelated entities
 
 ```php
-public getDirtyRelated(): array
+public getDirtyRelated(): array<string,mixed>
 ```
 
 ***
@@ -203,6 +345,143 @@ public hasDirtyRelatedAlias(string $alias): bool
 | `$alias`  | **string** |             |
 
 ***
+### getLoadedRelated
+
+Return the eager-loaded related entities
+
+```php
+public getLoadedRelated(): array<string,mixed>
+```
+
+***
+### setLoadedRelated
+
+Set the eager-loaded related entities
+
+```php
+public setLoadedRelated(array $loadedRelated): void
+```
+
+**Parameters:**
+
+| Parameter        | Type      | Description |
+|------------------|-----------|-------------|
+| `$loadedRelated` | **array** |             |
+
+***
+### getLoadedRelatedAlias
+
+Return eager-loaded related entities for one alias
+
+```php
+public getLoadedRelatedAlias(string $alias): mixed
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+
+***
+### setLoadedRelatedAlias
+
+Set eager-loaded related entities for one alias
+
+```php
+public setLoadedRelatedAlias(string $alias, mixed $value): void
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+| `$value`  | **mixed**  |             |
+
+***
+### hasLoadedRelatedAlias
+
+Check whether an eager-loaded relation alias exists
+
+```php
+public hasLoadedRelatedAlias(string $alias): bool
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+
+***
+### setRelated
+
+Store a related value in both Phalcon's native relation cache and
+PhalconKit's read-only eager-loading cache.
+
+```php
+public setRelated(string $alias, mixed $records): \Phalcon\Mvc\ModelInterface
+```
+
+Phalcon 5.18's native eager loader calls this method while hydrating
+`find(['eager' => [...]])` results. Mirroring the value keeps direct
+property access, `getRelated()`, exports, and native
+`isRelationshipLoaded()` checks consistent without marking the relation
+for persistence.
+
+**Parameters:**
+
+| Parameter  | Type       | Description                             |
+|------------|------------|-----------------------------------------|
+| `$alias`   | **string** | Registered relationship alias.          |
+| `$records` | **mixed**  | Related model, row, resultset, or null. |
+
+**Return Value:**
+
+The current model instance.
+
+***
+### normalizeRelationAlias
+
+```php
+private normalizeRelationAlias(string $alias): string
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+
+***
+### normalizeRelationAliases
+
+```php
+private normalizeRelationAliases(array $related): array
+```
+
+**Parameters:**
+
+| Parameter  | Type      | Description |
+|------------|-----------|-------------|
+| `$related` | **array** |             |
+
+***
+### writeDeclaredRelatedAlias
+
+```php
+private writeDeclaredRelatedAlias(string $alias, mixed $value): void
+```
+
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$alias`  | **string** |             |
+| `$value`  | **mixed**  |             |
+
+***
 ### assign
 
 Assigns values to the model from an array, with options to control which fields are assigned.
@@ -227,7 +506,7 @@ Returns the updated ModelInterface instance.
 
 **Throws:**
 
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 ### assignRelated
@@ -256,7 +535,155 @@ Many
 
 **Throws:**
 
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
+
+***
+### isRelatedAssignmentWhiteListed
+
+Check whether a relation alias is allowed by a nested assignment whitelist.
+
+```php
+private isRelatedAssignmentWhiteListed(string $alias, array $whiteList): bool
+```
+
+The whitelist can contain relation aliases as plain values or as keys that
+point to nested allowed fields. This mirrors existing PhalconKit save-field
+payloads without forcing callers to choose one representation.
+
+**Parameters:**
+
+| Parameter    | Type       | Description |
+|--------------|------------|-------------|
+| `$alias`     | **string** |             |
+| `$whiteList` | **array**  |             |
+
+***
+### isRelationPayload
+
+Determine whether an unknown key carries relationship-shaped data.
+
+```php
+private isRelationPayload(mixed $value): bool
+```
+
+Scalar unknown keys are left to native model assignment. Complex values
+are the only safe candidates for strict relationship-alias validation
+because they are how REST/save payloads express nested relations.
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$value`  | **mixed** |             |
+
+***
+### isModelAssignmentField
+
+Check whether a non-relation assignment key is a known model field.
+
+```php
+private isModelAssignmentField(string $field, ?array $dataColumnMap = null): bool
+```
+
+Strict relationship assignment must not reject JSON/array columns or
+mapped model attributes just because their values look like nested
+relation payloads. The optional data column map is checked first because
+callers may use external request keys that Phalcon maps before writing.
+
+**Parameters:**
+
+| Parameter        | Type       | Description |
+|------------------|------------|-------------|
+| `$field`         | **string** |             |
+| `$dataColumnMap` | **?array** |             |
+
+***
+### isDirectOwnedRelationType
+
+```php
+private isDirectOwnedRelationType(?int $type): bool
+```
+
+**Parameters:**
+
+| Parameter | Type     | Description |
+|-----------|----------|-------------|
+| `$type`   | **?int** |             |
+
+***
+### assertDirectRelatedRecordCanBeAssigned
+
+```php
+private assertDirectRelatedRecordCanBeAssigned(?string $alias, ?int $type, array $relationFields, array $referencedFields, \Phalcon\Mvc\EntityInterface $record): void
+```
+
+**Parameters:**
+
+| Parameter           | Type                             | Description |
+|---------------------|----------------------------------|-------------|
+| `$alias`            | **?string**                      |             |
+| `$type`             | **?int**                         |             |
+| `$relationFields`   | **array**                        |             |
+| `$referencedFields` | **array**                        |             |
+| `$record`           | **\Phalcon\Mvc\EntityInterface** |             |
+
+***
+### getDirectRelatedOwnershipState
+
+```php
+private getDirectRelatedOwnershipState(array $relationFields, array $referencedFields, \Phalcon\Mvc\EntityInterface $record): string
+```
+
+**Parameters:**
+
+| Parameter           | Type                             | Description |
+|---------------------|----------------------------------|-------------|
+| `$relationFields`   | **array**                        |             |
+| `$referencedFields` | **array**                        |             |
+| `$record`           | **\Phalcon\Mvc\EntityInterface** |             |
+
+***
+### isEmptyRelationValue
+
+```php
+private isEmptyRelationValue(mixed $value): bool
+```
+
+**Parameters:**
+
+| Parameter | Type      | Description |
+|-----------|-----------|-------------|
+| `$value`  | **mixed** |             |
+
+***
+### isSameRelationValue
+
+```php
+private isSameRelationValue(mixed $expected, mixed $actual): bool
+```
+
+**Parameters:**
+
+| Parameter   | Type      | Description |
+|-------------|-----------|-------------|
+| `$expected` | **mixed** |             |
+| `$actual`   | **mixed** |             |
+
+***
+### prepareDirectRelatedRecordForSave
+
+```php
+private prepareDirectRelatedRecordForSave(\Phalcon\Mvc\Model\RelationInterface $relation, \Phalcon\Mvc\EntityInterface $record, ?string $alias, ?int $index = null): bool
+```
+
+**Parameters:**
+
+| Parameter   | Type                                     | Description |
+|-------------|------------------------------------------|-------------|
+| `$relation` | **\Phalcon\Mvc\Model\RelationInterface** |             |
+| `$record`   | **\Phalcon\Mvc\EntityInterface**         |             |
+| `$alias`    | **?string**                              |             |
+| `$index`    | **?int**                                 |             |
 
 ***
 ### preSaveRelatedRecords
@@ -280,7 +707,7 @@ protected preSaveRelatedRecords(\Phalcon\Db\Adapter\AdapterInterface $connection
 
 **Throws:**
 
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 ### postSaveRelatedRecords
@@ -313,7 +740,7 @@ Returns true on successful processing of related records, false if an error occu
 **Throws:**
 
 Throws an exception if there are no defined relations for a given alias or if invalid data types are provided.
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 **See Also:**
 
@@ -349,7 +776,7 @@ and `null` if the relation is of type `Through`.
 **Throws:**
 
 If there is an error during the save operation for a related record.
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 ### postSaveRelatedThroughAfter
@@ -380,7 +807,7 @@ Returns null if the relation is not a through relationship.
 **Throws:**
 
 If the intermediate model or related records cannot be properly saved.
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 ### findFirstByPrimaryKeys
@@ -552,7 +979,7 @@ The new index as a string
 Retrieves the related records as an array.
 
 ```php
-public relatedToArray(array|null $columns = null, bool $useGetter = true): array
+public relatedToArray(array|null $columns = null, bool $useGetter = true): array<string,mixed>
 ```
 
 If $columns is provided, only the specified columns will be included in the array.
@@ -577,19 +1004,27 @@ where the related record is being stored into the "related" property and then
 passed from the collectRelatedToSave and is mistakenly saved without the user consent
 
 ```php
-public getRelated(string $alias, mixed $arguments = null): false|int|\Phalcon\Mvc\Model\Resultset\Simple
+public getRelated(string $alias, mixed $arguments = null): mixed
 ```
 
 **Parameters:**
 
-| Parameter    | Type       | Description |
-|--------------|------------|-------------|
-| `$alias`     | **string** |             |
-| `$arguments` | **mixed**  |             |
+| Parameter    | Type       | Description                                                                                                                                                                                                                           |
+|--------------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$alias`     | **string** |                                                                                                                                                                                                                                       |
+| `$arguments` | **mixed**  |
+Values populated by Phalcon 5.18's native eager loader are returned from
+PhalconKit's read-only cache. Uncached relationships continue through
+the models manager so they are never added to Phalcon's dirty relation
+save pipeline. |
+
+**Return Value:**
+
+Cached related data or the models manager query result.
 
 **Throws:**
 
-- [`Exception`](../../../../Exception.md)
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 ### toArray

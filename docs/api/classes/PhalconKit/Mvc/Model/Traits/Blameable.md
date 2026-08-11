@@ -1,4 +1,12 @@
 
+Installs audit/user attribution behavior and user relationships on models.
+
+The trait wires the `Blameable` behavior with model classes resolved from
+the shared `models` service, so consuming applications can override core
+model classes through the normal model-map configuration. It also adds a
+belongs-to relationship to the configured user model when the target field
+exists on the model.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Model\Traits\Blameable`
@@ -7,68 +15,105 @@
 
 ### initializeBlameable
 
-Initialize Blameable
+Initialize the blameable behavior and user relationship.
 
 ```php
-public initializeBlameable(array|null $options = null): void
+public initializeBlameable(array<array-key,mixed>|null $options = null): void
 ```
+
+When no options are provided, the trait reads `blameable` options from
+the model options manager. Missing audit, audit-detail, and user classes
+are filled from the PhalconKit `models` service so applications using
+custom model classes keep one central mapping.
 
 **Parameters:**
 
-| Parameter  | Type            | Description                       |
-|------------|-----------------|-----------------------------------|
-| `$options` | **array\|null** | Options for the BlameableBehavior |
+| Parameter  | Type                             | Description                                                                                                                                                                                                                                   |
+|------------|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$options` | **array<array-key,mixed>\|null** | Behavior options. Common
+keys include `auditClass`, `auditDetailClass`, `userClass`,
+`userField`, `auditEnabled`, and `auditDetailEnabled`. Audit is
+opt-in; set `auditEnabled` to `true` for applications that install
+and use audit tables. |
+
+**Throws:**
+
+When the models service cannot be resolved
+through the PhalconKit DI contract.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### setBlameableBehavior
 
-Set Blameable Behavior.
+Register the blameable behavior under the standard behavior name.
 
 ```php
 public setBlameableBehavior(\PhalconKit\Mvc\Model\Behavior\Blameable $blameableBehavior): void
 ```
 
+The behavior is stored in the PhalconKit model behavior registry as
+`blameable`, which lets other traits and application code retrieve the
+same instance later.
+
 **Parameters:**
 
-| Parameter            | Type                                         | Description                              |
-|----------------------|----------------------------------------------|------------------------------------------|
-| `$blameableBehavior` | **\PhalconKit\Mvc\Model\Behavior\Blameable** | The `BlameableBehavior` instance to set. |
+| Parameter            | Type                                         | Description                   |
+|----------------------|----------------------------------------------|-------------------------------|
+| `$blameableBehavior` | **\PhalconKit\Mvc\Model\Behavior\Blameable** | Configured behavior instance. |
+
+**Throws:**
+
+When the current models manager does not expose
+the PhalconKit behavior registry.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### getBlameableBehavior
 
-Retrieves the BlameableBehavior instance associated with the current object.
+Retrieve the registered blameable behavior.
 
 ```php
 public getBlameableBehavior(): \PhalconKit\Mvc\Model\Behavior\Blameable
 ```
 
-**Return Value:**
+**Throws:**
 
-The BlameableBehavior instance.
+When the current models manager does not expose
+the PhalconKit behavior registry.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
 ### addUserRelationship
 
-Adds a relationship between the current object and a user entity.
+Add a user relationship when the configured attribution field exists.
 
 ```php
-public addUserRelationship(string $field = 'userId', string $alias = 'UserEntity', array $params = [], string $ref = 'id', string $type = 'belongsTo', string|null $class = null): \Phalcon\Mvc\Model\Relation|null
+public addUserRelationship(string $field = 'userId', string $alias = 'UserEntity', array<array-key,mixed> $params = [], string $ref = 'id', string $type = 'belongsTo', string|null $class = null): \Phalcon\Mvc\Model\Relation|null
 ```
 
 **Parameters:**
 
-| Parameter | Type             | Description                                                                                                    |
-|-----------|------------------|----------------------------------------------------------------------------------------------------------------|
-| `$field`  | **string**       | The field name to create the relationship on. Default is 'userId'.                                             |
-| `$alias`  | **string**       | The alias name for the user entity. Default is 'UserEntity'.                                                   |
-| `$params` | **array**        | Additional parameters for the relationship. Default is an empty array.                                         |
-| `$ref`    | **string**       | The reference field in the user entity. Default is 'id'.                                                       |
-| `$type`   | **string**       | The type of relationship to create. Default is 'belongsTo'.                                                    |
-| `$class`  | **string\|null** | The class name of the user entity. If null, it will be obtained from the identity or the global configuration. |
+| Parameter | Type                       | Description                                                                              |
+|-----------|----------------------------|------------------------------------------------------------------------------------------|
+| `$field`  | **string**                 |                                                                                          |
+| `$alias`  | **string**                 | The alias name for the user entity. Default is 'UserEntity'.                             |
+| `$params` | **array<array-key,mixed>** | Additional relationship
+parameters.                                                      |
+| `$ref`    | **string**                 | The reference field in the user entity. Default is 'id'.                                 |
+| `$type`   | **string**                 | Relationship method to call on the model, usually
+`belongsTo`.                           |
+| `$class`  | **string\|null**           | User model class. When null, the class is
+resolved from the PhalconKit `models` service. |
 
 **Return Value:**
 
-The created relationship object, or null if the specified field does not exist in the current object.
+Created relationship, or null when the model does
+not expose the configured attribution field.
+
+**Throws:**
+
+When the models service cannot be resolved while
+deriving the default user class.
+- [`ServiceException`](../../../Exception/ServiceException.md)
 
 ***
