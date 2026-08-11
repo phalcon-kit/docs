@@ -16,7 +16,7 @@ because Phalcon's HMAC signing path is not compatible with those modes.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/encryption-crypt/
+* https://docs.phalcon.io/latest/encryption-crypt/
 
 ## Properties
 

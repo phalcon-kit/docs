@@ -13,7 +13,7 @@ callback is changed.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/autoload/
+* https://docs.phalcon.io/latest/autoload/
 
 ## Methods
 

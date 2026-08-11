@@ -12,7 +12,7 @@ configuration.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/logger/
+* https://docs.phalcon.io/latest/logger/
 
 ## Properties
 

@@ -14,7 +14,7 @@ per-resolution options when manually resolving the service, otherwise
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/views/
+* https://docs.phalcon.io/latest/views/
 
 ## Properties
 

@@ -15,7 +15,7 @@ boundary should type against this interface instead of native
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/di/
+* https://docs.phalcon.io/latest/di/
 
 ## Methods
 

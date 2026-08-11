@@ -4,7 +4,7 @@ This file tracks design questions that are worth revisiting, but should not
 change public behavior until there is a concrete application need, migration
 plan, and test coverage.
 
-Actionable release blocks live in the [Project Roadmap](https://github.com/phalcon-kit/core/blob/3.9.0/ROADMAP.md). Promote
+Actionable release blocks live in the [Project Roadmap](https://github.com/phalcon-kit/core/blob/master/ROADMAP.md). Promote
 an item there only after the expected behavior, compatibility risk, and
 validation plan are concrete.
 
@@ -57,7 +57,7 @@ Keep for discussion:
   `src/Provider/Assets/ServiceProvider.php`,
   `tests/Unit/Html/TagFactoryTest.php`.
   The assets manager needs a native-style `TagFactory`, while the public `tag`
-  service exposes PhalconKit's static helper facade. A cleanup would likely need
+  service exposes Phalcon Kit's static helper facade. A cleanup would likely need
   separate service names or a compatibility bridge.
 - Database logger correlation context:
   `src/Db/Events/Logger.php`.

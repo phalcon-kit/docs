@@ -14,7 +14,7 @@ keeps native Phalcon DI behavior while exposing PhalconKit typed helpers.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/di/
+* https://docs.phalcon.io/latest/di/
 
 ## Inherited methods
 

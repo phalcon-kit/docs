@@ -25,7 +25,7 @@ serializes only that already-known state.
 **See Also:**
 
 * https://fractal.thephpleague.com/transformers/
-* https://docs.phalcon.io/5.18/db-models-relationships/
+* https://docs.phalcon.io/latest/db-models-relationships/
 
 ## Methods
 

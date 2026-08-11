@@ -14,7 +14,7 @@ PhalconKit bootstraps unless an application passes a custom DiInterface.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/di/
+* https://docs.phalcon.io/latest/di/
 
 ## Inherited methods
 

@@ -18,7 +18,7 @@ an empty string so form/request sanitization can collapse them to "no value".
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/filter/
+* https://docs.phalcon.io/latest/filter/
 
 ## Constants
 

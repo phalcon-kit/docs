@@ -4263,6 +4263,6 @@ public static setup(array|null $options = null): void
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/db-models#model-features
+* https://docs.phalcon.io/latest/db-models#model-features
 
 ***

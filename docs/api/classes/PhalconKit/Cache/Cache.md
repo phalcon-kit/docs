@@ -13,4 +13,4 @@ adapters, serializers, and cache semantics.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/cache/
+* https://docs.phalcon.io/latest/cache/

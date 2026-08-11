@@ -19,7 +19,7 @@ consumers can keep working normally.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/session/
+* https://docs.phalcon.io/latest/session/
 
 ## Properties
 

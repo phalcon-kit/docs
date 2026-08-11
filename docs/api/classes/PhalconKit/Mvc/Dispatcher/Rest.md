@@ -11,7 +11,7 @@ promoted to a supported framework contract.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/dispatcher/
+* https://docs.phalcon.io/latest/dispatcher/
 
 ## Methods
 

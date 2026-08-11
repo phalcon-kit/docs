@@ -16,7 +16,7 @@ The class keeps native `Phalcon\Config\Config` behavior and adds:
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/config/
+* https://docs.phalcon.io/latest/config/
 
 ## Methods
 

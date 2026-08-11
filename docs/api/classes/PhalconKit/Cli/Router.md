@@ -18,7 +18,7 @@ the parent and PhalconKit's shared router interface.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/application-cli/
+* https://docs.phalcon.io/latest/application-cli/
 
 ## Methods
 

@@ -16,7 +16,7 @@ while exposing a small `toArray()` diagnostic snapshot through
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/routing/
+* https://docs.phalcon.io/latest/routing/
 
 ## Properties
 

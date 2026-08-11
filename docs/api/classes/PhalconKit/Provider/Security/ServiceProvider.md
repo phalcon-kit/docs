@@ -13,7 +13,7 @@ Argon2id with a moderate work factor; applications can override both under
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/encryption-security/
+* https://docs.phalcon.io/latest/encryption-security/
 
 ## Properties
 

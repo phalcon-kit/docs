@@ -12,7 +12,7 @@ optional locale-prefixed variants based on the configured allowed locales.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/routing/
+* https://docs.phalcon.io/latest/routing/
 
 ## Properties
 

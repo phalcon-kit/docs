@@ -13,7 +13,7 @@ can be registered anywhere Phalcon expects a translate adapter.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/translate/
+* https://docs.phalcon.io/latest/translate/
 
 ## Methods
 

@@ -13,7 +13,7 @@ internal controller/task target without mutating the active dispatcher.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/application/
+* https://docs.phalcon.io/latest/application/
 
 ## Methods
 

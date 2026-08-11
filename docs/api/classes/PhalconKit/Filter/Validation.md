@@ -18,4 +18,4 @@ message collection or field binding semantics.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/filter-validation/
+* https://docs.phalcon.io/latest/filter-validation/

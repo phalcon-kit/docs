@@ -14,7 +14,7 @@ consistent.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/db-models-events/
+* https://docs.phalcon.io/latest/db-models-events/
 
 ## Methods
 

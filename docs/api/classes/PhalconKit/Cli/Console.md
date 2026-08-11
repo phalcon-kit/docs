@@ -12,7 +12,7 @@ CLI modules still rely on native Phalcon console dispatch semantics.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/application-cli/
+* https://docs.phalcon.io/latest/application-cli/
 
 ## Methods
 

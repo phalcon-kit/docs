@@ -14,7 +14,7 @@ HTML output minification for applications that opt in through `setMinify()`.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/views/
+* https://docs.phalcon.io/latest/views/
 
 ## Properties
 

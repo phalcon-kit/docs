@@ -4,6 +4,9 @@ Phalcon Kit is a database-first toolkit for building Phalcon applications and
 REST APIs with consistent scaffolding, model relationships, eager loading,
 identity, permissions, CLI tasks, and WebSocket support.
 
+[Get Started](guides/getting-started.md){ .md-button .md-button--primary }
+[Browse The Cookbook](guides/cookbook.md){ .md-button }
+
 !!! info "Latest-version documentation"
 
     This site documents the latest stable release of `phalcon-kit/core` and
@@ -75,14 +78,14 @@ Choose the path closest to what you want to build.
 
     [:octicons-arrow-right-24: CLI And WebSocket](guides/web-server-and-websocket.md)
 
--   :material-swap-horizontal:{ .lg .middle } **Migrate An Existing App**
+-   :material-lightbulb-on-outline:{ .lg .middle } **Solve A Common Task**
 
     ---
 
-    Move older Zemit or PhalconKit applications onto the current namespaces and
-    REST conventions.
+    Copy focused recipes for endpoints, services, eager loading, workflow
+    actions, transformers, CLI tasks, and tests.
 
-    [:octicons-arrow-right-24: Migration Guides](guides/migration-from-zemit.md)
+    [:octicons-arrow-right-24: Developer Cookbook](guides/cookbook.md)
 
 -   :material-code-braces:{ .lg .middle } **Browse The API**
 
@@ -117,4 +120,8 @@ Choose the path closest to what you want to build.
   database-first development workflow.
 - [REST APIs](guides/rest-api.md) documents controllers, query composition,
   responses, and extension points.
+- [Troubleshooting](guides/troubleshooting.md) maps common symptoms back to the
+  runtime, configuration, routing, model, or REST layer that owns them.
+- [Migration Guides](guides/migration-from-zemit.md) help older Zemit and
+  PhalconKit applications move onto current namespaces and contracts.
 - [Guide Index](guides/README.md) lists every maintained guide by workflow.

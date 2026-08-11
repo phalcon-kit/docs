@@ -13,7 +13,7 @@ replace named filter services without replacing the provider itself.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/filter/
+* https://docs.phalcon.io/latest/filter/
 
 ## Properties
 

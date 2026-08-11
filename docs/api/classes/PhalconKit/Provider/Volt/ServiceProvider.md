@@ -12,7 +12,7 @@ cache behavior, and engine options centralized in application configuration.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/volt/
+* https://docs.phalcon.io/latest/volt/
 
 ## Properties
 

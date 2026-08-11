@@ -18,7 +18,7 @@ module routes.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/routing/
+* https://docs.phalcon.io/latest/routing/
 
 ## Properties
 

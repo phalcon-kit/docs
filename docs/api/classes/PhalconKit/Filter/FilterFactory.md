@@ -13,7 +13,7 @@ locators without duplicating the alias map.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/filter/
+* https://docs.phalcon.io/latest/filter/
 
 ## Methods
 

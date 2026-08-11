@@ -1,8 +1,8 @@
 # Testing Strategy
 
 This guide describes how to grow package coverage without blocking application
-work. It is not the active release backlog. Use [ROADMAP.md](https://github.com/phalcon-kit/core/blob/3.9.0/ROADMAP.md) for
-schedulable work, and use [CHANGELOG.md](https://github.com/phalcon-kit/core/blob/3.9.0/CHANGELOG.md) for completed
+work. It is not the active release backlog. Use [ROADMAP.md](https://github.com/phalcon-kit/core/blob/master/ROADMAP.md) for
+schedulable work, and use [CHANGELOG.md](https://github.com/phalcon-kit/core/blob/master/CHANGELOG.md) for completed
 coverage batches.
 
 The original `3.0.4` P0 through P4 testing pass is complete. Its results are

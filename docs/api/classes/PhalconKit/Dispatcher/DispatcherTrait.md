@@ -11,7 +11,7 @@ preventing event-driven forwards from cycling back to the current target.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/dispatcher/
+* https://docs.phalcon.io/latest/dispatcher/
 
 ## Methods
 

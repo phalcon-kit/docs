@@ -12,7 +12,7 @@ is read from `url.staticBaseUri`, `url.baseUri`, and `url.basePath`.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/url/
+* https://docs.phalcon.io/latest/url/
 
 ## Properties
 

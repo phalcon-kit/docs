@@ -48,7 +48,7 @@ $translator->query('en.welcome', ['name' => 'John']); // returns 'Welcome to our
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/translate/
+* https://docs.phalcon.io/latest/translate/
 
 ## Properties
 

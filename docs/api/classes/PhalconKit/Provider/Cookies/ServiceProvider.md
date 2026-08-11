@@ -13,7 +13,7 @@ manually.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/cookies/
+* https://docs.phalcon.io/latest/cookies/
 
 ## Properties
 

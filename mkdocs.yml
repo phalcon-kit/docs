@@ -1,5 +1,5 @@
 site_name: Phalcon Kit Documentation
-site_description: Build Phalcon REST APIs with current Phalcon Kit guides and generated API references.
+site_description: Build database-first Phalcon applications with practical guides, examples, and a current API reference.
 site_url: https://phalcon-kit.github.io/docs/
 copyright: Copyright &copy; 2017 - present Phalcon Kit
 repo_url: https://github.com/phalcon-kit/core
@@ -28,6 +28,7 @@ theme:
     - navigation.expand
     - navigation.instant
     - navigation.instant.prefetch
+    - navigation.instant.progress
     - navigation.tracking
     - navigation.path
     - navigation.top
@@ -40,6 +41,8 @@ theme:
     - content.code.copy
     - content.code.select
     - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
     - toc.follow
 #    - toc.integrate
   palette:
@@ -113,6 +116,7 @@ plugins:
               - "modules.md"
               - "rest.md"
               - "services.md"
+              - "guides/to-be-discussed.md"
 #              - api/*
               - "*.tmp"
               - ".draft.md"
@@ -183,6 +187,8 @@ nav:
       - Getting Started: guides/getting-started.md
       - Architecture: guides/architecture.md
       - Configuration: guides/configuration.md
+      - Developer Cookbook: guides/cookbook.md
+      - Troubleshooting: guides/troubleshooting.md
   - REST APIs:
       - First REST Resource: guides/first-rest-resource.md
       - Resource Walkthrough: guides/resource-walkthrough.md
@@ -193,14 +199,13 @@ nav:
       - Identity And Permissions: guides/identity-and-permissions.md
   - Runtime:
       - Web Server And WebSocket: guides/web-server-and-websocket.md
-      - Phalcon Runtime Upgrades: guides/phalcon-runtime-upgrades.md
+      - Runtime Compatibility: guides/phalcon-runtime-upgrades.md
   - Migration:
       - From zemit-cms/core: guides/migration-from-zemit.md
       - RESTful 0.x To 1.x: guides/migration-restful-0x-to-1x.md
   - Contribute:
       - Quality And Maintenance: guides/quality-and-maintenance.md
       - Testing Strategy: guides/testing-roadmap.md
-      - Open Design Questions: guides/to-be-discussed.md
       - Release Process: guides/release.md
   - API Reference:
       - Home: api/Home.md

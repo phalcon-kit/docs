@@ -14,7 +14,7 @@ interface when they need `pathToArray()` in addition to native `get()`,
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/config/
+* https://docs.phalcon.io/latest/config/
 
 ## Methods
 

@@ -13,8 +13,8 @@ available through REST initialization events.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/db-models/
-* https://docs.phalcon.io/5.18/db-models-relationships/
+* https://docs.phalcon.io/latest/db-models/
+* https://docs.phalcon.io/latest/db-models-relationships/
 
 ## Properties
 

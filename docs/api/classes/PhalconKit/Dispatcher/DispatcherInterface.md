@@ -14,7 +14,7 @@ care whether the active handler is an MVC controller or CLI/WebSocket task.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/dispatcher/
+* https://docs.phalcon.io/latest/dispatcher/
 
 ## Methods
 

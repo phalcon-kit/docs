@@ -16,7 +16,7 @@ including state export used by diagnostics and tests.
 
 **See Also:**
 
-* https://docs.phalcon.io/5.18/application-cli/
+* https://docs.phalcon.io/latest/application-cli/
 
 ## Inherited methods
 
