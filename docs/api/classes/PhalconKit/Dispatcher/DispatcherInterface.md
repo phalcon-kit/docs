@@ -10,7 +10,7 @@ care whether the active handler is an MVC controller or CLI/WebSocket task.
 
 * Full name: `\PhalconKit\Dispatcher\DispatcherInterface`
 * Parent interfaces:
-  `DispatcherInterface`
+  `Dispatcher`
 
 **See Also:**
 

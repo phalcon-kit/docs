@@ -449,6 +449,26 @@ When the bootstrap mode cannot be handled.
 
 ***
 
+### resetConnectionState
+
+Clear request-scoped model connection state before dispatch.
+
+```php
+public resetConnectionState(): void
+```
+
+Native Phalcon sticky read/write tracking belongs to one logical request.
+Traditional PHP runtimes build a new container per request, while
+RoadRunner-style runtimes may reuse the bootstrap and its shared model
+manager. This reset prevents a write in one request from pinning an
+unrelated later request to the write connection.
+
+Swoole WebSocket handlers should also reset at the start of every logical
+message or HTTP request; PhalconKit's base WebSocket task does this for
+the built-in callbacks.
+
+***
+
 ### handleConsole
 
 Handles a CLI console request and returns captured output.

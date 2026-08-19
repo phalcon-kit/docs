@@ -134,6 +134,19 @@ public getReadConnectionService(): string
 DI service name for read operations.
 
 ***
+### getModelsManager
+
+Return the model manager responsible for connection selection.
+
+```php
+public getModelsManager(): \Phalcon\Mvc\Model\ManagerInterface
+```
+
+Phalcon's manager applies transaction and sticky-write state before
+resolving the configured read service.
+
+* This method is **abstract**.
+***
 ### getReplicationLag
 
 Return the configured replica lag window in milliseconds.
@@ -205,7 +218,7 @@ Initialize read/write connection services for replica-aware models.
 public initializeReplication(array<array-key,mixed>|null $options = null): void
 ```
 
-The trait reads `database.drivers.mysql.readonly.enable` from the config
+The trait reads `database.drivers.readonly.enable` from the config
 service. When enabled, it configures connection service names and attaches
 write-event listeners that temporarily pin reads to the write connection.
 
@@ -229,13 +242,13 @@ through the PhalconKit DI contract.
 Select the connection used for model reads.
 
 ```php
-public selectReadConnection(): \Phalcon\Db\Adapter\AdapterInterface
+public selectReadConnection(): \Phalcon\Contracts\Db\Adapter\Adapter
 ```
 
-When there is no active replica-cooldown window, the configured read
-connection service is returned. Immediately after write-like events,
-reads are pinned back to the write connection until the lag window
-expires, which avoids stale reads from asynchronous replicas.
+During the replica-cooldown window, the write connection is returned
+directly. Otherwise selection is delegated to Phalcon's model manager so
+transactions and native sticky-write state still take precedence over
+the configured read service.
 
 **Return Value:**
 

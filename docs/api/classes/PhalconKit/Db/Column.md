@@ -3,8 +3,6 @@
 
 * Full name: `\PhalconKit\Db\Column`
 * Parent class: [`Column`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-* This class implements:
-  `ColumnInterface`
 
 ## Constants
 

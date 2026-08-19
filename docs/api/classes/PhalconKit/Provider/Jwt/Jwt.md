@@ -252,15 +252,17 @@ the token satisfied every enabled validation.
 
 **Parameters:**
 
-| Parameter    | Type                                                             | Description                                                                     |
-|--------------|------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Parameter    | Type                                                             | Description                                                                                                                                              |
+|--------------|------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `$token`     | **\Phalcon\Encryption\Security\JWT\Token\Token\|null**           | Token to validate, or null to use the current
-helper token.                     |
+helper token.                                                                                              |
 | `$timeShift` | **int**                                                          | Clock skew allowance passed to Phalcon's
-validator.                             |
-| `$options`   | **array<string,mixed>**                                          | Validation option overrides.                                                    |
+validator.                                                                                                      |
+| `$options`   | **array<string,mixed>**                                          | Validation option overrides.
+Pass nullable `expectedSubject` to opt into validating the `sub`
+claim without changing the subject used by token builders. |
 | `$signer`    | **\Phalcon\Encryption\Security\JWT\Signer\AbstractSigner\|null** | Signer used for signature validation,
-or null to use the current helper signer. |
+or null to use the current helper signer.                                                                          |
 
 **Return Value:**
 

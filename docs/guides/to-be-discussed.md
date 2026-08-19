@@ -4,7 +4,7 @@ This file tracks design questions that are worth revisiting, but should not
 change public behavior until there is a concrete application need, migration
 plan, and test coverage.
 
-Actionable release blocks live in the [Project Roadmap](https://github.com/phalcon-kit/core/blob/master/ROADMAP.md). Promote
+Actionable release blocks live in the [Project Roadmap](../ROADMAP.md). Promote
 an item there only after the expected behavior, compatibility risk, and
 validation plan are concrete.
 

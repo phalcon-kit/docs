@@ -10,7 +10,7 @@ concrete dispatcher class.
 
 * Full name: `\PhalconKit\Cli\DispatcherInterface`
 * Parent interfaces:
-  `DispatcherInterface`,
+  `Dispatcher`,
   [`\PhalconKit\Dispatcher\DispatcherInterface`](../Dispatcher/DispatcherInterface.md)
 
 ## Inherited methods

@@ -61,12 +61,12 @@ public getActionName(): string
 
 * This method is **abstract**.
 ***
-### getParams
+### getParameters
 
 Return current dispatch parameters.
 
 ```php
-public getParams(): array<int|string,mixed>
+public getParameters(): array<int|string,mixed>
 ```
 
 * This method is **abstract**.

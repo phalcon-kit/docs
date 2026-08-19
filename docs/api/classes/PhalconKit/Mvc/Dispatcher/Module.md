@@ -17,15 +17,15 @@ downstream listeners and diagnostics see the forwarded module consistently.
 Apply a forwarded module name before Phalcon continues dispatching.
 
 ```php
-public beforeForward(\Phalcon\Events\Event $event, \Phalcon\Dispatcher\DispatcherInterface $dispatcher, array<string,mixed> $forward): void
+public beforeForward(\Phalcon\Events\Event $event, \Phalcon\Contracts\Dispatcher\Dispatcher $dispatcher, array<string,mixed> $forward): void
 ```
 
 **Parameters:**
 
-| Parameter     | Type                                        | Description                        |
-|---------------|---------------------------------------------|------------------------------------|
-| `$event`      | **\Phalcon\Events\Event**                   | Dispatch event emitted by Phalcon. |
-| `$dispatcher` | **\Phalcon\Dispatcher\DispatcherInterface** | Active dispatcher instance.        |
-| `$forward`    | **array<string,mixed>**                     | Forward route parts.               |
+| Parameter     | Type                                         | Description                        |
+|---------------|----------------------------------------------|------------------------------------|
+| `$event`      | **\Phalcon\Events\Event**                    | Dispatch event emitted by Phalcon. |
+| `$dispatcher` | **\Phalcon\Contracts\Dispatcher\Dispatcher** | Active dispatcher instance.        |
+| `$forward`    | **array<string,mixed>**                      | Forward route parts.               |
 
 ***

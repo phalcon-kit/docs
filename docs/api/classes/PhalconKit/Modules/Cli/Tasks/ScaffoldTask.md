@@ -200,10 +200,10 @@ public getValidationItems(array $columns, array $indexes): string
 
 **Parameters:**
 
-| Parameter  | Type      | Description                          |
-|------------|-----------|--------------------------------------|
-| `$columns` | **array** | An array of ColumnInterface objects. |
-| `$indexes` | **array** | An array of IndexInterface objects.  |
+| Parameter  | Type      | Description                   |
+|------------|-----------|-------------------------------|
+| `$columns` | **array** | An array of column contracts. |
+| `$indexes` | **array** | An array of index contracts.  |
 
 **Return Value:**
 
@@ -263,16 +263,16 @@ intermediate model in the alias so they cannot shadow a direct relation.
 ### getDirectHasManyRelationshipAliases
 
 ```php
-private getDirectHasManyRelationshipAliases(string $table, array<int,\Phalcon\Db\ColumnInterface> $columns, array<int,string> $tables): array<string,bool>
+private getDirectHasManyRelationshipAliases(string $table, array<int,\Phalcon\Contracts\Db\Column> $columns, array<int,string> $tables): array<string,bool>
 ```
 
 **Parameters:**
 
-| Parameter  | Type                                       | Description |
-|------------|--------------------------------------------|-------------|
-| `$table`   | **string**                                 |             |
-| `$columns` | **array<int,\Phalcon\Db\ColumnInterface>** |             |
-| `$tables`  | **array<int,string>**                      |             |
+| Parameter  | Type                                        | Description |
+|------------|---------------------------------------------|-------------|
+| `$table`   | **string**                                  |             |
+| `$columns` | **array<int,\Phalcon\Contracts\Db\Column>** |             |
+| `$tables`  | **array<int,string>**                       |             |
 
 ***
 
@@ -380,9 +380,9 @@ public getPropertyItems(array $columns): string
 
 **Parameters:**
 
-| Parameter  | Type      | Description                          |
-|------------|-----------|--------------------------------------|
-| `$columns` | **array** | An array of ColumnInterface objects. |
+| Parameter  | Type      | Description                   |
+|------------|-----------|-------------------------------|
+| `$columns` | **array** | An array of column contracts. |
 
 **Return Value:**
 
@@ -395,15 +395,15 @@ The generated property items.
 Generates the comment for a property with the given column name and property type.
 
 ```php
-public getPropertyComment(\Phalcon\Db\ColumnInterface $column, array $definitions): string
+public getPropertyComment(\Phalcon\Contracts\Db\Column $column, array $definitions): string
 ```
 
 **Parameters:**
 
-| Parameter      | Type                            | Description               |
-|----------------|---------------------------------|---------------------------|
-| `$column`      | **\Phalcon\Db\ColumnInterface** | The column object.        |
-| `$definitions` | **array**                       | The property definitions. |
+| Parameter      | Type                             | Description               |
+|----------------|----------------------------------|---------------------------|
+| `$column`      | **\Phalcon\Contracts\Db\Column** | The column object.        |
+| `$definitions` | **array**                        | The property definitions. |
 
 **Return Value:**
 
@@ -438,16 +438,16 @@ The string representation of the getters and setters.
 Generates a comment for a getter or setter method for a specific column.
 
 ```php
-public getSetMethodComment(\Phalcon\Db\ColumnInterface $column, array $definitions, bool $get): string
+public getSetMethodComment(\Phalcon\Contracts\Db\Column $column, array $definitions, bool $get): string
 ```
 
 **Parameters:**
 
-| Parameter      | Type                            | Description                                                      |
-|----------------|---------------------------------|------------------------------------------------------------------|
-| `$column`      | **\Phalcon\Db\ColumnInterface** | The column object.                                               |
-| `$definitions` | **array**                       | The property definitions.                                        |
-| `$get`         | **bool**                        | Determines whether the comment is for a getter or setter method. |
+| Parameter      | Type                             | Description                                                      |
+|----------------|----------------------------------|------------------------------------------------------------------|
+| `$column`      | **\Phalcon\Contracts\Db\Column** | The column object.                                               |
+| `$definitions` | **array**                        | The property definitions.                                        |
+| `$get`         | **bool**                         | Determines whether the comment is for a getter or setter method. |
 
 **Return Value:**
 
@@ -458,28 +458,28 @@ The generated comment.
 ### getColumnAttributes
 
 ```php
-public getColumnAttributes(\Phalcon\Db\ColumnInterface $column): string
+public getColumnAttributes(\Phalcon\Contracts\Db\Column $column): string
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description |
-|-----------|---------------------------------|-------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** |             |
+| Parameter | Type                             | Description |
+|-----------|----------------------------------|-------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** |             |
 
 ***
 
 ### getPropertyDefinitions
 
 ```php
-public getPropertyDefinitions(\Phalcon\Db\ColumnInterface $column): array
+public getPropertyDefinitions(\Phalcon\Contracts\Db\Column $column): array
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description |
-|-----------|---------------------------------|-------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** |             |
+| Parameter | Type                             | Description |
+|-----------|----------------------------------|-------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** |             |
 
 ***
 
@@ -673,14 +673,14 @@ Returns true if the value is a raw value, false otherwise.
 Determines the PHP data type of column.
 
 ```php
-public getColumnType(\Phalcon\Db\ColumnInterface $column): string
+public getColumnType(\Phalcon\Contracts\Db\Column $column): string
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description          |
-|-----------|---------------------------------|----------------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** | The column to check. |
+| Parameter | Type                             | Description          |
+|-----------|----------------------------------|----------------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** | The column to check. |
 
 **Return Value:**
 
@@ -698,14 +698,14 @@ The data type of the column. Possible values are:
 Retrieves the default value for a column.
 
 ```php
-public getDefaultValue(\Phalcon\Db\ColumnInterface $column): mixed
+public getDefaultValue(\Phalcon\Contracts\Db\Column $column): mixed
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description                                           |
-|-----------|---------------------------------|-------------------------------------------------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** | The column object to retrieve the default value from. |
+| Parameter | Type                             | Description                                           |
+|-----------|----------------------------------|-------------------------------------------------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** | The column object to retrieve the default value from. |
 
 **Return Value:**
 

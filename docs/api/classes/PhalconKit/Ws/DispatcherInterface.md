@@ -9,7 +9,7 @@ through the same contract as CLI tasks.
 
 * Full name: `\PhalconKit\Ws\DispatcherInterface`
 * Parent interfaces:
-  `DispatcherInterface`,
+  `Dispatcher`,
   [`\PhalconKit\Dispatcher\DispatcherInterface`](../Dispatcher/DispatcherInterface.md)
 
 ## Inherited methods

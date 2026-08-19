@@ -36,6 +36,20 @@ If an error occurs while setting the status code.
 
 ## Inherited methods
 
+### resetConnectionState
+
+Clear request-scoped model connection state in a long-running worker.
+
+```php
+public resetConnectionState(): void
+```
+
+Call this before custom WebSocket callbacks that perform model reads or
+writes. The built-in abstract task invokes it for open, message, close,
+HTTP request, and pipe-message callbacks.
+
+***
+
 ### errorAction
 
 Render a generic error using an explicit or already-selected status.

@@ -1200,7 +1200,7 @@ public initializeReplication(?array $options = null): void
 ### selectReadConnection
 
 ```php
-public selectReadConnection(): \Phalcon\Db\Adapter\AdapterInterface
+public selectReadConnection(): \Phalcon\Contracts\Db\Adapter\Adapter
 ```
 
 ***

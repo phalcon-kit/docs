@@ -118,14 +118,14 @@ Returns true if the value is a raw value, false otherwise.
 Determines the PHP data type of column.
 
 ```php
-public getColumnType(\Phalcon\Db\ColumnInterface $column): string
+public getColumnType(\Phalcon\Contracts\Db\Column $column): string
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description          |
-|-----------|---------------------------------|----------------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** | The column to check. |
+| Parameter | Type                             | Description          |
+|-----------|----------------------------------|----------------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** | The column to check. |
 
 **Return Value:**
 
@@ -142,14 +142,14 @@ The data type of the column. Possible values are:
 Retrieves the default value for a column.
 
 ```php
-public getDefaultValue(\Phalcon\Db\ColumnInterface $column): mixed
+public getDefaultValue(\Phalcon\Contracts\Db\Column $column): mixed
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description                                           |
-|-----------|---------------------------------|-------------------------------------------------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** | The column object to retrieve the default value from. |
+| Parameter | Type                             | Description                                           |
+|-----------|----------------------------------|-------------------------------------------------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** | The column object to retrieve the default value from. |
 
 **Return Value:**
 

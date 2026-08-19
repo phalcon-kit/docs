@@ -423,3 +423,19 @@ public log(string $message, \Swoole\WebSocket\Server|null $server = null): void
 | `$server`  | **\Swoole\WebSocket\Server\|null** | The server instance to use for retrieving the worker ID. If null, the default server instance will be used. |
 
 ***
+
+## Inherited methods
+
+### resetConnectionState
+
+Clear request-scoped model connection state in a long-running worker.
+
+```php
+public resetConnectionState(): void
+```
+
+Call this before custom WebSocket callbacks that perform model reads or
+writes. The built-in abstract task invokes it for open, message, close,
+HTTP request, and pipe-message callbacks.
+
+***

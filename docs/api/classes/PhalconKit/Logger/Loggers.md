@@ -21,7 +21,7 @@ configuration.
 Cached logger instances keyed by logger name.
 
 ```php
-public array<string,\Phalcon\Logger\LoggerInterface> $loggers
+public array<string,\Phalcon\Contracts\Logger\Logger> $loggers
 ```
 
 ***
@@ -102,7 +102,7 @@ configured adapter class does not implement AdapterInterface.
 Build, cache, and return a named logger.
 
 ```php
-public load(string $name): \Phalcon\Logger\LoggerInterface
+public load(string $name): \Phalcon\Contracts\Logger\Logger
 ```
 
 Logger-specific options in the `loggers.<name>` config section override
@@ -133,7 +133,7 @@ invalid.
 Retrieve a cached logger or lazily load it from configuration.
 
 ```php
-public get(string $name): \Phalcon\Logger\LoggerInterface
+public get(string $name): \Phalcon\Contracts\Logger\Logger
 ```
 
 **Parameters:**
@@ -159,15 +159,15 @@ invalid while loading the logger.
 Store or replace a named logger instance.
 
 ```php
-public set(string $name, \Phalcon\Logger\LoggerInterface $logger): void
+public set(string $name, \Phalcon\Contracts\Logger\Logger $logger): void
 ```
 
 **Parameters:**
 
-| Parameter | Type                                | Description                    |
-|-----------|-------------------------------------|--------------------------------|
-| `$name`   | **string**                          | The name of the logger to set. |
-| `$logger` | **\Phalcon\Logger\LoggerInterface** | The logger to set.             |
+| Parameter | Type                                 | Description                    |
+|-----------|--------------------------------------|--------------------------------|
+| `$name`   | **string**                           | The name of the logger to set. |
+| `$logger` | **\Phalcon\Contracts\Logger\Logger** | The logger to set.             |
 
 ***
 

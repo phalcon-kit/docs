@@ -238,14 +238,14 @@ public getRelatedProperties(array $related): string
 Returns a formatted string representation of the property items.
 
 ```php
-public getPropertyItems(\Phalcon\Db\ColumnInterface[] $columns): string
+public getPropertyItems(\Phalcon\Contracts\Db\Column[] $columns): string
 ```
 
 **Parameters:**
 
-| Parameter  | Type                              | Description                 |
-|------------|-----------------------------------|-----------------------------|
-| `$columns` | **\Phalcon\Db\ColumnInterface[]** | An array of column objects. |
+| Parameter  | Type                               | Description                 |
+|------------|------------------------------------|-----------------------------|
+| `$columns` | **\Phalcon\Contracts\Db\Column[]** | An array of column objects. |
 
 **Return Value:**
 
@@ -270,29 +270,29 @@ public getRelatedMeta(string $modelClassName): array
 ### getColumnTsType
 
 ```php
-public getColumnTsType(\Phalcon\Db\ColumnInterface $column): string
+public getColumnTsType(\Phalcon\Contracts\Db\Column $column): string
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description |
-|-----------|---------------------------------|-------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** |             |
+| Parameter | Type                             | Description |
+|-----------|----------------------------------|-------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** |             |
 
 ***
 
 ### getDefaultValue
 
 ```php
-public getDefaultValue(\Phalcon\Db\ColumnInterface $column, string $type): ?string
+public getDefaultValue(\Phalcon\Contracts\Db\Column $column, string $type): ?string
 ```
 
 **Parameters:**
 
-| Parameter | Type                            | Description |
-|-----------|---------------------------------|-------------|
-| `$column` | **\Phalcon\Db\ColumnInterface** |             |
-| `$type`   | **string**                      |             |
+| Parameter | Type                             | Description |
+|-----------|----------------------------------|-------------|
+| `$column` | **\Phalcon\Contracts\Db\Column** |             |
+| `$type`   | **string**                       |             |
 
 ***
 
