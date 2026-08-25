@@ -7,12 +7,11 @@ to streamline your web development process. For a comprehensive understanding of
 features, we recommend familiarizing yourself with the
 [Official Phalcon PHP Documentation](https://docs.phalcon.io/){:target="_blank"}.
 
-!!! note "PHP Version 8.4+"
+!!! note "PHP 8.5+ and Phalcon 5.20.1+"
     While exploring the Phalcon PHP documentation, keep in mind that some features
     or examples may differ slightly due to our PHP version requirement.
-    Phalcon Kit is designed to leverage the latest advancements in web technology,
-    which is why we support **PHP 8.4 and above**. This approach ensures that you 
-    have access to the most recent PHP features, enhancing both **performance** and **security**.
+    The current Phalcon Kit source requires **PHP 8.5 or newer** and
+    **Phalcon 5.20.1 or newer on the 5.x release line**.
 
 ## Install Phalcon Kit
 
@@ -44,7 +43,7 @@ Simply include the Composer autoloader, and you're ready to go!
 
 You can initialize your application using the \PhalconKit\Bootstrap class.
 Below is a minimalist example demonstrating how to set up your application
-with Phalcon Kit, utilizing the [`\Phalcon\Autoload\Loader`](https://docs.phalcon.io/5.6/autoload/).
+with Phalcon Kit, utilizing the [`\Phalcon\Autoload\Loader`](https://docs.phalcon.io/latest/autoload/).
 
 ```php title="./public/index.php"
 <?php
@@ -76,5 +75,4 @@ DATABASE_DBNAME="database"
 DATABASE_USERNAME="username"
 DATABASE_PASSWORD="password"
 ```
-
 

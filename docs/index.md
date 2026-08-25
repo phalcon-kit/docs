@@ -18,6 +18,9 @@ Phalcon Kit extends Phalcon rather than replacing it. Refer to the
 [latest Phalcon documentation](https://docs.phalcon.io/latest/){:target="_blank"}
 for native framework behavior, and use this site for Phalcon Kit conventions.
 
+The current source baseline requires PHP 8.5 or newer and Phalcon 5.20.1 or
+newer on the 5.x release line.
+
 ## Jump Right In
 
 Choose the path closest to what you want to build.

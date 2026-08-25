@@ -27,7 +27,7 @@ integrating seamlessly with web-based MVC architecture.
 
 !!! note "Further reading"
     For further details on routing specifics, you can refer to
-    the [Phalcon MVC Router documentation](https://docs.phalcon.io/5.6/routing/){:target="_blank"} for web applications.
+    the [Phalcon MVC Router documentation](https://docs.phalcon.io/latest/routing/){:target="_blank"} for web applications.
 
 ### CLI Router
 
@@ -40,7 +40,7 @@ tailoring it for command-line specific functionalities.
 
 !!! note "Further reading"
     For further details on routing specifics, you can refer to
-    the [Phalcon CLI Router documentation](https://docs.phalcon.io/5.6/application-cli/#routes){:target="_blank"} for
+    the [Phalcon CLI Router documentation](https://docs.phalcon.io/latest/application-cli/#routes){:target="_blank"} for
     command-line applications.
 
 ## Default Routes
