@@ -7,11 +7,11 @@ to streamline your web development process. For a comprehensive understanding of
 features, we recommend familiarizing yourself with the
 [Official Phalcon PHP Documentation](https://docs.phalcon.io/){:target="_blank"}.
 
-!!! note "PHP 8.5+ and Phalcon 5.20.1+"
+!!! note "PHP 8.5+ and Phalcon 5.20.2+"
     While exploring the Phalcon PHP documentation, keep in mind that some features
     or examples may differ slightly due to our PHP version requirement.
     The current Phalcon Kit source requires **PHP 8.5 or newer** and
-    **Phalcon 5.20.1 or newer on the 5.x release line**.
+    **Phalcon 5.20.2 or newer on the 5.x release line**.
 
 ## Install Phalcon Kit
 
@@ -75,4 +75,3 @@ DATABASE_DBNAME="database"
 DATABASE_USERNAME="username"
 DATABASE_PASSWORD="password"
 ```
-
