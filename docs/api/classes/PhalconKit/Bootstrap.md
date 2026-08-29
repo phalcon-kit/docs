@@ -643,15 +643,26 @@ public static setEventsPrefix(string|null $eventsPrefix): void
 Fire an event.
 
 ```php
-public fire(string $task, mixed|null $data = null, bool $cancelable = false): mixed
+public fire(string $task, mixed|null $data = null, bool $cancelable = false, bool|null $stopOnFalse = null): mixed
 ```
+
+A non-null stop-on-false override is supported by Phalcon's native
+manager without changing its global setting.
 
 **Parameters:**
 
-| Parameter     | Type            | Description                                                |
-|---------------|-----------------|------------------------------------------------------------|
-| `$task`       | **string**      | The task to execute.                                       |
-| `$data`       | **mixed\|null** | The optional data to pass to the event.                    |
-| `$cancelable` | **bool**        | Whether the event is cancelable or not. Defaults to false. |
+| Parameter      | Type            | Description                                                |
+|----------------|-----------------|------------------------------------------------------------|
+| `$task`        | **string**      | The task to execute.                                       |
+| `$data`        | **mixed\|null** | The optional data to pass to the event.                    |
+| `$cancelable`  | **bool**        | Whether the event is cancelable or not. Defaults to false. |
+| `$stopOnFalse` | **bool\|null**  | Per-call override; null uses the manager setting.          |
+
+**Throws:**
+
+When the events manager is missing, or
+when a per-call stop-on-false override is requested from a custom
+manager that does not support Phalcon 5.20.3's fifth argument.
+- [`InvalidArgumentException`](./Exception/InvalidArgumentException.md)
 
 ***

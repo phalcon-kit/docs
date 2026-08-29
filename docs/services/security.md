@@ -35,7 +35,7 @@ new Config([
     ],
     'security' => [ // phalcon security config
         'workFactor' => Env::get('SECURITY_WORK_FACTOR', 12), // workfactor for the phalcon security service
-        'hash' => Env::get('SECURITY_HASH', Security::CRYPT_ARGON2ID), // set default hash to sha512
+        'hash' => Env::get('SECURITY_HASH', Security::CRYPT_ARGON2ID), // default to Argon2id
         'salt' => Env::get('SECURITY_SALT', '>mY.Db5fR?k%~<ZWf\}Zh35_IFC]#0Xx'), // salt for the phalcon security service
         'argon2' => [
             'memoryCost' => Env::get('SECURITY_ARGON2_MEMORY_COST', PASSWORD_ARGON2_DEFAULT_MEMORY_COST),
@@ -45,6 +45,12 @@ new Config([
     ],
 ]);
 ```
+
+!!! warning "Avoid legacy password hashes"
+    Keep `CRYPT_ARGON2ID` (the PhalconKit default) or bcrypt. Phalcon 5.20.3
+    marks `CRYPT_MD5`, `CRYPT_SHA256`, and `CRYPT_SHA512` as weak legacy
+    algorithms scheduled for removal in a future major release. Verify an
+    existing legacy hash at login, then replace it with a new Argon2id hash.
 
 ## Security Service (`security`)
 
