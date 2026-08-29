@@ -155,6 +155,12 @@ to `true` for compatibility with model and application object caches. Set
 set an explicit class-name list in application config when cached objects are
 required. Clear incompatible cache entries when tightening the policy.
 
+For password hashing, keep PhalconKit's Argon2id default or use bcrypt.
+Phalcon 5.20.3 marks `CRYPT_MD5`, `CRYPT_SHA256`, and `CRYPT_SHA512` as weak
+legacy algorithms scheduled for removal in a future major release. Applications
+with legacy hashes should verify them at login and immediately rehash the
+password with Argon2id or bcrypt.
+
 ## Event Listeners
 
 Use `eventsManager.listeners` for app-owned listeners that should attach to the
