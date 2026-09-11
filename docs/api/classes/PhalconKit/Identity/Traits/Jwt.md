@@ -52,8 +52,11 @@ revocation strategy rejects them.
 
 When token key generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-When JWT validation fails.
+When JWT creation fails.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+With status 401 when a supplied token is invalid,
+before session identity is read or rotated and before tokens are issued.
+- [`HttpException`](../../Exception/HttpException.md)
 
 ***
 ### getClaim
@@ -80,6 +83,12 @@ session state, and is always skipped when `identity.stateless` is enabled.
 
 Claim payload or an empty array when no
 supported credential is present.
+
+**Throws:**
+
+With status 401 when a supplied token fails parsing
+or validation. Invalid tokens never fall through to session fallback.
+- [`HttpException`](../../Exception/HttpException.md)
 
 ***
 ### setClaim
@@ -151,6 +160,13 @@ refresh tokens cannot be exchanged.
 Decoded `sub` payload or an empty array when
 the subject is missing/non-array.
 
+**Throws:**
+
+With status 401 when parsing or validation fails.
+Validation errors are enforced before decoding the subject; neither
+the token nor the validator's diagnostics are exposed in the exception.
+- [`HttpException`](../../Exception/HttpException.md)
+
 ***
 ### getClaimFromAuthorization
 
@@ -171,6 +187,12 @@ public getClaimFromAuthorization(array<int,string> $authorization): array<string
 
 Claim payload or an empty array when the
 header is not a bearer token.
+
+**Throws:**
+
+With status 401 when the bearer credential is
+malformed or its token is invalid. Unsupported schemes return [].
+- [`HttpException`](../../Exception/HttpException.md)
 
 ***
 ### getJsonRawBody

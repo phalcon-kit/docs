@@ -248,7 +248,8 @@ public validateToken(\Phalcon\Encryption\Security\JWT\Token\Token|null $token = 
 
 If no token or signer is passed, the helper uses the current token and
 signer. The method returns Phalcon validator errors; an empty array means
-the token satisfied every enabled validation.
+the token satisfied every enabled validation. Callers must reject any
+non-empty result before trusting claims or performing identity operations.
 
 **Parameters:**
 
@@ -272,7 +273,7 @@ Validator errors.
 
 When no token is available.
 - [`ServiceException`](../../Exception/ServiceException.md)
-When the token fails validation.
+When Phalcon cannot validate the token's structure.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When a token date cannot be parsed.
 - [`DateMalformedStringException`](https://www.php.net/manual/en/class.datemalformedstringexception.php){:target="_blank"}

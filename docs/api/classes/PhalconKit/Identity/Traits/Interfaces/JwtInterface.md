@@ -29,6 +29,12 @@ token lifetime, or similar strategy.
 | `$refresh` | **bool** | Rotate the claim key and preserve session identity
 under the new key when possible. |
 
+**Throws:**
+
+With status 401 for invalid
+credentials, before identity rotation or token issuance.
+- [`HttpException`](../../../Exception/HttpException.md)
+
 ***
 
 ### getClaim
@@ -47,6 +53,12 @@ public getClaim(bool $refresh = false, bool $force = false): array<string,mixed>
 | `$refresh` | **bool** | Prefer the refresh token source.                                   |
 | `$force`   | **bool** | Ignore any cached claim and inspect request/session
 sources again. |
+
+**Throws:**
+
+With status 401 for invalid
+credentials. Rejection must not fall through to session fallback.
+- [`HttpException`](../../../Exception/HttpException.md)
 
 ***
 
@@ -99,6 +111,12 @@ public getClaimFromToken(string $token, string|null $claim = null): array<string
 | `$token`  | **string**       | Encoded JWT.     |
 | `$claim`  | **string\|null** | Expected JWT id. |
 
+**Throws:**
+
+With status 401 when parsing
+or validation fails, before the subject is trusted.
+- [`HttpException`](../../../Exception/HttpException.md)
+
 ***
 
 ### getClaimFromAuthorization
@@ -115,5 +133,11 @@ public getClaimFromAuthorization(array<int,string> $authorization): array<string
 |------------------|-----------------------|------------------------------------------|
 | `$authorization` | **array<int,string>** | Header parts, usually
 `[Bearer, token]`. |
+
+**Throws:**
+
+With status 401 for a
+malformed or invalid bearer credential.
+- [`HttpException`](../../../Exception/HttpException.md)
 
 ***

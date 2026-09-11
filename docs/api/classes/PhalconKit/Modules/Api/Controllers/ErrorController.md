@@ -13,6 +13,58 @@ instead of returning through the status action flow.
 
 ## Methods
 
+### beforeExecuteRoute
+
+Render a forwarded authentication failure without resolving roles again.
+
+```php
+public beforeExecuteRoute(): void
+```
+
+The rejected credential remains in the request. Attaching identity-based
+behaviors here would repeat the failure instead of rendering the 401.
+Other error routes retain the usual controller behavior hooks.
+
+***
+
+### isDebugEnabled
+
+Omit request/identity debug context from authentication-error responses.
+
+```php
+public isDebugEnabled(): bool
+```
+
+Besides re-entering token validation, debug context can contain the
+rejected credential. This applies even when application debug is enabled.
+
+***
+
+### applyCacheHeaders
+
+Make authentication failures uncacheable without reading identity state.
+
+```php
+protected applyCacheHeaders(array<array-key,mixed> $payload, int $code): void
+```
+
+**Parameters:**
+
+| Parameter  | Type                       | Description             |
+|------------|----------------------------|-------------------------|
+| `$payload` | **array<array-key,mixed>** | REST response envelope. |
+| `$code`    | **int**                    | HTTP response status.   |
+
+***
+
+### isUnauthorizedException
+
+```php
+private isUnauthorizedException(): bool
+```
+
+***
+
 ### errorAction
 
 Render the configured HTTP-exception route through the REST envelope.
