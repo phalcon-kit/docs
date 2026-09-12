@@ -197,6 +197,7 @@ nav:
       - Database And Scaffolding: guides/database-scaffolding.md
       - Models And Eager Loading: guides/models-and-eager-loading.md
       - Identity And Permissions: guides/identity-and-permissions.md
+      - Security Hardening: guides/security-hardening.md
   - Runtime:
       - Web Server And WebSocket: guides/web-server-and-websocket.md
       - Runtime Compatibility: guides/phalcon-runtime-upgrades.md

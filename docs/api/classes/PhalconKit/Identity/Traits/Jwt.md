@@ -41,6 +41,8 @@ logged in. In stateless identity mode, the payload is preserved directly
 in the claim so clients can carry it without PHP session storage; old
 signed JWTs remain valid until expiration or an application-level
 revocation strategy rejects them.
+Default PHP-session storage also renews its session ID during an
+authenticated refresh; clients must accept the replacement cookie.
 
 **Parameters:**
 
@@ -57,6 +59,9 @@ When JWT creation fails.
 With status 401 when a supplied token is invalid,
 before session identity is read or rotated and before tokens are issued.
 - [`HttpException`](../../Exception/HttpException.md)
+When PHP-session identity
+cannot be established after renewal.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 ### getClaim
@@ -93,7 +98,7 @@ or validation. Invalid tokens never fall through to session fallback.
 ***
 ### setClaim
 
-Replace the cached claim for this manager instance.
+Replace the cached claim and invalidate cached users and model ACL roles.
 
 ```php
 public setClaim(array<string,mixed> $claim): void

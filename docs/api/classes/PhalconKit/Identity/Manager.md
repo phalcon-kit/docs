@@ -118,6 +118,9 @@ When stateless token key generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before authenticating.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
@@ -151,42 +154,144 @@ When stateless JWT creation fails.
 
 ### reset
 
-Start or complete a password reset flow.
+Request or redeem a time-limited, single-use password reset token.
 
 ```php
 public reset(array<string,mixed>|null $params = null): array<string,mixed>
 ```
 
-When only `email` is provided, the manager creates a random reset token,
-stores its hash on the user record, and returns an empty response on
-success. When `resetToken` and `password` are provided, the token is
-verified against the stored hash before the password is updated and the
-reset token is cleared.
+New reset records use `v1:<expiry>:<hash>` in the existing resetToken
+column; legacy records are rejected and require a new reset request.
+`identity.resetPassword.lifetime` is seconds (default 1800). Token hashes
+use the same configured salt as verification. Raw tokens are delivered
+only through sendPasswordResetNotification(), never returned to clients.
 
-To prevent user enumeration, a valid request for a missing email returns
-the same empty response shape as a successful request. Validation failures
-and persistence failures still return messages because those are
-actionable by the caller. Notification delivery is intentionally left to
-application code until the framework has a mailer/event contract for this
-flow.
+Redemption atomically claims the stored token and saves the hashed password
+in one write-connection transaction. Custom persistence/password hooks must
+preserve the documented helper contracts. Existing sessions are not revoked
+automatically; applications own that policy and notification delivery.
 
 **Parameters:**
 
-| Parameter | Type                          | Description                                                                                              |
-|-----------|-------------------------------|----------------------------------------------------------------------------------------------------------|
-| `$params` | **array<string,mixed>\|null** | Reset fields. Supported keys are
-`email`, optional `resetToken`, and `password` when completing a
-reset. |
+| Parameter | Type                          | Description                              |
+|-----------|-------------------------------|------------------------------------------|
+| `$params` | **array<string,mixed>\|null** | Email, optional resetToken and password. |
 
 **Return Value:**
 
-Empty on successful or intentionally opaque
-outcomes, or `messages` when validation/persistence fails.
+Empty on success/unknown request email, or validation messages.
 
 **Throws:**
 
-When token generation fails.
+When random generation or hashing fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+For invalid token lifetime.
+- [`ConfigurationException`](../Exception/ConfigurationException.md)
+When a transaction cannot be owned or committed.
+- [`ServiceException`](../Exception/ServiceException.md)
+
+***
+
+### validatePasswordResetToken
+
+Verify the stored reset record's format, expiry, and configured-salt hash.
+
+```php
+protected validatePasswordResetToken(\PhalconKit\Models\Interfaces\UserInterface $user, string $record, string $token): bool
+```
+
+Custom record formats must retain expiry checks and reject legacy undated
+hashes. Validation alone does not consume the record; persistence must
+compare and consume the exact record atomically.
+
+**Parameters:**
+
+| Parameter | Type                                            | Description                                |
+|-----------|-------------------------------------------------|--------------------------------------------|
+| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface** | User whose hash policy verifies the token. |
+| `$record` | **string**                                      | Stored, versioned expiry/hash record.      |
+| `$token`  | **string**                                      | Raw credential supplied by the client.     |
+
+**Return Value:**
+
+Whether the token matches an unexpired record.
+
+***
+
+### persistPasswordReset
+
+Atomically claim a reset record and persist the new password through model hooks.
+
+```php
+protected persistPasswordReset(\PhalconKit\Models\Interfaces\UserInterface $user, string $record, string $password): bool
+```
+
+The default uses the mapped user id/resetToken columns and the user's write
+connection, which must support transactions. It refuses an existing outer
+transaction rather than committing or rolling back caller-owned work.
+Failed saves/claims roll back and restore the model's credential fields.
+Overrides for other stores must implement atomic compare-and-consume plus
+password persistence, and retain false-on-lost-race semantics.
+
+**Parameters:**
+
+| Parameter   | Type                                            | Description                                       |
+|-------------|-------------------------------------------------|---------------------------------------------------|
+| `$user`     | **\PhalconKit\Models\Interfaces\UserInterface** | Existing active user.                             |
+| `$record`   | **string**                                      | Exact validated record to consume.                |
+| `$password` | **string**                                      | New plaintext password; never logged or returned. |
+
+**Return Value:**
+
+True only after a successful commit; false for lost claims or save rejection.
+
+**Throws:**
+
+When transaction setup/commit fails.
+- [`ServiceException`](../Exception/ServiceException.md)
+
+***
+
+### setPasswordAfterReset
+
+Set a securely hashed password before reset persistence.
+
+```php
+protected setPasswordAfterReset(\PhalconKit\Models\Interfaces\UserInterface $user, string $password): void
+```
+
+Applications with a model setter/save hook that already hashes plaintext
+must override this helper to avoid double hashing. Other password policy
+checks belong in model validation and can reject save() transactionally.
+
+**Parameters:**
+
+| Parameter   | Type                                            | Description                                   |
+|-------------|-------------------------------------------------|-----------------------------------------------|
+| `$user`     | **\PhalconKit\Models\Interfaces\UserInterface** | Model participating in the reset transaction. |
+| `$password` | **string**                                      | New plaintext password to hash and assign.    |
+
+***
+
+### sendPasswordResetNotification
+
+Deliver a successfully persisted reset token through an application-owned channel.
+
+```php
+protected sendPasswordResetNotification(\PhalconKit\Models\Interfaces\UserInterface $user, string $token, int $expiresAt): void
+```
+
+Override for mail/queue delivery. The default intentionally sends nothing;
+applications must provide delivery before exposing reset requests. Do not
+log tokens or expose them in HTTP responses. Delivery failures propagate.
+
+**Parameters:**
+
+| Parameter    | Type                                            | Description                                            |
+|--------------|-------------------------------------------------|--------------------------------------------------------|
+| `$user`      | **\PhalconKit\Models\Interfaces\UserInterface** | Recipient of the reset notification.                   |
+| `$token`     | **string**                                      | Raw credential for a trusted reset URL or message.     |
+| `$expiresAt` | **int**                                         | Unix timestamp after which the token must be rejected. |
 
 ***
 
@@ -241,16 +346,32 @@ through the configured user model.
 
 **Parameters:**
 
-| Parameter | Type           | Description                                                           |
-|-----------|----------------|-----------------------------------------------------------------------|
+| Parameter | Type           | Description                                                                                                                                                                                                         |
+|-----------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `$as`     | **bool**       | Return the original impersonating user instead of the
-effective user. |
+effective user.                                                                                                                                               |
 | `$force`  | **bool\|null** | Force a fresh lookup instead of using the cached
-model instance.      |
+    model instance.
+
+Deleted users never authenticate. Model security suppression is restored
+even when a user lookup fails, including nested security operations. |
 
 **Return Value:**
 
-User model or null when no identity is stored.
+Active user model or null when missing or deleted.
+
+***
+
+### clearIdentityCache
+
+Clear effective/original users and cached model ACL roles after an identity change.
+
+```php
+protected clearIdentityCache(): void
+```
+
+Custom identity persistence overrides must call this after replacing or
+removing their stored payload, before authorizing further model operations.
 
 ***
 
@@ -284,7 +405,7 @@ the PhalconKit identity user contract.
 
 ### setUser
 
-Cache the effective user for this manager instance.
+Cache the effective user and invalidate cached model ACL roles.
 
 ```php
 public setUser(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -314,7 +435,7 @@ Original user or null when not impersonating.
 
 ### setUserAs
 
-Cache the original user for this manager instance.
+Cache the original user and invalidate cached model ACL roles.
 
 ```php
 public setUserAs(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -508,11 +629,13 @@ Configured session key with the optional refresh suffix.
 
 ### removeSessionIdentity
 
-Remove the identity payload stored under the active claim key.
+Remove the identity payload and clear cached users and model ACL roles.
 
 ```php
 public removeSessionIdentity(): void
 ```
+
+Overrides using custom storage must also call clearIdentityCache().
 
 If no claim key is available, there is no addressable identity payload
 and the method intentionally becomes a no-op.
@@ -521,11 +644,20 @@ and the method intentionally becomes a no-op.
 
 ### setSessionIdentity
 
-Store the identity payload under the active claim key.
+Replace the identity payload under the active claim key and clear user/ACL caches.
 
 ```php
 public setSessionIdentity(array<string,mixed> $identity): void
 ```
+
+Stateless storage preserves only token bookkeeping from the previous claim.
+Include any custom identity fields in the replacement payload explicitly.
+Overrides using custom storage must also call clearIdentityCache().
+PHP-session storage renews the session ID before writing a non-empty
+userId, including login, OAuth2, impersonation, and authenticated refresh.
+The old session keeps unrelated data but loses this identity. Custom
+persistence overrides own equivalent credential-fixation protection;
+stateless identity does not resolve or renew the PHP session service.
 
 **Parameters:**
 
@@ -533,6 +665,39 @@ public setSessionIdentity(array<string,mixed> $identity): void
 |-------------|-------------------------|-------------------------------------------------------------------------|
 | `$identity` | **array<string,mixed>** | Identity payload, usually including
 `userId` and optionally `asUserId`. |
+
+**Throws:**
+
+When the PHP session is inactive or cannot renew
+its ID. The replacement identity is not written on failure.
+- [`ServiceException`](../Exception/ServiceException.md)
+
+***
+
+### renewIdentitySession
+
+Renew the active PHP session before assigning authenticated identity.
+
+```php
+protected renewIdentitySession(string $key): void
+```
+
+Remove this identity before native regeneration persists the old session.
+Unrelated session values survive in both sessions; only the new session
+receives the replacement identity. The old anonymous session can expire
+normally, avoiding immediate deletion during concurrent requests.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                             |
+|-----------|------------|---------------------------------------------------------|
+| `$key`    | **string** | Validated claim key identifying the payload to replace. |
+
+**Throws:**
+
+When renewal fails; an unchanged session retains
+its previous payload and never receives the replacement identity.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
@@ -731,6 +896,9 @@ generation fails after a successful OAuth2 login.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails after a successful OAuth2 login.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before authenticating.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
@@ -750,6 +918,8 @@ logged in. In stateless identity mode, the payload is preserved directly
 in the claim so clients can carry it without PHP session storage; old
 signed JWTs remain valid until expiration or an application-level
 revocation strategy rejects them.
+Default PHP-session storage also renews its session ID during an
+authenticated refresh; clients must accept the replacement cookie.
 
 **Parameters:**
 
@@ -766,6 +936,9 @@ When JWT creation fails.
 With status 401 when a supplied token is invalid,
 before session identity is read or rotated and before tokens are issued.
 - [`HttpException`](../Exception/HttpException.md)
+When PHP-session identity
+cannot be established after renewal.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
@@ -804,7 +977,7 @@ or validation. Invalid tokens never fall through to session fallback.
 
 ### setClaim
 
-Replace the cached claim for this manager instance.
+Replace the cached claim and invalidate cached users and model ACL roles.
 
 ```php
 public setClaim(array<string,mixed> $claim): void
@@ -937,7 +1110,7 @@ public loginAs(array<string,mixed> $params = []): array{messages?: \Phalcon\Mess
 ```
 
 The target `userId` must be present, numeric, and resolvable through the
-configured user model. If the target id equals the current `asUserId`, the
+configured user model and must not be deleted. If the target id equals the current `asUserId`, the
 method treats the request as a return-to-self action and restores the
 original session.
 
@@ -954,6 +1127,9 @@ generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before changing identity.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
@@ -980,6 +1156,9 @@ generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before restoring identity.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 

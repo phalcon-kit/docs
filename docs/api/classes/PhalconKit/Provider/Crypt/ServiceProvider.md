@@ -3,7 +3,12 @@ Registers the encryption service.
 
 The provider validates cipher, signing, padding, and key configuration before
 returning Phalcon's `Crypt` service. It defaults to AES-256-GCM and requires
-a key of at least 32 bytes, either from `crypt.key` or `APP_CRYPT_KEY`.
+a private key of at least 32 bytes from `crypt.key` (`CRYPT_KEY`, with
+`APP_CRYPT_KEY` as a fallback). A `base64:` prefix decodes binary key material
+before use; unprefixed keys retain their existing byte representation.
+The public legacy key is rejected. Default associated data is `phalcon-kit`;
+applications must retain their configured associated data when decrypting
+existing ciphertext. No key rotation or data migration is performed here.
 
 AEAD ciphers such as GCM/CCM authenticate internally and must not also enable
 Phalcon's signing path. Stream modes are rejected with signing enabled

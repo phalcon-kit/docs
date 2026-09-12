@@ -32,8 +32,8 @@ public setCorsHeaders(\Phalcon\Http\ResponseInterface $response, string $origin,
 ```
 
 The configured `Access-Control-Allow-Origin` value is treated specially:
-wildcard or explicitly allowed origins are reflected as the current
-request origin, while unrelated origins are ignored. Existing headers are
+wildcard origins produce `*` without credentials; only explicitly allowed
+origins are reflected, with `Vary: Origin` for shared caches. Existing headers are
 preserved so controllers or earlier listeners can override framework
 defaults.
 

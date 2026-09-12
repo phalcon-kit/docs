@@ -1469,6 +1469,10 @@ Find one model row using the complete primary-key payload.
 public findFirstByPrimaryKeys(array<string,mixed> $data, class-string|null $modelClass): \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
 ```
 
+Match values by column name, independently of payload order. Return null
+without querying when primary-key metadata is empty or the key is incomplete.
+Record authorization remains the caller's responsibility.
+
 **Parameters:**
 
 | Parameter     | Type                    | Description                                                          |
@@ -1490,6 +1494,9 @@ public getEntityFromData(array<string,mixed> $data, array<string,mixed> $configu
 
 Implementations first try primary-key lookup, then relation-key lookup,
 then instantiate a new related model when no existing entity is found.
+Both lookups match values by column name and require a non-empty key.
+Check configured direct-child ownership before assigning incoming values
+to an existing record, including records found through relationship keys.
 
 **Parameters:**
 
@@ -1497,6 +1504,11 @@ then instantiate a new related model when no existing entity is found.
 |------------------|-------------------------|-------------------------------|
 | `$data`          | **array<string,mixed>** | Related entity data.          |
 | `$configuration` | **array<string,mixed>** | Relation assignment metadata. |
+
+**Throws:**
+
+When a direct child violates the configured ownership policy.
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***
 

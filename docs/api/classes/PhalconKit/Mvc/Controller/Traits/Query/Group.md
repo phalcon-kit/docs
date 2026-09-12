@@ -31,9 +31,12 @@ are appropriately trimmed and adjusted.
 **Return Value:**
 
 This method does not return a value but updates the group's state internally.
+Request fields must be identifiers; expressions are allowed only in controller defaults.
 
 **Throws:**
 
+With status 400 for invalid request fields.
+- [`HttpException`](../../../../Exception/HttpException.md)
 When request parameter filtering fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 

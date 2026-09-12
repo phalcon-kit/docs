@@ -46,5 +46,8 @@ generation fails after a successful OAuth2 login.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails after a successful OAuth2 login.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before authenticating.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***

@@ -161,7 +161,8 @@ public notify(string $type, \Phalcon\Mvc\ModelInterface $model): bool|null
 Only `before*` finder, aggregate, write, restore, and reorder events are
 checked. The behavior returns null when disabled or when it is already
 resolving permissions, which prevents recursive checks while the identity
-service loads role data from models.
+service loads role data from models. The guard is restored even when
+authorization throws, so later operations cannot inherit a bypass.
 
 **Parameters:**
 

@@ -154,6 +154,8 @@ Recognized option keys are `passphrase`, `expiration`, `notBefore`,
 
 **Throws:**
 
+When the signing key is missing or the public legacy key.
+- [`ConfigurationException`](../../Exception/ConfigurationException.md)
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -192,6 +194,8 @@ validator.         |
 
 **Throws:**
 
+When the signing key is missing or the public legacy key.
+- [`ConfigurationException`](../../Exception/ConfigurationException.md)
 When no token is available.
 - [`ServiceException`](../../Exception/ServiceException.md)
 
@@ -218,6 +222,8 @@ helper builder. |
 
 When no builder is available.
 - [`ServiceException`](../../Exception/ServiceException.md)
+When the signing key is missing or the public legacy key.
+- [`ConfigurationException`](../../Exception/ConfigurationException.md)
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
@@ -271,6 +277,8 @@ Validator errors.
 
 **Throws:**
 
+When the signing key is missing or the public legacy key.
+- [`ConfigurationException`](../../Exception/ConfigurationException.md)
 When no token is available.
 - [`ServiceException`](../../Exception/ServiceException.md)
 When Phalcon cannot validate the token's structure.
@@ -296,6 +304,20 @@ The returned array always contains `expiration`, `notBefore`, `issuedAt`,
 | Parameter  | Type                    | Description                |
 |------------|-------------------------|----------------------------|
 | `$options` | **array<string,mixed>** | Explicit option overrides. |
+
+***
+
+### requirePassphrase
+
+```php
+private requirePassphrase(mixed $passphrase): void
+```
+
+**Parameters:**
+
+| Parameter     | Type      | Description |
+|---------------|-----------|-------------|
+| `$passphrase` | **mixed** |             |
 
 ***
 

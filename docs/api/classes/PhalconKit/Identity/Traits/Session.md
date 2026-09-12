@@ -48,11 +48,13 @@ Configured session key with the optional refresh suffix.
 ***
 ### removeSessionIdentity
 
-Remove the identity payload stored under the active claim key.
+Remove the identity payload and clear cached users and model ACL roles.
 
 ```php
 public removeSessionIdentity(): void
 ```
+
+Overrides using custom storage must also call clearIdentityCache().
 
 If no claim key is available, there is no addressable identity payload
 and the method intentionally becomes a no-op.
@@ -60,11 +62,20 @@ and the method intentionally becomes a no-op.
 ***
 ### setSessionIdentity
 
-Store the identity payload under the active claim key.
+Replace the identity payload under the active claim key and clear user/ACL caches.
 
 ```php
 public setSessionIdentity(array<string,mixed> $identity): void
 ```
+
+Stateless storage preserves only token bookkeeping from the previous claim.
+Include any custom identity fields in the replacement payload explicitly.
+Overrides using custom storage must also call clearIdentityCache().
+PHP-session storage renews the session ID before writing a non-empty
+userId, including login, OAuth2, impersonation, and authenticated refresh.
+The old session keeps unrelated data but loses this identity. Custom
+persistence overrides own equivalent credential-fixation protection;
+stateless identity does not resolve or renew the PHP session service.
 
 **Parameters:**
 
@@ -72,6 +83,38 @@ public setSessionIdentity(array<string,mixed> $identity): void
 |-------------|-------------------------|-------------------------------------------------------------------------|
 | `$identity` | **array<string,mixed>** | Identity payload, usually including
 `userId` and optionally `asUserId`. |
+
+**Throws:**
+
+When the PHP session is inactive or cannot renew
+its ID. The replacement identity is not written on failure.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
+***
+### renewIdentitySession
+
+Renew the active PHP session before assigning authenticated identity.
+
+```php
+protected renewIdentitySession(string $key): void
+```
+
+Remove this identity before native regeneration persists the old session.
+Unrelated session values survive in both sessions; only the new session
+receives the replacement identity. The old anonymous session can expire
+normally, avoiding immediate deletion during concurrent requests.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                             |
+|-----------|------------|---------------------------------------------------------|
+| `$key`    | **string** | Validated claim key identifying the payload to replace. |
+
+**Throws:**
+
+When renewal fails; an unchanged session retains
+its previous payload and never receives the replacement identity.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 ### getSessionIdentity

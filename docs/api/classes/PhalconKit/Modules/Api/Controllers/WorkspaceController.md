@@ -1636,6 +1636,31 @@ mapped attribute name.
 
 ***
 
+### assertRequestField
+
+Require a REST field selector to contain identifiers rather than PHQL.
+
+```php
+protected assertRequestField(string $field): void
+```
+
+Supports dotted relation paths and named relation scopes such as
+`Article[a].title`. Query expressions belong in controller-owned defaults
+or explicit order-field mappings, never in unrestricted request fields.
+
+**Parameters:**
+
+| Parameter | Type       | Description                           |
+|-----------|------------|---------------------------------------|
+| `$field`  | **string** | Public field selector from a request. |
+
+**Throws:**
+
+With status 400 for invalid selectors.
+- [`HttpException`](../../../Exception/HttpException.md)
+
+***
+
 ### appendModelName
 
 Normalize and qualify a field reference with the model (alias) name.
@@ -1650,7 +1675,10 @@ Responsibilities
 • Safely formats identifiers into PHQL bracket notation: [Alias].[column].
 • Preserves SQL/PHQL function or expression calls (e.g. RAND(), COUNT(id)).
 • Supports optional ORDER BY direction (ASC | DESC).
-• Rejects obvious injection vectors.
+• Rejects obvious injection vectors, but does not parse trusted expressions.
+
+Never pass arbitrary request input here. Use assertRequestField() first
+or resolve a controller-owned expression through an explicit field map.
 
 Assumptions
 -----------

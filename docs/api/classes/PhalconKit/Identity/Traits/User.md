@@ -48,16 +48,31 @@ through the configured user model.
 
 **Parameters:**
 
-| Parameter | Type           | Description                                                           |
-|-----------|----------------|-----------------------------------------------------------------------|
+| Parameter | Type           | Description                                                                                                                                                                                                         |
+|-----------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `$as`     | **bool**       | Return the original impersonating user instead of the
-effective user. |
+effective user.                                                                                                                                               |
 | `$force`  | **bool\|null** | Force a fresh lookup instead of using the cached
-model instance.      |
+    model instance.
+
+Deleted users never authenticate. Model security suppression is restored
+even when a user lookup fails, including nested security operations. |
 
 **Return Value:**
 
-User model or null when no identity is stored.
+Active user model or null when missing or deleted.
+
+***
+### clearIdentityCache
+
+Clear effective/original users and cached model ACL roles after an identity change.
+
+```php
+protected clearIdentityCache(): void
+```
+
+Custom identity persistence overrides must call this after replacing or
+removing their stored payload, before authorizing further model operations.
 
 ***
 ### requireIdentityUser
@@ -89,7 +104,7 @@ the PhalconKit identity user contract.
 ***
 ### setUser
 
-Cache the effective user for this manager instance.
+Cache the effective user and invalidate cached model ACL roles.
 
 ```php
 public setUser(\PhalconKit\Models\Interfaces\UserInterface|null $user): void
@@ -117,7 +132,7 @@ Original user or null when not impersonating.
 ***
 ### setUserAs
 
-Cache the original user for this manager instance.
+Cache the original user and invalidate cached model ACL roles.
 
 ```php
 public setUserAs(\PhalconKit\Models\Interfaces\UserInterface|null $user): void

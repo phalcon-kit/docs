@@ -2245,7 +2245,9 @@ Assigns values to the model from an array, with options to control which fields 
 public assign(array $data, array|null $whiteList = null, array|null $dataColumnMap = null): \Phalcon\Mvc\ModelInterface
 ```
 
-Handles related records using `assignRelated` method and passes remaining values to the parent's assign method.
+Handles related records using `assignRelated`. Nested relation maps are
+omitted from native scalar assignment, whose map values must be field
+names. Scalar maps and array/JSON attribute values retain native behavior.
 
 **Parameters:**
 
@@ -2588,6 +2590,10 @@ Find the first record by its primary key attributes.
 public findFirstByPrimaryKeys(array $data, string|null $modelClass): \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
 ```
 
+Values are bound in metadata column order, independently of payload key
+order. Models without primary keys and incomplete key payloads do not
+trigger a lookup. This helper does not authorize the returned record.
+
 **Parameters:**
 
 | Parameter     | Type             | Description                                                                                       |
@@ -2597,7 +2603,7 @@ public findFirstByPrimaryKeys(array $data, string|null $modelClass): \Phalcon\Mv
 
 **Return Value:**
 
-The found record entity.
+The found record entity, or null when no complete key or record exists.
 
 ***
 
@@ -2612,6 +2618,9 @@ public getEntityFromData(array $data, array $configuration = []): \Phalcon\Mvc\M
 It will try to find the existing record and then assign the new data.
 - Will first try using the primary key of the related record
 - Then will try using the defined relationship fields using the relationship alias
+Existing direct children resolved by either lookup are checked against
+the configured ownership/adoption policy before any data is assigned.
+Empty key definitions never perform an unconstrained record lookup.
 
 **Parameters:**
 
@@ -2630,6 +2639,11 @@ It will try to find the existing record and then assign the new data.
 **Return Value:**
 
 The entity object or null if not found.
+
+**Throws:**
+
+When configuration is invalid or an existing direct child violates the ownership policy.
+- [`InvalidArgumentException`](../Exception/InvalidArgumentException.md)
 
 ***
 

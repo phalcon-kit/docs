@@ -146,7 +146,8 @@ Resolve a public order field to the query field used in PHQL.
 protected resolveOrderField(string $field): string
 ```
 
-Null order fields preserve legacy unrestricted ordering. Once a policy is
+Null order fields accept identifier selectors from requests, while trusted
+controller defaults may contain expressions. Once a policy is
 configured, only public names in the normalized field map are accepted.
 
 **Parameters:**

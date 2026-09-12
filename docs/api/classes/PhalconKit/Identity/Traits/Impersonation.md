@@ -23,7 +23,7 @@ public loginAs(array<string,mixed> $params = []): array{messages?: \Phalcon\Mess
 ```
 
 The target `userId` must be present, numeric, and resolvable through the
-configured user model. If the target id equals the current `asUserId`, the
+configured user model and must not be deleted. If the target id equals the current `asUserId`, the
 method treats the request as a return-to-self action and restores the
 original session.
 
@@ -40,6 +40,9 @@ generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before changing identity.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***
 ### logoutAs
@@ -65,5 +68,8 @@ generation fails.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When default PHP-session
+storage cannot renew the session before restoring identity.
+- [`ServiceException`](../../Exception/ServiceException.md)
 
 ***

@@ -44,15 +44,27 @@ public string $sessionKey
 
 ***
 
+### authorizationContext
+
+```php
+private array{state: string, expiresAt: int, provider: string, pkceCode: string|null}|null $authorizationContext
+```
+
+***
+
 ## Methods
 
 ### authorizationUrlAction
 
-Redirect to Authorization Url
+Start authorization and store a bounded, provider-specific state record.
 
 ```php
 public authorizationUrlAction(?string $scope = null): \Phalcon\Http\ResponseInterface
 ```
+
+`oauth2.stateLifetime` controls its lifetime in seconds (default 600).
+A new attempt replaces the pending attempt for this provider/session.
+Configured League PKCE verifiers are retained for the callback request.
 
 **Parameters:**
 
@@ -60,15 +72,26 @@ public authorizationUrlAction(?string $scope = null): \Phalcon\Http\ResponseInte
 |-----------|-------------|-------------|
 | `$scope`  | **?string** |             |
 
+**Throws:**
+
+When the state lifetime is invalid.
+- [`ConfigurationException`](../../../Exception/ConfigurationException.md)
+
 ***
 
 ### validateState
 
-Validate State
+Validate and consume callback state before authorizing one code exchange.
 
 ```php
 public validateState(?string $state = null): bool
 ```
+
+Values are compared verbatim; malformed, expired, legacy string, missing,
+and wrong-provider states fail closed. A successful call consumes stored
+state and allows getAccessToken() once in this controller instance.
+Session storage must serialize requests or provide equivalent atomic
+consumption when implementing a custom concurrent session backend.
 
 **Parameters:**
 
@@ -80,11 +103,15 @@ public validateState(?string $state = null): bool
 
 ### getAccessToken
 
-Get Access Token
+Exchange a callback code only after successful one-time state validation.
 
 ```php
 public getAccessToken(?string $code = null): \League\OAuth2\Client\Token\AccessTokenInterface
 ```
+
+Existing callbacks may call validateState() first; otherwise this method
+validates request state itself. The context is consumed before the remote
+exchange, including failed exchanges. Retry by starting authorization again.
 
 **Parameters:**
 
@@ -94,6 +121,9 @@ public getAccessToken(?string $code = null): \League\OAuth2\Client\Token\AccessT
 
 **Throws:**
 
+With generic status 401 for invalid callback credentials.
+- [`HttpException`](../../../Exception/HttpException.md)
+When the provider rejects the exchange.
 - [`IdentityProviderException`](https://oauth2-client.thephpleague.com/){:target="_blank"}
 
 ***

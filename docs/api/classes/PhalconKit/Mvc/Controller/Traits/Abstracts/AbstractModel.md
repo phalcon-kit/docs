@@ -101,6 +101,24 @@ public modelHasColumn(string $column, ?string $modelName = null): bool
 | `$modelName` | **?string** |             |
 
 ***
+### assertRequestField
+
+Reject request field selectors containing PHQL expressions with HTTP 400.
+
+```php
+protected assertRequestField(string $field): void
+```
+
+Implementations must accept identifiers and supported relation scopes only.
+
+* This method is **abstract**.
+**Parameters:**
+
+| Parameter | Type       | Description |
+|-----------|------------|-------------|
+| `$field`  | **string** |             |
+
+***
 ### appendModelName
 
 ```php
