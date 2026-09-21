@@ -1,6 +1,8 @@
 
 Adds relationship-aware assignment, persistence, and export helpers.
 
+Uses the initialized dirtyRelated array inherited from Phalcon\Mvc\Model.
+
 PhalconKit models call `assignRelated()` before native model assignment so
 request payloads can contain nested relationship data. The default behavior
 remains permissive for backward compatibility: unknown relation-looking
@@ -45,13 +47,6 @@ items.
 
 ```php
 private string $relationshipContext
-```
-
-***
-### dirtyRelated
-
-```php
-protected \Phalcon\Mvc\ModelInterface[] $dirtyRelated
 ```
 
 ***

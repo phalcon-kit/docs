@@ -229,6 +229,8 @@ protected persistPasswordReset(\PhalconKit\Models\Interfaces\UserInterface $user
 The default uses the mapped user id/resetToken columns and the user's write
 connection, which must support transactions. It refuses an existing outer
 transaction rather than committing or rolling back caller-owned work.
+Cleanup tolerates a save hook having already ended the transaction,
+preserving its original exception and restoring the in-memory credentials.
 Failed saves/claims roll back and restore the model's credential fields.
 Overrides for other stores must implement atomic compare-and-consume plus
 password persistence, and retain false-on-lost-race semantics.
@@ -249,6 +251,22 @@ True only after a successful commit; false for lost claims or save rejection.
 
 When transaction setup/commit fails.
 - [`ServiceException`](../Exception/ServiceException.md)
+
+***
+
+### rollbackActivePasswordResetTransaction
+
+Roll back an owned transaction only if it remains active after save hooks.
+
+```php
+private rollbackActivePasswordResetTransaction(\Phalcon\Contracts\Db\Adapter\Adapter $connection): void
+```
+
+**Parameters:**
+
+| Parameter     | Type                                      | Description |
+|---------------|-------------------------------------------|-------------|
+| `$connection` | **\Phalcon\Contracts\Db\Adapter\Adapter** |             |
 
 ***
 

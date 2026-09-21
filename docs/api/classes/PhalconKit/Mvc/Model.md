@@ -32,25 +32,6 @@ Events
 
 * https://docs.phalcon.io/latest/db-models/#events - {@inheritdoc} \Phalcon\Mvc\Model
 
-## Properties
-
-### dirtyRelated
-
-Fix a phalcon bug, despite phalcon stub and core code state that dirtyRelated is defined
-with an empty array, it seems that the dirtyRelated default value is not set at all.
-
-```php
-protected array $dirtyRelated
-```
-
-This is why we are redefining it here, so we can make the static code analyzers happy.
-
-Fatal error: Phalcon\Mvc\Model and PhalconKit\Mvc\Model\Traits\Relationship
-define the same property ($dirtyRelated) in the composition of PhalconKit\Mvc\Model.
-However, the definition differs and is considered incompatible.
-
-***
-
 ## Methods
 
 ### save

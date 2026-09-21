@@ -1,22 +1,13 @@
 
 This trait provides soft delete functionality to a model class.
 
+Uses the native skipped flag inherited from Phalcon\Mvc\Model.
 It allows you to mark a record as deleted without actually deleting it from the database.
 When a record is marked as deleted, it won't be retrieved in queries unless explicitly requested.
 
 ***
 
 * Full name: `\PhalconKit\Mvc\Model\Traits\SoftDelete`
-
-## Properties
-
-### skipped
-
-```php
-protected bool $skipped
-```
-
-***
 
 ## Methods
 
