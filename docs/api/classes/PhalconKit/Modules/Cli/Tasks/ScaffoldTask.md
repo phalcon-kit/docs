@@ -211,6 +211,36 @@ The generated validation items string.
 
 ***
 
+### getBooleanColumnAttributes
+
+Resolve explicitly configured table.column flags to model attributes.
+
+```php
+protected getBooleanColumnAttributes(\Phalcon\Contracts\Db\Column[] $columns, string $table): array<string,bool>
+```
+
+The boolean-columns CLI option applies only to named integer columns.
+Unknown columns, non-integers and identity columns on the current table
+are rejected before generating its abstract. No database changes occur.
+
+**Parameters:**
+
+| Parameter  | Type                               | Description                       |
+|------------|------------------------------------|-----------------------------------|
+| `$columns` | **\Phalcon\Contracts\Db\Column[]** | Columns described for this table. |
+| `$table`   | **string**                         | Original SQL table name.          |
+
+**Return Value:**
+
+Mapped attributes => allowEmpty.
+
+**Throws:**
+
+For an invalid flag declaration.
+- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
+
+***
+
 ### getRelationshipItems
 
 Generates relationship items for a given table.

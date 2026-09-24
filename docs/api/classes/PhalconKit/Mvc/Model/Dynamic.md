@@ -146,6 +146,28 @@ public static createInstance(string $source, array $columnMap = []): \PhalconKit
 
 ## Inherited methods
 
+### normalizeBooleanAttribute
+
+Normalize a valid integer-backed boolean without coercing invalid input.
+
+```php
+protected normalizeBooleanAttribute(string $field, bool $allowEmpty): void
+```
+
+Optional empty values (including Core's SQL NULL sentinel) become null;
+required empty values and invalid input are left for the validators.
+This writes the model attribute directly, avoiding custom setter casts
+that could otherwise turn invalid input into an accepted zero or one.
+
+**Parameters:**
+
+| Parameter     | Type       | Description |
+|---------------|------------|-------------|
+| `$field`      | **string** |             |
+| `$allowEmpty` | **bool**   |             |
+
+***
+
 ### getAllowEmptyOption
 
 ```php
@@ -370,13 +392,16 @@ The updated validation object with the inclusion validation added
 
 ### addBooleanValidation
 
-Add basic validations for a boolean field
-- Must not be empty
-- Must be a boolean value (1, 0, true, false)
+Validate only true, false, 1, 0, '1' and '0', using strict comparisons.
 
 ```php
 public addBooleanValidation(\PhalconKit\Filter\Validation $validator, array|string $field, bool $allowEmpty = true): \PhalconKit\Filter\Validation
 ```
+
+Optional fields also accept null and the empty string. False and zero
+are real values, never empty-value exemptions. This helper preserves
+values and their types. Integer-backed model flags can first call
+normalizeBooleanAttribute() to normalize accepted inputs to 0/1.
 
 **Parameters:**
 
@@ -615,6 +640,8 @@ Add soft delete validation to a validator object.
 ```php
 public addSoftDeleteValidation(\PhalconKit\Filter\Validation $validator, string $field = 'deleted', bool $allowEmpty = true): \PhalconKit\Filter\Validation
 ```
+
+Normalize accepted flag inputs to integer YES/NO before lifecycle checks.
 
 **Parameters:**
 
