@@ -4301,7 +4301,7 @@ these settings are not isolated per model or per request in persistent workers.
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -4313,7 +4313,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -4361,7 +4361,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "auditId"
 Column: audit_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getAuditId(): mixed
@@ -4373,7 +4373,7 @@ public getAuditId(): mixed
 
 Sets the value of the field "auditId"
 Column: audit_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setAuditId(mixed $auditId): void
@@ -4391,7 +4391,7 @@ public setAuditId(mixed $auditId): void
 
 Returns the value of the field "column"
 Column: column
-Attributes: NotNull \| Size(60) \| Type(2)
+Attributes: NotNull \| Size(64) \| Type(2)
 
 ```php
 public getColumn(): mixed
@@ -4403,7 +4403,7 @@ public getColumn(): mixed
 
 Sets the value of the field "column"
 Column: column
-Attributes: NotNull \| Size(60) \| Type(2)
+Attributes: NotNull \| Size(64) \| Type(2)
 
 ```php
 public setColumn(mixed $column): void
@@ -4541,7 +4541,7 @@ public setCreatedAt(mixed $createdAt): void
 
 Returns the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getCreatedBy(): mixed
@@ -4553,7 +4553,7 @@ public getCreatedBy(): mixed
 
 Sets the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setCreatedBy(mixed $createdBy): void

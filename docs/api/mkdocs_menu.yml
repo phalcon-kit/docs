@@ -147,6 +147,8 @@
           - Fr: api/classes/PhalconKit/Locales/Fr.md
       - \PhalconKit\Logger:
           - Loggers: api/classes/PhalconKit/Logger/Loggers.md
+      - \PhalconKit\Migrations:
+          - SqlMigration: api/classes/PhalconKit/Migrations/SqlMigration.md
       - \PhalconKit\Models:
           - AbstractModel: api/classes/PhalconKit/Models/AbstractModel.md
           - Audit: api/classes/PhalconKit/Models/Audit.md

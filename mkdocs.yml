@@ -194,6 +194,7 @@ nav:
       - Resource Walkthrough: guides/resource-walkthrough.md
       - REST Controllers: guides/rest-api.md
   - Data And Models:
+      - Database Migrations: guides/database-migrations.md
       - Database And Scaffolding: guides/database-scaffolding.md
       - Models And Eager Loading: guides/models-and-eager-loading.md
       - Identity And Permissions: guides/identity-and-permissions.md
@@ -362,6 +363,8 @@ nav:
           - Fr: api/classes/PhalconKit/Locales/Fr.md
       - \PhalconKit\Logger:
           - Loggers: api/classes/PhalconKit/Logger/Loggers.md
+      - \PhalconKit\Migrations:
+          - SqlMigration: api/classes/PhalconKit/Migrations/SqlMigration.md
       - \PhalconKit\Models:
           - AbstractModel: api/classes/PhalconKit/Models/AbstractModel.md
           - Audit: api/classes/PhalconKit/Models/Audit.md

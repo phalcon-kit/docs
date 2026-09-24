@@ -11,7 +11,7 @@
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -23,7 +23,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -71,7 +71,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "parentId"
 Column: parent_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getParentId(): mixed
@@ -83,7 +83,7 @@ public getParentId(): mixed
 
 Sets the value of the field "parentId"
 Column: parent_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setParentId(mixed $parentId): void
@@ -101,7 +101,7 @@ public setParentId(mixed $parentId): void
 
 Returns the value of the field "childId"
 Column: child_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getChildId(): mixed
@@ -113,7 +113,7 @@ public getChildId(): mixed
 
 Sets the value of the field "childId"
 Column: child_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setChildId(mixed $childId): void
@@ -221,7 +221,7 @@ public setCreatedAt(mixed $createdAt): void
 
 Returns the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getCreatedBy(): mixed
@@ -233,7 +233,7 @@ public getCreatedBy(): mixed
 
 Sets the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setCreatedBy(mixed $createdBy): void

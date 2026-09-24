@@ -11,7 +11,7 @@
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -23,7 +23,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -71,7 +71,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "userId"
 Column: user_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getUserId(): mixed
@@ -83,7 +83,7 @@ public getUserId(): mixed
 
 Sets the value of the field "userId"
 Column: user_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setUserId(mixed $userId): void
@@ -101,7 +101,7 @@ public setUserId(mixed $userId): void
 
 Returns the value of the field "featureId"
 Column: feature_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getFeatureId(): mixed
@@ -113,7 +113,7 @@ public getFeatureId(): mixed
 
 Sets the value of the field "featureId"
 Column: feature_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setFeatureId(mixed $featureId): void
@@ -221,7 +221,7 @@ public setCreatedAt(mixed $createdAt): void
 
 Returns the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getCreatedBy(): mixed
@@ -233,7 +233,7 @@ public getCreatedBy(): mixed
 
 Sets the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setCreatedBy(mixed $createdBy): void
@@ -281,7 +281,7 @@ public setUpdatedAt(mixed $updatedAt): void
 
 Returns the value of the field "updatedBy"
 Column: updated_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getUpdatedBy(): mixed
@@ -293,7 +293,7 @@ public getUpdatedBy(): mixed
 
 Sets the value of the field "updatedBy"
 Column: updated_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setUpdatedBy(mixed $updatedBy): void
@@ -341,7 +341,7 @@ public setDeletedAt(mixed $deletedAt): void
 
 Returns the value of the field "deletedBy"
 Column: deleted_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getDeletedBy(): mixed
@@ -353,7 +353,7 @@ public getDeletedBy(): mixed
 
 Sets the value of the field "deletedBy"
 Column: deleted_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setDeletedBy(mixed $deletedBy): void

@@ -371,6 +371,13 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 |-----------------------------------------------------|----------------------------------------------------------|
 | [`Loggers`](./classes/PhalconKit/Logger/Loggers.md) | Factory and registry for named Phalcon logger instances. |
 
+### \PhalconKit\Migrations
+
+
+| Class                                                             | Description                                             |
+|-------------------------------------------------------------------|---------------------------------------------------------|
+| [`SqlMigration`](./classes/PhalconKit/Migrations/SqlMigration.md) | Phalcon migration base for application-owned SQL files. |
+
 ### \PhalconKit\Models
 
 

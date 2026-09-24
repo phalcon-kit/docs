@@ -4301,7 +4301,7 @@ these settings are not isolated per model or per request in persistent workers.
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -4313,7 +4313,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -4361,7 +4361,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "key"
 Column: key
-Attributes: NotNull \| Size(100) \| Type(5)
+Attributes: NotNull \| Size(100) \| Type(2)
 
 ```php
 public getKey(): mixed
@@ -4373,7 +4373,7 @@ public getKey(): mixed
 
 Sets the value of the field "key"
 Column: key
-Attributes: NotNull \| Size(100) \| Type(5)
+Attributes: NotNull \| Size(100) \| Type(2)
 
 ```php
 public setKey(mixed $key): void
@@ -4421,7 +4421,7 @@ public setLabel(mixed $label): void
 
 Returns the value of the field "task"
 Column: task
-Attributes: NotNull \| Size(100) \| Type(5)
+Attributes: NotNull \| Size(100) \| Type(2)
 
 ```php
 public getTask(): mixed
@@ -4433,7 +4433,7 @@ public getTask(): mixed
 
 Sets the value of the field "task"
 Column: task
-Attributes: NotNull \| Size(100) \| Type(5)
+Attributes: NotNull \| Size(100) \| Type(2)
 
 ```php
 public setTask(mixed $task): void
@@ -4451,7 +4451,7 @@ public setTask(mixed $task): void
 
 Returns the value of the field "action"
 Column: action
-Attributes: NotNull \| Size(100) \| Type(5)
+Attributes: NotNull \| Size(100) \| Type(2)
 
 ```php
 public getAction(): mixed
@@ -4463,7 +4463,7 @@ public getAction(): mixed
 
 Sets the value of the field "action"
 Column: action
-Attributes: NotNull \| Size(100) \| Type(5)
+Attributes: NotNull \| Size(100) \| Type(2)
 
 ```php
 public setAction(mixed $action): void
@@ -4631,7 +4631,7 @@ public setCreatedAt(mixed $createdAt): void
 
 Returns the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getCreatedBy(): mixed
@@ -4643,7 +4643,7 @@ public getCreatedBy(): mixed
 
 Sets the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setCreatedBy(mixed $createdBy): void
@@ -4691,7 +4691,7 @@ public setUpdatedAt(mixed $updatedAt): void
 
 Returns the value of the field "updatedBy"
 Column: updated_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getUpdatedBy(): mixed
@@ -4703,7 +4703,7 @@ public getUpdatedBy(): mixed
 
 Sets the value of the field "updatedBy"
 Column: updated_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setUpdatedBy(mixed $updatedBy): void
@@ -4751,7 +4751,7 @@ public setDeletedAt(mixed $deletedAt): void
 
 Returns the value of the field "deletedBy"
 Column: deleted_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getDeletedBy(): mixed
@@ -4763,7 +4763,7 @@ public getDeletedBy(): mixed
 
 Sets the value of the field "deletedBy"
 Column: deleted_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setDeletedBy(mixed $deletedBy): void

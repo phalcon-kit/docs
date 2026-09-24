@@ -17,7 +17,7 @@ It provides properties and methods for managing FileRelation data.
 ### id
 
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public mixed $id
@@ -39,7 +39,7 @@ public mixed $uuid
 ### fileId
 
 Column: file_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public mixed $fileId
@@ -50,7 +50,7 @@ public mixed $fileId
 ### relationTable
 
 Column: relation_table
-Attributes: NotNull \| Size(60) \| Type(2)
+Attributes: NotNull \| Size(64) \| Type(2)
 
 ```php
 public mixed $relationTable
@@ -61,7 +61,7 @@ public mixed $relationTable
 ### relationId
 
 Column: relation_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public mixed $relationId
@@ -94,7 +94,7 @@ public mixed $createdAt
 ### createdBy
 
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public mixed $createdBy
@@ -108,7 +108,7 @@ public mixed $createdBy
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -120,7 +120,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -168,7 +168,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "fileId"
 Column: file_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getFileId(): mixed
@@ -180,7 +180,7 @@ public getFileId(): mixed
 
 Sets the value of the field "fileId"
 Column: file_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setFileId(mixed $fileId): void
@@ -198,7 +198,7 @@ public setFileId(mixed $fileId): void
 
 Returns the value of the field "relationTable"
 Column: relation_table
-Attributes: NotNull \| Size(60) \| Type(2)
+Attributes: NotNull \| Size(64) \| Type(2)
 
 ```php
 public getRelationTable(): mixed
@@ -210,7 +210,7 @@ public getRelationTable(): mixed
 
 Sets the value of the field "relationTable"
 Column: relation_table
-Attributes: NotNull \| Size(60) \| Type(2)
+Attributes: NotNull \| Size(64) \| Type(2)
 
 ```php
 public setRelationTable(mixed $relationTable): void
@@ -228,7 +228,7 @@ public setRelationTable(mixed $relationTable): void
 
 Returns the value of the field "relationId"
 Column: relation_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public getRelationId(): mixed
@@ -240,7 +240,7 @@ public getRelationId(): mixed
 
 Sets the value of the field "relationId"
 Column: relation_id
-Attributes: NotNull \| Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: NotNull \| Numeric \| Unsigned \| Type(14)
 
 ```php
 public setRelationId(mixed $relationId): void
@@ -318,7 +318,7 @@ public setCreatedAt(mixed $createdAt): void
 
 Returns the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getCreatedBy(): mixed
@@ -330,7 +330,7 @@ public getCreatedBy(): mixed
 
 Sets the value of the field "createdBy"
 Column: created_by
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setCreatedBy(mixed $createdBy): void

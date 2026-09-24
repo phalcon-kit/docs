@@ -17,7 +17,7 @@ It provides properties and methods for managing Session data.
 ### id
 
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public mixed $id
@@ -39,7 +39,7 @@ public mixed $uuid
 ### userId
 
 Column: user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public mixed $userId
@@ -50,7 +50,7 @@ public mixed $userId
 ### asUserId
 
 Column: as_user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public mixed $asUserId
@@ -119,7 +119,7 @@ public mixed $createdAt
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -131,7 +131,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -179,7 +179,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "userId"
 Column: user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getUserId(): mixed
@@ -191,7 +191,7 @@ public getUserId(): mixed
 
 Sets the value of the field "userId"
 Column: user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setUserId(mixed $userId): void
@@ -209,7 +209,7 @@ public setUserId(mixed $userId): void
 
 Returns the value of the field "asUserId"
 Column: as_user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getAsUserId(): mixed
@@ -221,7 +221,7 @@ public getAsUserId(): mixed
 
 Sets the value of the field "asUserId"
 Column: as_user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setAsUserId(mixed $asUserId): void

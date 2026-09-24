@@ -4301,7 +4301,7 @@ these settings are not isolated per model or per request in persistent workers.
 
 Returns the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public getId(): mixed
@@ -4313,7 +4313,7 @@ public getId(): mixed
 
 Sets the value of the field "id"
 Column: id
-Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Size(1) \| Type(14)
+Attributes: First \| Primary \| NotNull \| Numeric \| Unsigned \| AutoIncrement \| Type(14)
 
 ```php
 public setId(mixed $id): void
@@ -4361,7 +4361,7 @@ public setUuid(mixed $uuid): void
 
 Returns the value of the field "userId"
 Column: user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getUserId(): mixed
@@ -4373,7 +4373,7 @@ public getUserId(): mixed
 
 Sets the value of the field "userId"
 Column: user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setUserId(mixed $userId): void
@@ -4391,7 +4391,7 @@ public setUserId(mixed $userId): void
 
 Returns the value of the field "asUserId"
 Column: as_user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public getAsUserId(): mixed
@@ -4403,7 +4403,7 @@ public getAsUserId(): mixed
 
 Sets the value of the field "asUserId"
 Column: as_user_id
-Attributes: Numeric \| Unsigned \| Size(1) \| Type(14)
+Attributes: Numeric \| Unsigned \| Type(14)
 
 ```php
 public setAsUserId(mixed $asUserId): void
