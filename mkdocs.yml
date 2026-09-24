@@ -187,6 +187,7 @@ nav:
       - Getting Started: guides/getting-started.md
       - Architecture: guides/architecture.md
       - Configuration: guides/configuration.md
+      - Retained Feature Contracts: guides/feature-contracts.md
       - Developer Cookbook: guides/cookbook.md
       - Troubleshooting: guides/troubleshooting.md
   - REST APIs:
@@ -467,6 +468,15 @@ nav:
           - DeletedInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/DeletedInterface.md
           - RestoredInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/RestoredInterface.md
           - UpdateInterface: api/classes/PhalconKit/Models/Behaviors/Blameable/UpdateInterface.md
+      - \PhalconKit\Models\Enums:
+          - AuditDetailEvent: api/classes/PhalconKit/Models/Enums/AuditDetailEvent.md
+          - AuditEvent: api/classes/PhalconKit/Models/Enums/AuditEvent.md
+          - FileCategory: api/classes/PhalconKit/Models/Enums/FileCategory.md
+          - FileRelationCategory: api/classes/PhalconKit/Models/Enums/FileRelationCategory.md
+          - JobSchedulerFrequency: api/classes/PhalconKit/Models/Enums/JobSchedulerFrequency.md
+          - JobStatus: api/classes/PhalconKit/Models/Enums/JobStatus.md
+          - LogType: api/classes/PhalconKit/Models/Enums/LogType.md
+          - Oauth2Provider: api/classes/PhalconKit/Models/Enums/Oauth2Provider.md
       - \PhalconKit\Models\Interfaces:
           - AuditDetailInterface: api/classes/PhalconKit/Models/Interfaces/AuditDetailInterface.md
           - AuditInterface: api/classes/PhalconKit/Models/Interfaces/AuditInterface.md

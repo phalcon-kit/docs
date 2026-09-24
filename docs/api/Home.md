@@ -505,6 +505,19 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`RestoredInterface`](./classes/PhalconKit/Models/Behaviors/Blameable/RestoredInterface.md) |             |
 | [`UpdateInterface`](./classes/PhalconKit/Models/Behaviors/Blameable/UpdateInterface.md)     |             |
 
+### \PhalconKit\Models\Enums
+
+| Enum | Description |
+| --- | --- |
+| [`AuditDetailEvent`](./classes/PhalconKit/Models/Enums/AuditDetailEvent.md) | `string` backed enum. |
+| [`AuditEvent`](./classes/PhalconKit/Models/Enums/AuditEvent.md) | `string` backed enum. |
+| [`FileCategory`](./classes/PhalconKit/Models/Enums/FileCategory.md) | `string` backed enum. |
+| [`FileRelationCategory`](./classes/PhalconKit/Models/Enums/FileRelationCategory.md) | `string` backed enum. |
+| [`JobSchedulerFrequency`](./classes/PhalconKit/Models/Enums/JobSchedulerFrequency.md) | `string` backed enum. |
+| [`JobStatus`](./classes/PhalconKit/Models/Enums/JobStatus.md) | `string` backed enum. |
+| [`LogType`](./classes/PhalconKit/Models/Enums/LogType.md) | `string` backed enum. |
+| [`Oauth2Provider`](./classes/PhalconKit/Models/Enums/Oauth2Provider.md) | `string` backed enum. |
+
 ### \PhalconKit\Models\Interfaces
 
 

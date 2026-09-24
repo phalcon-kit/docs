@@ -895,6 +895,11 @@ logged in, the provider identity is attached to that user. Otherwise the
 saved provider identity must already contain a user id before login can
 succeed.
 
+The models service resolves the configured OAuth2 class. Replacements must
+implement Oauth2Interface and return model instances (or null when absent)
+from findFirst(). New records use a fresh instance, never the cached model
+held by the resolver. Application validation and save hooks remain active.
+
 **Parameters:**
 
 | Parameter       | Type                          | Description                           |
@@ -909,13 +914,15 @@ succeed.
 
 When OAuth provider fields cannot be sanitized.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When validation cannot be configured.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless token key
 generation fails after a successful OAuth2 login.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 When stateless JWT creation fails after a successful OAuth2 login.
 - [`ValidatorException`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-When default PHP-session
-storage cannot renew the session before authenticating.
+When the model mapping/lookup violates the OAuth2
+contract, or PHP-session storage cannot renew before authenticating.
 - [`ServiceException`](../Exception/ServiceException.md)
 
 ***

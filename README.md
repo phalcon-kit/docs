@@ -45,13 +45,13 @@ Review and build the complete MkDocs site before publishing.
 Replace the API navigation in `mkdocs.yml` with Core's generated
 `docs/mkdocs_menu.yml`, preserving the narrative guide navigation. Remove stale
 generated files for retired classes during synchronization. Links from guides
-to Core's root policies and roadmap should target the Core repository.
+to Core's root policies, roadmap, and excluded planning guide
+(`to-be-discussed.md`) should target the Core repository.
 
-The current Markdown generator covers the retained classes, interfaces, and
-traits but omits eight PHP enums under
-[`PhalconKit\\Models\\Enums`](https://github.com/phalcon-kit/core/tree/master/src/Models/Enums).
-This is an existing generator limitation. Add enum-page generation before
-claiming complete API coverage for the stable 4.0 documentation.
+Core's documentation command supplements phpDocumentor with model-enum pages
+and includes their cases, backing values, and namespace in the generated API
+navigation. Regenerate through `composer docs`; do not maintain those pages by
+hand. See the [Core maintenance guide](https://github.com/phalcon-kit/core/blob/master/guides/quality-and-maintenance.md).
 
 For the stable 4.0.0 launch, synchronize again after the final Core release
 changes and verify App's installation instructions use the tested stable Core
