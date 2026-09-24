@@ -7,18 +7,20 @@ identity, permissions, CLI tasks, and WebSocket support.
 [Get Started](guides/getting-started.md){ .md-button .md-button--primary }
 [Browse The Cookbook](guides/cookbook.md){ .md-button }
 
-!!! info "Latest-version documentation"
+!!! info "Core 4.0 and App 4.0 development"
 
-    This site documents the latest stable release of `phalcon-kit/core` and
-    the runtime requirements declared by that release. Historical behavior
-    belongs in the changelog and GitHub releases rather than a versioned copy
-    of this site.
+    This site follows the upcoming **Core 4.0.0 and App 4.0.0** releases. Only
+    4.x is maintained; all earlier versions are end of life, with no fixes or
+    backports. Both releases are still unreleased, so there is currently no
+    supported stable release. Read the [Core 4.0 upgrade guide](guides/upgrading-4.0.md)
+    before evaluating the development preview. Older tags preserve historical
+    documentation.
 
 Phalcon Kit extends Phalcon rather than replacing it. Refer to the
 [latest Phalcon documentation](https://docs.phalcon.io/latest/){:target="_blank"}
 for native framework behavior, and use this site for Phalcon Kit conventions.
 
-The current source baseline requires PHP 8.5 or newer and Phalcon 5.21.0 or
+The current source baseline requires PHP 8.5 or newer and Phalcon 5.22.0 or
 newer on the 5.x release line.
 
 ## Jump Right In

@@ -75,7 +75,7 @@ public static findWith(array $arguments): array
 $limit = 100;
 $offset = max(0, $this->request->getQuery('page', 'int') - 1) * $limit;
 
-$manufacturers = Manufacturer::with('Robots.Parts', [
+$manufacturers = Manufacturer::findWith(['Robots.Parts'], [
     'limit' => [$limit, $offset]
 ]);
 
@@ -96,7 +96,7 @@ foreach ($manufacturers as $manufacturer) {
 ***
 ### findFirstWith
 
-Same as EagerLoadingTrait::findWith() for a single record
+Same as EagerLoad::findWith() for a single record
 
 ```php
 public static findFirstWith(array $arguments): ?\Phalcon\Mvc\ModelInterface
@@ -125,7 +125,7 @@ public static with(array $arguments): array
 
 **See Also:**
 
-* static::findWith()
+* \PhalconKit\Mvc\Model\Traits\static::findWith()
 
 ***
 ### firstWith
@@ -143,7 +143,7 @@ public static firstWith(array $arguments): ?\Phalcon\Mvc\ModelInterface
 
 **See Also:**
 
-* static::findFirstWith()
+* \PhalconKit\Mvc\Model\Traits\static::findFirstWith()
 
 ***
 ### __callStatic
@@ -221,7 +221,10 @@ public load(array $arguments): ?\Phalcon\Mvc\ModelInterface
 ```php
 $manufacturer = Manufacturer::findFirstById(51);
 
-$manufacturer->load('Robots.Parts');
+if (!$manufacturer) {
+    return;
+}
+$manufacturer->load(['Robots.Parts']);
 
 foreach ($manufacturer->robots as $robot) {
    foreach ($robot->parts as $part) { ... }

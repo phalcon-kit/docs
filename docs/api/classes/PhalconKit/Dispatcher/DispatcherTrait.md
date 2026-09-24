@@ -146,7 +146,8 @@ public forward(array<string,mixed> $forward, bool $preventCycle = false): void
 
 Null forward parts are stripped before delegating to Phalcon. When
 `$preventCycle` is true, forwarding only happens if at least one target
-part differs from the current dispatch state.
+part differs from the effective current dispatch state. Empty namespace,
+handler and action names resolve to Phalcon's configured defaults.
 
 **Parameters:**
 
@@ -158,11 +159,18 @@ part differs from the current dispatch state.
 ***
 ### canForward
 
-Determine whether a forward target differs from the current dispatch.
+Determine whether a forward changes the effective dispatch target.
 
 ```php
 public canForward(array<array-key,mixed> $forward): bool
 ```
+
+Empty namespace, handler and action names use Phalcon's defaults on
+both sides of the comparison. Null and omitted parts leave the current
+route unchanged; module and parameter values are compared strictly.
+Native forward() accepts controller and task keys in either mode, with
+controller taking precedence. This check does not mutate dispatch state
+or fire events, so listeners can safely decide whether to cancel a pass.
 
 **Parameters:**
 
@@ -173,49 +181,17 @@ public canForward(array<array-key,mixed> $forward): bool
 ***
 ### canForwardHandler
 
-Determine whether the dispatcher-specific handler target changes.
+Compare the effective handler using native forward() key precedence.
 
 ```php
 private canForwardHandler(array<string,mixed> $forward): bool
 ```
-
-MVC dispatchers compare controllers; CLI dispatchers compare tasks.
 
 **Parameters:**
 
 | Parameter  | Type                    | Description           |
 |------------|-------------------------|-----------------------|
 | `$forward` | **array<string,mixed>** | Forward target parts. |
-
-***
-### canForwardController
-
-Determine whether an MVC forward points to a different controller.
-
-```php
-private canForwardController(?string $controller = null): bool
-```
-
-**Parameters:**
-
-| Parameter     | Type        | Description |
-|---------------|-------------|-------------|
-| `$controller` | **?string** |             |
-
-***
-### canForwardTask
-
-Determine whether a CLI forward points to a different task.
-
-```php
-private canForwardTask(?string $task = null): bool
-```
-
-**Parameters:**
-
-| Parameter | Type        | Description |
-|-----------|-------------|-------------|
-| `$task`   | **?string** |             |
 
 ***
 ### unsetForwardNullParts

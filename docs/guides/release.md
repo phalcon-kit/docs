@@ -7,9 +7,36 @@ Use this checklist when preparing a public release.
 Phalcon Kit follows SemVer for tagged public releases. Keep unreleased work
 under the current `Unreleased` heading in `CHANGELOG.md` until the tag is cut.
 
+Core and the App skeleton will start the 4.x line together at **4.0.0**. App
+intentionally skips 3.x to align its major version with Core. App 4.0.0 must
+require Core `^4.0` and lock the tested stable Core release. Publish Docs from
+the same Core source and synchronized guides.
+
+During preparation, Core's Composer branch alias maps `dev-master` to
+`4.0.x-dev`. App may require `^4.0@dev` for explicit preview testing while
+keeping stable dependency selection for other packages. Before tagging App
+4.0.0, replace that preview constraint with `^4.0`, refresh its lockfile from
+the published Core 4.0.0 tag, and rerun App CI and a fresh project install.
+
+## Branch Policy
+
+`master` is the sole long-lived branch and currently contains unreleased Core
+4.0 development. Version branches are not kept as release archives; existing
+tags preserve published releases. Short-lived contribution branches may
+be removed once their work is merged or otherwise preserved.
+
+Publish releases with signed version tags. Applications should use tagged-version
+constraints and keep their lockfiles; `dev-master` intentionally follows current
+development and can introduce breaking changes during a major-version transition.
+
+Only Core 4.x is maintained, as defined in [SECURITY.md](https://github.com/phalcon-kit/core/blob/master/SECURITY.md).
+All earlier versions are end of life: do not prepare maintenance releases or
+security backports for them. Preserve their existing tags as historical records.
+Core 4.0 is still unreleased, so there is currently no supported stable release.
+
 ## Before Release
 
-1. Confirm the target version and release branch.
+1. Confirm the target 4.x version and commit on `master`.
 2. Update `CHANGELOG.md` by moving the current unreleased section to a dated
    version heading.
 3. Update `src/Support/Version.php` and its focused version test to the exact
@@ -50,7 +77,7 @@ Review the archive if package exclusions changed.
 1. Review `git status --short`, the complete diff, and `git diff --check`.
 2. Create and verify a signed release commit containing only the reviewed
    release changes.
-3. Push the release commit to the release branch.
+3. Push the release commit to `master`.
 4. Wait for every required workflow on that exact commit SHA. Do not tag while
    a required check is pending or failing.
 
@@ -74,15 +101,18 @@ correct previous-tag comparison link.
 1. Verify the GitHub Actions workflow passed on the tag and that the GitHub
    Release targets the expected commit SHA.
 2. Verify Packagist updated `phalcon-kit/core` and resolves the exact tag SHA.
-3. Publish the synchronized Docs commit and verify its GitHub Pages workflow.
-4. Check GitHub Code Scanning for fresh Psalm results.
-5. Confirm the old `zemit-cms/core` page still points users toward this
+3. For the coordinated 4.0.0 launch, finish the App constraint/lockfile update,
+   pass its exact-commit CI, publish its signed 4.0.0 tag, and verify a fresh
+   public `composer create-project phalcon-kit/app:4.0.0` installation.
+4. Publish the synchronized Docs commit and verify its GitHub Pages workflow.
+5. Check GitHub Code Scanning for fresh Psalm results.
+6. Confirm the old `zemit-cms/core` page still points users toward this
    repository for historical context.
-6. Start a new unreleased section in `CHANGELOG.md` in the next development
+7. Start a new unreleased section in `CHANGELOG.md` in the next development
    commit.
 
 ## Legacy Package
 
-The old `zemit-cms/core` package should be treated as historical continuity for
-existing users. Do not make it the primary install path in new documentation.
+The old `zemit-cms/core` package is unmaintained and unsupported. Preserve it as
+historical continuity for existing users; direct new documentation to Core 4.x.
 If it is marked abandoned later, point users to `phalcon-kit/core`.

@@ -15,9 +15,16 @@ It extends the TypeAbstract class and implements the TypeInterface.
 
 ### initialize
 
+Initialize feature options, ORM defaults, events, and model behaviors.
+
 ```php
 public initialize(): void
 ```
+
+Phalcon initializes each model class through its modelsManager. This method
+installs a model events manager, enables dynamic updates, and registers the
+enabled feature behaviors. Its setup options also affect the process-wide ORM.
+Call the parent first before customizing Core's event manager or behaviors.
 
 ***
 
@@ -55,6 +62,8 @@ that could otherwise turn invalid input into an accepted zero or one.
 
 ### getAllowEmptyOption
 
+Return Phalcon's explicit null/empty-string exemption, preserving false and zero.
+
 ```php
 protected getAllowEmptyOption(bool $allowEmpty = true): bool|array
 ```
@@ -69,9 +78,13 @@ protected getAllowEmptyOption(bool $allowEmpty = true): bool|array
 
 ### shouldSkipOptionalValidation
 
+Skip an optional single attribute containing an empty value or SQL NULL sentinel.
+
 ```php
 protected shouldSkipOptionalValidation(array|string $field, bool $allowEmpty): bool
 ```
+
+RawValue sentinels are inspected as strings; field arrays are left to native validators.
 
 **Parameters:**
 
@@ -83,6 +96,8 @@ protected shouldSkipOptionalValidation(array|string $field, bool $allowEmpty): b
 ***
 
 ### isOptionalEmptyValue
+
+Recognize null, an empty string, and trimmed case-insensitive SQL NULL strings.
 
 ```php
 protected isOptionalEmptyValue(mixed $value): bool
@@ -3575,45 +3590,53 @@ The calculated average or a ResultsetInterface, depending on the implementation.
 
 ### minimum
 
-Calculates the minimum value of a specified column in the database according to the given conditions.
+Return the native minimum of a column, with cancellable before/after events.
 
 ```php
-public static minimum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static minimum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
+
+Values retain the database driver's type, including strings for text, dates,
+or decimals. An ungrouped query without a value returns null; grouped queries
+return a resultset. A cancelled beforeMinimum event returns false.
 
 * This method is **static**.
 **Parameters:**
 
 | Parameter     | Type      | Description                                                                                           |
 |---------------|-----------|-------------------------------------------------------------------------------------------------------|
-| `$parameters` | **mixed** | Native Phalcon parameters to customize the query,
-such as conditions, column selection, or groupings. |
+| `$parameters` | **mixed** | Native Phalcon conditions and options, including
+column, bind values, and optional group expressions. |
 
 **Return Value:**
 
-Returns the minimum value as a float, a ResultsetInterface object, or false if no matching records are found or the operation fails.
+The unchanged native result, or false on cancellation.
 
 ***
 
 ### maximum
 
-Calculates the maximum value of a specified column in the database based on the given conditions.
+Return the native maximum of a column, with cancellable before/after events.
 
 ```php
-public static maximum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static maximum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
+
+Values retain the database driver's type, including strings for text, dates,
+or decimals. An ungrouped query without a value returns null; grouped queries
+return a resultset. A cancelled beforeMaximum event returns false.
 
 * This method is **static**.
 **Parameters:**
 
 | Parameter     | Type      | Description                                                                                           |
 |---------------|-----------|-------------------------------------------------------------------------------------------------------|
-| `$parameters` | **mixed** | Native Phalcon parameters to customize the query,
-such as conditions, column selection, or groupings. |
+| `$parameters` | **mixed** | Native Phalcon conditions and options, including
+column, bind values, and optional group expressions. |
 
 **Return Value:**
 
-Returns the computed maximum value as a float, a ResultsetInterface object for detailed results, or false on failure.
+The unchanged native result, or false on cancellation.
 
 ***
 
@@ -3664,7 +3687,7 @@ public static findWith(array $arguments): array
 $limit = 100;
 $offset = max(0, $this->request->getQuery('page', 'int') - 1) * $limit;
 
-$manufacturers = Manufacturer::with('Robots.Parts', [
+$manufacturers = Manufacturer::findWith(['Robots.Parts'], [
     'limit' => [$limit, $offset]
 ]);
 
@@ -3686,7 +3709,7 @@ foreach ($manufacturers as $manufacturer) {
 
 ### findFirstWith
 
-Same as EagerLoadingTrait::findWith() for a single record
+Same as EagerLoad::findWith() for a single record
 
 ```php
 public static findFirstWith(array $arguments): ?\Phalcon\Mvc\ModelInterface
@@ -3716,7 +3739,7 @@ public static with(array $arguments): array
 
 **See Also:**
 
-* static::findWith()
+* \PhalconKit\Mvc\Model\Traits\static::findWith()
 
 ***
 
@@ -3735,7 +3758,7 @@ public static firstWith(array $arguments): ?\Phalcon\Mvc\ModelInterface
 
 **See Also:**
 
-* static::findFirstWith()
+* \PhalconKit\Mvc\Model\Traits\static::findFirstWith()
 
 ***
 
@@ -3817,7 +3840,10 @@ public load(array $arguments): ?\Phalcon\Mvc\ModelInterface
 ```php
 $manufacturer = Manufacturer::findFirstById(51);
 
-$manufacturer->load('Robots.Parts');
+if (!$manufacturer) {
+    return;
+}
+$manufacturer->load(['Robots.Parts']);
 
 foreach ($manufacturer->robots as $robot) {
    foreach ($robot->parts as $part) { ... }
@@ -4115,95 +4141,159 @@ public setAttribute(string $attribute, mixed $value): void
 
 ### save
 
+Insert or update this model using native Phalcon persistence and lifecycle events.
+
 ```php
 public save(): bool
 ```
+
+Normalize case-insensitive "NULL" strings on nullable mapped attributes and
+snapshots before persistence, and again after a successful write. Non-nullable
+attributes retain their values for model/database validation.
+
+**Return Value:**
+
+Whether persistence succeeded; inspect getMessages() on false.
+
+**Throws:**
+
+When native persistence rejects the operation by exception.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### create
 
+Insert this model using native Phalcon persistence and lifecycle events.
+
 ```php
 public create(): bool
 ```
+
+Normalize case-insensitive "NULL" strings on nullable mapped attributes and
+snapshots before persistence, and again after a successful write. Non-nullable
+attributes retain their values for model/database validation.
+
+**Return Value:**
+
+Whether persistence succeeded; inspect getMessages() on false.
+
+**Throws:**
+
+When native persistence rejects the operation by exception.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### update
 
+Update this model using native Phalcon persistence and lifecycle events.
+
 ```php
 public update(): bool
 ```
+
+Normalize case-insensitive "NULL" strings on nullable mapped attributes and
+snapshots before persistence, and again after a successful write. Non-nullable
+attributes retain their values for model/database validation.
+
+**Return Value:**
+
+Whether persistence succeeded; inspect getMessages() on false.
+
+**Throws:**
+
+When native persistence rejects the operation by exception.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### doSave
 
+Apply the same NULL normalization during native recursive relationship saves.
+
 ```php
 public doSave(\Phalcon\Support\Collection\CollectionInterface $visited): bool
 ```
 
+This is a Phalcon persistence hook. Pass the existing visited collection on
+delegation so native cycle detection and transaction handling stay intact.
+
 **Parameters:**
 
-| Parameter  | Type                                                | Description |
-|------------|-----------------------------------------------------|-------------|
-| `$visited` | **\Phalcon\Support\Collection\CollectionInterface** |             |
+| Parameter  | Type                                                | Description                                   |
+|------------|-----------------------------------------------------|-----------------------------------------------|
+| `$visited` | **\Phalcon\Support\Collection\CollectionInterface** | Models visited in the current save traversal. |
+
+**Return Value:**
+
+Whether native persistence succeeded.
+
+**Throws:**
+
+When native persistence rejects the operation by exception.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
 
 ***
 
 ### initialize
 
+Initialize feature options, ORM defaults, events, and model behaviors.
+
 ```php
 public initialize(): void
 ```
+
+Phalcon initializes each model class through its modelsManager. This method
+installs a model events manager, enables dynamic updates, and registers the
+enabled feature behaviors. Its setup options also affect the process-wide ORM.
+Call the parent first before customizing Core's event manager or behaviors.
+
+**Throws:**
+
+When required typed model services cannot be resolved.
+- [`ServiceException`](../Exception/ServiceException.md)
 
 ***
 
 ### normalizeNullableNullStrings
 
+Replace trimmed, case-insensitive SQL NULL strings in nullable attributes.
+
 ```php
 protected normalizeNullableNullStrings(): void
 ```
+
+Resolve property names through metadata and its column map, then normalize
+current and old snapshots too, avoiding false dirty changes. If metadata is
+unavailable, leave values untouched. This method does not write to the database.
 
 ***
 
 ### setup
 
-Enables/disables options in the ORM
-- We do this here in order to keep behaviour consistencies between different environments
---------------------------------
- caseInsensitiveColumnMap - false - Case insensitive column map
- castLastInsertIdToInt - false - Casts the lastInsertId to an integer
- castOnHydrate - false - Automatic cast to original types on hydration
- columnRenaming - true - Column renaming
- disableAssignSetters - false - Disable setters
- enableImplicitJoins - true - Enable implicit joins
- events - true - Callbacks, hooks and event notifications from all the models
- exceptionOnFailedMetaDataSave - false - Throw an exception when there is a failed meta-data save
- exceptionOnFailedSave - false - Throw an exception when there is a failed save()
- ignoreUnknownColumns - false - Ignore unknown columns on the model
- lateStateBinding - false - Late state binding of the Phalcon\Mvc\Model::cloneResultMap() method
- notNullValidations - true - Automatically validate the not null columns present
- phqlLiterals - true - Literals in the PHQL parser
- prefetchRecords - 0 - The number of records to prefetch when getting data from the ORM
- updateSnapshotOnSave - true - Update snapshots on save()
- virtualForeignKeys - true - Virtual foreign keys
---------------------------------
+Apply Core's defaults and caller overrides to Phalcon's process-wide ORM options.
 
 ```php
-public static setup(array|null $options = null): void
+public static setup(array<string,mixed>|null $options = null): void
 ```
+
+Core enables castLastInsertIdToInt and castOnHydrate, and disables
+notNullValidations for compatibility with generated-model validators. The
+remaining defaults are listed in the implementation below. Caller options win.
+Each initialize() call reapplies these defaults plus the model's setup options;
+these settings are not isolated per model or per request in persistent workers.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter  | Type            | Description |
-|------------|-----------------|-------------|
-| `$options` | **array\|null** |             |
+| Parameter  | Type                          | Description                                             |
+|------------|-------------------------------|---------------------------------------------------------|
+| `$options` | **array<string,mixed>\|null** | Native Phalcon ORM options; null applies Core defaults. |
 
 **See Also:**
 
-* https://docs.phalcon.io/latest/db-models#model-features
+* \Phalcon\Mvc\Model::setup()
 
 ***
 

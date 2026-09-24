@@ -99,20 +99,25 @@ the table itself. Truncating tables is a quicker alternative to deleting all row
 ***
 ### dropAction
 
-The dropAction method is responsible for dropping database tables specified in the $this->drop array.
+Permanently drop every table listed in the configured $drop array.
 
 ```php
-public dropAction(): array
+public dropAction(): array<string,bool>
 ```
 
-Dropping a table means permanently removing it from the database schema. This method iterates through
-a list of table names and executes an SQL DROP TABLE command for each of them, with a safety check to
-ensure that the table is only dropped if it exists.
+IF EXISTS suppresses errors for absent tables; an existing table and its data
+are still removed. Table identifiers are escaped through the shared db service.
 
-Use Case:
-This method is commonly used when performing database schema changes or cleanup tasks, where you need
-to remove tables that are no longer needed. The IF EXISTS clause is a safety measure to prevent
-accidental deletion of tables.
+**Return Value:**
+
+Execution result keyed by configured table name.
+
+**Throws:**
+
+When the adapter rejects a statement.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When the database rejects a statement.
+- [`PDOException`](https://www.php.net/manual/en/class.pdoexception.php){:target="_blank"}
 
 ***
 ### fixEngineAction

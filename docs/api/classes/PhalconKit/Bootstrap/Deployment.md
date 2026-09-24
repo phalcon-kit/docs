@@ -1,10 +1,10 @@
 
-Default database deployment/scaffolding configuration.
+Application-owned instructions for the database maintenance task.
 
-This config drives maintenance tasks that prepare a fresh PhalconKit
-database: tables to drop, tables to truncate, storage engines, and seed
-records for core lookup/user tables. Applications can merge additional data
-into the constructor without editing the framework defaults.
+All operations are empty by default. Configure `deployment` on the shared
+config service, or set the corresponding arrays on an application's
+DatabaseTask. Core does not assume a schema, truncate tables, or create
+accounts when no instructions have been supplied.
 
 ***
 
@@ -15,19 +15,21 @@ into the constructor without editing the framework defaults.
 
 ### __construct
 
-Merge default deployment instructions with application overrides.
+Normalize application instructions without adding tables or seed records.
 
 ```php
 public __construct(array<string,mixed> $data = [], bool $insensitive = true): mixed
 ```
 
+This constructor performs no database operations. Seed keys must name the
+concrete model to instantiate; model mappings are not applied by the task.
+
 **Parameters:**
 
-| Parameter      | Type                    | Description                                      |
-|----------------|-------------------------|--------------------------------------------------|
-| `$data`        | **array<string,mixed>** | Deployment overrides or additional seed
-records. |
-| `$insensitive` | **bool**                | Whether config keys should be case-insensitive.  |
+| Parameter      | Type                    | Description                                     |
+|----------------|-------------------------|-------------------------------------------------|
+| `$data`        | **array<string,mixed>** | Explicit maintenance lists and seed data.       |
+| `$insensitive` | **bool**                | Whether config keys should be case-insensitive. |
 
 ***
 

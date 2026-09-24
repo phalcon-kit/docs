@@ -1,10 +1,10 @@
 
-Base class for PhalconKit CLI tasks.
+Execute application-defined database maintenance and seed operations.
 
-Extend this class for framework/application CLI tasks that need Phalcon's
-native task lifecycle plus PhalconKit injectable service annotations. The
-class does not add task behavior itself; action methods remain normal
-Phalcon CLI task methods.
+Configure the shared `config` service's `deployment` section or override the
+task's public instruction arrays. Only listed tables/models are processed;
+an unconfigured task performs no database queries. Execution requires `db`
+for SQL operations and the normal model services for seed records.
 
 ***
 
@@ -25,9 +25,17 @@ public string $cliDoc
 
 ### initialize
 
+Load explicit deployment instructions and grant CLI access to seed models.
+
 ```php
 public initialize(): void
 ```
+
+Values in `config.deployment` replace the matching task property in full.
+Omitted keys preserve subclass defaults, including values set before
+`parent::initialize()`. An explicit empty array disables that operation.
+Requires the shared `config` and `acl` services; no database is opened here.
+The CLI time and memory limits are removed before running maintenance.
 
 **Throws:**
 
@@ -163,20 +171,25 @@ the table itself. Truncating tables is a quicker alternative to deleting all row
 
 ### dropAction
 
-The dropAction method is responsible for dropping database tables specified in the $this->drop array.
+Permanently drop every table listed in the configured $drop array.
 
 ```php
-public dropAction(): array
+public dropAction(): array<string,bool>
 ```
 
-Dropping a table means permanently removing it from the database schema. This method iterates through
-a list of table names and executes an SQL DROP TABLE command for each of them, with a safety check to
-ensure that the table is only dropped if it exists.
+IF EXISTS suppresses errors for absent tables; an existing table and its data
+are still removed. Table identifiers are escaped through the shared db service.
 
-Use Case:
-This method is commonly used when performing database schema changes or cleanup tasks, where you need
-to remove tables that are no longer needed. The IF EXISTS clause is a safety measure to prevent
-accidental deletion of tables.
+**Return Value:**
+
+Execution result keyed by configured table name.
+
+**Throws:**
+
+When the adapter rejects a statement.
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+When the database rejects a statement.
+- [`PDOException`](https://www.php.net/manual/en/class.pdoexception.php){:target="_blank"}
 
 ***
 

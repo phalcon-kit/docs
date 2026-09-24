@@ -1,18 +1,44 @@
 # Runtime Compatibility
 
-Phalcon Kit documentation supports the latest stable package release. The
-package’s `composer.json`, CI workflow, and release notes are the authorities
-for exact PHP, Phalcon extension, and development-tool versions.
+Phalcon Kit documentation follows the maintained Core 4.x line, currently
+unreleased on `master`. Earlier package releases are unsupported; references
+to them below describe compatibility history. The package’s `composer.json`,
+CI workflow, and release notes are the authorities for exact PHP, Phalcon
+extension, and development-tool versions.
 
 Use this guide to verify that an application’s runtime matches those declared
 requirements without duplicating version numbers in application documentation.
 
+## Phalcon 5.22.0 Upgrade Notes
+
+Core 3.11.1 requires Phalcon `^5.22.0` and matching `phalcon/ide-stubs`
+`^5.22.0`. CI installs the checksum-verified official 5.22.0 release built
+with Zephir 1.5.0. Update CLI, PHP-FPM, and long-lived workers together before
+refreshing Composer dependencies.
+
+The annotations adapter still uses the docblock `Reader` by default. Applications
+can opt into PHP attributes by calling `setReader(new
+\Phalcon\Annotations\AttributesReader())` on their annotations adapter before
+reading or caching class metadata. This does not automatically convert existing
+docblocks or Core scaffolding to attributes.
+Attribute arguments retain PHP types; numeric docblock defaults such as `0`
+are returned as strings, while the corresponding PHP attribute keeps the integer.
+
+- `ReaderInterface` no longer declares static `parseDocBlock()`. Code that
+  parses a docblock directly should call `Phalcon\Annotations\Reader::parseDocBlock()`;
+  custom readers implement the instance `parse()` contract.
+- Router attributes live under `Phalcon\Annotations\Router`; model metadata
+  attributes live under `Phalcon\Annotations\Models\MetaData`.
+- The annotations metadata strategy accepts `skipOnInsert`, `skipOnUpdate`,
+  `allowEmptyString`, and `defaultValue` alongside the existing snake-case
+  options and `default`. Existing docblock models remain supported.
+
+See the [upstream release notes](https://github.com/phalcon/cphalcon/releases/tag/v5.22.0).
+
 ## Phalcon 5.21.0 Upgrade Notes
 
-The current source baseline requires Phalcon `^5.21.0` and matching
-`phalcon/ide-stubs` `^5.21.0`. CI installs the checksum-verified official
-5.21.0 release built with Zephir 1.5.0. This upgrade requires Core 3.10.8
-or newer: earlier Core releases redeclare model properties without the native
+Core 3.10.8 introduced the Phalcon `^5.21.0` baseline. Earlier Core releases
+redeclare model properties without the native
 types now required by Phalcon and fail when a model class loads. Update CLI, PHP-FPM, and long-lived
 workers together, then refresh dependencies and run the checks below.
 
@@ -81,15 +107,18 @@ php --ri phalcon
 
 ## Install Or Update An Application
 
-Evergreen install instructions deliberately omit a Phalcon Kit version:
+Core 4.0 is still unreleased, so there is currently no supported stable release.
+An unconstrained install can select an unsupported older release. For isolated
+Core 4.0 evaluation, follow the [upgrade guide](upgrading-4.0.md) and explicitly
+select the development branch:
 
 ```bash
-composer require phalcon-kit/core
+composer require phalcon-kit/core:dev-master
 ```
 
-Composer selects the newest release compatible with the application’s PHP and
-platform extensions. Applications that commit `composer.lock` should review and
-commit the resulting lock-file change.
+Review the dependency and lockfile changes against the application's PHP and
+platform extensions. Once a stable Core 4.x release is published, use a suitable
+tagged 4.x constraint and commit the application's lockfile.
 
 For a focused update:
 
@@ -163,7 +192,7 @@ cannot actually accept. The test's narrow allowlist documents these temporary
 holds and will fail when a hold moves or a deprecated type is reintroduced
 elsewhere.
 
-### Remaining Native Signature Holds In 5.21.0
+### Remaining Native Signature Holds In 5.22.0
 
 The deprecation test checks these native parameter types with reflection as
 well as checking the source allowlist. Revisit each hold when upstream changes

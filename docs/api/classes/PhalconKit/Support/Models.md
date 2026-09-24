@@ -339,26 +339,6 @@ the persisted-session model contract.
 
 ***
 
-### getFlag
-
-Return the configured feature-flag model instance.
-
-```php
-public getFlag(): \PhalconKit\Models\Interfaces\FlagInterface
-```
-
-**Return Value:**
-
-Cached instance for `Flag::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the feature-flag model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
 ### getSetting
 
 Return the configured setting model instance.
@@ -379,126 +359,6 @@ the setting model contract.
 
 ***
 
-### getLang
-
-Return the configured language model instance.
-
-```php
-public getLang(): \PhalconKit\Models\Interfaces\LangInterface
-```
-
-**Return Value:**
-
-Cached instance for `Lang::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the language model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
-### getTranslate
-
-Return the configured translation model instance.
-
-```php
-public getTranslate(): \PhalconKit\Models\Interfaces\TranslateInterface
-```
-
-**Return Value:**
-
-Cached instance for `Translate::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the translation model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
-### getWorkspace
-
-Return the configured workspace model instance.
-
-```php
-public getWorkspace(): \PhalconKit\Models\Interfaces\WorkspaceInterface
-```
-
-**Return Value:**
-
-Cached instance for `Workspace::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the workspace model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
-### getWorkspaceLang
-
-Return the configured workspace-language model instance.
-
-```php
-public getWorkspaceLang(): \PhalconKit\Models\Interfaces\WorkspaceLangInterface
-```
-
-**Return Value:**
-
-Cached instance for `WorkspaceLang::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the workspace-language model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
-### getPage
-
-Return the configured page model instance.
-
-```php
-public getPage(): \PhalconKit\Models\Interfaces\PageInterface
-```
-
-**Return Value:**
-
-Cached instance for `Page::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the page model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
-### getPost
-
-Return the configured post model instance.
-
-```php
-public getPost(): \PhalconKit\Models\Interfaces\PostInterface
-```
-
-**Return Value:**
-
-Cached instance for `Post::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the post model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
 ### getTemplate
 
 Return the configured template model instance.
@@ -515,26 +375,6 @@ Cached instance for `Template::class`.
 
 When the configured model does not implement
 the template model contract.
-- [`ServiceException`](../Exception/ServiceException.md)
-
-***
-
-### getTable
-
-Return the configured table model instance.
-
-```php
-public getTable(): \PhalconKit\Models\Interfaces\TableInterface
-```
-
-**Return Value:**
-
-Cached instance for `Table::class`.
-
-**Throws:**
-
-When the configured model does not implement
-the table model contract.
 - [`ServiceException`](../Exception/ServiceException.md)
 
 ***
@@ -1116,21 +956,6 @@ no mapping is configured.
 
 ***
 
-### getFlagClass
-
-Return the configured flag model class.
-
-```php
-public getFlagClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Flag::class`, or the core class when no
-mapping is configured.
-
-***
-
 ### getSettingClass
 
 Return the configured setting model class.
@@ -1146,96 +971,6 @@ no mapping is configured.
 
 ***
 
-### getLangClass
-
-Return the configured language model class.
-
-```php
-public getLangClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Lang::class`, or the core class when no
-mapping is configured.
-
-***
-
-### getTranslateClass
-
-Return the configured translate model class.
-
-```php
-public getTranslateClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Translate::class`, or the core class
-when no mapping is configured.
-
-***
-
-### getWorkspaceClass
-
-Return the configured workspace model class.
-
-```php
-public getWorkspaceClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Workspace::class`, or the core class
-when no mapping is configured.
-
-***
-
-### getWorkspaceLangClass
-
-Return the configured workspace-language model class.
-
-```php
-public getWorkspaceLangClass(): string
-```
-
-**Return Value:**
-
-Replacement for `WorkspaceLang::class`, or the core class
-when no mapping is configured.
-
-***
-
-### getPageClass
-
-Return the configured page model class.
-
-```php
-public getPageClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Page::class`, or the core class when no
-mapping is configured.
-
-***
-
-### getPostClass
-
-Return the configured post model class.
-
-```php
-public getPostClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Post::class`, or the core class when no
-mapping is configured.
-
-***
-
 ### getTemplateClass
 
 Return the configured template model class.
@@ -1248,21 +983,6 @@ public getTemplateClass(): string
 
 Replacement for `Template::class`, or the core class when
 no mapping is configured.
-
-***
-
-### getTableClass
-
-Return the configured table model class.
-
-```php
-public getTableClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Table::class`, or the core class when no
-mapping is configured.
 
 ***
 

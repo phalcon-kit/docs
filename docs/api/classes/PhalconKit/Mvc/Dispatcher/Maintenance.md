@@ -31,7 +31,10 @@ The plugin reads `app.maintenance` and `router.maintenance` from the
 PhalconKit config service. When maintenance mode is enabled it forwards
 the dispatcher to the configured maintenance route, strips null route
 parts through the PhalconKit dispatcher extension when available, and
-stops cancelable dispatch events so the original action is not executed.
+stops cancelable dispatch events only while rerouting. The effective
+maintenance target proceeds normally, including subsequent listeners.
+Empty namespace/handler/action names resolve to dispatcher defaults;
+omitted and null parts retain the dispatcher's forwarding semantics.
 
 **Parameters:**
 
@@ -48,5 +51,22 @@ forwarding to the maintenance route.
 When the DI container or config service cannot
 be resolved through the PhalconKit DI contract.
 - [`ServiceException`](../../Exception/ServiceException.md)
+
+***
+
+### canForwardNative
+
+Compatibility check for native dispatchers without Core's canForward().
+
+```php
+private canForwardNative(\Phalcon\Dispatcher\AbstractDispatcher $dispatcher, array<string,mixed> $route): bool
+```
+
+**Parameters:**
+
+| Parameter     | Type                                       | Description                             |
+|---------------|--------------------------------------------|-----------------------------------------|
+| `$dispatcher` | **\Phalcon\Dispatcher\AbstractDispatcher** |                                         |
+| `$route`      | **array<string,mixed>**                    | Configured route, including null parts. |
 
 ***

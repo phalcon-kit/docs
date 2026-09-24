@@ -1,4 +1,6 @@
 
+Build translated validation rules for mapped model attributes and convention fields.
+
 ***
 
 * Full name: `\PhalconKit\Mvc\Model\Traits\Validate`
@@ -28,6 +30,8 @@ that could otherwise turn invalid input into an accepted zero or one.
 ***
 ### getAllowEmptyOption
 
+Return Phalcon's explicit null/empty-string exemption, preserving false and zero.
+
 ```php
 protected getAllowEmptyOption(bool $allowEmpty = true): bool|array
 ```
@@ -41,9 +45,13 @@ protected getAllowEmptyOption(bool $allowEmpty = true): bool|array
 ***
 ### shouldSkipOptionalValidation
 
+Skip an optional single attribute containing an empty value or SQL NULL sentinel.
+
 ```php
 protected shouldSkipOptionalValidation(array|string $field, bool $allowEmpty): bool
 ```
+
+RawValue sentinels are inspected as strings; field arrays are left to native validators.
 
 **Parameters:**
 
@@ -54,6 +62,8 @@ protected shouldSkipOptionalValidation(array|string $field, bool $allowEmpty): b
 
 ***
 ### isOptionalEmptyValue
+
+Recognize null, an empty string, and trimmed case-insensitive SQL NULL strings.
 
 ```php
 protected isOptionalEmptyValue(mixed $value): bool

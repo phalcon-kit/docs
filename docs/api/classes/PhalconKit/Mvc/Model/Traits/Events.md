@@ -177,44 +177,52 @@ The calculated average or a ResultsetInterface, depending on the implementation.
 ***
 ### minimum
 
-Calculates the minimum value of a specified column in the database according to the given conditions.
+Return the native minimum of a column, with cancellable before/after events.
 
 ```php
-public static minimum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static minimum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
+
+Values retain the database driver's type, including strings for text, dates,
+or decimals. An ungrouped query without a value returns null; grouped queries
+return a resultset. A cancelled beforeMinimum event returns false.
 
 * This method is **static**.
 **Parameters:**
 
 | Parameter     | Type      | Description                                                                                           |
 |---------------|-----------|-------------------------------------------------------------------------------------------------------|
-| `$parameters` | **mixed** | Native Phalcon parameters to customize the query,
-such as conditions, column selection, or groupings. |
+| `$parameters` | **mixed** | Native Phalcon conditions and options, including
+column, bind values, and optional group expressions. |
 
 **Return Value:**
 
-Returns the minimum value as a float, a ResultsetInterface object, or false if no matching records are found or the operation fails.
+The unchanged native result, or false on cancellation.
 
 ***
 ### maximum
 
-Calculates the maximum value of a specified column in the database based on the given conditions.
+Return the native maximum of a column, with cancellable before/after events.
 
 ```php
-public static maximum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public static maximum(mixed $parameters = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
+
+Values retain the database driver's type, including strings for text, dates,
+or decimals. An ungrouped query without a value returns null; grouped queries
+return a resultset. A cancelled beforeMaximum event returns false.
 
 * This method is **static**.
 **Parameters:**
 
 | Parameter     | Type      | Description                                                                                           |
 |---------------|-----------|-------------------------------------------------------------------------------------------------------|
-| `$parameters` | **mixed** | Native Phalcon parameters to customize the query,
-such as conditions, column selection, or groupings. |
+| `$parameters` | **mixed** | Native Phalcon conditions and options, including
+column, bind values, and optional group expressions. |
 
 **Return Value:**
 
-Returns the computed maximum value as a float, a ResultsetInterface object for detailed results, or false on failure.
+The unchanged native result, or false on cancellation.
 
 ***
 ### fireEventCancelCall

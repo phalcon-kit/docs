@@ -184,34 +184,44 @@ public sum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\Result
 ***
 ### maximum
 
-Execute a maximum aggregate query.
+Execute a maximum aggregate query without coercing the native result.
 
 ```php
-public maximum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public maximum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                               | Description                 |
-|-----------|------------------------------------|-----------------------------|
-| `$find`   | **array<string\|int,mixed>\|null** | Optional aggregate options. |
+| Parameter | Type                               | Description                                             |
+|-----------|------------------------------------|---------------------------------------------------------|
+| `$find`   | **array<string\|int,mixed>\|null** | Optional aggregate options; null uses request criteria. |
+
+**Return Value:**
+
+Native scalar, empty value,
+grouped results, or false when the model cancels the query.
 
 ***
 ### minimum
 
-Execute a minimum aggregate query.
+Execute a minimum aggregate query without coercing the native result.
 
 ```php
-public minimum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public minimum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
 
 * This method is **abstract**.
 **Parameters:**
 
-| Parameter | Type                               | Description                 |
-|-----------|------------------------------------|-----------------------------|
-| `$find`   | **array<string\|int,mixed>\|null** | Optional aggregate options. |
+| Parameter | Type                               | Description                                             |
+|-----------|------------------------------------|---------------------------------------------------------|
+| `$find`   | **array<string\|int,mixed>\|null** | Optional aggregate options; null uses request criteria. |
+
+**Return Value:**
+
+Native scalar, empty value,
+grouped results, or false when the model cancels the query.
 
 ***
 ### getCalculationFind

@@ -1,10 +1,13 @@
 # Getting Started
 
-This guide gets you from install to a runnable Phalcon Kit application. If your
-main goal is a REST API, read this first and then continue with the
-[Build Your First REST Resource](first-rest-resource.md).
+Only Core 4.x is maintained. Core and the App skeleton are preparing matching
+**4.0.0** releases. Their development previews are available, while the schema
+path for persisted Core features is still being prepared. There is currently no
+supported stable release; see the [support policy](https://github.com/phalcon-kit/core/blob/master/SUPPORT.md) and
+[Core 4.0 release gates](upgrading-4.0.md#stable-release-gates).
 
-By the end, you will have:
+The sections below describe application setup and workflows to validate during
+Core 4.0 evaluation:
 
 - dependencies installed against the current package requirements;
 - environment-backed application configuration;
@@ -29,23 +32,37 @@ composer --version
 
 ## 1. Create Or Install
 
-For a new application, start from the
-[`phalcon-kit/app`](https://packagist.org/packages/phalcon-kit/app) skeleton:
+Evaluate the App 4.0 development skeleton in an isolated directory:
 
 ```shell
-composer create-project phalcon-kit/app:^2.0 my-api
+composer create-project phalcon-kit/app:dev-master my-api
 cd my-api
 cp .env.example .env
+composer qa
 ```
 
-For an existing Phalcon application:
+The preview uses Core `^4.0@dev` with a committed lockfile. The stable App 4.0.0
+release will use Core `^4.0` and lock the tested stable release. App deliberately
+skips 3.x to match Core's major version.
+
+The latest released App 2.x skeleton installs unsupported Core 3.x. Until 4.0 is
+released, an unconstrained `composer require phalcon-kit/core` also selects an
+older stable release under Composer's default stability policy.
+
+For Core 4.0 evaluation in an isolated checkout of an existing application,
+read the [upgrade guide](upgrading-4.0.md), then require the development branch:
 
 ```shell
-composer require phalcon-kit/core
+composer require phalcon-kit/core:dev-master
 ```
 
-Use `phalcon-kit/core` for new projects. The old `zemit-cms/core` package name
-exists only for historical projects and pinned legacy installs.
+Review dependency and lockfile changes and test the application's own flows.
+`dev-master` follows breaking development work. All earlier Core versions and
+the old `zemit-cms/core` package are unmaintained and unsupported.
+
+The preview can run its basic routes and CLI without a database. Features such
+as identity, audit, and templates require their tables; the validated Core 4.0
+schema installation path remains a [stable-release gate](upgrading-4.0.md#stable-release-gates).
 
 ## 2. Configure The Environment
 

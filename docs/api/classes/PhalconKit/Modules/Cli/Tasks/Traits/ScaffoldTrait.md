@@ -1,7 +1,12 @@
 
-Trait DescribesTrait
+Resolve CLI scaffold options, generated PHP headers, paths, and namespaces.
 
-This trait provides methods to describe columns, references, and indexes of a database table.
+Requires Core's CLI dispatcher with normalized camelCase option keys. Paths are
+composed without creating directories or resolving real paths; relative roots
+stay relative and a leading slash bypasses the configured root. Directory
+fragments used below the project root should include their trailing slash.
+Table filters are cached on first use for the lifetime of the task. File writes
+and overwrite decisions belong to the consuming scaffold task.
 
 ***
 
@@ -133,7 +138,7 @@ public string $strictTypes
 
 ### getLicenseStamp
 
-Retrieves the license stamp.
+Return the --license override or default header text.
 
 ```php
 public getLicenseStamp(): string|null
@@ -141,12 +146,13 @@ public getLicenseStamp(): string|null
 
 **Return Value:**
 
-The license stamp, or null if there is no license.
+Header text, or an empty string when --no-license is set.
+The nullable signature is retained for task overrides.
 
 ***
 ### getStrictTypes
 
-Retrieves the value of the 'strictTypes' property.
+Return the strict_types declaration for a generated PHP file.
 
 ```php
 public getStrictTypes(): string|null
@@ -154,7 +160,8 @@ public getStrictTypes(): string|null
 
 **Return Value:**
 
-The value of the 'strictTypes' property, or null if the 'no-strict-types' parameter is set.
+Declaration text, or an empty string when --no-strict-types
+is set. The nullable signature is retained for task overrides.
 
 ***
 ### getPhpFileHeader
@@ -191,7 +198,7 @@ public isWhitelistedTable(string $table): bool
 
 **Return Value:**
 
-Returns true if the table is whitelisted, false otherwise.
+True when --table is empty or includes this exact table name.
 
 ***
 ### isExcludedTable
@@ -215,12 +222,16 @@ Returns true if the table is excluded, false otherwise.
 ***
 ### isNoControllers
 
+Skip controller generation when --no-controllers is set.
+
 ```php
 public isNoControllers(): bool
 ```
 
 ***
 ### isNoInterfaces
+
+Skip model interface generation when --no-interfaces is set.
 
 ```php
 public isNoInterfaces(): bool
@@ -229,12 +240,16 @@ public isNoInterfaces(): bool
 ***
 ### isNoAbstracts
 
+Skip abstract model generation when --no-abstracts is set.
+
 ```php
 public isNoAbstracts(): bool
 ```
 
 ***
 ### isNoModels
+
+Skip concrete model generation when --no-models is set.
 
 ```php
 public isNoModels(): bool
@@ -243,12 +258,16 @@ public isNoModels(): bool
 ***
 ### isNoEnums
 
+Skip enum generation when --no-enums is set.
+
 ```php
 public isNoEnums(): bool
 ```
 
 ***
 ### isNoTests
+
+Skip test generation when --no-tests is set.
 
 ```php
 public isNoTests(): bool
@@ -257,12 +276,16 @@ public isNoTests(): bool
 ***
 ### isNoStrictTypes
 
+Omit the strict_types declaration when --no-strict-types is set.
+
 ```php
 public isNoStrictTypes(): bool
 ```
 
 ***
 ### isNoLicense
+
+Omit the generated license header when --no-license is set.
 
 ```php
 public isNoLicense(): bool
@@ -271,12 +294,16 @@ public isNoLicense(): bool
 ***
 ### isNoComments
 
+Omit optional generated documentation when --no-comments is set.
+
 ```php
 public isNoComments(): bool
 ```
 
 ***
 ### isNoGetSetMethods
+
+Omit generated accessors when --no-get-set-methods is set.
 
 ```php
 public isNoGetSetMethods(): bool
@@ -285,12 +312,16 @@ public isNoGetSetMethods(): bool
 ***
 ### isNoValidations
 
+Omit generated validation methods when --no-validations is set.
+
 ```php
 public isNoValidations(): bool
 ```
 
 ***
 ### isNoRelationships
+
+Omit generated relation definitions when --no-relationships is set.
 
 ```php
 public isNoRelationships(): bool
@@ -299,12 +330,16 @@ public isNoRelationships(): bool
 ***
 ### isNoColumnMap
 
+Omit generated column maps when --no-column-map is set.
+
 ```php
 public isNoColumnMap(): bool
 ```
 
 ***
 ### isNoSetSource
+
+Omit generated source-table assignment when --no-set-source is set.
 
 ```php
 public isNoSetSource(): bool
@@ -313,12 +348,16 @@ public isNoSetSource(): bool
 ***
 ### isNoTypings
 
+Omit optional generated type declarations when --no-typings is set.
+
 ```php
 public isNoTypings(): bool
 ```
 
 ***
 ### isGranularTypings
+
+Use the more specific scaffold type mappings requested by --granular-typings.
 
 ```php
 public isGranularTypings(): bool
@@ -327,12 +366,16 @@ public isGranularTypings(): bool
 ***
 ### isAddRawValueType
 
+Include Phalcon RawValue in generated types when --add-raw-value-type is set.
+
 ```php
 public isAddRawValueType(): bool
 ```
 
 ***
 ### isProtectedProperties
+
+Generate protected model properties when --protected-properties is set.
 
 ```php
 public isProtectedProperties(): bool
@@ -349,9 +392,9 @@ public isAbsolutePath(string $path = ''): bool
 
 **Parameters:**
 
-| Parameter | Type       | Description                             |
-|-----------|------------|-----------------------------------------|
-| `$path`   | **string** | The path to be checked. (default: null) |
+| Parameter | Type       | Description                                     |
+|-----------|------------|-------------------------------------------------|
+| `$path`   | **string** | The path to be checked. (default: empty string) |
 
 **Return Value:**
 
@@ -395,10 +438,13 @@ public getDirectory(string $path = ''): string
 
 **Return Value:**
 
-The absolute directory path for the given file or directory path.
+Path under --directory, or the unchanged absolute $path.
+A relative --directory produces a relative result.
 
 ***
 ### getSrcDirectory
+
+Compose a path using the `srcDir` dispatcher option under the project directory.
 
 ```php
 public getSrcDirectory(string $path = ''): string
@@ -406,12 +452,18 @@ public getSrcDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getTestsDirectory
+
+Compose a path using the `testsDir` dispatcher option under the project directory.
 
 ```php
 public getTestsDirectory(string $path = ''): string
@@ -419,12 +471,18 @@ public getTestsDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getControllersDirectory
+
+Compose a path using the `controllersDir` dispatcher option under the source directory.
 
 ```php
 public getControllersDirectory(string $path = ''): string
@@ -432,12 +490,18 @@ public getControllersDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getModelsDirectory
+
+Compose a path using the `modelsDir` dispatcher option under the source directory.
 
 ```php
 public getModelsDirectory(string $path = ''): string
@@ -445,12 +509,18 @@ public getModelsDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getModelsInterfacesDirectory
+
+Compose a path using the `interfacesDir` dispatcher option under the models directory.
 
 ```php
 public getModelsInterfacesDirectory(string $path = ''): string
@@ -458,12 +528,18 @@ public getModelsInterfacesDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getEnumsDirectory
+
+Compose a path using the `enumsDir` dispatcher option under the models directory.
 
 ```php
 public getEnumsDirectory(string $path = ''): string
@@ -471,12 +547,18 @@ public getEnumsDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getAbstractsDirectory
+
+Compose a path using the `abstractsDir` dispatcher option under the models directory.
 
 ```php
 public getAbstractsDirectory(string $path = ''): string
@@ -484,12 +566,18 @@ public getAbstractsDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getAbstractsInterfacesDirectory
+
+Compose a path using the `interfaceDir` dispatcher option under the abstract models directory.
 
 ```php
 public getAbstractsInterfacesDirectory(string $path = ''): string
@@ -497,12 +585,18 @@ public getAbstractsInterfacesDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getModelsTestsDirectory
+
+Compose a path using the `modelsDir` dispatcher option under the tests directory.
 
 ```php
 public getModelsTestsDirectory(string $path = ''): string
@@ -510,12 +604,18 @@ public getModelsTestsDirectory(string $path = ''): string
 
 **Parameters:**
 
-| Parameter | Type       | Description |
-|-----------|------------|-------------|
-| `$path`   | **string** |             |
+| Parameter | Type       | Description                                                    |
+|-----------|------------|----------------------------------------------------------------|
+| `$path`   | **string** | Suffix to append; a leading slash returns this path unchanged. |
+
+**Return Value:**
+
+Composed path, which may remain relative to the working directory.
 
 ***
 ### getModelsExtend
+
+Return the model parent class name from `modelsExtend`, falling back to the task default.
 
 ```php
 public getModelsExtend(): string
@@ -524,6 +624,8 @@ public getModelsExtend(): string
 ***
 ### getInterfacesExtend
 
+Return the model parent interface name from `interfacesExtend`, falling back to the task default.
+
 ```php
 public getInterfacesExtend(): string
 ```
@@ -531,12 +633,16 @@ public getInterfacesExtend(): string
 ***
 ### getTestsExtend
 
+Return the test parent class name from `testsExtend`, falling back to the task default.
+
 ```php
 public getTestsExtend(): string
 ```
 
 ***
 ### getControllersExtend
+
+Return the controller parent class name from `controllersExtend`, falling back to the task default.
 
 ```php
 public getControllersExtend(): string
@@ -564,12 +670,16 @@ The converted PHP namespace.
 ***
 ### getNamespace
 
+Derive the project root namespace from its configured directory and base namespace.
+
 ```php
 public getNamespace(): string
 ```
 
 ***
 ### getControllersNamespace
+
+Derive the controllers namespace from its configured directory and base namespace.
 
 ```php
 public getControllersNamespace(): string
@@ -578,12 +688,16 @@ public getControllersNamespace(): string
 ***
 ### getEnumsNamespace
 
+Derive the model enums namespace from its configured directory and base namespace.
+
 ```php
 public getEnumsNamespace(): string
 ```
 
 ***
 ### getModelsNamespace
+
+Derive the models namespace from its configured directory and base namespace.
 
 ```php
 public getModelsNamespace(): string
@@ -592,12 +706,16 @@ public getModelsNamespace(): string
 ***
 ### getAbstractsNamespace
 
+Derive the abstract models namespace from its configured directory and base namespace.
+
 ```php
 public getAbstractsNamespace(): string
 ```
 
 ***
 ### getModelsInterfacesNamespace
+
+Derive the model interfaces namespace from its configured directory and base namespace.
 
 ```php
 public getModelsInterfacesNamespace(): string
@@ -606,12 +724,16 @@ public getModelsInterfacesNamespace(): string
 ***
 ### getAbstractsInterfacesNamespace
 
+Derive the abstract model interfaces namespace from its configured directory and base namespace.
+
 ```php
 public getAbstractsInterfacesNamespace(): string
 ```
 
 ***
 ### getModelsTestsNamespace
+
+Derive the model tests namespace from its configured directory and base namespace.
 
 ```php
 public getModelsTestsNamespace(): string

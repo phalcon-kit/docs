@@ -1,9 +1,10 @@
 
-Base class for WebSocket tasks.
+WebSocket task with overridable Swoole event hooks.
 
-Tasks get typed access to the WebSocket console, router, and dispatcher
-through PhalconKit injectable properties. Concrete tasks should implement
-action methods such as `listenAction()`.
+Requires the shared `swoole` DI service to provide a WebSocket server using
+positional event arguments (`event_object` disabled). Request/message callbacks
+reset model connection state before invoking application hooks. Subscriptions
+belong to the current worker process; applications coordinate other workers.
 
 ***
 
@@ -107,13 +108,19 @@ public \Swoole\WebSocket\Server $server
 
 ### initialize
 
+Resolve the shared `swoole` service, build callbacks, and register them.
+
 ```php
 public initialize(): void
 ```
 
+Call the parent when overriding initialization to retain event dispatch.
+
 ***
 
 ### handleWebSocket
+
+Register the initialized callbacks on the server without starting its event loop.
 
 ```php
 public handleWebSocket(): void
@@ -123,6 +130,8 @@ public handleWebSocket(): void
 
 ### listenAction
 
+Start the configured server event loop; returns after the server stops.
+
 ```php
 public listenAction(): void
 ```
@@ -130,6 +139,8 @@ public listenAction(): void
 ***
 
 ### initializeOpen
+
+Install the open callback, resetting model connection state before the hook.
 
 ```php
 public initializeOpen(): void
@@ -139,6 +150,8 @@ public initializeOpen(): void
 
 ### initializeMessage
 
+Install the message callback, resetting model connection state before the hook.
+
 ```php
 public initializeMessage(): void
 ```
@@ -146,6 +159,8 @@ public initializeMessage(): void
 ***
 
 ### initializeClose
+
+Install the close callback, resetting model connection state before the hook.
 
 ```php
 public initializeClose(): void
@@ -155,13 +170,20 @@ public initializeClose(): void
 
 ### initializeWorkerError
 
+Adapt Swoole's five worker-error arguments to the existing four-argument hook.
+
 ```php
 public initializeWorkerError(): void
 ```
 
+Keep onWorkerError() overrides compatible while passing the actual exit code
+and retaining both the worker PID and termination signal in the reason text.
+
 ***
 
 ### initializeStart
+
+Install the master-process startup callback.
 
 ```php
 public initializeStart(): void
@@ -171,6 +193,8 @@ public initializeStart(): void
 
 ### initializeWorkerStart
 
+Install the worker startup callback with its worker ID.
+
 ```php
 public initializeWorkerStart(): void
 ```
@@ -178,6 +202,8 @@ public initializeWorkerStart(): void
 ***
 
 ### initializeShutdown
+
+Install the server shutdown callback.
 
 ```php
 public initializeShutdown(): void
@@ -187,6 +213,8 @@ public initializeShutdown(): void
 
 ### initializeRequest
 
+Install the HTTP callback, resetting model connection state before the hook.
+
 ```php
 public initializeRequest(): void
 ```
@@ -195,6 +223,8 @@ public initializeRequest(): void
 
 ### initializePipeMessage
 
+Install the inter-worker message callback, resetting model connection state first.
+
 ```php
 public initializePipeMessage(): void
 ```
@@ -202,6 +232,8 @@ public initializePipeMessage(): void
 ***
 
 ### onOpen
+
+Handle a completed WebSocket handshake; the default logs the client descriptor.
 
 ```php
 public onOpen(\Swoole\WebSocket\Server $server, \Swoole\Http\Request $request): void
@@ -218,6 +250,8 @@ public onOpen(\Swoole\WebSocket\Server $server, \Swoole\Http\Request $request): 
 
 ### onMessage
 
+Handle a received WebSocket frame; the default logs its descriptor and payload.
+
 ```php
 public onMessage(\Swoole\WebSocket\Server $server, \Swoole\WebSocket\Frame $frame): void
 ```
@@ -232,6 +266,8 @@ public onMessage(\Swoole\WebSocket\Server $server, \Swoole\WebSocket\Frame $fram
 ***
 
 ### onClose
+
+Handle a closed client descriptor; override to clean application subscription state.
 
 ```php
 public onClose(\Swoole\WebSocket\Server $server, int $fd): void
@@ -248,22 +284,26 @@ public onClose(\Swoole\WebSocket\Server $server, int $fd): void
 
 ### onWorkerError
 
+Handle a failed worker; override to integrate application monitoring.
+
 ```php
 public onWorkerError(\Swoole\WebSocket\Server $server, int $fd, int $code, string $reason): void
 ```
 
 **Parameters:**
 
-| Parameter | Type                         | Description |
-|-----------|------------------------------|-------------|
-| `$server` | **\Swoole\WebSocket\Server** |             |
-| `$fd`     | **int**                      |             |
-| `$code`   | **int**                      |             |
-| `$reason` | **string**                   |             |
+| Parameter | Type                         | Description                                                                |
+|-----------|------------------------------|----------------------------------------------------------------------------|
+| `$server` | **\Swoole\WebSocket\Server** | Server whose worker failed.                                                |
+| `$fd`     | **int**                      | Worker ID, despite the historical parameter name; not a client descriptor. |
+| `$code`   | **int**                      | Worker exit code.                                                          |
+| `$reason` | **string**                   | Worker process details, formatted as "pid=<pid>, signal=<signal>".         |
 
 ***
 
 ### onStart
+
+Handle master-process startup; the default logs the listening address.
 
 ```php
 public onStart(\Swoole\WebSocket\Server $server): void
@@ -278,6 +318,8 @@ public onStart(\Swoole\WebSocket\Server $server): void
 ***
 
 ### onWorkerStart
+
+Handle worker startup; override for resources owned by this worker process.
 
 ```php
 public onWorkerStart(\Swoole\WebSocket\Server $server, int $workerId): void
@@ -294,6 +336,8 @@ public onWorkerStart(\Swoole\WebSocket\Server $server, int $workerId): void
 
 ### onShutdown
 
+Handle server shutdown; the default logs completion.
+
 ```php
 public onShutdown(\Swoole\WebSocket\Server $server): void
 ```
@@ -308,9 +352,13 @@ public onShutdown(\Swoole\WebSocket\Server $server): void
 
 ### onRequest
 
+Handle an HTTP request on the WebSocket server.
+
 ```php
 public onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response): void
 ```
+
+The default logs the path and ends the response with a placeholder body.
 
 **Parameters:**
 
@@ -323,9 +371,13 @@ public onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
 
 ### onPipeMessage
 
+Handle data sent by another worker.
+
 ```php
 public onPipeMessage(\Swoole\WebSocket\Server $server, int $srcWorkerId, mixed $data): void
 ```
+
+The default logs string-compatible data; override for structured messages.
 
 **Parameters:**
 

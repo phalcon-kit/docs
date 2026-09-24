@@ -269,20 +269,6 @@ Replacement for `Session::class`, or the core class when
 no mapping is configured.
 
 ***
-### getFlagClass
-
-Return the configured flag model class.
-
-```php
-public getFlagClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Flag::class`, or the core class when no
-mapping is configured.
-
-***
 ### getSettingClass
 
 Return the configured setting model class.
@@ -297,90 +283,6 @@ Replacement for `Setting::class`, or the core class when
 no mapping is configured.
 
 ***
-### getLangClass
-
-Return the configured language model class.
-
-```php
-public getLangClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Lang::class`, or the core class when no
-mapping is configured.
-
-***
-### getTranslateClass
-
-Return the configured translate model class.
-
-```php
-public getTranslateClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Translate::class`, or the core class
-when no mapping is configured.
-
-***
-### getWorkspaceClass
-
-Return the configured workspace model class.
-
-```php
-public getWorkspaceClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Workspace::class`, or the core class
-when no mapping is configured.
-
-***
-### getWorkspaceLangClass
-
-Return the configured workspace-language model class.
-
-```php
-public getWorkspaceLangClass(): string
-```
-
-**Return Value:**
-
-Replacement for `WorkspaceLang::class`, or the core class
-when no mapping is configured.
-
-***
-### getPageClass
-
-Return the configured page model class.
-
-```php
-public getPageClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Page::class`, or the core class when no
-mapping is configured.
-
-***
-### getPostClass
-
-Return the configured post model class.
-
-```php
-public getPostClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Post::class`, or the core class when no
-mapping is configured.
-
-***
 ### getTemplateClass
 
 Return the configured template model class.
@@ -393,20 +295,6 @@ public getTemplateClass(): string
 
 Replacement for `Template::class`, or the core class when
 no mapping is configured.
-
-***
-### getTableClass
-
-Return the configured table model class.
-
-```php
-public getTableClass(): string
-```
-
-**Return Value:**
-
-Replacement for `Table::class`, or the core class when no
-mapping is configured.
 
 ***
 ### getProfileClass

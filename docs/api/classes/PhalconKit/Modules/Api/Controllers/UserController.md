@@ -1357,43 +1357,45 @@ The calculated sum of values.
 
 ### maximum
 
-Retrieves the minimum value.
+Query the maximum while preserving the model's scalar type or grouped result.
 
 ```php
-public maximum(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public maximum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
 
 **Parameters:**
 
-| Parameter | Type            | Description                                                                                                           |
-|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional: The criteria to find the maximum value from.
-Default: null (will retrieve the `find` from $this->getFind()) |
+| Parameter | Type                               | Description                                                                                                |
+|-----------|------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `$find`   | **array<string\|int,mixed>\|null** | Aggregate criteria; null prepares
+the current request criteria. Pagination limits and offsets are removed. |
 
 **Return Value:**
 
-The maximum value from the dataset or a `ResultsetInterface` that represents the grouped maximum values.
+Native value, null when
+no value matches, a grouped resultset, or false if the model cancels the query.
 
 ***
 
 ### minimum
 
-Retrieves the minimum value.
+Query the minimum while preserving the model's scalar type or grouped result.
 
 ```php
-public minimum(array|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|float|false
+public minimum(array<string|int,mixed>|null $find = null): \Phalcon\Mvc\Model\ResultsetInterface|int|float|string|false|null
 ```
 
 **Parameters:**
 
-| Parameter | Type            | Description                                                                                                           |
-|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
-| `$find`   | **array\|null** | Optional: The criteria to find the minimum value from.
-Default: null (will retrieve the `find` from $this->getFind()) |
+| Parameter | Type                               | Description                                                                                                |
+|-----------|------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `$find`   | **array<string\|int,mixed>\|null** | Aggregate criteria; null prepares
+the current request criteria. Pagination limits and offsets are removed. |
 
 **Return Value:**
 
-The minimum value from the dataset or a `ResultsetInterface` that represents the grouped minimum values.
+Native value, null when
+no value matches, a grouped resultset, or false if the model cancels the query.
 
 ***
 

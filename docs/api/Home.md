@@ -59,24 +59,19 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 ### \PhalconKit\Bootstrap
 
 
-| Class                                                        | Description                                                    |
-|--------------------------------------------------------------|----------------------------------------------------------------|
-| [`Config`](./classes/PhalconKit/Bootstrap/Config.md)         | Default framework configuration used by PhalconKit bootstraps. |
-| [`Deployment`](./classes/PhalconKit/Bootstrap/Deployment.md) | Default database deployment/scaffolding configuration.         |
-| [`Devtools`](./classes/PhalconKit/Bootstrap/Devtools.md)     | Config adapter shape expected by Phalcon DevTools.             |
-| [`Router`](./classes/PhalconKit/Bootstrap/Router.md)         | Bootstrap router with PhalconKit's default frontend routes.    |
+| Class                                                        | Description                                                       |
+|--------------------------------------------------------------|-------------------------------------------------------------------|
+| [`Config`](./classes/PhalconKit/Bootstrap/Config.md)         | Default framework configuration used by PhalconKit bootstraps.    |
+| [`Deployment`](./classes/PhalconKit/Bootstrap/Deployment.md) | Application-owned instructions for the database maintenance task. |
+| [`Devtools`](./classes/PhalconKit/Bootstrap/Devtools.md)     | Config adapter shape expected by Phalcon DevTools.                |
+| [`Router`](./classes/PhalconKit/Bootstrap/Router.md)         | Bootstrap router with PhalconKit's default frontend routes.       |
 
 ### \PhalconKit\Bootstrap\Permissions
 
 
-| Class                                                                              | Description                                                |
-|------------------------------------------------------------------------------------|------------------------------------------------------------|
-| [`ColumnConfig`](./classes/PhalconKit/Bootstrap/Permissions/ColumnConfig.md)       | Default permission fragment for column metadata resources. |
-| [`DynamicConfig`](./classes/PhalconKit/Bootstrap/Permissions/DynamicConfig.md)     | Default permission fragment for dynamic-model access.      |
-| [`RecordConfig`](./classes/PhalconKit/Bootstrap/Permissions/RecordConfig.md)       | Default permission fragment for generic record resources.  |
-| [`TableConfig`](./classes/PhalconKit/Bootstrap/Permissions/TableConfig.md)         | Default permission fragment for table metadata resources.  |
-| [`TemplateConfig`](./classes/PhalconKit/Bootstrap/Permissions/TemplateConfig.md)   | Default permission fragment for template resources.        |
-| [`WorkspaceConfig`](./classes/PhalconKit/Bootstrap/Permissions/WorkspaceConfig.md) | Default permission fragment for workspace resources.       |
+| Class                                                                            | Description                                         |
+|----------------------------------------------------------------------------------|-----------------------------------------------------|
+| [`TemplateConfig`](./classes/PhalconKit/Bootstrap/Permissions/TemplateConfig.md) | Default permission fragment for template resources. |
 
 ### \PhalconKit\Cache
 
@@ -379,77 +374,39 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 ### \PhalconKit\Models
 
 
-| Class                                                                   | Description                                                                                                                                                                                                                                                                                                                                               |
-|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`AbstractModel`](./classes/PhalconKit/Models/AbstractModel.md)         | Events
-- afterCreate
-- afterDelete
-- afterFetch
-- afterSave
-- afterUpdate
-- afterValidation
-- afterValidationOnCreate
-- afterValidationOnUpdate
-- beforeDelete
-- beforeCreate
-- beforeSave
-- beforeUpdate
-- beforeValidation
-- beforeValidationOnCreate
-- beforeValidationOnUpdate
-- notDeleted
-- notSaved
-- onValidationFails
-- prepareSave
-- validation |
-| [`Audit`](./classes/PhalconKit/Models/Audit.md)                         | Class Audit                                                                                                                                                                                                                                                                                                                                               |
-| [`AuditDetail`](./classes/PhalconKit/Models/AuditDetail.md)             | Class AuditDetail                                                                                                                                                                                                                                                                                                                                         |
-| [`Backup`](./classes/PhalconKit/Models/Backup.md)                       | Class Backup                                                                                                                                                                                                                                                                                                                                              |
-| [`Category`](./classes/PhalconKit/Models/Category.md)                   | Class Category                                                                                                                                                                                                                                                                                                                                            |
-| [`Column`](./classes/PhalconKit/Models/Column.md)                       | Class Column                                                                                                                                                                                                                                                                                                                                              |
-| [`Data`](./classes/PhalconKit/Models/Data.md)                           | Class Data                                                                                                                                                                                                                                                                                                                                                |
-| [`Email`](./classes/PhalconKit/Models/Email.md)                         | Class Email                                                                                                                                                                                                                                                                                                                                               |
-| [`EmailFile`](./classes/PhalconKit/Models/EmailFile.md)                 | Class EmailFile                                                                                                                                                                                                                                                                                                                                           |
-| [`Feature`](./classes/PhalconKit/Models/Feature.md)                     | Class Feature                                                                                                                                                                                                                                                                                                                                             |
-| [`File`](./classes/PhalconKit/Models/File.md)                           | Class File                                                                                                                                                                                                                                                                                                                                                |
-| [`FileRelation`](./classes/PhalconKit/Models/FileRelation.md)           | Class FileRelation                                                                                                                                                                                                                                                                                                                                        |
-| [`Flag`](./classes/PhalconKit/Models/Flag.md)                           | Class Flag                                                                                                                                                                                                                                                                                                                                                |
-| [`Group`](./classes/PhalconKit/Models/Group.md)                         | Class Group                                                                                                                                                                                                                                                                                                                                               |
-| [`GroupFeature`](./classes/PhalconKit/Models/GroupFeature.md)           | Class GroupFeature                                                                                                                                                                                                                                                                                                                                        |
-| [`GroupRole`](./classes/PhalconKit/Models/GroupRole.md)                 | Class GroupRole                                                                                                                                                                                                                                                                                                                                           |
-| [`GroupType`](./classes/PhalconKit/Models/GroupType.md)                 | Class GroupType                                                                                                                                                                                                                                                                                                                                           |
-| [`Job`](./classes/PhalconKit/Models/Job.md)                             | Class Job                                                                                                                                                                                                                                                                                                                                                 |
-| [`JobScheduler`](./classes/PhalconKit/Models/JobScheduler.md)           | Class JobScheduler                                                                                                                                                                                                                                                                                                                                        |
-| [`Lang`](./classes/PhalconKit/Models/Lang.md)                           | Class Lang                                                                                                                                                                                                                                                                                                                                                |
-| [`Log`](./classes/PhalconKit/Models/Log.md)                             | Class Log                                                                                                                                                                                                                                                                                                                                                 |
-| [`Menu`](./classes/PhalconKit/Models/Menu.md)                           | Class Menu                                                                                                                                                                                                                                                                                                                                                |
-| [`Meta`](./classes/PhalconKit/Models/Meta.md)                           | Class Meta                                                                                                                                                                                                                                                                                                                                                |
-| [`Oauth2`](./classes/PhalconKit/Models/Oauth2.md)                       | Class Oauth2                                                                                                                                                                                                                                                                                                                                              |
-| [`Page`](./classes/PhalconKit/Models/Page.md)                           | Class Page                                                                                                                                                                                                                                                                                                                                                |
-| [`PhalconMigrations`](./classes/PhalconKit/Models/PhalconMigrations.md) | Class PhalconMigrations                                                                                                                                                                                                                                                                                                                                   |
-| [`Post`](./classes/PhalconKit/Models/Post.md)                           | Class Post                                                                                                                                                                                                                                                                                                                                                |
-| [`PostCategory`](./classes/PhalconKit/Models/PostCategory.md)           | Class PostCategory                                                                                                                                                                                                                                                                                                                                        |
-| [`Profile`](./classes/PhalconKit/Models/Profile.md)                     | Class Profile                                                                                                                                                                                                                                                                                                                                             |
-| [`Record`](./classes/PhalconKit/Models/Record.md)                       | Class Record                                                                                                                                                                                                                                                                                                                                              |
-| [`Role`](./classes/PhalconKit/Models/Role.md)                           | Class Role                                                                                                                                                                                                                                                                                                                                                |
-| [`RoleFeature`](./classes/PhalconKit/Models/RoleFeature.md)             | Class RoleFeature                                                                                                                                                                                                                                                                                                                                         |
-| [`RoleRole`](./classes/PhalconKit/Models/RoleRole.md)                   | Class RoleRole                                                                                                                                                                                                                                                                                                                                            |
-| [`Session`](./classes/PhalconKit/Models/Session.md)                     | Class Session                                                                                                                                                                                                                                                                                                                                             |
-| [`Setting`](./classes/PhalconKit/Models/Setting.md)                     | Class Setting                                                                                                                                                                                                                                                                                                                                             |
-| [`Site`](./classes/PhalconKit/Models/Site.md)                           | Class Site                                                                                                                                                                                                                                                                                                                                                |
-| [`SiteLang`](./classes/PhalconKit/Models/SiteLang.md)                   | Class SiteLang                                                                                                                                                                                                                                                                                                                                            |
-| [`Table`](./classes/PhalconKit/Models/Table.md)                         | Class Table                                                                                                                                                                                                                                                                                                                                               |
-| [`Template`](./classes/PhalconKit/Models/Template.md)                   | Class Template                                                                                                                                                                                                                                                                                                                                            |
-| [`Translate`](./classes/PhalconKit/Models/Translate.md)                 | Class Translate                                                                                                                                                                                                                                                                                                                                           |
-| [`Type`](./classes/PhalconKit/Models/Type.md)                           | Class Type                                                                                                                                                                                                                                                                                                                                                |
-| [`User`](./classes/PhalconKit/Models/User.md)                           | Class User                                                                                                                                                                                                                                                                                                                                                |
-| [`UserFeature`](./classes/PhalconKit/Models/UserFeature.md)             | Class UserFeature                                                                                                                                                                                                                                                                                                                                         |
-| [`UserGroup`](./classes/PhalconKit/Models/UserGroup.md)                 | Class UserGroup                                                                                                                                                                                                                                                                                                                                           |
-| [`UserRole`](./classes/PhalconKit/Models/UserRole.md)                   | Class UserRole                                                                                                                                                                                                                                                                                                                                            |
-| [`UserType`](./classes/PhalconKit/Models/UserType.md)                   | Class UserType                                                                                                                                                                                                                                                                                                                                            |
-| [`Validator`](./classes/PhalconKit/Models/Validator.md)                 | Class Validator                                                                                                                                                                                                                                                                                                                                           |
-| [`Workspace`](./classes/PhalconKit/Models/Workspace.md)                 | Class Workspace                                                                                                                                                                                                                                                                                                                                           |
-| [`WorkspaceLang`](./classes/PhalconKit/Models/WorkspaceLang.md)         | Class WorkspaceLang                                                                                                                                                                                                                                                                                                                                       |
+| Class                                                                   | Description                                                                               |
+|-------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`AbstractModel`](./classes/PhalconKit/Models/AbstractModel.md)         | Base model combining Core persistence, relationships, validation, and lifecycle features. |
+| [`Audit`](./classes/PhalconKit/Models/Audit.md)                         | Class Audit                                                                               |
+| [`AuditDetail`](./classes/PhalconKit/Models/AuditDetail.md)             | Class AuditDetail                                                                         |
+| [`Backup`](./classes/PhalconKit/Models/Backup.md)                       | Class Backup                                                                              |
+| [`Email`](./classes/PhalconKit/Models/Email.md)                         | Class Email                                                                               |
+| [`EmailFile`](./classes/PhalconKit/Models/EmailFile.md)                 | Class EmailFile                                                                           |
+| [`Feature`](./classes/PhalconKit/Models/Feature.md)                     | Class Feature                                                                             |
+| [`File`](./classes/PhalconKit/Models/File.md)                           | Class File                                                                                |
+| [`FileRelation`](./classes/PhalconKit/Models/FileRelation.md)           | Class FileRelation                                                                        |
+| [`Group`](./classes/PhalconKit/Models/Group.md)                         | Class Group                                                                               |
+| [`GroupFeature`](./classes/PhalconKit/Models/GroupFeature.md)           | Class GroupFeature                                                                        |
+| [`GroupRole`](./classes/PhalconKit/Models/GroupRole.md)                 | Class GroupRole                                                                           |
+| [`GroupType`](./classes/PhalconKit/Models/GroupType.md)                 | Class GroupType                                                                           |
+| [`Job`](./classes/PhalconKit/Models/Job.md)                             | Class Job                                                                                 |
+| [`JobScheduler`](./classes/PhalconKit/Models/JobScheduler.md)           | Class JobScheduler                                                                        |
+| [`Log`](./classes/PhalconKit/Models/Log.md)                             | Class Log                                                                                 |
+| [`Oauth2`](./classes/PhalconKit/Models/Oauth2.md)                       | Class Oauth2                                                                              |
+| [`PhalconMigrations`](./classes/PhalconKit/Models/PhalconMigrations.md) | Class PhalconMigrations                                                                   |
+| [`Profile`](./classes/PhalconKit/Models/Profile.md)                     | Class Profile                                                                             |
+| [`Role`](./classes/PhalconKit/Models/Role.md)                           | Class Role                                                                                |
+| [`RoleFeature`](./classes/PhalconKit/Models/RoleFeature.md)             | Class RoleFeature                                                                         |
+| [`RoleRole`](./classes/PhalconKit/Models/RoleRole.md)                   | Class RoleRole                                                                            |
+| [`Session`](./classes/PhalconKit/Models/Session.md)                     | Class Session                                                                             |
+| [`Setting`](./classes/PhalconKit/Models/Setting.md)                     | Class Setting                                                                             |
+| [`Template`](./classes/PhalconKit/Models/Template.md)                   | Class Template                                                                            |
+| [`Type`](./classes/PhalconKit/Models/Type.md)                           | Class Type                                                                                |
+| [`User`](./classes/PhalconKit/Models/User.md)                           | Class User                                                                                |
+| [`UserFeature`](./classes/PhalconKit/Models/UserFeature.md)             | Class UserFeature                                                                         |
+| [`UserGroup`](./classes/PhalconKit/Models/UserGroup.md)                 | Class UserGroup                                                                           |
+| [`UserRole`](./classes/PhalconKit/Models/UserRole.md)                   | Class UserRole                                                                            |
+| [`UserType`](./classes/PhalconKit/Models/UserType.md)                   | Class UserType                                                                            |
 
 ### \PhalconKit\Models\Abstracts
 
@@ -459,51 +416,33 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`AuditAbstract`](./classes/PhalconKit/Models/Abstracts/AuditAbstract.md)                         | Class AuditAbstract             |
 | [`AuditDetailAbstract`](./classes/PhalconKit/Models/Abstracts/AuditDetailAbstract.md)             | Class AuditDetailAbstract       |
 | [`BackupAbstract`](./classes/PhalconKit/Models/Abstracts/BackupAbstract.md)                       | Class BackupAbstract            |
-| [`CategoryAbstract`](./classes/PhalconKit/Models/Abstracts/CategoryAbstract.md)                   | Class CategoryAbstract          |
-| [`ColumnAbstract`](./classes/PhalconKit/Models/Abstracts/ColumnAbstract.md)                       | Class ColumnAbstract            |
-| [`DataAbstract`](./classes/PhalconKit/Models/Abstracts/DataAbstract.md)                           | Class DataAbstract              |
 | [`EmailAbstract`](./classes/PhalconKit/Models/Abstracts/EmailAbstract.md)                         | Class EmailAbstract             |
 | [`EmailFileAbstract`](./classes/PhalconKit/Models/Abstracts/EmailFileAbstract.md)                 | Class EmailFileAbstract         |
 | [`FeatureAbstract`](./classes/PhalconKit/Models/Abstracts/FeatureAbstract.md)                     | Class FeatureAbstract           |
 | [`FileAbstract`](./classes/PhalconKit/Models/Abstracts/FileAbstract.md)                           | Class FileAbstract              |
 | [`FileRelationAbstract`](./classes/PhalconKit/Models/Abstracts/FileRelationAbstract.md)           | Class FileRelationAbstract      |
-| [`FlagAbstract`](./classes/PhalconKit/Models/Abstracts/FlagAbstract.md)                           | Class FlagAbstract              |
 | [`GroupAbstract`](./classes/PhalconKit/Models/Abstracts/GroupAbstract.md)                         | Class GroupAbstract             |
 | [`GroupFeatureAbstract`](./classes/PhalconKit/Models/Abstracts/GroupFeatureAbstract.md)           | Class GroupFeatureAbstract      |
 | [`GroupRoleAbstract`](./classes/PhalconKit/Models/Abstracts/GroupRoleAbstract.md)                 | Class GroupRoleAbstract         |
 | [`GroupTypeAbstract`](./classes/PhalconKit/Models/Abstracts/GroupTypeAbstract.md)                 | Class GroupTypeAbstract         |
 | [`JobAbstract`](./classes/PhalconKit/Models/Abstracts/JobAbstract.md)                             | Class JobAbstract               |
 | [`JobSchedulerAbstract`](./classes/PhalconKit/Models/Abstracts/JobSchedulerAbstract.md)           | Class JobSchedulerAbstract      |
-| [`LangAbstract`](./classes/PhalconKit/Models/Abstracts/LangAbstract.md)                           | Class LangAbstract              |
 | [`LogAbstract`](./classes/PhalconKit/Models/Abstracts/LogAbstract.md)                             | Class LogAbstract               |
-| [`MenuAbstract`](./classes/PhalconKit/Models/Abstracts/MenuAbstract.md)                           | Class MenuAbstract              |
-| [`MetaAbstract`](./classes/PhalconKit/Models/Abstracts/MetaAbstract.md)                           | Class MetaAbstract              |
 | [`Oauth2Abstract`](./classes/PhalconKit/Models/Abstracts/Oauth2Abstract.md)                       | Class Oauth2Abstract            |
-| [`PageAbstract`](./classes/PhalconKit/Models/Abstracts/PageAbstract.md)                           | Class PageAbstract              |
 | [`PhalconMigrationsAbstract`](./classes/PhalconKit/Models/Abstracts/PhalconMigrationsAbstract.md) | Class PhalconMigrationsAbstract |
-| [`PostAbstract`](./classes/PhalconKit/Models/Abstracts/PostAbstract.md)                           | Class PostAbstract              |
-| [`PostCategoryAbstract`](./classes/PhalconKit/Models/Abstracts/PostCategoryAbstract.md)           | Class PostCategoryAbstract      |
 | [`ProfileAbstract`](./classes/PhalconKit/Models/Abstracts/ProfileAbstract.md)                     | Class ProfileAbstract           |
-| [`RecordAbstract`](./classes/PhalconKit/Models/Abstracts/RecordAbstract.md)                       | Class RecordAbstract            |
 | [`RoleAbstract`](./classes/PhalconKit/Models/Abstracts/RoleAbstract.md)                           | Class RoleAbstract              |
 | [`RoleFeatureAbstract`](./classes/PhalconKit/Models/Abstracts/RoleFeatureAbstract.md)             | Class RoleFeatureAbstract       |
 | [`RoleRoleAbstract`](./classes/PhalconKit/Models/Abstracts/RoleRoleAbstract.md)                   | Class RoleRoleAbstract          |
 | [`SessionAbstract`](./classes/PhalconKit/Models/Abstracts/SessionAbstract.md)                     | Class SessionAbstract           |
 | [`SettingAbstract`](./classes/PhalconKit/Models/Abstracts/SettingAbstract.md)                     | Class SettingAbstract           |
-| [`SiteAbstract`](./classes/PhalconKit/Models/Abstracts/SiteAbstract.md)                           | Class SiteAbstract              |
-| [`SiteLangAbstract`](./classes/PhalconKit/Models/Abstracts/SiteLangAbstract.md)                   | Class SiteLangAbstract          |
-| [`TableAbstract`](./classes/PhalconKit/Models/Abstracts/TableAbstract.md)                         | Class TableAbstract             |
 | [`TemplateAbstract`](./classes/PhalconKit/Models/Abstracts/TemplateAbstract.md)                   | Class TemplateAbstract          |
-| [`TranslateAbstract`](./classes/PhalconKit/Models/Abstracts/TranslateAbstract.md)                 | Class TranslateAbstract         |
 | [`TypeAbstract`](./classes/PhalconKit/Models/Abstracts/TypeAbstract.md)                           | Class TypeAbstract              |
 | [`UserAbstract`](./classes/PhalconKit/Models/Abstracts/UserAbstract.md)                           | Class UserAbstract              |
 | [`UserFeatureAbstract`](./classes/PhalconKit/Models/Abstracts/UserFeatureAbstract.md)             | Class UserFeatureAbstract       |
 | [`UserGroupAbstract`](./classes/PhalconKit/Models/Abstracts/UserGroupAbstract.md)                 | Class UserGroupAbstract         |
 | [`UserRoleAbstract`](./classes/PhalconKit/Models/Abstracts/UserRoleAbstract.md)                   | Class UserRoleAbstract          |
 | [`UserTypeAbstract`](./classes/PhalconKit/Models/Abstracts/UserTypeAbstract.md)                   | Class UserTypeAbstract          |
-| [`ValidatorAbstract`](./classes/PhalconKit/Models/Abstracts/ValidatorAbstract.md)                 | Class ValidatorAbstract         |
-| [`WorkspaceAbstract`](./classes/PhalconKit/Models/Abstracts/WorkspaceAbstract.md)                 | Class WorkspaceAbstract         |
-| [`WorkspaceLangAbstract`](./classes/PhalconKit/Models/Abstracts/WorkspaceLangAbstract.md)         | Class WorkspaceLangAbstract     |
 
 ### \PhalconKit\Models\Abstracts\Interfaces
 
@@ -513,51 +452,33 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`AuditAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/AuditAbstractInterface.md)                         |             |
 | [`AuditDetailAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/AuditDetailAbstractInterface.md)             |             |
 | [`BackupAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/BackupAbstractInterface.md)                       |             |
-| [`CategoryAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/CategoryAbstractInterface.md)                   |             |
-| [`ColumnAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/ColumnAbstractInterface.md)                       |             |
-| [`DataAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/DataAbstractInterface.md)                           |             |
 | [`EmailAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/EmailAbstractInterface.md)                         |             |
 | [`EmailFileAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/EmailFileAbstractInterface.md)                 |             |
 | [`FeatureAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/FeatureAbstractInterface.md)                     |             |
 | [`FileAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/FileAbstractInterface.md)                           |             |
 | [`FileRelationAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/FileRelationAbstractInterface.md)           |             |
-| [`FlagAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/FlagAbstractInterface.md)                           |             |
 | [`GroupAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/GroupAbstractInterface.md)                         |             |
 | [`GroupFeatureAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/GroupFeatureAbstractInterface.md)           |             |
 | [`GroupRoleAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/GroupRoleAbstractInterface.md)                 |             |
 | [`GroupTypeAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/GroupTypeAbstractInterface.md)                 |             |
 | [`JobAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/JobAbstractInterface.md)                             |             |
 | [`JobSchedulerAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/JobSchedulerAbstractInterface.md)           |             |
-| [`LangAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/LangAbstractInterface.md)                           |             |
 | [`LogAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/LogAbstractInterface.md)                             |             |
-| [`MenuAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/MenuAbstractInterface.md)                           |             |
-| [`MetaAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/MetaAbstractInterface.md)                           |             |
 | [`Oauth2AbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/Oauth2AbstractInterface.md)                       |             |
-| [`PageAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/PageAbstractInterface.md)                           |             |
 | [`PhalconMigrationsAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/PhalconMigrationsAbstractInterface.md) |             |
-| [`PostAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/PostAbstractInterface.md)                           |             |
-| [`PostCategoryAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/PostCategoryAbstractInterface.md)           |             |
 | [`ProfileAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/ProfileAbstractInterface.md)                     |             |
-| [`RecordAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/RecordAbstractInterface.md)                       |             |
 | [`RoleAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/RoleAbstractInterface.md)                           |             |
 | [`RoleFeatureAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/RoleFeatureAbstractInterface.md)             |             |
 | [`RoleRoleAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/RoleRoleAbstractInterface.md)                   |             |
 | [`SessionAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/SessionAbstractInterface.md)                     |             |
 | [`SettingAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/SettingAbstractInterface.md)                     |             |
-| [`SiteAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/SiteAbstractInterface.md)                           |             |
-| [`SiteLangAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/SiteLangAbstractInterface.md)                   |             |
-| [`TableAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/TableAbstractInterface.md)                         |             |
 | [`TemplateAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/TemplateAbstractInterface.md)                   |             |
-| [`TranslateAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/TranslateAbstractInterface.md)                 |             |
 | [`TypeAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/TypeAbstractInterface.md)                           |             |
 | [`UserAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/UserAbstractInterface.md)                           |             |
 | [`UserFeatureAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/UserFeatureAbstractInterface.md)             |             |
 | [`UserGroupAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/UserGroupAbstractInterface.md)                 |             |
 | [`UserRoleAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/UserRoleAbstractInterface.md)                   |             |
 | [`UserTypeAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/UserTypeAbstractInterface.md)                   |             |
-| [`ValidatorAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/ValidatorAbstractInterface.md)                 |             |
-| [`WorkspaceAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/WorkspaceAbstractInterface.md)                 |             |
-| [`WorkspaceLangAbstractInterface`](./classes/PhalconKit/Models/Abstracts/Interfaces/WorkspaceLangAbstractInterface.md)         |             |
 
 ### \PhalconKit\Models\Behaviors
 
@@ -585,51 +506,33 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`AuditDetailInterface`](./classes/PhalconKit/Models/Interfaces/AuditDetailInterface.md)             |             |
 | [`AuditInterface`](./classes/PhalconKit/Models/Interfaces/AuditInterface.md)                         |             |
 | [`BackupInterface`](./classes/PhalconKit/Models/Interfaces/BackupInterface.md)                       |             |
-| [`CategoryInterface`](./classes/PhalconKit/Models/Interfaces/CategoryInterface.md)                   |             |
-| [`ColumnInterface`](./classes/PhalconKit/Models/Interfaces/ColumnInterface.md)                       |             |
-| [`DataInterface`](./classes/PhalconKit/Models/Interfaces/DataInterface.md)                           |             |
 | [`EmailFileInterface`](./classes/PhalconKit/Models/Interfaces/EmailFileInterface.md)                 |             |
 | [`EmailInterface`](./classes/PhalconKit/Models/Interfaces/EmailInterface.md)                         |             |
 | [`FeatureInterface`](./classes/PhalconKit/Models/Interfaces/FeatureInterface.md)                     |             |
 | [`FileInterface`](./classes/PhalconKit/Models/Interfaces/FileInterface.md)                           |             |
 | [`FileRelationInterface`](./classes/PhalconKit/Models/Interfaces/FileRelationInterface.md)           |             |
-| [`FlagInterface`](./classes/PhalconKit/Models/Interfaces/FlagInterface.md)                           |             |
 | [`GroupFeatureInterface`](./classes/PhalconKit/Models/Interfaces/GroupFeatureInterface.md)           |             |
 | [`GroupInterface`](./classes/PhalconKit/Models/Interfaces/GroupInterface.md)                         |             |
 | [`GroupRoleInterface`](./classes/PhalconKit/Models/Interfaces/GroupRoleInterface.md)                 |             |
 | [`GroupTypeInterface`](./classes/PhalconKit/Models/Interfaces/GroupTypeInterface.md)                 |             |
 | [`JobInterface`](./classes/PhalconKit/Models/Interfaces/JobInterface.md)                             |             |
 | [`JobSchedulerInterface`](./classes/PhalconKit/Models/Interfaces/JobSchedulerInterface.md)           |             |
-| [`LangInterface`](./classes/PhalconKit/Models/Interfaces/LangInterface.md)                           |             |
 | [`LogInterface`](./classes/PhalconKit/Models/Interfaces/LogInterface.md)                             |             |
-| [`MenuInterface`](./classes/PhalconKit/Models/Interfaces/MenuInterface.md)                           |             |
-| [`MetaInterface`](./classes/PhalconKit/Models/Interfaces/MetaInterface.md)                           |             |
 | [`Oauth2Interface`](./classes/PhalconKit/Models/Interfaces/Oauth2Interface.md)                       |             |
-| [`PageInterface`](./classes/PhalconKit/Models/Interfaces/PageInterface.md)                           |             |
 | [`PhalconMigrationsInterface`](./classes/PhalconKit/Models/Interfaces/PhalconMigrationsInterface.md) |             |
-| [`PostCategoryInterface`](./classes/PhalconKit/Models/Interfaces/PostCategoryInterface.md)           |             |
-| [`PostInterface`](./classes/PhalconKit/Models/Interfaces/PostInterface.md)                           |             |
 | [`ProfileInterface`](./classes/PhalconKit/Models/Interfaces/ProfileInterface.md)                     |             |
-| [`RecordInterface`](./classes/PhalconKit/Models/Interfaces/RecordInterface.md)                       |             |
 | [`RoleFeatureInterface`](./classes/PhalconKit/Models/Interfaces/RoleFeatureInterface.md)             |             |
 | [`RoleInterface`](./classes/PhalconKit/Models/Interfaces/RoleInterface.md)                           |             |
 | [`RoleRoleInterface`](./classes/PhalconKit/Models/Interfaces/RoleRoleInterface.md)                   |             |
 | [`SessionInterface`](./classes/PhalconKit/Models/Interfaces/SessionInterface.md)                     |             |
 | [`SettingInterface`](./classes/PhalconKit/Models/Interfaces/SettingInterface.md)                     |             |
-| [`SiteInterface`](./classes/PhalconKit/Models/Interfaces/SiteInterface.md)                           |             |
-| [`SiteLangInterface`](./classes/PhalconKit/Models/Interfaces/SiteLangInterface.md)                   |             |
-| [`TableInterface`](./classes/PhalconKit/Models/Interfaces/TableInterface.md)                         |             |
 | [`TemplateInterface`](./classes/PhalconKit/Models/Interfaces/TemplateInterface.md)                   |             |
-| [`TranslateInterface`](./classes/PhalconKit/Models/Interfaces/TranslateInterface.md)                 |             |
 | [`TypeInterface`](./classes/PhalconKit/Models/Interfaces/TypeInterface.md)                           |             |
 | [`UserFeatureInterface`](./classes/PhalconKit/Models/Interfaces/UserFeatureInterface.md)             |             |
 | [`UserGroupInterface`](./classes/PhalconKit/Models/Interfaces/UserGroupInterface.md)                 |             |
 | [`UserInterface`](./classes/PhalconKit/Models/Interfaces/UserInterface.md)                           |             |
 | [`UserRoleInterface`](./classes/PhalconKit/Models/Interfaces/UserRoleInterface.md)                   |             |
 | [`UserTypeInterface`](./classes/PhalconKit/Models/Interfaces/UserTypeInterface.md)                   |             |
-| [`ValidatorInterface`](./classes/PhalconKit/Models/Interfaces/ValidatorInterface.md)                 |             |
-| [`WorkspaceInterface`](./classes/PhalconKit/Models/Interfaces/WorkspaceInterface.md)                 |             |
-| [`WorkspaceLangInterface`](./classes/PhalconKit/Models/Interfaces/WorkspaceLangInterface.md)         |             |
 
 ### \PhalconKit\Modules\Admin
 
@@ -665,45 +568,22 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`AuditController`](./classes/PhalconKit/Modules/Api/Controllers/AuditController.md)                         | Base MVC controller for PhalconKit applications.      |
 | [`AuditDetailController`](./classes/PhalconKit/Modules/Api/Controllers/AuditDetailController.md)             | Base MVC controller for PhalconKit applications.      |
 | [`AuthController`](./classes/PhalconKit/Modules/Api/Controllers/AuthController.md)                           | Base MVC controller for PhalconKit applications.      |
-| [`CategoryController`](./classes/PhalconKit/Modules/Api/Controllers/CategoryController.md)                   | Base MVC controller for PhalconKit applications.      |
 | [`ClamavController`](./classes/PhalconKit/Modules/Api/Controllers/ClamavController.md)                       | Base MVC controller for PhalconKit applications.      |
-| [`ColumnController`](./classes/PhalconKit/Modules/Api/Controllers/ColumnController.md)                       | Base MVC controller for PhalconKit applications.      |
-| [`DataController`](./classes/PhalconKit/Modules/Api/Controllers/DataController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`EmailController`](./classes/PhalconKit/Modules/Api/Controllers/EmailController.md)                         | Base MVC controller for PhalconKit applications.      |
 | [`ErrorController`](./classes/PhalconKit/Modules/Api/Controllers/ErrorController.md)                         | API error endpoint without model-backed REST actions. |
-| [`FieldController`](./classes/PhalconKit/Modules/Api/Controllers/FieldController.md)                         | Base MVC controller for PhalconKit applications.      |
 | [`FileController`](./classes/PhalconKit/Modules/Api/Controllers/FileController.md)                           | Base MVC controller for PhalconKit applications.      |
-| [`FlagController`](./classes/PhalconKit/Modules/Api/Controllers/FlagController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`GroupController`](./classes/PhalconKit/Modules/Api/Controllers/GroupController.md)                         | Base MVC controller for PhalconKit applications.      |
 | [`IndexController`](./classes/PhalconKit/Modules/Api/Controllers/IndexController.md)                         | Base MVC controller for PhalconKit applications.      |
-| [`LangController`](./classes/PhalconKit/Modules/Api/Controllers/LangController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`LogController`](./classes/PhalconKit/Modules/Api/Controllers/LogController.md)                             | Base MVC controller for PhalconKit applications.      |
-| [`MenuController`](./classes/PhalconKit/Modules/Api/Controllers/MenuController.md)                           | Base MVC controller for PhalconKit applications.      |
-| [`MetaController`](./classes/PhalconKit/Modules/Api/Controllers/MetaController.md)                           | Base MVC controller for PhalconKit applications.      |
-| [`PageController`](./classes/PhalconKit/Modules/Api/Controllers/PageController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`PhalconMigrationsController`](./classes/PhalconKit/Modules/Api/Controllers/PhalconMigrationsController.md) | Base MVC controller for PhalconKit applications.      |
-| [`PostController`](./classes/PhalconKit/Modules/Api/Controllers/PostController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`ProfileController`](./classes/PhalconKit/Modules/Api/Controllers/ProfileController.md)                     | Base MVC controller for PhalconKit applications.      |
-| [`RecordController`](./classes/PhalconKit/Modules/Api/Controllers/RecordController.md)                       | Base MVC controller for PhalconKit applications.      |
 | [`RoleController`](./classes/PhalconKit/Modules/Api/Controllers/RoleController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`SessionController`](./classes/PhalconKit/Modules/Api/Controllers/SessionController.md)                     | Base MVC controller for PhalconKit applications.      |
 | [`SettingController`](./classes/PhalconKit/Modules/Api/Controllers/SettingController.md)                     | Base MVC controller for PhalconKit applications.      |
-| [`TableController`](./classes/PhalconKit/Modules/Api/Controllers/TableController.md)                         | Base MVC controller for PhalconKit applications.      |
 | [`TemplateController`](./classes/PhalconKit/Modules/Api/Controllers/TemplateController.md)                   | Base MVC controller for PhalconKit applications.      |
 | [`TestController`](./classes/PhalconKit/Modules/Api/Controllers/TestController.md)                           | Base MVC controller for PhalconKit applications.      |
-| [`TranslateController`](./classes/PhalconKit/Modules/Api/Controllers/TranslateController.md)                 | Base MVC controller for PhalconKit applications.      |
-| [`TranslateFieldController`](./classes/PhalconKit/Modules/Api/Controllers/TranslateFieldController.md)       | Base MVC controller for PhalconKit applications.      |
-| [`TranslateTableController`](./classes/PhalconKit/Modules/Api/Controllers/TranslateTableController.md)       | Base MVC controller for PhalconKit applications.      |
 | [`TypeController`](./classes/PhalconKit/Modules/Api/Controllers/TypeController.md)                           | Base MVC controller for PhalconKit applications.      |
 | [`UserController`](./classes/PhalconKit/Modules/Api/Controllers/UserController.md)                           | Base MVC controller for PhalconKit applications.      |
-| [`WorkspaceController`](./classes/PhalconKit/Modules/Api/Controllers/WorkspaceController.md)                 | Base MVC controller for PhalconKit applications.      |
-
-### \PhalconKit\Modules\Api\Transformers
-
-
-| Class                                                                                     | Description                                                      |
-|-------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| [`RecordTransformer`](./classes/PhalconKit/Modules/Api/Transformers/RecordTransformer.md) | Base transformer for Fractal resources backed by Phalcon models. |
 
 ### \PhalconKit\Modules\Cli
 
@@ -716,29 +596,28 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 ### \PhalconKit\Modules\Cli\Tasks
 
 
-| Class                                                                              | Description                          |
-|------------------------------------------------------------------------------------|--------------------------------------|
-| [`AbstractTask`](./classes/PhalconKit/Modules/Cli/Tasks/AbstractTask.md)           | Base class for PhalconKit CLI tasks. |
-| [`CacheTask`](./classes/PhalconKit/Modules/Cli/Tasks/CacheTask.md)                 | Base class for PhalconKit CLI tasks. |
-| [`CronTask`](./classes/PhalconKit/Modules/Cli/Tasks/CronTask.md)                   | Base class for PhalconKit CLI tasks. |
-| [`DatabaseTask`](./classes/PhalconKit/Modules/Cli/Tasks/DatabaseTask.md)           | Base class for PhalconKit CLI tasks. |
-| [`DataLifeCycleTask`](./classes/PhalconKit/Modules/Cli/Tasks/DataLifeCycleTask.md) | Base class for PhalconKit CLI tasks. |
-| [`ErrorTask`](./classes/PhalconKit/Modules/Cli/Tasks/ErrorTask.md)                 | Base class for PhalconKit CLI tasks. |
-| [`FakerTask`](./classes/PhalconKit/Modules/Cli/Tasks/FakerTask.md)                 | Base class for PhalconKit CLI tasks. |
-| [`HelpTask`](./classes/PhalconKit/Modules/Cli/Tasks/HelpTask.md)                   | Base class for PhalconKit CLI tasks. |
-| [`ScaffoldTask`](./classes/PhalconKit/Modules/Cli/Tasks/ScaffoldTask.md)           | Base class for PhalconKit CLI tasks. |
-| [`TsScaffoldTask`](./classes/PhalconKit/Modules/Cli/Tasks/TsScaffoldTask.md)       | Base class for PhalconKit CLI tasks. |
-| [`UserTask`](./classes/PhalconKit/Modules/Cli/Tasks/UserTask.md)                   | Base class for PhalconKit CLI tasks. |
+| Class                                                                              | Description                                                                     |
+|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| [`AbstractTask`](./classes/PhalconKit/Modules/Cli/Tasks/AbstractTask.md)           | Base class for PhalconKit CLI tasks.                                            |
+| [`CacheTask`](./classes/PhalconKit/Modules/Cli/Tasks/CacheTask.md)                 | Base class for PhalconKit CLI tasks.                                            |
+| [`CronTask`](./classes/PhalconKit/Modules/Cli/Tasks/CronTask.md)                   | Base class for PhalconKit CLI tasks.                                            |
+| [`DatabaseTask`](./classes/PhalconKit/Modules/Cli/Tasks/DatabaseTask.md)           | Execute application-defined database maintenance and seed operations.           |
+| [`DataLifeCycleTask`](./classes/PhalconKit/Modules/Cli/Tasks/DataLifeCycleTask.md) | Base class for PhalconKit CLI tasks.                                            |
+| [`ErrorTask`](./classes/PhalconKit/Modules/Cli/Tasks/ErrorTask.md)                 | Base class for PhalconKit CLI tasks.                                            |
+| [`HelpTask`](./classes/PhalconKit/Modules/Cli/Tasks/HelpTask.md)                   | Base class for PhalconKit CLI tasks.                                            |
+| [`ScaffoldTask`](./classes/PhalconKit/Modules/Cli/Tasks/ScaffoldTask.md)           | Generate model layers, interfaces, enums, and tests from the shared db service. |
+| [`TsScaffoldTask`](./classes/PhalconKit/Modules/Cli/Tasks/TsScaffoldTask.md)       | Base class for PhalconKit CLI tasks.                                            |
+| [`UserTask`](./classes/PhalconKit/Modules/Cli/Tasks/UserTask.md)                   | Base class for PhalconKit CLI tasks.                                            |
 
 ### \PhalconKit\Modules\Cli\Tasks\Traits
 
 
-| Trait                                                                               | Description          |
-|-------------------------------------------------------------------------------------|----------------------|
-| [`DatabaseTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/DatabaseTrait.md)   |                      |
-| [`DescribesTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/DescribesTrait.md) | Trait DescribesTrait |
-| [`ScaffoldTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/ScaffoldTrait.md)   | Trait DescribesTrait |
-| [`UserTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/UserTrait.md)           |                      |
+| Trait                                                                               | Description                                                                 |
+|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| [`DatabaseTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/DatabaseTrait.md)   |                                                                             |
+| [`DescribesTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/DescribesTrait.md) | Trait DescribesTrait                                                        |
+| [`ScaffoldTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/ScaffoldTrait.md)   | Resolve CLI scaffold options, generated PHP headers, paths, and namespaces. |
+| [`UserTrait`](./classes/PhalconKit/Modules/Cli/Tasks/Traits/UserTrait.md)           |                                                                             |
 
 ### \PhalconKit\Modules\Frontend
 
@@ -789,44 +668,24 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 ### \PhalconKit\Modules\Ws\Tasks
 
 
-| Class                                                                   | Description                     |
-|-------------------------------------------------------------------------|---------------------------------|
-| [`AbstractTask`](./classes/PhalconKit/Modules/Ws/Tasks/AbstractTask.md) | Base class for WebSocket tasks. |
-| [`ErrorTask`](./classes/PhalconKit/Modules/Ws/Tasks/ErrorTask.md)       | Base class for WebSocket tasks. |
+| Class                                                                   | Description                                         |
+|-------------------------------------------------------------------------|-----------------------------------------------------|
+| [`AbstractTask`](./classes/PhalconKit/Modules/Ws/Tasks/AbstractTask.md) | WebSocket task with overridable Swoole event hooks. |
+| [`ErrorTask`](./classes/PhalconKit/Modules/Ws/Tasks/ErrorTask.md)       | Base class for WebSocket tasks.                     |
 
 ### \PhalconKit\Mvc
 
 
-| Class                                                    | Description                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`Application`](./classes/PhalconKit/Mvc/Application.md) | MVC application with PhalconKit's typed DI boundary and HMVC helper.                                                                                                                                                                                                                                                                                      |
-| [`Controller`](./classes/PhalconKit/Mvc/Controller.md)   | Base MVC controller for PhalconKit applications.                                                                                                                                                                                                                                                                                                          |
-| [`Dispatcher`](./classes/PhalconKit/Mvc/Dispatcher.md)   | MVC dispatcher with PhalconKit's shared dispatcher safeguards.                                                                                                                                                                                                                                                                                            |
-| [`Model`](./classes/PhalconKit/Mvc/Model.md)             | Events
-- afterCreate
-- afterDelete
-- afterFetch
-- afterSave
-- afterUpdate
-- afterValidation
-- afterValidationOnCreate
-- afterValidationOnUpdate
-- beforeDelete
-- beforeCreate
-- beforeSave
-- beforeUpdate
-- beforeValidation
-- beforeValidationOnCreate
-- beforeValidationOnUpdate
-- notDeleted
-- notSaved
-- onValidationFails
-- prepareSave
-- validation |
-| [`Module`](./classes/PhalconKit/Mvc/Module.md)           | Base MVC module definition used by PhalconKit web modules.                                                                                                                                                                                                                                                                                                |
-| [`Router`](./classes/PhalconKit/Mvc/Router.md)           | Framework router with config-backed module and locale route registration.                                                                                                                                                                                                                                                                                 |
-| [`Url`](./classes/PhalconKit/Mvc/Url.md)                 | URL service that normalizes generated local paths.                                                                                                                                                                                                                                                                                                        |
-| [`View`](./classes/PhalconKit/Mvc/View.md)               | MVC view wrapper with PhalconKit path normalization and optional minification.                                                                                                                                                                                                                                                                            |
+| Class                                                    | Description                                                                               |
+|----------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`Application`](./classes/PhalconKit/Mvc/Application.md) | MVC application with PhalconKit's typed DI boundary and HMVC helper.                      |
+| [`Controller`](./classes/PhalconKit/Mvc/Controller.md)   | Base MVC controller for PhalconKit applications.                                          |
+| [`Dispatcher`](./classes/PhalconKit/Mvc/Dispatcher.md)   | MVC dispatcher with PhalconKit's shared dispatcher safeguards.                            |
+| [`Model`](./classes/PhalconKit/Mvc/Model.md)             | Base model combining Core persistence, relationships, validation, and lifecycle features. |
+| [`Module`](./classes/PhalconKit/Mvc/Module.md)           | Base MVC module definition used by PhalconKit web modules.                                |
+| [`Router`](./classes/PhalconKit/Mvc/Router.md)           | Framework router with config-backed module and locale route registration.                 |
+| [`Url`](./classes/PhalconKit/Mvc/Url.md)                 | URL service that normalizes generated local paths.                                        |
+| [`View`](./classes/PhalconKit/Mvc/View.md)               | MVC view wrapper with PhalconKit path normalization and optional minification.            |
 
 
 | Interface                                                      | Description |
@@ -1127,10 +986,9 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 ### \PhalconKit\Mvc\Model
 
 
-| Class                                                  | Description                                                      |
-|--------------------------------------------------------|------------------------------------------------------------------|
-| [`Dynamic`](./classes/PhalconKit/Mvc/Model/Dynamic.md) | Runtime model whose source and metadata can change per instance. |
-| [`Manager`](./classes/PhalconKit/Mvc/Model/Manager.md) |                                                                  |
+| Class                                                  | Description |
+|--------------------------------------------------------|-------------|
+| [`Manager`](./classes/PhalconKit/Mvc/Model/Manager.md) |             |
 
 
 | Interface                                                                | Description |
@@ -1175,28 +1033,28 @@ or globally for every model instance ($staticEnabled)   |
 ### \PhalconKit\Mvc\Model\Interfaces
 
 
-| Interface                                                                                     | Description                                                       |
-|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| [`AttributeInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/AttributeInterface.md)       |                                                                   |
-| [`BehaviorInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/BehaviorInterface.md)         |                                                                   |
-| [`BlameableInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/BlameableInterface.md)       |                                                                   |
-| [`EagerLoadInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/EagerLoadInterface.md)       |                                                                   |
-| [`ExposeInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/ExposeInterface.md)             |                                                                   |
-| [`HashInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/HashInterface.md)                 |                                                                   |
-| [`IdentityInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/IdentityInterface.md)         |                                                                   |
-| [`InstanceInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/InstanceInterface.md)         |                                                                   |
-| [`JsonInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/JsonInterface.md)                 |                                                                   |
-| [`LocaleInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/LocaleInterface.md)             |                                                                   |
-| [`MetaDataInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/MetaDataInterface.md)         |                                                                   |
-| [`OptionsInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/OptionsInterface.md)           |                                                                   |
-| [`PositionInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/PositionInterface.md)         |                                                                   |
-| [`RelationshipInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/RelationshipInterface.md) | Defines PhalconKit's relationship assignment and export contract. |
-| [`ReplicationInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/ReplicationInterface.md)   |                                                                   |
-| [`SecurityInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SecurityInterface.md)         |                                                                   |
-| [`SlugInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SlugInterface.md)                 |                                                                   |
-| [`SnapshotInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SnapshotInterface.md)         |                                                                   |
-| [`SoftDeleteInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SoftDeleteInterface.md)     |                                                                   |
-| [`ValidateInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/ValidateInterface.md)         |                                                                   |
+| Interface                                                                                     | Description                                                                  |
+|-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| [`AttributeInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/AttributeInterface.md)       |                                                                              |
+| [`BehaviorInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/BehaviorInterface.md)         |                                                                              |
+| [`BlameableInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/BlameableInterface.md)       |                                                                              |
+| [`EagerLoadInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/EagerLoadInterface.md)       |                                                                              |
+| [`ExposeInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/ExposeInterface.md)             |                                                                              |
+| [`HashInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/HashInterface.md)                 |                                                                              |
+| [`IdentityInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/IdentityInterface.md)         |                                                                              |
+| [`InstanceInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/InstanceInterface.md)         |                                                                              |
+| [`JsonInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/JsonInterface.md)                 |                                                                              |
+| [`LocaleInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/LocaleInterface.md)             |                                                                              |
+| [`MetaDataInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/MetaDataInterface.md)         |                                                                              |
+| [`OptionsInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/OptionsInterface.md)           |                                                                              |
+| [`PositionInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/PositionInterface.md)         |                                                                              |
+| [`RelationshipInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/RelationshipInterface.md) | Defines PhalconKit's relationship assignment and export contract.            |
+| [`ReplicationInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/ReplicationInterface.md)   |                                                                              |
+| [`SecurityInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SecurityInterface.md)         |                                                                              |
+| [`SlugInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SlugInterface.md)                 |                                                                              |
+| [`SnapshotInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SnapshotInterface.md)         |                                                                              |
+| [`SoftDeleteInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/SoftDeleteInterface.md)     |                                                                              |
+| [`ValidateInterface`](./classes/PhalconKit/Mvc/Model/Interfaces/ValidateInterface.md)         | Build model validation rules without running validation or saving the model. |
 
 ### \PhalconKit\Mvc\Model\Interfaces\Blameable
 
@@ -1239,7 +1097,7 @@ or globally for every model instance ($staticEnabled)   |
 | [`Snapshot`](./classes/PhalconKit/Mvc/Model/Traits/Snapshot.md)         | Trait that provides snapshot functionality for a model.                                          |
 | [`SoftDelete`](./classes/PhalconKit/Mvc/Model/Traits/SoftDelete.md)     | This trait provides soft delete functionality to a model class.                                  |
 | [`Uuid`](./classes/PhalconKit/Mvc/Model/Traits/Uuid.md)                 | Installs UUID generation behavior for model create operations.                                   |
-| [`Validate`](./classes/PhalconKit/Mvc/Model/Traits/Validate.md)         |                                                                                                  |
+| [`Validate`](./classes/PhalconKit/Mvc/Model/Traits/Validate.md)         | Build translated validation rules for mapped model attributes and convention fields.             |
 
 ### \PhalconKit\Mvc\Model\Traits\Abstracts
 
@@ -1380,13 +1238,6 @@ or globally for every model instance ($staticEnabled)   |
 | Class                                                                          | Description                                     |
 |--------------------------------------------------------------------------------|-------------------------------------------------|
 | [`ServiceProvider`](./classes/PhalconKit/Provider/Database/ServiceProvider.md) | Registers a configured PDO database connection. |
-
-### \PhalconKit\Provider\DatabaseDynamic
-
-
-| Class                                                                                 | Description                                              |
-|---------------------------------------------------------------------------------------|----------------------------------------------------------|
-| [`ServiceProvider`](./classes/PhalconKit/Provider/DatabaseDynamic/ServiceProvider.md) | Registers the dynamic-model database connection service. |
 
 ### \PhalconKit\Provider\DatabaseReadOnly
 
