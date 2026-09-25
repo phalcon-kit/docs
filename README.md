@@ -8,14 +8,12 @@ The maintained documentation has two sources:
 - Narrative guides synchronized from the core repository.
 - API reference generated from the current core source with phpDocumentor.
 
-The site follows **Core 4.0.0 and App 4.0.0 development**. Only the 4.x line is
-maintained; all earlier versions are end of life. Both 4.0.0 releases are still
-unreleased, so there is currently no supported stable release. Historical tags
-preserve older documentation.
+The site follows **Core 4.0.0 and App 4.0.0**, then ongoing work on the maintained
+4.x line. All earlier versions are end of life; historical tags preserve older
+documentation. Installation examples use tagged stable releases.
 
 Runtime and dependency requirements come from the current Core package. App
-intentionally skips 3.x to align its major version with Core. The site labels
-preview installation instructions explicitly until stable tags are published.
+intentionally skips 3.x to align its major version with Core.
 
 ## Build Locally
 
@@ -53,9 +51,8 @@ and includes their cases, backing values, and namespace in the generated API
 navigation. Regenerate through `composer docs`; do not maintain those pages by
 hand. See the [Core maintenance guide](https://github.com/phalcon-kit/core/blob/master/guides/quality-and-maintenance.md).
 
-For the stable 4.0.0 launch, synchronize again after the final Core release
-changes and verify App's installation instructions use the tested stable Core
-constraint and lockfile. See the [Core release process](https://github.com/phalcon-kit/core/blob/master/guides/release.md).
+When publishing releases, synchronize the final Core source and verify that
+App's installation instructions use the tested stable Core constraint and lockfile. See the [Core release process](https://github.com/phalcon-kit/core/blob/master/guides/release.md).
 
 ## Contributing
 

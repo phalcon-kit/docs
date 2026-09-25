@@ -3108,20 +3108,25 @@ public jsonDecode(string $json, bool|null $associative = null, int $depth = 512,
 
 **Parameters:**
 
-| Parameter      | Type           | Description                                                                                                                                                                                                              |
-|----------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `$json`        | **string**     | The JSON string to be decoded.                                                                                                                                                                                           |
+| Parameter      | Type           | Description                                                                                                                                                                                                                |
+|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `$json`        | **string**     | The JSON string to be decoded.                                                                                                                                                                                             |
 | `$associative` | **bool\|null** | [Optional] When `true`, returned objects will be converted into associative arrays.
 When `false`, objects will be returned as generic objects. If `null`, objects
-will be returned based on the JSON_NUMERIC_CHECK flag. |
+will be returned based on the JSON_OBJECT_AS_ARRAY flag. |
 | `$depth`       | **int**        | [Optional] The maximum depth of recursion when decoding nested objects.
-Defaults to 512.                                                                                                                                 |
+Defaults to 512.                                                                                                                                   |
 | `$flags`       | **int**        | [Optional] Bitmask of JSON decode options.
-Defaults to 0.                                                                                                                                                                |
+Defaults to 0.                                                                                                                                                                  |
 
 **Return Value:**
 
-The decoded value on success, or the original JSON string on failure.
+The decoded value, or null for invalid JSON without JSON_THROW_ON_ERROR.
+
+**Throws:**
+
+If decoding fails with JSON_THROW_ON_ERROR enabled.
+- [`JsonException`](https://www.php.net/manual/en/class.jsonexception.php){:target="_blank"}
 
 ***
 

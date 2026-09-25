@@ -7,13 +7,12 @@ identity, permissions, CLI tasks, and WebSocket support.
 [Get Started](guides/getting-started.md){ .md-button .md-button--primary }
 [Browse The Cookbook](guides/cookbook.md){ .md-button }
 
-!!! info "Core 4.0 and App 4.0 development"
+!!! info "Core 4.0.0 and App 4.0.0"
 
-    This site follows the upcoming **Core 4.0.0 and App 4.0.0** releases. Only
-    4.x is maintained; all earlier versions are end of life, with no fixes or
-    backports. Both releases are still unreleased, so there is currently no
-    supported stable release. Read the [Core 4.0 upgrade guide](guides/upgrading-4.0.md)
-    before evaluating the development preview. Older tags preserve historical
+    Core and the App skeleton start the supported 4.x line together at **4.0.0**.
+    Earlier versions are end of life, with no fixes or backports. Use tagged
+    releases and read the [Core 4.0 upgrade guide](guides/upgrading-4.0.md)
+    before upgrading an existing application. Historical tags preserve older
     documentation.
 
 Phalcon Kit extends Phalcon rather than replacing it. Refer to the
