@@ -36,6 +36,57 @@ public validation(): bool
 
 ***
 
+### beforeSave
+
+Hash a newly assigned plaintext password before persistence.
+
+```php
+public beforeSave(): bool
+```
+
+Uses the model hash helper so identity login applies the same configured
+salt and algorithm. Recognized Phalcon password hashes are preserved, including
+on unrelated saves; null/empty values continue to disable password login.
+Application models overriding this hook own their password preparation and
+should call the parent when they use this concrete Core model's contract.
+Models mapped from another base retain their own assignment/save behavior.
+
+**Return Value:**
+
+Always true; validation remains the validation hook's concern.
+
+**Throws:**
+
+When hashing services are unavailable.
+- [`ServiceException`](../Exception/ServiceException.md)
+
+***
+
+### isPasswordHash
+
+Recognize complete hashes produced by Phalcon's configurable algorithms.
+
+```php
+protected isPasswordHash(string $password): bool
+```
+
+PHP recognizes password_hash() formats but not Phalcon's legacy crypt()
+formats. Preserve both when importing hashes or saving an existing user;
+checking only their prefix could mistake ordinary plaintext for a hash.
+Applications using another hash format can extend this detection.
+
+**Parameters:**
+
+| Parameter   | Type       | Description                                  |
+|-------------|------------|----------------------------------------------|
+| `$password` | **string** | Assigned password or previously stored hash. |
+
+**Return Value:**
+
+Whether the value already has a supported password-hash format.
+
+***
+
 ## Inherited methods
 
 ### normalizeBooleanAttribute

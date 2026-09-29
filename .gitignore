@@ -2,3 +2,6 @@
 .cache/
 site/
 app/
+
+# Python caches from MkDocs hooks and documentation helpers
+__pycache__/

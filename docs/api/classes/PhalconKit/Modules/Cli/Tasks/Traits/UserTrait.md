@@ -104,6 +104,63 @@ class while still letting app tasks override the instantiation strategy
 when they need custom construction.
 
 ***
+### resolvePasswordInput
+
+Resolve an explicitly requested stdin password without exposing it in argv.
+
+```php
+protected resolvePasswordInput(?string $password): ?string
+```
+
+Existing positional/custom-model assignment remains supported. Stdin mode
+rejects empty input and conflicting password arguments before any writes.
+
+**Parameters:**
+
+| Parameter   | Type        | Description |
+|-------------|-------------|-------------|
+| `$password` | **?string** |             |
+
+**Throws:**
+
+When input is empty or ambiguous.
+- [`InvalidArgumentException`](../../../../Exception/InvalidArgumentException.md)
+
+***
+### readPasswordFromStdin
+
+Read CLI secret input; override only for an application input adapter.
+
+```php
+protected readPasswordFromStdin(): string
+```
+
+***
+### getUserRoleAssignmentAlias
+
+Resolve the application's direct user-role membership relationship.
+
+```php
+protected getUserRoleAssignmentAlias(\PhalconKit\Models\Interfaces\UserInterface $user): string
+```
+
+Core's generated User defines UserRoleList. Application models may retain
+RoleNode; prefer that alias when present to preserve their save hooks.
+A missing relationship is a configuration error, never a successful role
+assignment. The model manager must have initialized the resolved user.
+
+**Parameters:**
+
+| Parameter | Type                                            | Description |
+|-----------|-------------------------------------------------|-------------|
+| `$user`   | **\PhalconKit\Models\Interfaces\UserInterface** |             |
+
+**Throws:**
+
+When neither membership alias exists.
+- [`LogicException`](../../../../Exception/LogicException.md)
+
+***
 ### addModelsPermissions
 
 ```php

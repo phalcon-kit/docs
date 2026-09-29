@@ -1,131 +1,51 @@
-# Build With Phalcon Kit
+# Build Your Application With PhalconKit
 
-Phalcon Kit is a database-first toolkit for building Phalcon applications and
-REST APIs with consistent scaffolding, model relationships, eager loading,
-identity, permissions, CLI tasks, and WebSocket support.
+PhalconKit adds REST resources, database scaffolding, model relationships,
+authentication, permissions, and shared HTTP/CLI/WebSocket infrastructure to
+Phalcon. Your application defines its schema, business rules, and public API.
 
-[Get Started](guides/getting-started.md){ .md-button .md-button--primary }
-[Browse The Cookbook](guides/cookbook.md){ .md-button }
+## Start With A Working API
 
-!!! info "Core 4.0.0 and App 4.0.0"
+```shell
+composer create-project phalcon-kit/app my-api
+cd my-api
+cp .env.example .env
+php -S 127.0.0.1:8080 -t public public/index.php
+```
 
-    Core and the App skeleton start the supported 4.x line together at **4.0.0**.
-    Earlier versions are end of life, with no fixes or backports. Use tagged
-    releases and read the [Core 4.0 upgrade guide](guides/upgrading-4.0.md)
-    before upgrading an existing application. Historical tags preserve older
-    documentation.
+Then request `http://127.0.0.1:8080/api`. The starter responds with HTTP 200.
+See [Getting Started](guides/getting-started.md) for PHP/Phalcon requirements,
+database configuration, and deployment setup.
 
-Phalcon Kit extends Phalcon rather than replacing it. Refer to the
-[latest Phalcon documentation](https://docs.phalcon.io/latest/){:target="_blank"}
-for native framework behavior, and use this site for Phalcon Kit conventions.
+Follow [Your First REST Resource](guides/first-rest-resource.md) to turn a table
+into a controlled API. The tutorial includes the schema, generated model paths,
+controller policies, permissions, requests, and actual response examples.
 
-The current source baseline requires PHP 8.5 or newer and Phalcon 5.22.0 or
-newer on the 5.x release line.
+## What Are You Building?
 
-## Jump Right In
+| Application task | Start here |
+| --- | --- |
+| A new backend | [Install and run](guides/getting-started.md) |
+| Core inside an existing Phalcon project | [Application integration](guides/application-integration.md) |
+| Search and list screens | [Filters, pagination, and sorting](guides/rest-filtering.md) |
+| Forms and batch editing | [Writes and validation](guides/rest-writes.md) |
+| Detail screens with related records | [Relationships](guides/rest-relationships.md) |
+| Dashboards and downloads | [Counts, facets, and exports](guides/rest-aggregates.md) |
+| Authenticated application users | [Login, refresh, logout, and account commands](guides/authentication.md) |
+| Private or tenant-owned resources | [Permissions and row scope](guides/identity-and-permissions.md) |
+| Scheduled tasks | [CLI commands](guides/cli-tasks.md) |
+| Live notifications | [WebSockets and application subscriptions](guides/web-server-and-websocket.md) |
 
-Choose the path closest to what you want to build.
+## Use The API Confidently
 
-<div class="grid cards" markdown>
+The [REST handbook](guides/rest-api.md) covers built-in actions and their policies.
+Use [Requests And Responses](guides/rest-requests-and-responses.md) for client
+integration and the [scenario checklist](guides/rest-scenarios.md) to verify
+empty results, errors, batches, permissions, and relationship edge cases.
 
--   :material-rocket-launch:{ .lg .middle } **Get Started**
+Changing an existing application? Use the [migration index](guides/migrations/README.md)
+for package, REST, Core, and App changes.
 
-    ---
-
-    Install Phalcon Kit, understand the application layout, and boot your first
-    project.
-
-    [:octicons-arrow-right-24: Getting Started](guides/getting-started.md)
-
--   :material-api:{ .lg .middle } **Build A REST Resource**
-
-    ---
-
-    Turn a database table into a model-backed API resource using the current
-    controller conventions.
-
-    [:octicons-arrow-right-24: First REST Resource](guides/first-rest-resource.md)
-
--   :material-sitemap:{ .lg .middle } **Understand The Architecture**
-
-    ---
-
-    Learn how bootstrap, modules, providers, configuration, and application
-    ownership fit together.
-
-    [:octicons-arrow-right-24: Architecture](guides/architecture.md)
-
--   :material-database-cog:{ .lg .middle } **Work With Data**
-
-    ---
-
-    Scaffold models, configure relationships, and load related records without
-    N+1 queries.
-
-    [:octicons-arrow-right-24: Models And Eager Loading](guides/models-and-eager-loading.md)
-
--   :material-shield-account:{ .lg .middle } **Secure The Application**
-
-    ---
-
-    Connect identities, roles, permissions, sessions, JWT, and controller
-    attributes.
-
-    [:octicons-arrow-right-24: Identity And Permissions](guides/identity-and-permissions.md)
-
--   :material-console-line:{ .lg .middle } **Run Beyond HTTP**
-
-    ---
-
-    Use the shared bootstrap and dependency injection model for CLI tasks and
-    WebSocket runtimes.
-
-    [:octicons-arrow-right-24: CLI And WebSocket](guides/web-server-and-websocket.md)
-
--   :material-lightbulb-on-outline:{ .lg .middle } **Solve A Common Task**
-
-    ---
-
-    Copy focused recipes for endpoints, services, eager loading, workflow
-    actions, transformers, CLI tasks, and tests.
-
-    [:octicons-arrow-right-24: Developer Cookbook](guides/cookbook.md)
-
--   :material-code-braces:{ .lg .middle } **Browse The API**
-
-    ---
-
-    Explore the generated class, interface, trait, and function reference for
-    the current source tree.
-
-    [:octicons-arrow-right-24: API Reference](api/Home.md)
-
-</div>
-
-## Install
-
-=== "Add To A Project"
-
-    ```bash
-    composer require phalcon-kit/core
-    ```
-
-=== "Create An Application"
-
-    ```bash
-    composer create-project phalcon-kit/app my-api
-    ```
-
-## Keep Exploring
-
-- [Configuration](guides/configuration.md) covers modules, providers, aliases,
-  permissions, and integrations.
-- [Database And Scaffolding](guides/database-scaffolding.md) explains the
-  database-first development workflow.
-- [REST APIs](guides/rest-api.md) documents controllers, query composition,
-  responses, and extension points.
-- [Troubleshooting](guides/troubleshooting.md) maps common symptoms back to the
-  runtime, configuration, routing, model, or REST layer that owns them.
-- [Migration Guides](guides/migration-from-zemit.md) help older Zemit and
-  PhalconKit applications move onto current namespaces and contracts.
-- [Guide Index](guides/README.md) lists every maintained guide by workflow.
+Browse [all guides](guides/README.md), look up a class in the
+[API reference](api/Home.md), or ask a usage question in
+[Discussions](https://github.com/orgs/phalcon-kit/discussions).

@@ -1,69 +1,47 @@
 # Phalcon Kit Documentation
 
-This repository publishes the consumer documentation for
-[phalcon-kit/core](https://github.com/phalcon-kit/core).
+Practical guides for building your application with PhalconKit: from installing
+the starter to exposing a database-backed API, managing access, and running HTTP,
+CLI, and WebSocket processes.
 
-The maintained documentation has two sources:
+**[Read the documentation](https://phalcon-kit.github.io/docs/)**
 
-- Narrative guides synchronized from the core repository.
-- API reference generated from the current core source with phpDocumentor.
+## Start Building
 
-The site follows **Core 4.0.0 and App 4.0.0**, then ongoing work on the maintained
-4.x line. All earlier versions are end of life; historical tags preserve older
-documentation. Installation examples use tagged stable releases.
+1. [Install and run the application](docs/guides/getting-started.md).
+2. [Build a complete REST resource](docs/guides/first-rest-resource.md).
+3. [Add authentication](docs/guides/authentication.md) and
+   [permissions](docs/guides/identity-and-permissions.md).
+4. [Run your application](docs/guides/web-server-and-websocket.md).
 
-Runtime and dependency requirements come from the current Core package. App
-intentionally skips 3.x to align its major version with Core.
+## Find A Concrete Answer
 
-## Build Locally
+| Need | Guide |
+| --- | --- |
+| Request syntax and JSON results | [Requests and responses](docs/guides/rest-requests-and-responses.md) |
+| Filters, search, sort, pages | [Filtering](docs/guides/rest-filtering.md) |
+| Create, update, batch, delete, restore | [Writes](docs/guides/rest-writes.md) |
+| Child records and nested writes | [Relationships](docs/guides/rest-relationships.md) |
+| Counts, facets, calculations, downloads | [Aggregates and exports](docs/guides/rest-aggregates.md) |
+| Model generation and schema changes | [Scaffolding](docs/guides/database-scaffolding.md) |
+| Account commands and custom CLI tasks | [CLI tasks](docs/guides/cli-tasks.md) |
+| Expected success and failure cases | [Scenario checklist](docs/guides/rest-scenarios.md) |
+| Available classes and methods | [API reference](docs/api/Home.md) |
 
-Build the documentation image:
+For an existing application, see the [migration guides](docs/guides/migrations/README.md).
 
-    docker build -t phalcon-kit-mkdocs .
+Browse the [complete guide index](docs/guides/README.md).
+Examples use neutral application data and explain required configuration,
+permissions, requests, and expected outcomes.
 
-Build the site:
+## Help And Contributions
 
-    docker run -e CD=true --rm -it -v $PWD:/docs phalcon-kit-mkdocs build
+Ask application questions in [Discussions](https://github.com/orgs/phalcon-kit/discussions).
+Report incorrect examples with the request, expected result, and actual result.
+Keep credentials and private application data out of public reports.
 
-Serve it locally:
+To edit or build these docs, see [Contributing](CONTRIBUTING.md).
+[Core](https://github.com/phalcon-kit/core) provides the library;
+[App](https://github.com/phalcon-kit/app) provides the starter project.
 
-    docker run -e CI=true --rm -it -p 8000:8000 -v $PWD:/docs phalcon-kit-mkdocs
-
-Open http://localhost:8000.
-
-## Updating From Core
-
-Regenerate the API reference in the core repository with:
-
-    composer docs
-
-Then synchronize core/docs into docs/api and core/guides into docs/guides.
-Review and build the complete MkDocs site before publishing.
-
-Replace the API navigation in `mkdocs.yml` with Core's generated
-`docs/mkdocs_menu.yml`, preserving the narrative guide navigation. Remove stale
-generated files for retired classes during synchronization. Links from guides
-to Core's root policies, roadmap, and excluded planning guide
-(`to-be-discussed.md`) should target the Core repository.
-
-Core's documentation command supplements phpDocumentor with model-enum pages
-and includes their cases, backing values, and namespace in the generated API
-navigation. Regenerate through `composer docs`; do not maintain those pages by
-hand. See the [Core maintenance guide](https://github.com/phalcon-kit/core/blob/master/guides/quality-and-maintenance.md).
-
-When publishing releases, synchronize the final Core source and verify that
-App's installation instructions use the tested stable Core constraint and lockfile. See the [Core release process](https://github.com/phalcon-kit/core/blob/master/guides/release.md).
-
-## Contributing
-
-Documentation changes should reflect public behavior already present in
-phalcon-kit/core. Keep generated API files separate from hand-written guide
-changes when practical.
-
-See the
-[core contribution guide](https://github.com/phalcon-kit/core/blob/master/CONTRIBUTING.md).
-
-## License
-
-Phalcon Kit documentation is available under the
-[BSD 3-Clause License](LICENSE).
+[BSD 3-Clause License](LICENSE)

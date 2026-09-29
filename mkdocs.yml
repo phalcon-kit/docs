@@ -6,6 +6,8 @@ repo_url: https://github.com/phalcon-kit/core
 repo_name: phalcon-kit/core
 edit_uri: https://github.com/phalcon-kit/docs/edit/main/docs/
 docs_dir: docs
+hooks:
+  - hooks/edit_links.py
 theme:
   name: material
   logo: assets/images/phalcon-kit-logo.png
@@ -100,6 +102,8 @@ extra_css:
 extra_javascript:
   - assets/javascripts/extra.js
 plugins:
+  - search
+  - tags
   - group:
 #      enabled: !ENV CI
       enabled: true
@@ -117,6 +121,9 @@ plugins:
               - "rest.md"
               - "services.md"
               - "guides/to-be-discussed.md"
+              - "guides/quality-and-maintenance.md"
+              - "guides/testing-roadmap.md"
+              - "guides/release.md"
 #              - api/*
               - "*.tmp"
               - ".draft.md"
@@ -130,8 +137,6 @@ plugins:
   - group:
       enabled: !ENV CD
       plugins:
-        - tags
-        - search
         - social:
             cards_layout: default/variant
       #  - typeset
@@ -139,8 +144,8 @@ plugins:
         - privacy
         - git-authors
         - git-committers:
-            repository: https://github.com/phalcon-kit/core
-            branch: master
+            repository: phalcon-kit/docs
+            branch: main
         - git-revision-date-localized:
             enable_creation_date: true
         - minify:
@@ -181,38 +186,46 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 nav:
-  - Phalcon Kit:
+  - Get Started:
       - Overview: index.md
-      - Guide Index: guides/README.md
-      - Getting Started: guides/getting-started.md
-      - Architecture: guides/architecture.md
-      - Configuration: guides/configuration.md
-      - Retained Feature Contracts: guides/feature-contracts.md
-      - Developer Cookbook: guides/cookbook.md
-      - Troubleshooting: guides/troubleshooting.md
-  - REST APIs:
+      - All Guides: guides/README.md
+      - Install And Run: guides/getting-started.md
       - First REST Resource: guides/first-rest-resource.md
-      - Resource Walkthrough: guides/resource-walkthrough.md
-      - REST Controllers: guides/rest-api.md
+      - Integrate Core: guides/application-integration.md
+      - Application Structure: guides/architecture.md
+      - Configuration: guides/configuration.md
+  - REST APIs:
+      - Controller Setup: guides/rest-api.md
+      - Requests And Responses: guides/rest-requests-and-responses.md
+      - Filters, Search, And Pagination: guides/rest-filtering.md
+      - Writes And Validation: guides/rest-writes.md
+      - Relationships: guides/rest-relationships.md
+      - Aggregates And Exports: guides/rest-aggregates.md
+      - Scenario Checklist: guides/rest-scenarios.md
+      - Resource Workflow: guides/resource-walkthrough.md
   - Data And Models:
       - Database Migrations: guides/database-migrations.md
-      - Database And Scaffolding: guides/database-scaffolding.md
+      - Model Generation: guides/database-scaffolding.md
       - Models And Eager Loading: guides/models-and-eager-loading.md
-      - Identity And Permissions: guides/identity-and-permissions.md
-      - Security Hardening: guides/security-hardening.md
-  - Runtime:
-      - Web Server And WebSocket: guides/web-server-and-websocket.md
-      - Runtime Compatibility: guides/phalcon-runtime-upgrades.md
-  - Migration:
-      - Upgrading To Core 4.0: guides/upgrading-4.0.md
-      - From zemit-cms/core: guides/migration-from-zemit.md
-      - RESTful 0.x To 1.x: guides/migration-restful-0x-to-1x.md
-  - Contribute:
-      - Quality And Maintenance: guides/quality-and-maintenance.md
-      - Testing Strategy: guides/testing-roadmap.md
-      - Release Process: guides/release.md
-      - Security Policy: https://github.com/phalcon-kit/core/blob/master/SECURITY.md
-      - Support Policy: https://github.com/phalcon-kit/core/blob/master/SUPPORT.md
+      - Feature Setup: guides/feature-contracts.md
+  - Authentication:
+      - Login And Account Commands: guides/authentication.md
+      - Permissions And Row Scope: guides/identity-and-permissions.md
+      - Security Configuration: guides/security-hardening.md
+  - Run And Test:
+      - CLI Tasks: guides/cli-tasks.md
+      - Web Servers And WebSockets: guides/web-server-and-websocket.md
+      - Runtime Requirements: guides/phalcon-runtime-upgrades.md
+      - Application Tests: guides/application-testing.md
+      - Practical Recipes: guides/cookbook.md
+      - Troubleshooting: guides/troubleshooting.md
+  - Migration Guides:
+      - Choose A Migration: guides/migrations/README.md
+      - Package And Namespace: guides/migrations/from-zemit.md
+      - Older REST Resources: guides/migrations/rest-0x.md
+      - Core 4: guides/migrations/core-4.md
+      - App Layout: guides/migrations/app-2.md
+      - App 4: guides/migrations/app-4.md
   - API Reference:
       - Home: api/Home.md
       - \:
