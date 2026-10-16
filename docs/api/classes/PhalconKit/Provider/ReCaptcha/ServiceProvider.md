@@ -37,11 +37,20 @@ Register the shared `reCaptcha` service.
 public register(\PhalconKit\Di\DiInterface $di): void
 ```
 
+`reCaptcha.secret` must be a non-empty string; the string `"0"` is valid.
+A custom `reCaptcha.requestMethod` must implement ReCaptcha's typed
+RequestMethod interface. Resolving the service validates its options.
+
 **Parameters:**
 
 | Parameter | Type                           | Description |
 |-----------|--------------------------------|-------------|
 | `$di`     | **\PhalconKit\Di\DiInterface** |             |
+
+**Throws:**
+
+When the service is resolved without a secret.
+- [`RuntimeException`](https://www.php.net/manual/en/class.runtimeexception.php){:target="_blank"}
 
 ***
 

@@ -691,16 +691,21 @@ Saves related records that must be stored prior to save the master record
  - relationship context within the model messages based on the alias definition
 
 ```php
-protected preSaveRelatedRecords(\Phalcon\Db\Adapter\AdapterInterface $connection, \Phalcon\Mvc\ModelInterface[] $related, \Phalcon\Support\Collection\CollectionInterface $visited): bool
+protected preSaveRelatedRecords(\Phalcon\Db\Adapter\AdapterInterface $connection, array<string,mixed> $related, \Phalcon\Support\Collection\CollectionInterface $visited): bool
 ```
+
+A null belongs-to entry has no related model to persist. Its application
+setter may already have cleared the foreign-key attributes; otherwise
+those attributes stay unchanged. Keep the entry in Core's dirty cache
+while allowing the master record's normal save and transaction lifecycle.
 
 **Parameters:**
 
-| Parameter     | Type                                                | Description |
-|---------------|-----------------------------------------------------|-------------|
-| `$connection` | **\Phalcon\Db\Adapter\AdapterInterface**            |             |
-| `$related`    | **\Phalcon\Mvc\ModelInterface[]**                   |             |
-| `$visited`    | **\Phalcon\Support\Collection\CollectionInterface** |             |
+| Parameter     | Type                                                | Description                                                               |
+|---------------|-----------------------------------------------------|---------------------------------------------------------------------------|
+| `$connection` | **\Phalcon\Db\Adapter\AdapterInterface**            |                                                                           |
+| `$related`    | **array<string,mixed>**                             | Related values indexed by alias; belongs-to values may be models or null. |
+| `$visited`    | **\Phalcon\Support\Collection\CollectionInterface** |                                                                           |
 
 **Throws:**
 

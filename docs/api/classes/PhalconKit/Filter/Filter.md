@@ -36,7 +36,7 @@ an empty string so form/request sanitization can collapse them to "no value".
 Register PhalconKit sanitizers after Phalcon initializes its mapper.
 
 ```php
-protected init(array<string,string> $mapper): void
+protected init(array<string,class-string|callable> $mapper): void
 ```
 
 Phalcon passes its service mapper during construction. Calling the parent
@@ -46,8 +46,8 @@ expose the same custom sanitizers.
 
 **Parameters:**
 
-| Parameter | Type                     | Description                     |
-|-----------|--------------------------|---------------------------------|
-| `$mapper` | **array<string,string>** | Existing Phalcon filter mapper. |
+| Parameter | Type                                     | Description                                    |
+|-----------|------------------------------------------|------------------------------------------------|
+| `$mapper` | **array<string,class-string\|callable>** | Filter definitions, including callable arrays. |
 
 ***

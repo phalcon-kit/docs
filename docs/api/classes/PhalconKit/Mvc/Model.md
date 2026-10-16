@@ -42,6 +42,16 @@ Supported lifecycle events include:
 
 * https://docs.phalcon.io/latest/db-models/#events - {@inheritdoc} \Phalcon\Mvc\Model
 
+## Properties
+
+### relationSettersInProgress
+
+```php
+private array<string,true> $relationSettersInProgress
+```
+
+***
+
 ## Methods
 
 ### save
@@ -169,12 +179,24 @@ Handles dynamic model writes before Phalcon sees them.
 public __set(string $property, mixed $value): void
 ```
 
+Localized properties retain their locale mapping. Relationship aliases
+remain in Core's dirty-relation cache, including explicit null values.
+Clearing a relation also clears its read caches and invokes its application
+setter, when available, so it can clear foreign keys consistently with
+Phalcon 5.23. Reassigning a cleared alias discards its cached null without
+adding a non-null model to Phalcon's implicit related-save cache.
+
 **Parameters:**
 
-| Parameter   | Type       | Description |
-|-------------|------------|-------------|
-| `$property` | **string** |             |
-| `$value`    | **mixed**  |             |
+| Parameter   | Type       | Description                                                     |
+|-------------|------------|-----------------------------------------------------------------|
+| `$property` | **string** | Attribute or registered relationship alias.                     |
+| `$value`    | **mixed**  | Value to assign; null may clear a relation and its foreign key. |
+
+**Throws:**
+
+When an application setter fails, subject to Phalcon's setter handling.
+- [`Throwable`](https://www.php.net/manual/en/class.throwable.php){:target="_blank"}
 
 ***
 
@@ -2552,16 +2574,21 @@ Saves related records that must be stored prior to save the master record
  - relationship context within the model messages based on the alias definition
 
 ```php
-protected preSaveRelatedRecords(\Phalcon\Db\Adapter\AdapterInterface $connection, \Phalcon\Mvc\ModelInterface[] $related, \Phalcon\Support\Collection\CollectionInterface $visited): bool
+protected preSaveRelatedRecords(\Phalcon\Db\Adapter\AdapterInterface $connection, array<string,mixed> $related, \Phalcon\Support\Collection\CollectionInterface $visited): bool
 ```
+
+A null belongs-to entry has no related model to persist. Its application
+setter may already have cleared the foreign-key attributes; otherwise
+those attributes stay unchanged. Keep the entry in Core's dirty cache
+while allowing the master record's normal save and transaction lifecycle.
 
 **Parameters:**
 
-| Parameter     | Type                                                | Description |
-|---------------|-----------------------------------------------------|-------------|
-| `$connection` | **\Phalcon\Db\Adapter\AdapterInterface**            |             |
-| `$related`    | **\Phalcon\Mvc\ModelInterface[]**                   |             |
-| `$visited`    | **\Phalcon\Support\Collection\CollectionInterface** |             |
+| Parameter     | Type                                                | Description                                                               |
+|---------------|-----------------------------------------------------|---------------------------------------------------------------------------|
+| `$connection` | **\Phalcon\Db\Adapter\AdapterInterface**            |                                                                           |
+| `$related`    | **array<string,mixed>**                             | Related values indexed by alias; belongs-to values may be models or null. |
+| `$visited`    | **\Phalcon\Support\Collection\CollectionInterface** |                                                                           |
 
 **Throws:**
 

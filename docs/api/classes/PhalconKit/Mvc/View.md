@@ -114,6 +114,9 @@ Return whether a view path is absolute using Phalcon's platform rules.
 private isAbsoluteViewPath(string $path): bool
 ```
 
+Delegate to the native view so forward-slash and backslash Windows drive
+paths bypass slug fallback consistently with the loaded Phalcon runtime.
+
 **Parameters:**
 
 | Parameter | Type       | Description |
