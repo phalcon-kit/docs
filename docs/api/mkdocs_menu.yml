@@ -664,6 +664,9 @@
           - ModuleRoute: api/classes/PhalconKit/Mvc/Router/ModuleRoute.md
       - \PhalconKit\Mvc\View:
           - Error: api/classes/PhalconKit/Mvc/View/Error.md
+      - \PhalconKit\OpenAi:
+          - UsageCapture: api/classes/PhalconKit/OpenAi/UsageCapture.md
+          - UsageCaptureHttpClient: api/classes/PhalconKit/OpenAi/UsageCaptureHttpClient.md
       - \PhalconKit\Provider:
           - AbstractServiceProvider: api/classes/PhalconKit/Provider/AbstractServiceProvider.md
           - ServiceProviderInterface: api/classes/PhalconKit/Provider/ServiceProviderInterface.md

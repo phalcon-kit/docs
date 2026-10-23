@@ -1163,6 +1163,14 @@ or globally for every model instance ($staticEnabled)   |
 |---------------------------------------------------|---------------------------------------------------------------|
 | [`Error`](./classes/PhalconKit/Mvc/View/Error.md) | View event listener reserved for framework-level view errors. |
 
+### \PhalconKit\OpenAi
+
+
+| Class                                                                             | Description                                                                       |
+|-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| [`UsageCapture`](./classes/PhalconKit/OpenAi/UsageCapture.md)                     | Optional, bounded capture of Responses billing fields omitted by SDK decoders.    |
+| [`UsageCaptureHttpClient`](./classes/PhalconKit/OpenAi/UsageCaptureHttpClient.md) | PSR-18 decorator capturing Responses usage without changing SDK response objects. |
+
 ### \PhalconKit\Provider
 
 

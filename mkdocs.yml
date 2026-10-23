@@ -214,6 +214,7 @@ nav:
       - Security Configuration: guides/security-hardening.md
   - Run And Test:
       - CLI Tasks: guides/cli-tasks.md
+      - OpenAI: guides/openai.md
       - Web Servers And WebSockets: guides/web-server-and-websocket.md
       - Runtime Requirements: guides/phalcon-runtime-upgrades.md
       - Application Tests: guides/application-testing.md
@@ -894,6 +895,9 @@ nav:
           - ModuleRoute: api/classes/PhalconKit/Mvc/Router/ModuleRoute.md
       - \PhalconKit\Mvc\View:
           - Error: api/classes/PhalconKit/Mvc/View/Error.md
+      - \PhalconKit\OpenAi:
+          - UsageCapture: api/classes/PhalconKit/OpenAi/UsageCapture.md
+          - UsageCaptureHttpClient: api/classes/PhalconKit/OpenAi/UsageCaptureHttpClient.md
       - \PhalconKit\Provider:
           - AbstractServiceProvider: api/classes/PhalconKit/Provider/AbstractServiceProvider.md
           - ServiceProviderInterface: api/classes/PhalconKit/Provider/ServiceProviderInterface.md

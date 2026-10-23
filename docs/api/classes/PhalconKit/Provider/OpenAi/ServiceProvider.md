@@ -6,8 +6,15 @@ section. Supported values include API key, organization, project, and base
 URI. The canonical config keys are `apiKey`, `organization`, `project`, and
 `baseUri`; legacy bootstrap aliases such as `secretKey`, `organizationId`,
 and `projectId` are accepted as fallbacks so older app config can keep
-resolving the shared service while it migrates. A Guzzle client is supplied
-explicitly so streaming responses use the same HTTP stack as normal requests.
+resolving the shared service while it migrates.
+
+Applications may register `openAiHttpClient` (PSR-18 ClientInterface) and
+`openAiStreamHandler` (callable accepting a PSR-7 request and returning a
+PSR-7 response) before first resolving `openAi`. Existing transport services
+are preserved. Defaults use a shared Guzzle client and `send()` with
+`stream => true`; a PSR-18-only replacement needs its own streaming handler
+when making streamed requests. Register callable handlers through a DI
+factory returning the callable so Phalcon does not invoke them as factories.
 
 ***
 
@@ -34,12 +41,38 @@ Concrete providers must set it to a non-empty value.
 
 ### register
 
-Register the shared `openAi` service.
+Register the shared `openAi` client and missing transport services.
 
 ```php
 public register(\PhalconKit\Di\DiInterface $di): void
 ```
 
+Transport services are resolved lazily when the client is first used.
+Replace them before resolving `openAi`; an already resolved SDK client
+keeps its original transports. No network requests occur during registration.
+
+**Parameters:**
+
+| Parameter | Type                           | Description                                   |
+|-----------|--------------------------------|-----------------------------------------------|
+| `$di`     | **\PhalconKit\Di\DiInterface** | Container with a PhalconKit `config` service. |
+
+**Throws:**
+
+On client resolution when a transport has the
+wrong type, or on streaming when a PSR-18-only client has no
+explicitly registered stream handler.
+- [`ServiceException`](../../Exception/ServiceException.md)
+
+***
+
+### resolveHttpClient
+
+```php
+private static resolveHttpClient(\PhalconKit\Di\DiInterface $di): \Psr\Http\Client\ClientInterface
+```
+
+* This method is **static**.
 **Parameters:**
 
 | Parameter | Type                           | Description |
