@@ -24,6 +24,7 @@ CLI, and WebSocket processes.
 | Child records and nested writes | [Relationships](docs/guides/rest-relationships.md) |
 | Counts, facets, calculations, downloads | [Aggregates and exports](docs/guides/rest-aggregates.md) |
 | Model generation and schema changes | [Scaffolding](docs/guides/database-scaffolding.md) |
+| Per-model audit trail | [Audit trail](docs/guides/models-and-eager-loading.md#audit-trail-opt-in) |
 | Account commands and custom CLI tasks | [CLI tasks](docs/guides/cli-tasks.md) |
 | Expected success and failure cases | [Scenario checklist](docs/guides/rest-scenarios.md) |
 | Available classes and methods | [API reference](docs/api/Home.md) |

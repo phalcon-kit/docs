@@ -33,6 +33,7 @@ controller policies, permissions, requests, and actual response examples.
 | Dashboards and downloads | [Counts, facets, and exports](guides/rest-aggregates.md) |
 | Authenticated application users | [Login, refresh, logout, and account commands](guides/authentication.md) |
 | Private or tenant-owned resources | [Permissions and row scope](guides/identity-and-permissions.md) |
+| A change history for records | [Opt-in audit trail](guides/models-and-eager-loading.md#audit-trail-opt-in) |
 | Scheduled tasks | [CLI commands](guides/cli-tasks.md) |
 | Live notifications | [WebSockets and application subscriptions](guides/web-server-and-websocket.md) |
 
