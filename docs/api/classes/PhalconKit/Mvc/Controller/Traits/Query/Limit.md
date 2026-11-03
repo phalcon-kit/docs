@@ -26,21 +26,25 @@ protected ?int $maxLimit
 
 ### initializeLimit
 
-Initializes the limit for the current instance.
+Initializes the limit from the request, or from `defaultLimit()`.
 
 ```php
 public initializeLimit(): void
 ```
 
-It sets the limit value to the result of calling the `getParam` method, passing
-the 'limit' parameter as the first argument, an array of filters as the second argument,
-and the result of calling the `defaultLimit` method as the third argument.
+A missing, null, or empty-string `limit` parameter uses `defaultLimit()`.
+A provided value must be a non-negative integer (an int or a decimal
+digit string such as `"25"`); anything else, including `-1`, is rejected
+with HTTP 400 instead of being coerced. The `-1` "no limit" sentinel is
+reserved for server code through `setLimit(-1)` or `defaultLimit()`;
+clients must page through results with `limit` and `offset`.
 
 **Throws:**
 
-When Phalcon rejects the configured limit filter.
+When Phalcon rejects parameter filtering.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-When the resulting limit violates controller policy.
+When the requested limit is not a non-negative
+integer or exceeds the maximum limit.
 - [`HttpException`](../../../../Exception/HttpException.md)
 
 ***

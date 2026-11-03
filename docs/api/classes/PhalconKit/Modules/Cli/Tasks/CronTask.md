@@ -67,9 +67,37 @@ public monthlyAction(): ?array
 
 ### beforeExecuteRoute
 
+Parse task-specific arguments and options with this task's `cliDoc`.
+
 ```php
 public beforeExecuteRoute(): void
 ```
+
+Bootstrap already parsed the global options (`--format`, `--quiet`,
+`--debug`, ...) and stored them as named dispatcher parameters. The task
+parser therefore receives only the module, task, action, and positional
+tokens, so global options never reach a task usage string that does not
+declare them. Parsed task values are stored as camelCase dispatcher
+parameters, for example `--password-stdin` becomes `passwordStdin`.
+
+Invalid task arguments make Docopt print the task usage and exit with a
+non-zero status.
+
+***
+
+### getTaskArgv
+
+Build the argument vector parsed by the task-level Docopt usage.
+
+```php
+protected getTaskArgv(): list<string>
+```
+
+The vector is rebuilt from the dispatcher instead of `$_SERVER['argv']`:
+`[module, task, action, ...positional tokens]`. Positional tokens are the
+integer-keyed dispatcher parameters that Bootstrap left after consuming
+its global options; named parameters such as `format` or `quiet` are
+excluded.
 
 ***
 

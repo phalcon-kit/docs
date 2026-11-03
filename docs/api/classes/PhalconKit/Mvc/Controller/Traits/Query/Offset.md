@@ -19,21 +19,23 @@ protected ?int $offset
 
 ### initializeOffset
 
-Initializes the offset value.
+Initializes the offset from the request, or from `defaultOffset()`.
 
 ```php
 public initializeOffset(): void
 ```
 
-Sets the offset value using the provided parameter's value, after filtering it
-through the specified filter, or sets it to the default offset value if no
-offset parameter is provided.
+A missing, null, or empty-string `offset` parameter uses
+`defaultOffset()`. A provided value must be a non-negative integer (an
+int or a decimal digit string such as `"20"`); anything else is rejected
+with HTTP 400 instead of being coerced.
 
 **Throws:**
 
-When Phalcon rejects the configured offset filter.
+When Phalcon rejects parameter filtering.
 - [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
-When the resulting offset violates controller policy.
+When the requested offset is not a non-negative
+integer.
 - [`HttpException`](../../../../Exception/HttpException.md)
 
 ***

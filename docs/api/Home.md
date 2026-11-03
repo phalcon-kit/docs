@@ -1032,14 +1032,13 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 ### \PhalconKit\Mvc\Model\Behavior\Traits
 
 
-| Trait                                                                                | Description                                                                                                                       |
-|--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| Trait                                                                                | Description                                                                                                                                 |
+|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | [`ProgressTrait`](./classes/PhalconKit/Mvc/Model/Behavior/Traits/ProgressTrait.md)   | Allow to enable or disable trait
 on the current model instance ($progress)
-or globally for every model instance ($staticProgress) |
-| [`SkippableTrait`](./classes/PhalconKit/Mvc/Model/Behavior/Traits/SkippableTrait.md) | Allow to enable or disable trait
-on the current model instance ($enabled)
-or globally for every model instance ($staticEnabled)   |
+or globally for every model instance ($staticProgress)           |
+| [`SkippableTrait`](./classes/PhalconKit/Mvc/Model/Behavior/Traits/SkippableTrait.md) | Allow to enable or disable a behavior on this behavior instance ($enabled)
+or globally for every behavior using the trait ($staticEnabled). |
 
 ### \PhalconKit\Mvc\Model\EagerLoading
 

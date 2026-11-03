@@ -34,6 +34,11 @@ Integer component keys are treated as shorthand component names with `*`
 access. A component named `*` is ignored because Phalcon's native ACL
 still needs concrete component registrations.
 
+Role inheritance is read from `roles.<role>.<inherit>` (a role name or a
+list of role names), the same key the identity service resolves. Parent
+roles that are not configured under `roles`, and a role naming itself,
+are ignored.
+
 **Parameters:**
 
 | Parameter         | Type                          | Description                                      |

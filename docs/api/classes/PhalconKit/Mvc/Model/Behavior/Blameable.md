@@ -13,7 +13,19 @@ Responsibilities:
 Control layers (in order of precedence):
 1. SkippableTrait                → disable the behavior entirely
 2. Audit toggle                  → enable/disable parent audit rows
-3. Audit detail toggle           → enable/disable per-column audit details
+3. Per-record audit opt-out      → skip audit for one model instance
+4. Audit detail toggle           → enable/disable per-column audit details
+
+Scope: Phalcon registers model behaviors once per model class, so the
+instance returned by `$model->getBlameableBehavior()` is shared by every
+record of that class. `enable()`/`disable()`, `enableAudit()`/
+`disableAudit()`, and the audit-detail toggles therefore apply to the whole
+model class for the rest of the request/process. Use
+`disableAuditFor($model)` to skip auditing for one record only.
+
+Update audits are written only when at least one audited column changed;
+an update without a snapshot is always written because changes cannot be
+ruled out.
 
 This design guarantees:
 - Zero overhead when fully disabled
@@ -41,27 +53,28 @@ This is intentionally static to propagate across nested saves.
 
 ***
 
-### snapshot
+### pendingUpdates
 
-Snapshot of model data before update.
+Pre-update state captured in `beforeUpdate`, keyed by model instance.
 
 ```php
-protected ?array $snapshot
+protected \WeakMap<\Phalcon\Mvc\ModelInterface,array{snapshot: array<array-key,mixed>, changedFields: array<array-key,mixed>}>|null $pendingUpdates
 ```
 
-Populated during beforeUpdate.
+The behavior is shared by every record of a model class, so this state
+must never live in a scalar property: it would leak one record's
+snapshot into another record's audit. Entries are consumed by the next
+audit of the same instance and disappear with the model.
 
 ***
 
-### changedFields
+### auditDisabledModels
 
-List of changed fields detected by Phalcon.
+Records excluded from auditing with `disableAuditFor()`.
 
 ```php
-protected ?array $changedFields
+protected \WeakMap<\Phalcon\Mvc\ModelInterface,true>|null $auditDisabledModels
 ```
-
-Used to filter unchanged columns on update.
 
 ***
 
@@ -97,13 +110,15 @@ protected string $userClass
 
 ### auditEnabled
 
-Instance-level audit toggle (parent audit row).
+Behavior-level audit toggle (parent audit row).
 
 ```php
 protected bool $auditEnabled
 ```
 
-Subclasses can redeclare this property to change the default.
+The behavior is shared by every record of the model class, so this
+toggle is class-wide. Subclasses can redeclare this property to change
+the default.
 
 ***
 
@@ -121,13 +136,13 @@ protected static bool $auditStaticEnabled
 
 ### auditDetailEnabled
 
-Instance-level audit detail toggle (per-column rows).
+Behavior-level audit detail toggle (per-column rows), class-wide like
+`$auditEnabled`. Subclasses can redeclare this property to change the
+default.
 
 ```php
 protected bool $auditDetailEnabled
 ```
-
-Subclasses can redeclare this property to change the default.
 
 ***
 
@@ -206,9 +221,12 @@ Creates a parent audit entry and optional audit detail entries.
 public createAudit(string $type, \PhalconKit\Mvc\Model $model): bool
 ```
 
-- Always creates a single audit row when enabled
+- Creates a single audit row when enabled
 - Conditionally creates per-column audit details
-- Uses snapshot + changed fields to minimize noise
+- Uses the snapshot + changed fields captured for this same model
+  instance in `beforeUpdate`; create audits never carry a "before"
+- Skips update audits whose snapshot shows no audited column changed,
+  returning true without writing a row
 
 **Parameters:**
 
@@ -216,6 +234,10 @@ public createAudit(string $type, \PhalconKit\Mvc\Model $model): bool
 |-----------|---------------------------|-------------|
 | `$type`   | **string**                |             |
 | `$model`  | **\PhalconKit\Mvc\Model** |             |
+
+**Return Value:**
+
+True when the audit was saved or intentionally skipped.
 
 **Throws:**
 
@@ -326,17 +348,55 @@ incompatible.
 Collects snapshot and changed field data prior to update.
 
 ```php
-protected collectData(\PhalconKit\Mvc\Model $model): bool
+protected collectData(\PhalconKit\Mvc\Model $model): ?bool
 ```
 
-This method is intentionally lightweight and only runs
-when snapshots are available.
+The data is stored for this model instance only and consumed by its
+next audit. Returns true when a snapshot was captured and null
+otherwise; it never returns false because a false result from a
+`beforeUpdate` behavior cancels the save in Phalcon.
 
 **Parameters:**
 
 | Parameter | Type                      | Description |
 |-----------|---------------------------|-------------|
 | `$model`  | **\PhalconKit\Mvc\Model** |             |
+
+***
+
+### takePendingUpdate
+
+Remove and return the pre-update state captured for one model instance.
+
+```php
+protected takePendingUpdate(\Phalcon\Mvc\ModelInterface $model): array{snapshot: array<array-key,mixed>, changedFields: array<array-key,mixed>}|null
+```
+
+**Parameters:**
+
+| Parameter | Type                            | Description |
+|-----------|---------------------------------|-------------|
+| `$model`  | **\Phalcon\Mvc\ModelInterface** |             |
+
+***
+
+### pendingUpdates
+
+Lazily create the per-instance pre-update state map.
+
+```php
+protected pendingUpdates(): \WeakMap<\Phalcon\Mvc\ModelInterface,array{snapshot: array<array-key,mixed>, changedFields: array<array-key,mixed>}>
+```
+
+***
+
+### auditDisabledModels
+
+Lazily create the per-record audit opt-out map.
+
+```php
+protected auditDisabledModels(): \WeakMap<\Phalcon\Mvc\ModelInterface,true>
+```
 
 ***
 
@@ -440,17 +500,20 @@ Phalcon metadata.                                      |
 
 ### isAuditEnabled
 
-Returns true if audit rows are enabled for this instance and globally.
+Returns true if audit rows are enabled for this behavior and globally.
 
 ```php
 public isAuditEnabled(): bool
 ```
 
+The behavior is shared by every record of the model class; use
+`isAuditEnabledFor()` to also honor a per-record opt-out.
+
 ***
 
 ### enableAudit
 
-Enable audit rows for this instance.
+Enable audit rows for every record of the model class using this behavior.
 
 ```php
 public enableAudit(): void
@@ -460,11 +523,70 @@ public enableAudit(): void
 
 ### disableAudit
 
-Disable audit rows for this instance.
+Disable audit rows for every record of the model class using this behavior.
 
 ```php
 public disableAudit(): void
 ```
+
+This is class-wide, not per record. Use `disableAuditFor($model)` to
+skip auditing for a single record.
+
+***
+
+### isAuditEnabledFor
+
+Returns true if audit rows are enabled for this specific record.
+
+```php
+public isAuditEnabledFor(\Phalcon\Mvc\ModelInterface $model): bool
+```
+
+Requires the class-wide and global toggles to be enabled and the record
+not to be opted out through `disableAuditFor()`.
+
+**Parameters:**
+
+| Parameter | Type                            | Description |
+|-----------|---------------------------------|-------------|
+| `$model`  | **\Phalcon\Mvc\ModelInterface** |             |
+
+***
+
+### disableAuditFor
+
+Skip audit rows for one record only, until `enableAuditFor()` is called.
+
+```php
+public disableAuditFor(\Phalcon\Mvc\ModelInterface $model): void
+```
+
+Other records of the same model class keep their audit trail. The
+opt-out is held weakly and ends when the model instance is released.
+
+**Parameters:**
+
+| Parameter | Type                            | Description |
+|-----------|---------------------------------|-------------|
+| `$model`  | **\Phalcon\Mvc\ModelInterface** |             |
+
+***
+
+### enableAuditFor
+
+Remove a per-record opt-out set by `disableAuditFor()`.
+
+```php
+public enableAuditFor(\Phalcon\Mvc\ModelInterface $model): void
+```
+
+This does not override the class-wide or global toggles.
+
+**Parameters:**
+
+| Parameter | Type                            | Description |
+|-----------|---------------------------------|-------------|
+| `$model`  | **\Phalcon\Mvc\ModelInterface** |             |
 
 ***
 
@@ -492,7 +614,7 @@ public static staticDisableAudit(): void
 
 ### isAuditDetailEnabled
 
-Returns true if audit detail rows are enabled for this instance and globally.
+Returns true if audit detail rows are enabled for this behavior (class-wide) and globally.
 
 ```php
 public isAuditDetailEnabled(): bool
@@ -502,7 +624,7 @@ public isAuditDetailEnabled(): bool
 
 ### enableAuditDetail
 
-Enable audit detail rows for this instance.
+Enable audit detail rows for every record of the model class.
 
 ```php
 public enableAuditDetail(): void
@@ -512,7 +634,7 @@ public enableAuditDetail(): void
 
 ### disableAuditDetail
 
-Disable audit detail rows for this instance.
+Disable audit detail rows for every record of the model class.
 
 ```php
 public disableAuditDetail(): void
