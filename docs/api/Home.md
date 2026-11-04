@@ -626,7 +626,7 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`DatabaseTask`](./classes/PhalconKit/Modules/Cli/Tasks/DatabaseTask.md)           | Execute application-defined database maintenance and seed operations.           |
 | [`DataLifeCycleTask`](./classes/PhalconKit/Modules/Cli/Tasks/DataLifeCycleTask.md) | Base class for PhalconKit CLI tasks.                                            |
 | [`ErrorTask`](./classes/PhalconKit/Modules/Cli/Tasks/ErrorTask.md)                 | Base class for PhalconKit CLI tasks.                                            |
-| [`HelpTask`](./classes/PhalconKit/Modules/Cli/Tasks/HelpTask.md)                   | Base class for PhalconKit CLI tasks.                                            |
+| [`HelpTask`](./classes/PhalconKit/Modules/Cli/Tasks/HelpTask.md)                   | Print a task's usage through `cli help <task>`.                                 |
 | [`ScaffoldTask`](./classes/PhalconKit/Modules/Cli/Tasks/ScaffoldTask.md)           | Generate model layers, interfaces, enums, and tests from the shared db service. |
 | [`TsScaffoldTask`](./classes/PhalconKit/Modules/Cli/Tasks/TsScaffoldTask.md)       | Base class for PhalconKit CLI tasks.                                            |
 | [`UserTask`](./classes/PhalconKit/Modules/Cli/Tasks/UserTask.md)                   | Base class for PhalconKit CLI tasks.                                            |

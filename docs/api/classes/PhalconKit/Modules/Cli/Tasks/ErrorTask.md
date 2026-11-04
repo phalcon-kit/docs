@@ -30,16 +30,26 @@ of reporting the actual error.
 
 ### setStatusCode
 
+Set the status code for the response. Immediately throw a CliException.
+
 ```php
-public setStatusCode(int $code = 500, ?string $message = null): \Phalcon\Http\ResponseInterface
+public setStatusCode(int $code = 500, string|null $message = null): \Phalcon\Http\ResponseInterface
 ```
+
+The console prints only the exception message (`Error: <code> - <message>`)
+to stderr and exits with status 1.
 
 **Parameters:**
 
-| Parameter  | Type        | Description |
-|------------|-------------|-------------|
-| `$code`    | **int**     |             |
-| `$message` | **?string** |             |
+| Parameter  | Type             | Description                                              |
+|------------|------------------|----------------------------------------------------------|
+| `$code`    | **int**          | The status code to set. Defaults to 500 if not provided. |
+| `$message` | **string\|null** | The optional message to associate with the status code.  |
+
+**Throws:**
+
+Always, carrying the status code and message.
+- [`CliException`](../../../Exception/CliException.md)
 
 ***
 

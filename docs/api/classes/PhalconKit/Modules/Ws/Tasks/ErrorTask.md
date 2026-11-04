@@ -14,7 +14,7 @@ action methods such as `listenAction()`.
 
 ### setStatusCode
 
-Set the status code for the response. Immediately throw a CliException.
+Set the status code for the response. Immediately throw a WsException.
 
 ```php
 public setStatusCode(int $code = 500, string|null $message = null): \Phalcon\Http\ResponseInterface

@@ -1,10 +1,12 @@
 
-Base class for PhalconKit CLI tasks.
+Print a task's usage through `cli help <task>`.
 
-Extend this class for framework/application CLI tasks that need Phalcon's
-native task lifecycle plus PhalconKit injectable service annotations. The
-class does not add task behavior itself; action methods remain normal
-Phalcon CLI task methods.
+`cli help <task>` forwards to `<task> help` for any task in the current
+module namespace, including application tasks this class does not list, so
+applications only replace `$cliDoc` to list their own tasks. A task whose
+handler class does not exist is forwarded to `router.notFound`, which reports
+`Error: 404 - Not Found` and exits with status 1. The `cli` role needs this
+task's actions (`['*']`) and the target task's `help` action.
 
 ***
 
@@ -22,6 +24,70 @@ public string $cliDoc
 ***
 
 ## Methods
+
+### shouldParseUsage
+
+Never parse `help <task>` with this task's usage.
+
+```php
+protected shouldParseUsage(): bool
+```
+
+The task name is the action, so parsing would reject every task that
+`$cliDoc` does not list before it could be forwarded.
+
+***
+
+### __call
+
+Forward `cli help <task>` to `<task> help` for tasks without a method here.
+
+```php
+public __call(string $method, array<array-key,mixed> $arguments): null
+```
+
+The dispatcher resolves `help <task>` to the `<task>Action` method; any
+name not declared on this class reaches this method and is forwarded.
+
+**Parameters:**
+
+| Parameter    | Type                       | Description                                    |
+|--------------|----------------------------|------------------------------------------------|
+| `$method`    | **string**                 | Undefined method name, such as `reportAction`. |
+| `$arguments` | **array<array-key,mixed>** | Ignored dispatcher arguments.                  |
+
+**Throws:**
+
+When `$method` is not an action name.
+- [`BadMethodCallException`](https://www.php.net/manual/en/class.badmethodcallexception.php){:target="_blank"}
+if there is an error during the forwarding process
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+
+***
+
+### forwardToTaskHelp
+
+Forward to `<task> help`, or to `router.notFound` for an unknown task.
+
+```php
+protected forwardToTaskHelp(string $task): void
+```
+
+The handler class is resolved like the dispatcher does: the current
+namespace, the camelized task name, and the handler suffix.
+
+**Parameters:**
+
+| Parameter | Type       | Description                                  |
+|-----------|------------|----------------------------------------------|
+| `$task`   | **string** | Dashed task name, such as `data-life-cycle`. |
+
+**Throws:**
+
+if there is an error during the forwarding process
+- [`Exception`](https://docs.phalcon.io/latest/api/){:target="_blank"}
+
+***
 
 ### buildAction
 
