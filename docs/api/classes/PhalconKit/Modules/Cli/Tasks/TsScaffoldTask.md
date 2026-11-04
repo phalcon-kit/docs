@@ -392,7 +392,25 @@ arguments, so `cli scaffold models --force` calls the action without a
 arguments such as `<key>`, are kept in order.
 
 Invalid task arguments make Docopt print the task usage and exit with a
-non-zero status.
+non-zero status. Parsing is skipped when `shouldParseUsage()` returns
+false, which it does for the `help` action.
+
+***
+
+### shouldParseUsage
+
+Whether `beforeExecuteRoute()` should parse the dispatch with `cliDoc`.
+
+```php
+protected shouldParseUsage(): bool
+```
+
+Returns false for the `help` action, and for the default `main` action
+when the task keeps this class's `mainAction()` (which only prints the
+usage). `phalcon-kit cli <task> help` and `phalcon-kit cli <task>` then
+print the usage and exit with status 0 even when the usage does not
+declare those commands. Override it in tasks that are only reached by
+dispatcher forwards, or that parse their own arguments.
 
 ***
 

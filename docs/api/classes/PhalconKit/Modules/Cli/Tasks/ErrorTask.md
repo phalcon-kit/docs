@@ -13,25 +13,33 @@ Phalcon CLI task methods.
 
 ## Methods
 
-### setStatusCode
+### shouldParseUsage
 
-Set the status code for the response. Immediately throw a CliException.
+Never parse the error task's usage.
 
 ```php
-public setStatusCode(int $code = 500, string|null $message = null): \Phalcon\Http\ResponseInterface
+protected shouldParseUsage(): bool
+```
+
+The task is reached by dispatcher forwards (not found, forbidden,
+unauthorized), which keep the original command's arguments. Parsing them
+with this task's usage would print a generic usage text and exit instead
+of reporting the actual error.
+
+***
+
+### setStatusCode
+
+```php
+public setStatusCode(int $code = 500, ?string $message = null): \Phalcon\Http\ResponseInterface
 ```
 
 **Parameters:**
 
-| Parameter  | Type             | Description                                              |
-|------------|------------------|----------------------------------------------------------|
-| `$code`    | **int**          | The status code to set. Defaults to 500 if not provided. |
-| `$message` | **string\|null** | The optional message to associate with the status code.  |
-
-**Throws:**
-
-If an error occurs while setting the status code.
-- [`CliException`](../../../Exception/CliException.md)
+| Parameter  | Type        | Description |
+|------------|-------------|-------------|
+| `$code`    | **int**     |             |
+| `$message` | **?string** |             |
 
 ***
 
@@ -59,7 +67,25 @@ arguments, so `cli scaffold models --force` calls the action without a
 arguments such as `<key>`, are kept in order.
 
 Invalid task arguments make Docopt print the task usage and exit with a
-non-zero status.
+non-zero status. Parsing is skipped when `shouldParseUsage()` returns
+false, which it does for the `help` action.
+
+***
+
+### shouldParseUsage
+
+Whether `beforeExecuteRoute()` should parse the dispatch with `cliDoc`.
+
+```php
+protected shouldParseUsage(): bool
+```
+
+Returns false for the `help` action, and for the default `main` action
+when the task keeps this class's `mainAction()` (which only prints the
+usage). `phalcon-kit cli <task> help` and `phalcon-kit cli <task>` then
+print the usage and exit with status 0 even when the usage does not
+declare those commands. Override it in tasks that are only reached by
+dispatcher forwards, or that parse their own arguments.
 
 ***
 

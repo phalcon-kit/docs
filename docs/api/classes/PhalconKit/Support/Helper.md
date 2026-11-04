@@ -37,8 +37,9 @@ public static getHelperFactory(): \PhalconKit\Support\HelperFactory
 ```
 
 The default DI `helper` service is preferred so applications can override
-or extend helper registration globally. When no DI service is available,
-the facade falls back to a local `HelperFactory`.
+or extend helper registration globally. When there is no default DI, or
+it has no `helper` service, the facade falls back to a local
+`HelperFactory`.
 
 * This method is **static**.
 ***
