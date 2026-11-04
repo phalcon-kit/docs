@@ -324,6 +324,20 @@ public getTableName(string $name): string
 
 ***
 
+### getModelsNamespace
+
+Namespace of the PHP models whose relationships the generated TypeScript mirrors.
+
+```php
+public getModelsNamespace(): string
+```
+
+Reads `--namespace` (the application's root namespace, such as `App`)
+and appends `\\Models`; defaults to Core's `PhalconKit\\Models`. A table
+without a model class in that namespace is generated without relations.
+
+***
+
 ### getModelInstance
 
 ```php

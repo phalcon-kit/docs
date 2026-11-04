@@ -65,11 +65,21 @@ Native result returned by the concrete model implementation.
 ***
 ### findWith
 
-Example:
+Find records and eager-load their relations in a few queries.
 
 ```php
 public static findWith(array $arguments): array
 ```
+
+The first arguments list the relations to load: relation paths such as
+`'Robots'` or `'Robots.Parts'`, or a path mapped to a callable that
+constrains that relation's query builder. With two or more arguments,
+the last one is always the native `find()` parameters, so pass
+`findWith(['Robots', 'Parts'])` or `findWith(['Robots'], ['Parts'], $parameters)`,
+never `findWith(['Robots'], ['Parts'])` (where `['Parts']` would be the
+parameters). Custom `columns` gain `*` so relation keys stay available.
+
+Example:
 
 ```php
 $limit = 100;
@@ -89,25 +99,37 @@ foreach ($manufacturers as $manufacturer) {
 * This method is **static**.
 **Parameters:**
 
-| Parameter    | Type      | Description |
-|--------------|-----------|-------------|
-| `$arguments` | **array** |             |
+| Parameter    | Type      | Description                                    |
+|--------------|-----------|------------------------------------------------|
+| `$arguments` | **array** | Relation lists, then optional find parameters. |
+
+**Return Value:**
+
+The found records with the relations loaded;
+an empty array when nothing matches.
 
 ***
 ### findFirstWith
 
-Same as EagerLoad::findWith() for a single record
+Find the first record and eager-load its relations.
 
 ```php
 public static findFirstWith(array $arguments): ?\Phalcon\Mvc\ModelInterface
 ```
 
+Takes the same arguments as `findWith()`; the last of two or more is the
+native `findFirst()` parameters.
+
 * This method is **static**.
 **Parameters:**
 
-| Parameter    | Type      | Description |
-|--------------|-----------|-------------|
-| `$arguments` | **array** |             |
+| Parameter    | Type      | Description                                    |
+|--------------|-----------|------------------------------------------------|
+| `$arguments` | **array** | Relation lists, then optional find parameters. |
+
+**Return Value:**
+
+The record with the relations loaded, or null.
 
 ***
 ### with
@@ -212,11 +234,17 @@ protected static findWithBy(string $forwardMethod, array $arguments): ?array
 ***
 ### load
 
-Example:
+Eager-load relations onto this already-loaded record.
 
 ```php
 public load(array $arguments): ?\Phalcon\Mvc\ModelInterface
 ```
+
+Every argument is a relation list (paths, or paths mapped to constraint
+callables); unlike `findWith()`, no argument is treated as find
+parameters.
+
+Example:
 
 ```php
 $manufacturer = Manufacturer::findFirstById(51);
@@ -233,9 +261,18 @@ foreach ($manufacturer->robots as $robot) {
 
 **Parameters:**
 
-| Parameter    | Type      | Description |
-|--------------|-----------|-------------|
-| `$arguments` | **array** |             |
+| Parameter    | Type      | Description     |
+|--------------|-----------|-----------------|
+| `$arguments` | **array** | Relation lists. |
+
+**Return Value:**
+
+This record with the relations loaded.
+
+**Throws:**
+
+When the trait host is not a Phalcon model.
+- [`LogicException`](../../../Exception/LogicException.md)
 
 ***
 ### getParametersFromArguments

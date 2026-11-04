@@ -154,17 +154,15 @@ Usage:
                               [--models-dir=<models-dir>] [--enums-dir=<enums-dir>] [--tests-dir=<tests-dir>]
                               [--models-extend=<models-extend>] [--interfaces-extend=<interface-extend>]
                               [--controllers-extend=<controllers-extend>] [--tests-extend=<tests-extend>]
-                              [--no-controllers] [--no-interfaces] [--no-abstracts] [--no-models] [--no-enums] [--no-tests]
+                              [--no-controllers] [--no-interfaces] [--no-model-interfaces] [--no-abstracts] [--no-models] [--no-enums] [--no-tests]
                               [--no-strict-types] [--no-license] [--no-comments] [--no-get-set-methods]
                               [--no-validations] [--no-relationships] [--no-column-map] [--no-set-source]
                               [--no-typings] [--granular-typings] [--add-raw-value-type] [--protected-properties]
                               [--boolean-columns=<table.column,...>]
 
 Actions:
-  models
-  abstracts
-  controllers
-  enums
+  run                    Generate the outputs the --no-* options leave enabled for the selected tables
+  get-definitions <name> Return the class and file names generated for one table
 
 Options:
   --boolean-columns=<table.column,...>        Explicit integer-backed boolean columns (no width/name inference)
@@ -190,6 +188,7 @@ Options:
 
   --no-controllers                            Do not generate controllers
   --no-interfaces                             Do not generate interfaces
+  --no-model-interfaces                       Do not generate concrete model interfaces (keep app-owned ones)
   --no-abstracts                              Do not generate abstracts
   --no-models                                 Do not generate models
   --no-enums                                  Do not generate enums
@@ -216,7 +215,7 @@ Class: `PhalconKit\Modules\Cli\Tasks\TsScaffoldTask`
 
 ```text
 Usage:
-  phalcon-kit cli ts-scaffold <action> [<params>...] [--force] [--table=<table>] [--directory=<directory>]
+  phalcon-kit cli ts-scaffold <action> [<params>...] [--force] [--table=<table>] [--directory=<directory>] [--namespace=<namespace>]
 
 Actions:
   run                           Generate TypeScript models, interfaces, and services
@@ -224,9 +223,10 @@ Actions:
   get-definitions <name>        Return the TypeScript definitions for one model
 
 Options:
-  --force                       Overwrite existing files
-  --directory=<directory>       Directory path to generate new files
-  --table=<table>               Comma seperated list of table to generate
+  --force                       Overwrite existing files, including models and services
+  --directory=<directory>       SDK directory to generate into (Default: "./sdk/")
+  --table=<table>               Comma separated list of tables to generate
+  --namespace=<namespace>       Root namespace of the PHP models to read relations from (Default: "PhalconKit")
 ```
 
 ## `user`

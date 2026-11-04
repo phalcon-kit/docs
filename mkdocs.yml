@@ -222,6 +222,7 @@ nav:
       - Core 4: guides/migrations/core-4.md
       - App Layout: guides/migrations/app-2.md
       - App 4: guides/migrations/app-4.md
+      - Core 4.2: guides/migrations/core-4-2.md
   - API Reference:
       - Home: api/Home.md
       - \:

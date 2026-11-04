@@ -1038,11 +1038,26 @@ public isNoControllers(): bool
 
 ### isNoInterfaces
 
-Skip model interface generation when --no-interfaces is set.
+Skip abstract and concrete model interface generation when --no-interfaces is set.
 
 ```php
 public isNoInterfaces(): bool
 ```
+
+***
+
+### isNoModelInterfaces
+
+Skip only the concrete model interfaces when --no-model-interfaces is set.
+
+```php
+public isNoModelInterfaces(): bool
+```
+
+Concrete model interfaces (`Models/Interfaces/*Interface.php`) are
+app-facing contracts that applications may extend, like concrete models.
+Use this with `--force` to regenerate abstract interfaces without
+overwriting them.
 
 ***
 

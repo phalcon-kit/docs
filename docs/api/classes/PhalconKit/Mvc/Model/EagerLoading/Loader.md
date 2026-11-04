@@ -297,21 +297,31 @@ public static fromResultset(\Phalcon\Mvc\Model\ResultsetInterface $subject, mixe
 
 ### parseArguments
 
-Parses the arguments that will be resolved to Relation instances
+Parse the relation paths to eager-load from the loader arguments.
 
 ```php
-private static parseArguments(array $arguments): array
+private static parseArguments(array<array-key,mixed> $arguments): array<string,callable|null>
 ```
+
+Each argument is a relation path string (`'Robots.Parts'`) or an array
+of them. An array may list paths as values, or map a path to a callable
+that constrains that relation's query builder. Every argument adds its
+relations; a later entry for the same path replaces the earlier one.
 
 * This method is **static**.
 **Parameters:**
 
-| Parameter    | Type      | Description |
-|--------------|-----------|-------------|
-| `$arguments` | **array** |             |
+| Parameter    | Type                       | Description                       |
+|--------------|----------------------------|-----------------------------------|
+| `$arguments` | **array<array-key,mixed>** | Relation paths or arrays of them. |
+
+**Return Value:**
+
+Relation path => constraint.
 
 **Throws:**
 
+When no argument is given.
 - [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
 
 ***

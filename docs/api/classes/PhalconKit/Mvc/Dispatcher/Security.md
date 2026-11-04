@@ -47,9 +47,10 @@ Determine whether the current identity may execute the active handler.
 public checkAcl(\Phalcon\Events\Event $event, \Phalcon\Dispatcher\AbstractDispatcher|null $dispatcher = null): bool
 ```
 
-Unauthorized users with more than one ACL role are forwarded to
-`router.unauthorized`; users with only one role are forwarded to
-`router.forbidden`. Missing ACL components forward to `router.notFound`.
+A denied request from a signed-in identity is forwarded to
+`router.forbidden` (403 by default); a denied request without one is
+forwarded to `router.unauthorized` (401), telling the client to
+authenticate. Missing ACL components forward to `router.notFound`.
 
 **Parameters:**
 
@@ -115,5 +116,18 @@ Determine whether controller attributes should augment permission config.
 ```php
 private usesControllerAttributes(): bool
 ```
+
+***
+
+### isAuthenticated
+
+Whether the current identity has a signed-in user.
+
+```php
+private isAuthenticated(): bool
+```
+
+Identity services without `isLoggedIn()` are treated as anonymous, so a
+denial is reported as 401 Unauthorized.
 
 ***

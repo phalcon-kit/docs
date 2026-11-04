@@ -792,63 +792,60 @@ Throws an exception if there are no defined relations for a given alias or if in
 ***
 ### postSaveRelatedRecordsAfter
 
-Handles the saving process of related records after the parent record's save operation.
+Save direct (has-one/has-many) related records after the parent is saved.
 
 ```php
 public postSaveRelatedRecordsAfter(\Phalcon\Mvc\Model\RelationInterface $relation, array|object[]|\Phalcon\Mvc\ModelInterface[] $relatedRecords, \Phalcon\Support\Collection\CollectionInterface $visited): bool|null
 ```
 
-It assigns referenced fields to the related records and ensures they are saved with proper relationships maintained.
-If the relation is defined as `Through`, this method skips further processing.
+Each record is checked against the direct-ownership policy, receives the
+parent's key values in its referenced fields, and is saved. A failed save
+or an exception thrown while saving a record is reported as a message on
+this model under the relation alias, and the method returns false so the
+caller rolls back the save. Through relations are skipped.
 
 **Parameters:**
 
-| Parameter         | Type                                                | Description                                                             |
-|-------------------|-----------------------------------------------------|-------------------------------------------------------------------------|
-| `$relation`       | **\Phalcon\Mvc\Model\RelationInterface**            | The relation instance that provides information about the relationship. |
-| `$relatedRecords` | **array\|object[]\|\Phalcon\Mvc\ModelInterface[]**  | An array of related records to be saved.                                |
-| `$visited`        | **\Phalcon\Support\Collection\CollectionInterface** | A collection to track visited records to prevent infinite recursion.    |
+| Parameter         | Type                                                | Description                                              |
+|-------------------|-----------------------------------------------------|----------------------------------------------------------|
+| `$relation`       | **\Phalcon\Mvc\Model\RelationInterface**            | The relation being saved.                                |
+| `$relatedRecords` | **array\|object[]\|\Phalcon\Mvc\ModelInterface[]**  | Related records to save.                                 |
+| `$visited`        | **\Phalcon\Support\Collection\CollectionInterface** | Records already visited in this save, to prevent cycles. |
 
 **Return Value:**
 
-Returns `true` if all related records are saved successfully, `false` if an error occurs during saving,
-and `null` if the relation is of type `Through`.
-
-**Throws:**
-
-If there is an error during the save operation for a related record.
-- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
+True when every record saved, false when one failed,
+null for a through relation.
 
 ***
 ### postSaveRelatedThroughAfter
 
-Handles saving related records for through relationships after the primary records have been saved.
+Save many-to-many and has-one-through targets and their link rows.
 
 ```php
 public postSaveRelatedThroughAfter(\Phalcon\Mvc\Model\RelationInterface $relation, array|object[]|\Phalcon\Mvc\ModelInterface[] $relatedRecords, \Phalcon\Support\Collection\CollectionInterface $visited): bool|null
 ```
 
-Primarily used to manage intermediate models and ensure proper linkage and saving of related records
-in many-to-many or has-one-through relationships.
+Each target record is saved (so submitted fields update the shared
+target), then a link row is created for it; a has-one-through relation
+reuses its single existing link row. A failed save is reported as a
+message under the relation alias and returns false. Exceptions, such as a
+database error, propagate; `Model::doSave()` rolls back the save's
+transaction before rethrowing. Links that already existed are handled by
+`postSaveRelatedRecords()` before this method runs.
 
 **Parameters:**
 
-| Parameter         | Type                                                | Description                                                                        |
-|-------------------|-----------------------------------------------------|------------------------------------------------------------------------------------|
-| `$relation`       | **\Phalcon\Mvc\Model\RelationInterface**            | The relation object defining the association details.                              |
-| `$relatedRecords` | **array\|object[]\|\Phalcon\Mvc\ModelInterface[]**  | An array of related records to be processed and saved.                             |
-| `$visited`        | **\Phalcon\Support\Collection\CollectionInterface** | A collection of visited records to maintain state and prevent circular references. |
+| Parameter         | Type                                                | Description                                              |
+|-------------------|-----------------------------------------------------|----------------------------------------------------------|
+| `$relation`       | **\Phalcon\Mvc\Model\RelationInterface**            | The relation being saved.                                |
+| `$relatedRecords` | **array\|object[]\|\Phalcon\Mvc\ModelInterface[]**  | Target records not yet linked.                           |
+| `$visited`        | **\Phalcon\Support\Collection\CollectionInterface** | Records already visited in this save, to prevent cycles. |
 
 **Return Value:**
 
-Returns true if all related records and intermediate records were successfully saved.
-Returns false if any save operation failed.
-Returns null if the relation is not a through relationship.
-
-**Throws:**
-
-If the intermediate model or related records cannot be properly saved.
-- [`InvalidArgumentException`](../../../Exception/InvalidArgumentException.md)
+True when every target and link saved, false when one
+failed, null when the relation is not a through relation.
 
 ***
 ### findFirstByPrimaryKeys
