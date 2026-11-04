@@ -21,6 +21,15 @@ Follow [Your First REST Resource](guides/first-rest-resource.md) to turn a table
 into a controlled API. The tutorial includes the schema, generated model paths,
 controller policies, permissions, requests, and actual response examples.
 
+## Understand How It Fits Together
+
+PhalconKit is still Phalcon: one bootstrap reads your config, registers a DI
+service per provider, and runs the same application over HTTP, the CLI, or a
+WebSocket worker. [Application Structure](guides/architecture.md) shows where
+your code belongs, and [How A Request Runs](guides/request-lifecycle.md)
+follows a request from the entrypoint through the permission checks to your
+controller.
+
 ## What Are You Building?
 
 | Application task | Start here |
@@ -47,6 +56,14 @@ empty results, errors, batches, permissions, and relationship edge cases.
 Changing an existing application? Use the [migration index](guides/migrations/README.md)
 for package, REST, Core, and App changes.
 
-Browse [all guides](guides/README.md), look up a class in the
-[API reference](api/Home.md), or ask a usage question in
+## Look Something Up
+
+| Question | Reference |
+| --- | --- |
+| Which variable sets this option, and what is its default? | [Environment variables](guides/reference/environment.md) |
+| Which DI service does this, and how do I replace it? | [Services](guides/reference/services.md) |
+| Which CLI tasks, actions, and options exist? | [CLI commands](guides/reference/cli.md) |
+| What does this class or method do? | [API reference](api/Home.md) |
+
+Browse [all guides](guides/README.md), or ask a usage question in
 [Discussions](https://github.com/orgs/phalcon-kit/discussions).

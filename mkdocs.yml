@@ -110,16 +110,6 @@ plugins:
       plugins:
         - exclude:
             glob:
-              - "core/**"
-              - "modules/**"
-              - "phalcon-kit/**"
-              - "rest/**"
-              - "services/**"
-              - "api.md"
-              - "core.md"
-              - "modules.md"
-              - "rest.md"
-              - "services.md"
               - "guides/to-be-discussed.md"
               - "guides/quality-and-maintenance.md"
               - "guides/testing-roadmap.md"
@@ -192,8 +182,11 @@ nav:
       - Install And Run: guides/getting-started.md
       - First REST Resource: guides/first-rest-resource.md
       - Integrate Core: guides/application-integration.md
+  - How It Works:
       - Application Structure: guides/architecture.md
+      - How A Request Runs: guides/request-lifecycle.md
       - Configuration: guides/configuration.md
+      - Feature Setup: guides/feature-contracts.md
   - REST APIs:
       - Controller Setup: guides/rest-api.md
       - Requests And Responses: guides/rest-requests-and-responses.md
@@ -202,25 +195,27 @@ nav:
       - Relationships: guides/rest-relationships.md
       - Aggregates And Exports: guides/rest-aggregates.md
       - Scenario Checklist: guides/rest-scenarios.md
-      - Resource Workflow: guides/resource-walkthrough.md
-  - Data And Models:
+      - Grow A Resource: guides/resource-walkthrough.md
+  - Build:
       - Database Migrations: guides/database-migrations.md
       - Model Generation: guides/database-scaffolding.md
       - Models And Eager Loading: guides/models-and-eager-loading.md
-      - Feature Setup: guides/feature-contracts.md
-  - Authentication:
       - Login And Account Commands: guides/authentication.md
       - Permissions And Row Scope: guides/identity-and-permissions.md
       - Security Configuration: guides/security-hardening.md
-  - Run And Test:
       - CLI Tasks: guides/cli-tasks.md
       - OpenAI: guides/openai.md
+      - Practical Recipes: guides/cookbook.md
+  - Run And Operate:
       - Web Servers And WebSockets: guides/web-server-and-websocket.md
       - Runtime Requirements: guides/phalcon-runtime-upgrades.md
       - Application Tests: guides/application-testing.md
-      - Practical Recipes: guides/cookbook.md
       - Troubleshooting: guides/troubleshooting.md
-  - Migration Guides:
+  - Reference:
+      - Environment Variables: guides/reference/environment.md
+      - Services: guides/reference/services.md
+      - CLI Commands: guides/reference/cli.md
+  - Upgrade:
       - Choose A Migration: guides/migrations/README.md
       - Package And Namespace: guides/migrations/from-zemit.md
       - Older REST Resources: guides/migrations/rest-0x.md

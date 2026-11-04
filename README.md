@@ -27,6 +27,10 @@ CLI, and WebSocket processes.
 | Per-model audit trail | [Audit trail](docs/guides/models-and-eager-loading.md#audit-trail-opt-in) |
 | Account commands and custom CLI tasks | [CLI tasks](docs/guides/cli-tasks.md) |
 | Expected success and failure cases | [Scenario checklist](docs/guides/rest-scenarios.md) |
+| How a request flows through the framework | [How a request runs](docs/guides/request-lifecycle.md) |
+| Environment variables and their defaults | [Environment variables](docs/guides/reference/environment.md) |
+| DI services and their providers | [Services](docs/guides/reference/services.md) |
+| Built-in CLI tasks and options | [CLI commands](docs/guides/reference/cli.md) |
 | Available classes and methods | [API reference](docs/api/Home.md) |
 
 For an existing application, see the [migration guides](docs/guides/migrations/README.md).
