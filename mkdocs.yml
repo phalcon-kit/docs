@@ -288,12 +288,14 @@ nav:
           - Di: api/classes/PhalconKit/Di/Di.md
           - FactoryDefault: api/classes/PhalconKit/Di/FactoryDefault.md
           - Injectable: api/classes/PhalconKit/Di/Injectable.md
+          - RequestState: api/classes/PhalconKit/Di/RequestState.md
           - ServiceResolver: api/classes/PhalconKit/Di/ServiceResolver.md
           - AbstractInjectable: api/classes/PhalconKit/Di/AbstractInjectable.md
           - InjectableProperties: api/classes/PhalconKit/Di/InjectableProperties.md
           - InjectableTrait: api/classes/PhalconKit/Di/InjectableTrait.md
           - TypedServicesTrait: api/classes/PhalconKit/Di/TypedServicesTrait.md
           - DiInterface: api/classes/PhalconKit/Di/DiInterface.md
+          - RequestScopedInterface: api/classes/PhalconKit/Di/RequestScopedInterface.md
       - \PhalconKit\Di\FactoryDefault:
           - Cli: api/classes/PhalconKit/Di/FactoryDefault/Cli.md
       - \PhalconKit\Dispatcher:

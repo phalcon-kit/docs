@@ -498,6 +498,22 @@ Phalcon metadata.                                      |
 
 ***
 
+### resetParentId
+
+Clear the parent-audit link used to group cascaded related saves.
+
+```php
+public static resetParentId(): void
+```
+
+The link is static so nested saves inside one request share it.
+`PhalconKit\Di\RequestState::reset()` calls this before every request so
+a long-running worker never links a new audit row to a parent audit from
+an earlier request.
+
+* This method is **static**.
+***
+
 ### isAuditEnabled
 
 Returns true if audit rows are enabled for this behavior and globally.

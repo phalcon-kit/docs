@@ -385,8 +385,38 @@ tokens, so global options never reach a task usage string that does not
 declare them. Parsed task values are stored as camelCase dispatcher
 parameters, for example `--password-stdin` becomes `passwordStdin`.
 
+Long options that Docopt parsed (`--force`, `--table=<table>`,
+`--table <table>`) are then removed from the positional action
+arguments, so `cli scaffold models --force` calls the action without a
+`"--force"` argument. Other positional tokens, including named Docopt
+arguments such as `<key>`, are kept in order.
+
 Invalid task arguments make Docopt print the task usage and exit with a
 non-zero status.
+
+***
+
+### removeParsedOptionTokens
+
+Remove long-option tokens that Docopt accepted from positional arguments.
+
+```php
+protected removeParsedOptionTokens(list $tokens, array<array-key,mixed> $parsed): list
+```
+
+A token is removed when it is `--name` or `--name=value` and `--name`
+is a key of the Docopt result. For `--name value`, the following token is
+removed too when Docopt returned a string value for that option. A bare
+`--` ends option processing: it and every later token are kept, matching
+Docopt's `<params>` list. Short options and unknown tokens are kept
+unchanged.
+
+**Parameters:**
+
+| Parameter | Type                       | Description                         |
+|-----------|----------------------------|-------------------------------------|
+| `$tokens` | **list**                   | Positional tokens after the action. |
+| `$parsed` | **array<array-key,mixed>** | Docopt result keyed by usage name.  |
 
 ***
 
@@ -403,6 +433,19 @@ The vector is rebuilt from the dispatcher instead of `$_SERVER['argv']`:
 integer-keyed dispatcher parameters that Bootstrap left after consuming
 its global options; named parameters such as `format` or `quiet` are
 excluded.
+
+***
+
+### getPositionalParameters
+
+Return the integer-keyed dispatcher parameters in argument order.
+
+```php
+protected getPositionalParameters(): list
+```
+
+These are the tokens after the action that Bootstrap did not consume as
+global options.
 
 ***
 

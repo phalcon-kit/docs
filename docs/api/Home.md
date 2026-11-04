@@ -148,6 +148,7 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`Di`](./classes/PhalconKit/Di/Di.md)                           | Minimal PhalconKit DI container.                                             |
 | [`FactoryDefault`](./classes/PhalconKit/Di/FactoryDefault.md)   | MVC/default-service PhalconKit DI container.                                 |
 | [`Injectable`](./classes/PhalconKit/Di/Injectable.md)           |                                                                              |
+| [`RequestState`](./classes/PhalconKit/Di/RequestState.md)       | Clears request-scoped framework state before a new logical request.          |
 | [`ServiceResolver`](./classes/PhalconKit/Di/ServiceResolver.md) | Shared typed service resolver for static helpers and native Phalcon bridges. |
 
 
@@ -159,9 +160,10 @@ This is an automatically generated documentation for **Phalcon Kit Documentation
 | [`TypedServicesTrait`](./classes/PhalconKit/Di/TypedServicesTrait.md)     | Implements typed service lookups for PhalconKit DI containers.                              |
 
 
-| Interface                                               | Description                               |
-|---------------------------------------------------------|-------------------------------------------|
-| [`DiInterface`](./classes/PhalconKit/Di/DiInterface.md) | PhalconKit dependency injection contract. |
+| Interface                                                                     | Description                                                          |
+|-------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [`DiInterface`](./classes/PhalconKit/Di/DiInterface.md)                       | PhalconKit dependency injection contract.                            |
+| [`RequestScopedInterface`](./classes/PhalconKit/Di/RequestScopedInterface.md) | Marks a shared DI service that caches state for one logical request. |
 
 ### \PhalconKit\Di\FactoryDefault
 

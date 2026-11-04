@@ -110,6 +110,30 @@ while keeping the default bootstrap sequence deterministic.
 
 ***
 
+### exitCode
+
+Exit code of the last CLI run, read through `getExitCode()`.
+
+```php
+protected int $exitCode
+```
+
+***
+
+### hasRun
+
+Whether `run()` has already dispatched once with this bootstrap.
+
+```php
+protected bool $hasRun
+```
+
+The first run keeps request state set before it (for example
+`Security::setRoles()` in a CLI entrypoint); later runs on a reused
+bootstrap reset it first.
+
+***
+
 ### cliDoc
 
 Docopt command specification used by the default CLI argument parser.
@@ -438,7 +462,11 @@ public run(): ?string
 ```
 
 The `beforeRun` event is fired before dispatch and `afterRun` is fired
-with the produced content afterward. MVC mode returns response content,
+with the produced content afterward. Model connection pinning is reset
+before every run. When the bootstrap is reused (a long-running worker),
+every run after the first also calls `resetRequestState()`, so a request
+never inherits the previous request's identity; the first run keeps any
+state the entrypoint set before it. MVC mode returns response content,
 CLI mode returns captured command output, and WebSocket mode returns
 `null` after handing control to the server runtime.
 
@@ -446,6 +474,29 @@ CLI mode returns captured command output, and WebSocket mode returns
 
 When the bootstrap mode cannot be handled.
 - [`ConfigurationException`](./Exception/ConfigurationException.md)
+
+***
+
+### resetRequestState
+
+Clear all request-scoped state before dispatch.
+
+```php
+public resetRequestState(): void
+```
+
+Traditional PHP runtimes (PHP-FPM) build a new container per request, so
+this is a no-op there. RoadRunner-style runtimes may reuse the bootstrap
+and its shared services between requests; without this reset a request
+could reuse the previous request's write-connection pinning, its
+authenticated identity, or its cached model ACL roles.
+
+The method calls `resetConnectionState()` and then
+`PhalconKit\Di\RequestState::reset()`, which resets already-built
+services implementing `RequestScopedInterface` (such as the identity
+manager) and the model behavior caches. `run()` calls it before
+`beforeRun` on every run after the first; custom runtimes that dispatch
+without `run()` must call it at the start of every logical request.
 
 ***
 
@@ -458,10 +509,9 @@ public resetConnectionState(): void
 ```
 
 Native Phalcon sticky read/write tracking belongs to one logical request.
-Traditional PHP runtimes build a new container per request, while
-RoadRunner-style runtimes may reuse the bootstrap and its shared model
-manager. This reset prevents a write in one request from pinning an
-unrelated later request to the write connection.
+This reset prevents a write in one request from pinning an unrelated
+later request to the write connection. It is part of
+`resetRequestState()`, which long-running runtimes should call instead.
 
 Swoole WebSocket handlers should also reset at the start of every logical
 message or HTTP request; PhalconKit's base WebSocket task does this for
@@ -478,13 +528,30 @@ public handleConsole(\PhalconKit\Cli\Console $console): ?string
 ```
 
 Console exceptions are rendered through the CLI exception handler so CLI
-users receive formatted output instead of raw PHP exception text.
+users receive formatted output instead of raw PHP exception text, and
+the exit code becomes 1 (see `getExitCode()`). Output produced before
+the exception is still returned.
 
 **Parameters:**
 
 | Parameter  | Type                        | Description |
 |------------|-----------------------------|-------------|
 | `$console` | **\PhalconKit\Cli\Console** |             |
+
+***
+
+### getExitCode
+
+Return the process exit code for the last CLI run.
+
+```php
+public getExitCode(): int
+```
+
+`handleConsole()` sets 1 when the console throws and 0 otherwise. The
+framework never calls `exit()` itself so it can run in-process (tests,
+workers); CLI entrypoints should end with
+`exit($bootstrap->getExitCode());` after echoing the output.
 
 ***
 

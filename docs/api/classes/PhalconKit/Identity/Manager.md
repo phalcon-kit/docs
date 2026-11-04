@@ -24,9 +24,27 @@ manager.
 * Parent class: [`\PhalconKit\Di\Injectable`](../Di/Injectable.md)
 * This class implements:
   [`\PhalconKit\Identity\ManagerInterface`](./ManagerInterface.md),
-  [`\PhalconKit\Support\Options\OptionsInterface`](../Support/Options/OptionsInterface.md)
+  [`\PhalconKit\Support\Options\OptionsInterface`](../Support/Options/OptionsInterface.md),
+  [`\PhalconKit\Di\RequestScopedInterface`](../Di/RequestScopedInterface.md)
 
 ## Methods
+
+### resetRequestState
+
+Discard the identity cached for the previous request.
+
+```php
+public resetRequestState(): void
+```
+
+The manager caches the decoded JWT claim, the effective user, and the
+impersonating user for the life of the shared service. Long-running
+runtimes reuse that service between requests, so the bootstrap and the
+base WebSocket task call this before each request or callback; the next
+lookup then reads the current request's credentials. Persistent session
+or token storage is not changed.
+
+***
 
 ### get
 

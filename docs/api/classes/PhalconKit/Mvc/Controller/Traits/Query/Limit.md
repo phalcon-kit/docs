@@ -133,7 +133,7 @@ public defaultLimit(): int|null
 ```
 
 If the limit is set, then it returns that value,
-else it returns a default value of 100.
+else it returns a default value of 10.
 
 **Return Value:**
 
@@ -149,7 +149,7 @@ public defaultMaxLimit(): int|null
 ```
 
 If the maximum limit is set, then it returns that value,
-else it returns a default value of 1000.
+else it returns a default value of 100.
 
 **Return Value:**
 

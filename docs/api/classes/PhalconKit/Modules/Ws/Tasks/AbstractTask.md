@@ -3,7 +3,8 @@ WebSocket task with overridable Swoole event hooks.
 
 Requires the shared `swoole` DI service to provide a WebSocket server using
 positional event arguments (`event_object` disabled). Request/message callbacks
-reset model connection state before invoking application hooks. Subscriptions
+reset request state (connections, identity, model ACL roles) before invoking
+application hooks. Subscriptions
 belong to the current worker process; applications coordinate other workers.
 
 ***
@@ -140,7 +141,7 @@ public listenAction(): void
 
 ### initializeOpen
 
-Install the open callback, resetting model connection state before the hook.
+Install the open callback, resetting request state before the hook.
 
 ```php
 public initializeOpen(): void
@@ -150,7 +151,7 @@ public initializeOpen(): void
 
 ### initializeMessage
 
-Install the message callback, resetting model connection state before the hook.
+Install the message callback, resetting request state before the hook.
 
 ```php
 public initializeMessage(): void
@@ -160,7 +161,7 @@ public initializeMessage(): void
 
 ### initializeClose
 
-Install the close callback, resetting model connection state before the hook.
+Install the close callback, resetting request state before the hook.
 
 ```php
 public initializeClose(): void
@@ -213,7 +214,7 @@ public initializeShutdown(): void
 
 ### initializeRequest
 
-Install the HTTP callback, resetting model connection state before the hook.
+Install the HTTP callback, resetting request state before the hook.
 
 ```php
 public initializeRequest(): void
@@ -223,7 +224,7 @@ public initializeRequest(): void
 
 ### initializePipeMessage
 
-Install the inter-worker message callback, resetting model connection state first.
+Install the inter-worker message callback, resetting request state first.
 
 ```php
 public initializePipeMessage(): void
@@ -478,6 +479,23 @@ public log(string $message, \Swoole\WebSocket\Server|null $server = null): void
 
 ## Inherited methods
 
+### resetRequestState
+
+Clear all request-scoped state in a long-running worker.
+
+```php
+public resetRequestState(): void
+```
+
+One Swoole worker serves many clients with the same container, so state
+from one callback must not reach the next: write-connection pinning, the
+identity manager's cached claim and users, the model ACL role cache, and
+the Blameable parent link. The built-in abstract task invokes this for
+open, message, close, HTTP request, and pipe-message callbacks; call it
+before custom callbacks that authenticate or perform model operations.
+
+***
+
 ### resetConnectionState
 
 Clear request-scoped model connection state in a long-running worker.
@@ -486,8 +504,7 @@ Clear request-scoped model connection state in a long-running worker.
 public resetConnectionState(): void
 ```
 
-Call this before custom WebSocket callbacks that perform model reads or
-writes. The built-in abstract task invokes it for open, message, close,
-HTTP request, and pipe-message callbacks.
+This is part of `resetRequestState()`, which callbacks should call
+instead so identity and model ACL caches are reset too.
 
 ***
